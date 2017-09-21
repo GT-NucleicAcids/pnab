@@ -3,3 +3,7 @@
 //
 
 #include "RandomRotorSearch.h"
+
+void Search() {
+    return (void) 0;
+}

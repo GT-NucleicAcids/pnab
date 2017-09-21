@@ -9,7 +9,7 @@ class SearchAlgorithm {
 public:
     void printParams();
     void setTorsions();
-
+    void connectBackbone();
 };
 
 #endif //PNAB_SEARCHTEMPLATE_H
