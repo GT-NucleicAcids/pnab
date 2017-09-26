@@ -27,8 +27,7 @@ namespace PNAB {
 
         // Force Field Parameters
         std::string type,
-                parameter_file,
-                algorithm;
+                parameter_file;
         double base_to_backbone_bond_length;
 
         // Search algorithm
@@ -36,6 +35,7 @@ namespace PNAB {
                 dihedral_discretization,        // only for weighted methods
                 angleStepSize,
                 chain_length;
+        std::string algorithm;
     };
 
     /**
