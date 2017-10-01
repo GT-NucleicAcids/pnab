@@ -11,59 +11,7 @@
 #include <iostream>
 #include <sstream>
 #include <map>
-
-class FileParser {
-
-public:
-    /**
-     * \brief Empty constructor. Populates available Category objects and Field objects within with available options
-     */
-    FileParser();
-
-    /**
-     * Same as the empty constructor, but provides file path to input file
-     * @param path Path to input file
-     */
-    FileParser(std::string path);
-
-    /**
-     * \brief Reads the file given in the path \code{file_path} and stores data
-     */
-    void readFile();
-
-    /**
-     * \brief Sets the file path for the FileParser object used when calling readFile()
-     * @param path
-     */
-    void setFilePath(std::string path) {
-        file_path = path;
-    };
-
-private:
-    /**
-     * \brief Add a category with a given name which defines Category header in the input file
-     * @param str
-     */
-    void registerCategory(Category cat) {
-        std::transform(name.begin(), name.end(), name.begin(), ::toupper);
-        stringToCategoryMap.insert(std::pair<std::string, Category>(cat.getName(), cat));
-    }
-
-    /**
-     * \brief Gives an iterator pointing to the matching element in the map
-     * @param name The name of the category to search for
-     * @return An iterator pointing to the matching element in the map
-     */
-    std::map< std::string, Category >::iterator getCategoryFromName(std::string name) {
-        return stringToCategoryMap.find(name);
-    }
-
-
-private:
-    std::map< std::string, Category > stringToCategoryMap;        //!< Used to hold list of Category class objects
-    std::string file_path;                                        //!< String containing path to input file
-
-};
+#include <algorithm>
 
 /**
  * \brief Used to hold the data for a generic field within a Category
@@ -95,6 +43,7 @@ public:
      * @param str New name for the Field
      */
     void setName(std::string str) {
+        std::transform(name.begin(), name.end(), name.begin(), ::tolower);
         name = str;
     };
 
@@ -137,6 +86,12 @@ class SizeField : public Field< std::size_t > {
 public:
     using Field::Field;
     void parse(std::string str) {
+        while (!isalnum(str.front()))
+            str.erase(0, 1);
+        if (str.empty()) {
+            std::cerr << "Field must contain alpha-numeric characters" << std::endl;
+            exit(1);
+        }
         setData(static_cast<std::size_t>( std::stoul( str ) ) );
     };
 };
@@ -152,6 +107,12 @@ public:
         std::istringstream ss(str);
         std::string token;
         while ( getline(ss, token, ',') ) {
+            while (!isalnum(token.front()) && token.front() != '.')
+                token.erase(0, 1);
+            if (token.empty()) {
+                std::cerr << "Field must contain alpha-numeric characters. " << std::endl;
+                exit(1);
+            }
             vec.push_back( std::stoul(token) );
         }
         setData( vec );
@@ -165,6 +126,12 @@ class StringField : public Field< std::string > {
 public:
     using Field::Field;
     void parse(std::string str) {
+        while (!isalnum(str.front()))
+            str.erase(0, 1);
+        if (str.empty()) {
+            std::cerr << "Field must contain alpha-numeric characters" << std::endl;
+            exit(1);
+        }
         setData( str );
     };
 };
@@ -180,6 +147,12 @@ public:
         std::istringstream ss(str);
         std::string token;
         while ( getline(ss, token, ',') ) {
+            while (!isalnum(token.front()) && token.front() != '.')
+                token.erase(0, 1);
+            if (token.empty()) {
+                std::cerr << "Field must contain alpha-numeric characters. " << std::endl;
+                exit(1);
+            }
             vec.push_back( token );
         }
         setData( vec );
@@ -193,6 +166,12 @@ class DoubleField : public Field< double > {
 public:
     using Field::Field;
     void parse(std::string str) {
+        while (!isalnum(str.front()) && str.front() != '.')
+            str.erase(0, 1);
+        if (str.empty()) {
+            std::cerr << "Field must contain alpha-numeric characters. " << std::endl;
+            exit(1);
+        }
         setData( std::stod(str) );
     };
 };
@@ -208,6 +187,12 @@ public:
         std::istringstream ss(str);
         std::string token;
         while ( getline(ss, token, ',') ) {
+            while (!isalnum(token.front()) && token.front() != '.')
+                token.erase(0, 1);
+            if (token.empty()) {
+                std::cerr << "Field must contain alpha-numeric characters. " << std::endl;
+                exit(1);
+            }
             vec.push_back( std::stod(token) );
         }
         setData( vec );
@@ -225,13 +210,13 @@ public:
 class Category {
 
 public:
+
     /**
      * \brief Creates a \code{Category} with a given name
      * @param str The intended name for the category used as a section header for an input file
      */
     Category(std::string str) {
         std::transform(str.begin(), str.end(), str.begin(), ::toupper);
-        str = (str.find_first_not_of(" \t\n"),str.find_last_not_of(" \t\n"));
         name = str;
     };
 
@@ -248,6 +233,7 @@ public:
      * @param name
      */
     void registerSizeField(std::string name) {
+        std::transform(name.begin(), name.end(), name.begin(), ::tolower);
         size_fields.push_back(SizeField(name));
         stringToFieldTypeMap.insert(std::pair<std::string, FieldType>(name, SIZE_FIELD));
     };
@@ -257,6 +243,7 @@ public:
      * @param name
      */
     void registerSizeVecField(std::string name) {
+        std::transform(name.begin(), name.end(), name.begin(), ::tolower);
         size_vec_fields.push_back(SizeVecField(name));
         stringToFieldTypeMap.insert(std::pair<std::string, FieldType>(name, SIZE_VEC_FIELD));
     };
@@ -266,6 +253,7 @@ public:
      * @param name
      */
     void registerStringField(std::string name) {
+        std::transform(name.begin(), name.end(), name.begin(), ::tolower);
         string_fields.push_back(StringField(name));
         stringToFieldTypeMap.insert(std::pair<std::string, FieldType>(name, STRING_FIELD));
     };
@@ -275,6 +263,7 @@ public:
      * @param name
      */
     void registerStringVecField(std::string name) {
+        std::transform(name.begin(), name.end(), name.begin(), ::tolower);
         string_vec_fields.push_back(StringVecField(name));
         stringToFieldTypeMap.insert(std::pair<std::string, FieldType>(name, STRING_VEC_FIELD));
     };
@@ -284,6 +273,7 @@ public:
      * @param name
      */
     void registerDoubleField(std::string name) {
+        std::transform(name.begin(), name.end(), name.begin(), ::tolower);
         double_fields.push_back(DoubleField(name));
         stringToFieldTypeMap.insert(std::pair<std::string, FieldType>(name, DOUBLE_FIELD));
     };
@@ -293,15 +283,24 @@ public:
      * @param name
      */
     void registerDoubleVecField(std::string name) {
+        std::transform(name.begin(), name.end(), name.begin(), ::tolower);
         double_vec_fields.push_back(DoubleVecField(name));
         stringToFieldTypeMap.insert(std::pair<std::string, FieldType>(name, DOUBLE_VEC_FIELD));
     };
 
     /**
-     * Processes a full line of an input file after it has been stripped of all comments
+     * \brief Processes a full line of an input file after it has been stripped of all comments
      * @param line The line of the input file to process
      */
     void parseLine(std::string line);
+
+    /**
+     * \brief Let us know if the category is empty or not
+     * @return indicates if Category is empty or not
+     */
+    bool empty() {
+        name.length() ? 0: false, true;
+    }
 
     /**
      * \brief Prints all of the information pertaining to this Category
@@ -324,7 +323,7 @@ private:
      * @param fields The vector of fields
      * @return An iterator pointed at the position where the name occurred within \code{fields}
      */
-    template <class T>
+    template <typename T>
     typename std::vector<T>::iterator findNameInFields(std::string name, std::vector<T> &fields) {
         return std::find_if(fields.begin(), fields.end(),
                             [name](T & t) -> bool {
@@ -345,6 +344,59 @@ private:
         DOUBLE_VEC_FIELD
     };
     std::map< std::string, FieldType > stringToFieldTypeMap;        //!< Used to find what field type a field within a category is
+
+};
+
+class FileParser {
+
+public:
+    /**
+     * \brief Empty constructor. Populates available Category objects and Field objects within with available options
+     */
+    FileParser();
+
+    /**
+     * Same as the empty constructor, but provides file path to input file
+     * @param path Path to input file
+     */
+    FileParser(std::string path) : FileParser() {
+        file_path = path;
+    };
+
+    /**
+     * \brief Reads the file given in the path \code{file_path} and stores data
+     */
+    void readFile();
+
+    /**
+     * \brief Sets the file path for the FileParser object used when calling readFile()
+     * @param path
+     */
+    void setFilePath(std::string path) {
+        file_path = path;
+    };
+
+    /**
+     * \brief Print all available information contained within FileParser
+     */
+    void print() {
+        for (auto cat : stringToCategoryMap)
+            cat.second.printCategory();
+    }
+
+private:
+    /**
+     * \brief Add a category with a given name which defines Category header in the input file
+     * @param str
+     */
+    void registerCategory(Category cat) {
+        stringToCategoryMap.insert(std::pair<std::string, Category>(cat.getName(), cat));
+    }
+
+
+private:
+    std::map< std::string, Category > stringToCategoryMap;        //!< Used to hold list of Category class objects
+    std::string file_path;                                        //!< String containing path to input file
 
 };
 
