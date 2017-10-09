@@ -9,7 +9,7 @@
 
 namespace PNAB {
 
-/*
+/**
  * The single most basic unit used for testing conformations. Scenarios where periodic boundary conditions
  * are satisfied can have as little as a single \code{Base} in the chain while sets of bases that do not
  * satisfy this condition may require more. PNAB always assumes periodic boundary conditions between
@@ -26,9 +26,10 @@ namespace PNAB {
         OpenBabel::OBMol backbone;
 
     public:
-        UnitChain(std::vector<std::string> chain_string, std::vector<PNAB::Base> bases, PNAB::Backbone backbone);
-        ~UnitChain();
-
+        UnitChain(std::vector<std::string> chain_string, Bases bases, PNAB::Backbone backbone);
+        PNAB::BaseUnit getUnit(std::size_t strand, std::size_t index) {
+            return base_units[strand][index];
+        }
     };
 
 }

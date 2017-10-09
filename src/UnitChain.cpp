@@ -9,7 +9,7 @@ using namespace std;
 using namespace PNAB;
 using namespace OpenBabel;
 
-UnitChain::UnitChain(std::vector< std::string > chain_string, std::vector< Base > bases, Backbone backbone) {
+UnitChain::UnitChain(std::vector< std::string > chain_string, Bases bases, Backbone backbone) {
     for (auto chain_string_n : chain_string ) {
         stringstream ss(chain_string_n);
         std::vector< BaseUnit > base_units_n;
@@ -17,7 +17,7 @@ UnitChain::UnitChain(std::vector< std::string > chain_string, std::vector< Base 
         while (getline(ss, tok, ',')) {
             bool base_found = false;
             transform(tok.begin(), tok.end(), tok.begin(), ::tolower);
-            for (auto b : bases) {
+            for (auto b : bases.bases) {
                 if (tok.find(b.getCode()) != string::npos) {
                     BaseUnit bu(b, backbone);
                     base_units_n.push_back(bu);

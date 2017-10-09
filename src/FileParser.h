@@ -21,20 +21,18 @@ template <typename T>
 class Field {
 private:
     std::string name;                                           //!< The name used to identify the Field
-    T data;                                                     //!< A generic container for the data of the Field
+    T data{};                                                     //!< A generic container for the data of the Field
+    bool value_set = false;
+    bool is_required = true;
+
 public:
-    /**
-     * \brief Just a default constructor. My compiler made me do it!
-     */
-    Field() {
-        name = "";
-    };
 
     /**
      * \brief Creates a Field object with a given name
      * @param name The intended name for the Field
      */
-    Field(std::string name) {
+    Field(std::string name, bool is_required = true) {
+        this->is_required = is_required;
         setName(name);
     };
 
@@ -61,6 +59,7 @@ public:
      */
     void setData(T d) {
         data = d;
+        value_set = true;
     };
 
     /**
@@ -70,6 +69,30 @@ public:
     T getData() {
         return data;
     };
+
+    /**
+     * \brief Returns whether or not the field has been set
+     * @return True if a value has been set, false otherwise
+     */
+    bool isSet() {
+        return value_set;
+    }
+
+    /**
+     * \brief Set where the field is required or not.
+     * @param val true if required, false if not
+     */
+    void setIsRequired(bool val) {
+        is_required = val;
+    }
+
+    /**
+     * \brief Returns whether or not the field is required.
+     * @return true is the Field is required, false otherwise
+     */
+    bool isRequired() {
+        return is_required;
+    }
 
     /**
      * \brief Takes in a string with all values to the right of the "=" in the input file which is then interpreted
@@ -232,9 +255,9 @@ public:
      * \brief Registers field into vector holding fields for positive integer values
      * @param name
      */
-    void registerSizeField(std::string name) {
+    void registerSizeField(std::string name, bool is_required = true) {
         std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-        size_fields.push_back(SizeField(name));
+        size_fields.push_back(SizeField(name, is_required));
         stringToFieldTypeMap.insert(std::pair<std::string, FieldType>(name, SIZE_FIELD));
     };
 
@@ -242,9 +265,9 @@ public:
      * \brief Registers field into vector holding fields for multiple positive integer values
      * @param name
      */
-    void registerSizeVecField(std::string name) {
+    void registerSizeVecField(std::string name, bool is_required = true) {
         std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-        size_vec_fields.push_back(SizeVecField(name));
+        size_vec_fields.push_back(SizeVecField(name, is_required));
         stringToFieldTypeMap.insert(std::pair<std::string, FieldType>(name, SIZE_VEC_FIELD));
     };
 
@@ -252,9 +275,9 @@ public:
      * \brief Registers field into vector holding fields for string values
      * @param name
      */
-    void registerStringField(std::string name) {
+    void registerStringField(std::string name, bool is_required = true) {
         std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-        string_fields.push_back(StringField(name));
+        string_fields.push_back(StringField(name, is_required));
         stringToFieldTypeMap.insert(std::pair<std::string, FieldType>(name, STRING_FIELD));
     };
 
@@ -262,9 +285,9 @@ public:
      * \brief Registers field into vector holding fields for multiple string values
      * @param name
      */
-    void registerStringVecField(std::string name) {
+    void registerStringVecField(std::string name, bool is_required = true) {
         std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-        string_vec_fields.push_back(StringVecField(name));
+        string_vec_fields.push_back(StringVecField(name, is_required));
         stringToFieldTypeMap.insert(std::pair<std::string, FieldType>(name, STRING_VEC_FIELD));
     };
 
@@ -272,9 +295,9 @@ public:
      * \brief Registers field into vector holding fields for real number values
      * @param name
      */
-    void registerDoubleField(std::string name) {
+    void registerDoubleField(std::string name, bool is_required = true) {
         std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-        double_fields.push_back(DoubleField(name));
+        double_fields.push_back(DoubleField(name, is_required));
         stringToFieldTypeMap.insert(std::pair<std::string, FieldType>(name, DOUBLE_FIELD));
     };
 
@@ -282,9 +305,9 @@ public:
      * \brief Registers field into vector holding fields for multiple real number values
      * @param name
      */
-    void registerDoubleVecField(std::string name) {
+    void registerDoubleVecField(std::string name, bool is_required = true) {
         std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-        double_vec_fields.push_back(DoubleVecField(name));
+        double_vec_fields.push_back(DoubleVecField(name, is_required));
         stringToFieldTypeMap.insert(std::pair<std::string, FieldType>(name, DOUBLE_VEC_FIELD));
     };
 
@@ -293,6 +316,11 @@ public:
      * @param line The line of the input file to process
      */
     void parseLine(std::string line);
+
+    /**
+     * \brief Checks whether all required fields are set within a Category.
+     */
+    void validate();
 
     /**
      * \brief Let us know if the category is empty or not
@@ -306,6 +334,54 @@ public:
      * \brief Prints all of the information pertaining to this Category
      */
     void printCategory();
+
+    /**
+     * \brief Returns the data within the field specified in the name
+     * @param name The name of the field you want in the Category
+     * @param default_val If the value in the field is not set, set to this value
+     * @return The value, either actaul value or default
+     */
+    std::size_t getSizeFieldDataFromName(std::string name, std::size_t default_val = 0) {
+        checkIfNameExists(name);
+        auto it = findNameInFields(name, size_fields);
+        if (it != size_fields.end())
+            return it->isSet() ? it->getData() : default_val;
+    }
+
+    std::vector<std::size_t> getSizeVecFieldDataFromName(std::string name, std::vector<std::size_t> default_val = {}) {
+        checkIfNameExists(name);
+        auto it = findNameInFields(name, size_vec_fields);
+        if (it != size_vec_fields.end())
+            return it->isSet() ? it->getData() : default_val;
+    }
+
+    std::string getStringFieldDataFromName(std::string name, std::string default_val = "") {
+        checkIfNameExists(name);
+        auto it = findNameInFields(name, string_fields);
+        if (it != string_fields.end())
+            return it->isSet() ? it->getData() : default_val;
+    }
+
+    std::vector<std::string> getStringVecFieldDataFromName(std::string name, std::vector<std::string> default_val = {}) {
+        checkIfNameExists(name);
+        auto it = findNameInFields(name, string_vec_fields);
+        if (it != string_vec_fields.end())
+            return it->isSet() ? it->getData() : default_val;
+    }
+
+    double getDoubleFieldDataFromName(std::string name, double default_val = 0) {
+        checkIfNameExists(name);
+        auto it = findNameInFields(name, double_fields);
+        if (it != double_fields.end())
+            return it->isSet() ? it->getData() : default_val;
+    }
+
+    std::vector<double> getDoubleVecFieldDataFromName(std::string name, std::vector<double> default_val = {}) {
+        checkIfNameExists(name);
+        auto it = findNameInFields(name, double_vec_fields);
+        if (it != double_vec_fields.end())
+            return it->isSet() ? it->getData() : default_val;
+    }
 
 private:
     std::string name;
@@ -325,12 +401,27 @@ private:
      */
     template <typename T>
     typename std::vector<T>::iterator findNameInFields(std::string name, std::vector<T> &fields) {
-        return std::find_if(fields.begin(), fields.end(),
+        auto p =  std::find_if(fields.begin(), fields.end(),
                             [name](T & t) -> bool {
                                 return t.getName().compare(name) == 0;
                             }
         );
+        if (p != fields.end())
+            return p;
+        else {
+            std::cerr << "findNameInFields(): Name '" << name << "' does not exist in the field" << std::endl;
+        }
     };
+
+    void checkIfNameExists(std::string &name) {
+        std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+        auto field_type_it = stringToFieldTypeMap.find(name);
+        if (field_type_it == stringToFieldTypeMap.end()) {
+            std::cerr << "Field \"" << name << "\" in category \"" << getName() << " is not registered."
+                 << " Please check input file." << std::endl;
+            exit(1);
+        }
+    }
 
     /**
      * \brief Used to distinguish between different field types in \code{stringToFieldTypeMap}
@@ -384,6 +475,15 @@ public:
             cat.second.printCategory();
     }
 
+    /**
+     * \brief Returns pointer to the Category like the private function getCategoryByName, but it's constant
+     * @param name The name of the category you want
+     * @return The category with name \code{name}
+     */
+    const Category& getCategory(std::string name) {
+        return getCategoryByName(name);
+    }
+
 private:
     /**
      * \brief Add a category with a given name which defines Category header in the input file
@@ -393,8 +493,20 @@ private:
         stringToCategoryMap.insert(std::pair<std::string, Category>(cat.getName(), cat));
     }
 
+    /**
+     * \brief Get a category given a name
+     * @param name Name of the category to search for
+     * @return Pointer to the category we want
+     */
+    Category& getCategoryByName(std::string name) {
+        std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+        auto it = stringToCategoryMap.find(name);
+        if (it != stringToCategoryMap.end())
+            return it->second;
+        std::cerr << "getCategoryByName(): Category \"" << name << "\" does not exist." << std::endl;
+        return stringToCategoryMap.end()->second;
+    }
 
-private:
     std::map< std::string, Category > stringToCategoryMap;        //!< Used to hold list of Category class objects
     std::string file_path;                                        //!< String containing path to input file
 

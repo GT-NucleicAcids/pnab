@@ -11,10 +11,9 @@ using namespace std;
 FileParser::FileParser() {
     Category runtimeParameters("RUNTIME PARAMETERS");
     // Geometric properties of bases
-    vector<string> single_doubles_geometric{"Rise", "X_Disp", "Y_Disp", "Inclination", "Tip"};
-    for (auto str : single_doubles_geometric)
-        runtimeParameters.registerDoubleField(str);
-    runtimeParameters.registerDoubleVecField("Twist");
+    vector<string> vec_doubles_geometric{"Rise", "X_Disp", "Y_Disp", "Inclination", "Tip", "Twist"};
+    for (auto str : vec_doubles_geometric)
+        runtimeParameters.registerDoubleVecField(str);
 
     // Energetic filter properties of conformations
     vector<string> single_doubles_energy{"Max_Total_Energy", "Max_Angle_Energy", "Max_Bond_Energy",
@@ -25,14 +24,18 @@ FileParser::FileParser() {
     // Force-Field parameters
     vector<string> single_strings_ff{"Force_Field_Type", "Force_Field_Parameter_File"};
     for (auto str : single_strings_ff)
-        runtimeParameters.registerStringField(str);
-    runtimeParameters.registerDoubleField("Base_to_Backbone_Bond_Length");
+        runtimeParameters.registerStringField(str, false);
+    runtimeParameters.registerDoubleField("Base_to_Backbone_Bond_Length", false);
 
     // Search Algorithm parameters
     runtimeParameters.registerStringField("Algorithm");
-    vector<string> single_size_search{"Search_Size", "Dihedral_Step_Size", };
-    for (auto str : single_size_search)
-        runtimeParameters.registerSizeField(str);
+    vector<string> single_size_search{"Search_Size", "Dihedral_Step_Size", "Search_Step_Size",
+                                      "Chain_Length"};
+    vector<bool> is_needed{true, false, false, false};
+    size_t i = 0;
+    for (auto str : single_size_search) {
+        runtimeParameters.registerSizeField(str, is_needed[i++]);
+    }
 
     // Store category in FileParser
     registerCategory(runtimeParameters);
@@ -101,6 +104,12 @@ void FileParser::readFile() {
                 c = &it->second;
             }
         }
+        for (auto category_map : stringToCategoryMap) {
+            category_map.second.validate();
+        }
+    } else {
+        cerr << "There was an error opening file: " << file_path << endl;
+        exit(1);
     }
 }
 
@@ -221,4 +230,71 @@ void Category::printCategory() {
         }
     }
     cout << endl;
+}
+
+void Category::validate() {
+    std::vector<FieldType> types{SIZE_FIELD, SIZE_VEC_FIELD, STRING_FIELD,
+                                 STRING_VEC_FIELD, DOUBLE_FIELD,
+                                 DOUBLE_VEC_FIELD};
+    bool error_found = false;
+    for (auto f : types) {
+        switch (f) {
+            case SIZE_FIELD: {
+                for (auto sf : size_fields) {
+                    if (!sf.isSet() & sf.isRequired()) {
+                        cout << "Required field \"" << sf.getName() << "\" is not set." << endl;
+                        error_found = true;
+                    }
+                }
+                break;
+            }
+            case SIZE_VEC_FIELD: {
+                for (auto sf : size_vec_fields) {
+                    if (!sf.isSet() & sf.isRequired()) {
+                        cout << "Required field \"" << sf.getName() << "\" is not set." << endl;
+                        error_found = true;
+                    }
+                }
+                break;
+            }
+            case STRING_FIELD: {
+                for (auto sf : string_fields) {
+                    if (!sf.isSet() & sf.isRequired()) {
+                        cout << "Required field \"" << sf.getName() << "\" is not set." << endl;
+                        error_found = true;
+                    }
+                }
+                break;
+            }
+            case STRING_VEC_FIELD: {
+                for (auto sf : string_vec_fields) {
+                    if (!sf.isSet() & sf.isRequired()) {
+                        cout << "Required field \"" << sf.getName() << "\" is not set." << endl;
+                        error_found = true;
+                    }
+                }
+                break;
+            }
+            case DOUBLE_FIELD: {
+                for (auto sf : double_fields) {
+                    if (!sf.isSet() & sf.isRequired()) {
+                        cout << "Required field \"" << sf.getName() << "\" is not set." << endl;
+                        error_found = true;
+                    }
+                }
+                break;
+            }
+            case DOUBLE_VEC_FIELD: {
+                for (auto sf : double_vec_fields) {
+                    if (!sf.isSet() & sf.isRequired()) {
+                        cout << "Required field \"" << sf.getName() << "\" is not set." << endl;
+                        error_found = true;
+                    }
+                }
+                break;
+            }
+        }
+    }
+    if (error_found)
+        exit(1);
 }
