@@ -10,6 +10,8 @@
 namespace PNAB {
 
 /**
+ * \brief The single most basic unit used for testing conformations.
+ *
  * The single most basic unit used for testing conformations. Scenarios where periodic boundary conditions
  * are satisfied can have as little as a single \code{Base} in the chain while sets of bases that do not
  * satisfy this condition may require more. PNAB always assumes periodic boundary conditions between

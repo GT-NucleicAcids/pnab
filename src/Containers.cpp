@@ -69,6 +69,13 @@ void Backbone::validate() {
                 exit(1);
             }
 
+        OBAtom *link = backbone.GetAtom(static_cast<int>(linker[0])),
+                *vec = backbone.GetAtom(static_cast<int>(linker[1]));
+        if (!link->IsConnected(vec)) {
+            cerr << "Backbone: Atoms in defined in the Linker must be neighbors." << endl;
+            exit(1);
+        }
+
     } else {
         cerr << "Backbone: Interconnects or Linker is of incorrect dimension." << endl;
         exit(1);
@@ -82,6 +89,13 @@ void Base::validate() {
                 cerr << "Base: Linker atom indices are out of bounds." << endl;
                 exit(1);
             }
+
+        OBAtom *link = base.GetAtom(static_cast<int>(linker[0])),
+               *vec = base.GetAtom(static_cast<int>(linker[1]));
+        if (!link->IsConnected(vec)) {
+            cerr << "Base: Atoms in defined in the Linker must be neighbors." << endl;
+            exit(1);
+        }
 
     } else {
         cerr << "Base: Linker is of incorrect dimension." << endl;
@@ -139,10 +153,10 @@ Bases::Bases(FileParser &fp) {
 
 }
 
-BaseUnit::BaseUnit(Base b, Backbone bb) {
+BaseUnit::BaseUnit(Base base, Backbone backbone) {
     // Setting up an array of necessary \code{OBAtom}s for alignment
-    std::array< OBAtom*, 4 > atoms{b.getLinker() , b.getVector()  ,
-                                   bb.getLinker(), bb.getVector() };
+    array< OBAtom*, 4 > atoms{base.getLinker() , base.getVector()  ,
+                                   backbone.getLinker(), backbone.getVector() };
     vector<vector3> ref    {atoms[1]->GetVector(), atoms[0]->GetVector()},
             target {atoms[2]->GetVector(), atoms[3]->GetVector()},
             result;
@@ -151,31 +165,80 @@ BaseUnit::BaseUnit(Base b, Backbone bb) {
     OBAlign align(ref, target);
     matrix3x3 matrix;
     if (align.Align()) {
-    matrix = align.GetRotMatrix();
+        matrix = align.GetRotMatrix();
     } else {
-    cerr << "Failed to align backbone to base. Check base and backbone." << endl;
-    exit(1);
+        cerr << "Failed to align backbone to base. Check base and backbone." << endl;
+        exit(1);
     }
     double rot[9];
     matrix.GetArray(rot);
 
     // Rotating and translating backbone to line up with base
-    bb.center();
-    bb.rotate(rot);
-    bb.translate(atoms[0]->GetVector() - atoms[1]->GetVector());
+    backbone.center();
+    backbone.rotate(rot);
+    backbone.translate(atoms[0]->GetVector() - atoms[3]->GetVector());
+
+    // garbage code for debugging
+    // TODO delete this code
+    {
+        OBConversion conv;
+        std::filebuf fb;
+        fb.open("rot_trans_out.cml", std::ios::out);
+        std::ostream fileStream(&fb);
+        conv.SetOutFormat("CML");
+        conv.SetOutStream(&fileStream);
+        OBMol mol;
+        mol += base.getMolecule();
+        mol += backbone.getMolecule();
+        conv.Write(&mol);
+    }
 
     // Deleting old hydrogens that formed the vector
-    bb.deleteVectorAtom();
-    b.deleteVectorAtom();
+    backbone.deleteVectorAtom();
+    base.deleteVectorAtom();
 
-    OBMol mol(b.getMolecule());
+    // garbage code for debugging
+    // TODO delete this code
+    {
+        OBConversion conv;
+        std::filebuf fb;
+        fb.open("rot_trans_delete_atoms_out.cml", std::ios::out);
+        std::ostream fileStream(&fb);
+        conv.SetOutFormat("CML");
+        conv.SetOutStream(&fileStream);
+        OBMol mol;
+        mol += base.getMolecule();
+        mol += backbone.getMolecule();
+        conv.Write(&mol);
+    }
+
+    OBMol mol;
+    mol += base.getMolecule();
     unsigned num_atoms = mol.NumAtoms();
-    mol += bb.getMolecule();
-    mol.AddBond(b.getLinker()->GetIdx(), bb.getLinker()->GetIdx(), 1);
+    mol += backbone.getMolecule();
+    mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
+
+    // garbage code for debugging
+    // TODO delete this code
+    {
+        OBConversion conv;
+        std::filebuf fb;
+        fb.open("rot_trans_delete_atoms_add_bond_out.cml", std::ios::out);
+        std::ostream fileStream(&fb);
+        conv.SetOutFormat("CML");
+        conv.SetOutStream(&fileStream);
+        OBMol mol;
+        mol += base.getMolecule();
+        mol += backbone.getMolecule();
+        cout << "base.getLinker()->GetIdx() = " << base.getLinker()->GetIdx() << ", backbone.getLinker()->GetIdx() = "
+             << backbone.getLinker()->GetIdx()  << ", num_atoms = " << num_atoms << endl;
+        mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
+        conv.Write(&mol);
+    }
 
     unit = OpenBabel::OBMol(mol);
     baseAtomBegin     = mol.GetFirstAtom();
-    baseAtomEnd       = mol.GetAtom(b.getMolecule().NumAtoms());
+    baseAtomEnd       = mol.GetAtom(base.getMolecule().NumAtoms());
     backboneAtomBegin = mol.GetAtom(mol.NumAtoms() - num_atoms);
     backboneAtomEnd   = mol.GetAtom(mol.NumAtoms());
 }
@@ -196,8 +259,8 @@ RuntimeParameters::RuntimeParameters(FileParser &sp) {
     vector<string> single_doubles_energy{"Max_Total_Energy", "Max_Angle_Energy", "Max_Bond_Energy",
                                          "Max_VDW_Energy", "Max_Torsion_Energy"};
     energy_filter.clear();
-    for (auto str : single_doubles_energy)
-        energy_filter.push_back(rp.getDoubleFieldDataFromName(str));
+    for (auto d_val : single_doubles_energy)
+        energy_filter.push_back(rp.getDoubleFieldDataFromName(d_val));
     max_distance = rp.getDoubleFieldDataFromName("Max_Distance");
 
     // ForceField Parameters
@@ -212,12 +275,12 @@ RuntimeParameters::RuntimeParameters(FileParser &sp) {
 }
 
 void RuntimeParameters::validate() {
-    checkRangeField(rise, RISE_SINGLE, RISE_RANGE);
-    checkRangeField(inclination, INCL_SINGLE, INCL_RANGE);
-    checkRangeField(tip, TIP_SINGLE, TIP_RANGE);
-    checkRangeField(twist, TWIST_SINGLE, TWIST_RANGE);
-    checkRangeField(x_disp, X_DISP_SINGLE, X_DISP_RANGE);
-    checkRangeField(y_disp, Y_DISP_SINGLE, Y_DISP_RANGE);
+    checkRangeField(rise);
+    checkRangeField(inclination);
+    checkRangeField(tip);
+    checkRangeField(twist);
+    checkRangeField(x_disp);
+    checkRangeField(y_disp);
     if (!isnan(base_to_backbone_bond_length) & base_to_backbone_bond_length < 0) {
         cerr << "Base_to_Backbone_Bond_Length must be greater than 0." << endl;
         exit(1);
