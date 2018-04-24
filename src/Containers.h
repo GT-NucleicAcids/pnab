@@ -6,13 +6,14 @@
 #define PNAB_CONTAINERS_H
 
 #include <string>
+#include <random>
 #include <openbabel/mol.h>
 #include "FileParser.h"
 
 namespace PNAB {
 
     /**
-     * \brief A class for holding all necessary parameters for conformational searches
+     * \brief A class for holding necessary parameters for conformational searches
      */
     class RuntimeParameters {
 
@@ -20,11 +21,9 @@ namespace PNAB {
         /**
          * \brief Empty constructor. Should not generally be used.
          */
-        RuntimeParameters() : mZ{}, mY{}, mX{}, inclination{}, tip{}, twist{}, x_disp{}, y_disp{},
-                              energy_filter{}, max_distance(0), type(), parameter_file(),
-                              base_to_backbone_bond_length(-1), num_steps(0),
-                              dihedral_discretization(0), angleStepSize(0), chain_length(3),
-                              algorithm() {};
+        RuntimeParameters() : mZ{}, mY{}, mX{}, energy_filter{}, max_distance(0), type(), parameter_file(),
+                              base_to_backbone_bond_length(-1), num_steps(0), dihedral_discretization(0),
+                              angleStepSize(0), chain_length(3), algorithm() {};
 
         /**
          * \brief Constructs RuntimeParameters from a FileParser object that is already constructed from an input file
@@ -37,51 +36,117 @@ namespace PNAB {
          */
         void validate();
 
-    private:
         // Helical parameters
-        double mZ[9],                       //!< Holds rotation matrix about x-axis
-                mY[9],                      //!< Holds rotation matrix about y-axis
-                mX[9];                      //!< Holds rotation matrix about z-axis
-
-        /**
-         * \brief Holds values that tell us whether the geomtric parameters in range_field are defined as a single value or a range
-         * which would imply we must also search over this range
-         */
-        enum RangeType {
-            SINGLE,                             //!< If only a single value is defined
-            RANGE                               //!< If a range of values is defined (begin, end)
-        };
-
-        /**
-         * \brief A struct for holding geometric parameters as well as the state (Single or Range).
-         */
-        struct RangeField {
-            std::vector<double> d;
-            RangeType type;
-        };
-
-        RangeField inclination,                 //!< Rotation about x-axis (applied once to BaseUnit)
-                    tip,                        //!< Rotation about y-axis (applied once to BaseUnit)
-                    twist,                      //!< Rotation about z-axis (applied n times to BaseUnit, where n is number of bases in BaseUnit)
-                    rise,                       //!< Displacement in z direction (applied n times to BaseUnit)
-                    x_disp,                     //!< Displacement in x direction (applied once to BaseUnit)
-                    y_disp;                     //!< Displacement in y direction (applied once to BaseUnit)
+        double mZ[9],                       //!< \brief Holds rotation matrix about x-axis
+                mY[9],                      //!< \brief Holds rotation matrix about y-axis
+                mX[9];                      //!< \brief Holds rotation matrix about z-axis
 
         // Energy parameters
-        std::vector<double> energy_filter;      //!< { max total E, max angle E, max bond E, max VDW E, max Torsion E }
-        double max_distance;                    //!< The maximum distance between head and tail of successive UnitChains that is accepted
+        std::vector<double> energy_filter;      //!< \brief { max total E, max angle E, max bond E, max VDW E, max Torsion E }
+        double max_distance;                    //!< \brief The maximum distance between head and tail of successive UnitChains that is accepted
 
         // Force Field Parameters
-        std::string type,                       //!< The type of the ForceField such as "GAFF" or "MMFF94"
-                parameter_file;                 //!< An additional parameter file in case missing bonds, angles, torsions, etc. are missing
-        double base_to_backbone_bond_length;    //!< The bond length between Base and Backbone, can be left to default which is original distance of the distance between the atom of getLinker() and getVector() of the Backbone
+        std::string type,                       //!< \brief The type of the ForceField such as "GAFF" or "MMFF94"
+                parameter_file;                 //!< \brief An additional parameter file in case missing bonds, angles, torsions, etc. are missing
+        double base_to_backbone_bond_length;    //!< \brief The bond length between Base and Backbone, can be left to default which is original distance of the distance between the atom of getLinker() and getVector() of the Backbone
 
         // Search algorithm
-        std::size_t num_steps,                  //!< Determines how many points are sampled in the Monte Carlo searches
-                dihedral_discretization,        //!< The number of points to break up the total number of dihedral angle (step becomes 360 deg / dihedral_discretization)
-                angleStepSize,                  //!< The step size for a systematic search
-                chain_length;                   //!< The number of UnitChains to use for energy testing
-        std::string algorithm;                  //!< The algorithm to use.
+        std::size_t num_steps,                  //!< \brief Determines how many points are sampled in the Monte Carlo searches
+                dihedral_discretization,        //!< \brief The number of points to break up the total number of dihedral angle (step becomes 360 deg / dihedral_discretization)
+                angleStepSize,                  //!< \brief The step size for a systematic search
+                chain_length;                   //!< \brief The number of UnitChains to use for energy testing
+        std::string algorithm;                  //!< \brief The algorithm to use.
+
+    };
+
+    /**
+     * \brief Holds values for all helical parameters including whether or not parameters are ranges or single valued
+     */
+    class HelicalParameters {
+
+    public:
+        HelicalParameters() : tilt{}, roll{}, twist{}, shift{}, slide{}, rise{}, buckle{}, propeller{},
+                              opening{}, shear{}, stretch{}, stagger{}, inclination{}, tip{}, x_displacement{},
+                              y_displacement{} {};
+
+        HelicalParameters(FileParser &fp);
+
+        std::array<double, 9> getGlobalRotationMatrix() {
+            double eta = inclination.v * DEG_TO_RAD, theta = tip.v * DEG_TO_RAD;
+            double phi_pp = atan(std::isnan(eta / theta) ? 0 : eta / theta), Lambda = sqrt(eta*eta + theta*theta);
+            std::array<double, 3> axis{sin(phi_pp), cos(phi_pp), 0};
+
+            return rodrigues_formula(axis, Lambda);
+        }
+
+        OpenBabel::matrix3x3 getGlobalRotationOBMatrix() {
+            auto arr = getGlobalRotationMatrix();
+            return OpenBabel::matrix3x3(OpenBabel::vector3(arr[0], arr[1], arr[2]),
+                                        OpenBabel::vector3(arr[3], arr[4], arr[5]),
+                                        OpenBabel::vector3(arr[6], arr[7], arr[8]));
+        }
+
+        OpenBabel::vector3 getGlobalTranslationVec() {
+            return OpenBabel::vector3(x_displacement.v, y_displacement.v);
+        }
+
+        std::array<double, 9> getBasePairRotationMatrix() {
+
+        };
+
+        OpenBabel::vector3 getBasePairTranslationVec() {
+            return OpenBabel::vector3(shear.v, stretch.v, stagger.v);
+        }
+
+        std::array<double, 9> getStepRotationMatrix(unsigned n = 0) {
+            double tau = tilt.v * DEG_TO_RAD, rho = roll.v * DEG_TO_RAD, Omega = twist.v * DEG_TO_RAD;
+            double phi = atan(std::isnan(tau / rho) ? 0 : tau / rho), Gamma = sqrt(tau*tau + rho*rho);
+            std::array<double, 3> axis{sin(phi), cos(phi), 0};
+
+            auto m = rodrigues_formula(axis, Gamma);
+
+            std::array<double, 9> z{cos(Omega), -sin(Omega), 0, sin(Omega), cos(Omega), 0, 0, 0, 1};
+
+            auto m_mat = matrix_mult(z, m);
+            auto r_mat = m_mat;
+            for (int i = 0; i < n; ++i)
+                r_mat = matrix_mult(m_mat, r_mat);
+            return r_mat;
+        };
+
+        OpenBabel::matrix3x3 getStepRotationOBMatrix(unsigned n = 0) {
+            auto arr = getStepRotationMatrix(n);
+            return OpenBabel::matrix3x3(OpenBabel::vector3(arr[0], arr[1], arr[2]),
+                                        OpenBabel::vector3(arr[3], arr[4], arr[5]),
+                                        OpenBabel::vector3(arr[6], arr[7], arr[8]));
+        }
+
+        OpenBabel::vector3 getStepTranslationVec(unsigned n = 0) {
+            n++;
+            return OpenBabel::vector3(n * shift.v, n * slide.v, n * rise.v);
+        }
+
+    private:
+
+        /**
+        * \brief Holds values that tell us whether the geomtric parameters in range_field are defined as a single value or a range
+        * which would imply we must also search over this range
+        */
+        enum RangeType {
+            SINGLE,                                     //!< \brief If only a single value is defined
+            RANGE                                       //!< \brief If a range of values is defined (begin, end)
+        };
+
+        /**
+        * \brief A struct for holding geometric parameters as well as the state (Single or Range).
+        */
+        struct RangeField {
+            RangeField() : v(0), d{} {}
+            double v;                                       //!< \brief Current value of range field
+            std::vector<double> d;                          //!< \brief Range that 'value' can take
+            RangeType type;                                 //!< \brief Whether or not the field is a range or single value
+            std::uniform_real_distribution<double> dist;    //!< \brief The distribution to be used if it is a range
+        };
 
         /**
          * \brief Checks to see of the vector is a range for a single value then sets the parameters inside of the
@@ -95,11 +160,74 @@ namespace PNAB {
                 std::cerr << "Vector size is too large" << std::endl;
                 exit(1);
             }
-            if (d_size == 1)
+            if (d_size == 1) {
                 strct.type = SINGLE;
-            else
+            }
+            else {
                 strct.type = RANGE;
+                strct.dist = std::uniform_real_distribution<double>(strct.d[0], strct.d[1]);
+            }
+            strct.v = strct.d[0];
         }
+
+        //Step parameters (describe rotations and translations between successive base-pairs)
+        RangeField tilt,                                //!< \brief Symbol: tau; step parameter; rotation in x axis
+                   roll,                                //!< \brief Symbol: rho; step parameter; rotation in y axis
+                   twist,                               //!< \brief Symbol: Omega; step parameter; rotation in z axis
+                   shift,                               //!< \brief Symbol: Dx; step parameter; translation in x
+                   slide,                               //!< \brief Symbol: Dy; step parameter; translation in y
+                   rise;                                //!< \brief Symbol: Dz; step parameter; translation in z
+
+        //Base-pair parameters (describe rotations and translations between two bases
+        RangeField buckle,                              //!< \brief Symbol: kappa; base-pair parameter; rotation in x axis
+                   propeller,                           //!< \brief Symbol: omega; base-pair parameter; rotation in y axis
+                   opening,                             //!< \brief Symbol: sigma; base-pair parameter; rotation in z axis
+                   shear,                               //!< \brief Symbol: Sx; base-pair parameter; translation in x axis
+                   stretch,                             //!< \brief Symbol: Sy; base-pair parameter; translation in y axis
+                   stagger;                             //!< \brief Symbol: Sz; base-pair parameter; translation in z axis
+
+        //Global parameters (describe rotations and translations of every base-pair)
+        RangeField inclination,                         //!< \brief Symbol: eta; global parameter; rotation in x axis
+                   tip,                                 //!< \brief Symbol: theta; global parameter; rotation in y axis
+                   // twist_g                           ignored, only shown for completeness
+                   x_displacement,                      //!< \brief Symbol: eta; global parameter; translation in x axis
+                   y_displacement;                      //!< \brief Symbol: eta; global parameter; translation in y axis
+                   // rise_g                            ignored, only shown for completeness
+
+        // Random number generator
+        std::mt19937_64 rng;
+
+        /**
+         * \brief Outputs a 3x3 matrix in the form of a one dimensional array to be used
+         * @param axis A unit vector defining the axis about which to rotate by angle theta
+         * @param theta The angle at which to rotate about vector given by axis
+         * @return The new rotation matrix
+         */
+        std::array<double, 9> rodrigues_formula(std::array<double, 3> axis, double theta) {
+            std::array<double, 9> m{};
+            m[0] = cos(theta) + axis[0]*axis[0]*(1 - cos(theta));
+            m[1] = axis[0]*axis[1]*(1 - cos(theta)) - axis[2]*sin(theta);
+            m[2] = axis[1]*sin(theta) + axis[0]*axis[2]*(1 - cos(theta));
+            m[3] = axis[2]*sin(theta) + axis[0]*axis[1]*(1 - cos(theta));
+            m[4] = cos(theta) + axis[1]*axis[1]*(1 - cos(theta));
+            m[5] = -axis[0]*sin(theta) + axis[1]*axis[2]*(1 - cos(theta));
+            m[6] = -axis[1]*sin(theta) + axis[0]*axis[2]*(1 - cos(theta));
+            m[7] = axis[0]*sin(theta) + axis[1]*axis[2]*(1 - cos(theta));
+            m[8] = cos(theta) + axis[2]*axis[2]*(1 - cos(theta));
+
+            return m;
+        };
+
+        std::array<double, 9> matrix_mult(std::array<double, 9> m1, std::array<double, 9> m2) {
+            std::array<double, 9> out{};
+
+            for (int i = 0; i < 3; ++i)
+                for (int j = 0; j < 3; ++j)
+                    for (int k = 0; k < 3; ++k)
+                        out[3*i + j] += m1[3*i + k]*m2[j + 3*k];
+
+            return out;
+        };
     };
 
     /**
@@ -107,6 +235,8 @@ namespace PNAB {
      */
     class Backbone {
     public:
+
+        Backbone() : backbone{}, interconnects{}, linker{}, vector_atom_deleted{} {}
 
         /**
          * \brief Backbone unit
@@ -160,8 +290,10 @@ namespace PNAB {
         OpenBabel::OBAtom* getVector() {
             if (!vector_atom_deleted)
                 return backbone.GetAtom(linker[1]);
-            else
+            else {
+                std::cerr << "Called getVector() for backbone with no vector atom." << std::endl;
                 return nullptr;
+            }
         }
 
         /**
@@ -207,11 +339,11 @@ namespace PNAB {
         void validate();
 
     private:
-        std::array<unsigned , 2> interconnects,   //!< { head, tail }
-                linker,                             //!< { atom index connecting to backbone, hydrogen defining vector }
-                new_interconnects;                  //!< Fixed Bonds
-        OpenBabel::OBMol backbone;                  //!< The molecule for the backbone
-        bool vector_atom_deleted;                   //!< Whether or not the atom from \code{getVector()} has been deleted
+        std::array<unsigned , 2> interconnects,   //!< \brief { head, tail }
+                linker,                             //!< \brief { atom index connecting to backbone, hydrogen defining vector }
+                new_interconnects;                  //!< \brief Fixed Bonds
+        OpenBabel::OBMol backbone;                  //!< \brief The molecule for the backbone
+        bool vector_atom_deleted;                   //!< \brief Whether or not the atom from \code{getVector()} has been deleted
     };
 
     /**
@@ -220,6 +352,9 @@ namespace PNAB {
     class Base {
 
     public:
+
+        Base() : name{}, code{}, linker{}, base{}, vector_atom_deleted{} {};
+
         /**
          * \brief Create Base from basic set of parameters
          * @param nameT The name of the base, full name
@@ -300,11 +435,11 @@ namespace PNAB {
         void validate();
 
     private:
-        std::string name,                               //!< Full name of base (i.e. Adenine)
-                code;                                   //!< Three character code to define base (Adenine: ADE)
-        OpenBabel::OBMol base;                          //!< Pointer to OBMol defining the base
-        std::array<std::size_t, 2 > linker;             //!< Holds indices for atoms forming a vector to connect to backbone {linker, hydrogen}
-        bool vector_atom_deleted;                       //!< Whether or not the \code{getVector()} atom was deleted
+        std::string name,                               //!< \brief Full name of base (i.e. Adenine)
+                code;                                   //!< \brief Three character code to define base (Adenine: ADE)
+        OpenBabel::OBMol base;                          //!< \brief Pointer to OBMol defining the base
+        std::array<std::size_t, 2 > linker;             //!< \brief Holds indices for atoms forming a vector to connect to backbone {linker, hydrogen}
+        bool vector_atom_deleted;                       //!< \brief Whether or not the \code{getVector()} atom was deleted
     };
 
     /**
@@ -318,7 +453,7 @@ namespace PNAB {
          */
         Bases(FileParser &fp);
 
-        std::vector<Base> bases;                        //!< The vector of bases
+        std::vector<Base> bases;                        //!< \brief The vector of bases
     };
 
     /**
@@ -327,16 +462,35 @@ namespace PNAB {
     class BaseUnit {
     public:
         BaseUnit(Base b, Backbone backbone);
-        const OpenBabel::OBMol* getMol() {
-            return &unit;
+        const OpenBabel::OBMol getMol() {
+            return unit;
         }
 
+        const std::array< std::size_t, 2 > getBaseIndexRange() {
+            return base_index_range;
+        };
+
+        const std::array< std::size_t, 2 > getBaseBondIndices() {
+            return base_bond_indices;
+        }
+
+        const std::array< std::size_t, 2 > getBackboneIndexRange() {
+            return backbone_index_range;
+        };
+
+        const std::array< std::size_t, 2 > getBackboneLinkers() {
+            return backbone_interconnects;
+        };
+
+
+
     private:
-        OpenBabel::OBMol unit;                      //!< Holds molecule containing base with backbone attached
-        OpenBabel::OBAtom *baseAtomBegin;
-        OpenBabel::OBAtom *baseAtomEnd;
-        OpenBabel::OBAtom *backboneAtomBegin;
-        OpenBabel::OBAtom *backboneAtomEnd;
+        OpenBabel::OBMol unit;                                  //!< \brief Holds molecule containing base with backbone attached
+        std::array< std::size_t, 2 > base_index_range,          //!< \brief Range of indices of the unit that are a part of the base, [start, stop]
+                                     backbone_index_range;      //!< \brief Range of indices of the unit that are a part of the backbone, [start, stop]
+        std::size_t base_connect_index;                         //!< \brief Atom index where Backbone connects to Base (the Base atom)
+        std::array< std::size_t, 2 > backbone_interconnects;    //!< \brief Atom indices defining where backbone connects
+        std::array< std::size_t, 2 > base_bond_indices;         //!< \brief Index range corresponding to bonds in the base of the BaseUnit
     };
 
     /**
@@ -346,17 +500,18 @@ namespace PNAB {
      * used during testing to give a comparable value.
      */
     struct ConformerData {
-        double *coords,                             //!< Pointer to array containing coordinates of all atoms in molecule
-                distance,                           //!< distance between \code{interconnects} in \code{Backbone} for successive \code{UnitChain}s
-                total_energy,                       //!< Total energy of the conformation divided by number of \code{UnitChain}s in chain tested
-                angleE,                             //!< Total energy of angles of the conformation divided by number of \code{UnitChain}s
-                bondE,                              //!< Total energy of bonds
-                VDWE,                               //!< Total van Der Wals Energy
-                torsionE,                           //!< Torsion energy due to backbone
-                totTorsionE,                        //!< Total torsional energy
-                rmsd;                               //!< Root-mean square distance from lowest energy conformer
-        int index;                                  //!< The index of the conformer
-        bool accept;                                //!< Did the conformer pass the energy filter
+        double *coords,                             //!< \brief Pointer to array containing coordinates of all atoms in molecule chain
+               *monomer_coord,                      //!< \brief Pointer to array containing coordinates of a single monomer
+                distance,                           //!< \brief distance between \code{interconnects} in \code{Backbone} for successive \code{UnitChain}s
+                total_energy,                       //!< \brief Total energy of the conformation divided by number of \code{UnitChain}s in chain tested
+                angleE,                             //!< \brief Total energy of angles of the conformation divided by number of \code{UnitChain}s
+                bondE,                              //!< \brief Total energy of bonds
+                VDWE,                               //!< \brief Total van Der Wals Energy
+                torsionE,                           //!< \brief Torsion energy due to backbone
+                totTorsionE,                        //!< \brief Total torsional energy
+                rmsd;                               //!< \brief Root-mean square distance from lowest energy conformer
+        std::size_t index;                          //!< \brief The index of the conformer
+        bool chain_coords_present;                  //!< \brief Have the chain coordinates in coord been deleted?
 
         /**
          * \brief Used for simple sorting based on total energy of the conformer
@@ -368,6 +523,7 @@ namespace PNAB {
         }
     };
 
+    const auto DEGSS = 0.017453292519943295769236907684886127134428718885417254560971914401710;
 }
 
 #endif //PNAB_CONTAINERS_H

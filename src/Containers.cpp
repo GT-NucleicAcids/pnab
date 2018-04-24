@@ -23,6 +23,7 @@ void Backbone::deleteVectorAtom() {
 }
 
 Backbone::Backbone(FileParser &sp) {
+    vector_atom_deleted = false;
     Category backbone_params = sp.getCategory("BACKBONE PARAMETERS");
     string file_path = backbone_params.getStringFieldDataFromName("Backbone_File_Path");
     OBConversion conv(file_path);
@@ -30,13 +31,14 @@ Backbone::Backbone(FileParser &sp) {
     if (inFormat) {
         conv.SetInFormat(inFormat);
     } else {
-        cerr << "Backbone: Cannot determine file type from extension. Defaulting to CML." << endl;
-        conv.SetInFormat("CML");
+        cerr << "Backbone: Cannot determine file type from extension. Defaulting to PDB." << endl;
+        conv.SetInFormat("PDB");
     }
     if (!conv.Read(&backbone)) {
         cerr << "Backbone: There was an error reading file for backbone: " << file_path << endl;
         exit(1);
     }
+
     auto vec = backbone_params.getSizeVecFieldDataFromName("Interconnects");
     if (vec.size() != 2) {
         cerr << "Backbone: Incorrect number of elements specified for Field \"Interconnects\" in Category \""
@@ -118,8 +120,8 @@ Bases::Bases(FileParser &fp) {
         if (inFormat) {
             conv.SetInFormat(inFormat);
         } else {
-            cerr << "Base: Cannot determine file type from extension. Defaulting to CML." << endl;
-            conv.SetInFormat("CML");
+            cerr << "Base: Cannot determine file type from extension. Defaulting to PDB." << endl;
+            conv.SetInFormat("PDB");
         }
         if (!conv.ReadFile(&mols[i], file)) {
             cerr << "Base: There was an error reading file for backbone: " << file << endl;
@@ -148,16 +150,22 @@ Bases::Bases(FileParser &fp) {
 
     for (size_t j = 0; j < num_bases; ++j) {
         array<size_t, 2> two{vec[2*j], vec[2*j + 1]};
+        transform(code_vec[j].begin(), code_vec[j].end(), code_vec[j].begin(), ::toupper);
         bases.push_back(Base(name_vec[j], code_vec[j], mols[j], two));
     }
 
 }
 
 BaseUnit::BaseUnit(Base base, Backbone backbone) {
+
+    // We go ahead and center everything so we can rotate later
+    backbone.center();
+
     // Setting up an array of necessary \code{OBAtom}s for alignment
     array< OBAtom*, 4 > atoms{base.getLinker() , base.getVector()  ,
                                    backbone.getLinker(), backbone.getVector() };
-    vector<vector3> ref    {atoms[1]->GetVector(), atoms[0]->GetVector()},
+
+    vector<vector3> ref {atoms[1]->GetVector(), atoms[0]->GetVector()},
             target {atoms[2]->GetVector(), atoms[3]->GetVector()},
             result;
 
@@ -173,25 +181,39 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
     double rot[9];
     matrix.GetArray(rot);
 
-    // Rotating and translating backbone to line up with base
-    backbone.center();
+
+    // garbage code for debugging
+    // TODO delete this code
+//    {
+//        OBConversion conv;
+//        std::filebuf fb;
+//        fb.open("center_out.pdb", std::ios::out);
+//        std::ostream fileStream(&fb);
+//        conv.SetOutFormat("PDB");
+//        conv.SetOutStream(&fileStream);
+//        OBMol mol;
+//        // mol += base.getMolecule();
+//        mol += backbone.getMolecule();
+//        conv.Write(&mol);
+//    }
+
     backbone.rotate(rot);
     backbone.translate(atoms[0]->GetVector() - atoms[3]->GetVector());
 
     // garbage code for debugging
     // TODO delete this code
-    {
-        OBConversion conv;
-        std::filebuf fb;
-        fb.open("rot_trans_out.cml", std::ios::out);
-        std::ostream fileStream(&fb);
-        conv.SetOutFormat("CML");
-        conv.SetOutStream(&fileStream);
-        OBMol mol;
-        mol += base.getMolecule();
-        mol += backbone.getMolecule();
-        conv.Write(&mol);
-    }
+//    {
+//        OBConversion conv;
+//        std::filebuf fb;
+//        fb.open("rot_trans_out.pdb", std::ios::out);
+//        std::ostream fileStream(&fb);
+//        conv.SetOutFormat("PDB");
+//        conv.SetOutStream(&fileStream);
+//        OBMol mol;
+//        mol += base.getMolecule();
+//        mol += backbone.getMolecule();
+//        conv.Write(&mol);
+//    }
 
     // Deleting old hydrogens that formed the vector
     backbone.deleteVectorAtom();
@@ -199,21 +221,24 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
 
     // garbage code for debugging
     // TODO delete this code
-    {
-        OBConversion conv;
-        std::filebuf fb;
-        fb.open("rot_trans_delete_atoms_out.cml", std::ios::out);
-        std::ostream fileStream(&fb);
-        conv.SetOutFormat("CML");
-        conv.SetOutStream(&fileStream);
-        OBMol mol;
-        mol += base.getMolecule();
-        mol += backbone.getMolecule();
-        conv.Write(&mol);
-    }
+//    {
+//        OBConversion conv;
+//        std::filebuf fb;
+//        fb.open("rot_trans_delete_atoms_out.pdb", std::ios::out);
+//        std::ostream fileStream(&fb);
+//        conv.SetOutFormat("PDB");
+//        conv.SetOutStream(&fileStream);
+//        OBMol mol;
+//        mol += base.getMolecule();
+//        mol += backbone.getMolecule();
+//        conv.Write(&mol);
+//    }
 
     OBMol mol;
     mol += base.getMolecule();
+
+    base_bond_indices = {1, mol.NumBonds()};
+
     unsigned num_atoms = mol.NumAtoms();
     mol += backbone.getMolecule();
     mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
@@ -223,36 +248,32 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
     {
         OBConversion conv;
         std::filebuf fb;
-        fb.open("rot_trans_delete_atoms_add_bond_out.cml", std::ios::out);
+        fb.open("base_unit_example_out.pdb", std::ios::out);
         std::ostream fileStream(&fb);
-        conv.SetOutFormat("CML");
+        conv.SetOutFormat("PDB");
         conv.SetOutStream(&fileStream);
         OBMol mol;
         mol += base.getMolecule();
         mol += backbone.getMolecule();
-        cout << "base.getLinker()->GetIdx() = " << base.getLinker()->GetIdx() << ", backbone.getLinker()->GetIdx() = "
-             << backbone.getLinker()->GetIdx()  << ", num_atoms = " << num_atoms << endl;
         mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
+
+        OBAtom *a = mol.GetAtom(10), *b = mol.GetAtom(5), *c = mol.GetAtom(22), *d = mol.GetAtom(18);
+        mol.SetTorsion(a, b, c, d, 82.2 * DEG_TO_RAD);
+
         conv.Write(&mol);
     }
 
-    unit = OpenBabel::OBMol(mol);
-    baseAtomBegin     = mol.GetFirstAtom();
-    baseAtomEnd       = mol.GetAtom(base.getMolecule().NumAtoms());
-    backboneAtomBegin = mol.GetAtom(mol.NumAtoms() - num_atoms);
-    backboneAtomEnd   = mol.GetAtom(mol.NumAtoms());
+    unit = mol;
+    base_connect_index = base.getLinker()->GetIdx();
+    backbone_interconnects = {backbone.getHead()->GetIdx() + num_atoms, backbone.getTail()->GetIdx() + num_atoms};
+    base_index_range = {1, num_atoms};
+    backbone_index_range = {num_atoms + 1, mol.NumAtoms()};
 }
 
 RuntimeParameters::RuntimeParameters(FileParser &sp) {
     Category rp = sp.getCategory("RUNTIME PARAMETERS");
 
     // Geometric Parameters
-    rise.d = rp.getDoubleVecFieldDataFromName("Rise");
-    inclination.d = rp.getDoubleVecFieldDataFromName("Inclination");
-    tip.d = rp.getDoubleVecFieldDataFromName("Tip");
-    twist.d = rp.getDoubleVecFieldDataFromName("Twist");
-    x_disp.d = rp.getDoubleVecFieldDataFromName("X_Disp");
-    y_disp.d = rp.getDoubleVecFieldDataFromName("Y_Disp");
     base_to_backbone_bond_length = rp.getDoubleFieldDataFromName("Base_to_Backbone_Bond_Length", numeric_limits<double>::quiet_NaN());
 
     // Energetic parameters
@@ -261,7 +282,7 @@ RuntimeParameters::RuntimeParameters(FileParser &sp) {
     energy_filter.clear();
     for (auto d_val : single_doubles_energy)
         energy_filter.push_back(rp.getDoubleFieldDataFromName(d_val));
-    max_distance = rp.getDoubleFieldDataFromName("Max_Distance");
+    max_distance = rp.getDoubleFieldDataFromName("Max_Backbone_Interlink_Distance");
 
     // ForceField Parameters
     type = rp.getStringFieldDataFromName("Force_Field_Type","GAFF");
@@ -275,12 +296,7 @@ RuntimeParameters::RuntimeParameters(FileParser &sp) {
 }
 
 void RuntimeParameters::validate() {
-    checkRangeField(rise);
-    checkRangeField(inclination);
-    checkRangeField(tip);
-    checkRangeField(twist);
-    checkRangeField(x_disp);
-    checkRangeField(y_disp);
+
     if (!isnan(base_to_backbone_bond_length) & base_to_backbone_bond_length < 0) {
         cerr << "Base_to_Backbone_Bond_Length must be greater than 0." << endl;
         exit(1);
@@ -288,5 +304,21 @@ void RuntimeParameters::validate() {
     if (max_distance < 0) {
         cerr << "Max_Distance must be greater than 0." << endl;
         exit(1);
+    }
+}
+
+HelicalParameters::HelicalParameters(FileParser &fp) {
+    Category hp = fp.getCategory("HELICAL PARAMETERS");
+
+    vector<RangeField*> ranges{&tilt, &roll, &twist, &shift, &slide, &rise, &buckle, &propeller,
+                               &opening, &shear, &stretch, &stagger, &inclination, &tip,
+                               &x_displacement, &y_displacement};
+    vector<string> names{"Tilt", "Roll", "Twist", "Shift", "Slide", "Rise", "Buckle", "Propeller", "Opening",
+                         "Shear", "Stretch", "Stagger", "Inclination", "Tip", "X_Displacement", "Y_Displacement"};
+
+    unsigned i = 0;
+    for (auto &r : ranges) {
+        r->d = hp.getDoubleVecFieldDataFromName(names[i++]);
+        checkRangeField(*r);
     }
 }

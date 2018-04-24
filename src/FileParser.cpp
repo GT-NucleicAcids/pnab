@@ -9,15 +9,13 @@
 using namespace std;
 
 FileParser::FileParser() {
+
+    // Geometric properties of bases //////////////////////////////////////////////////////
     Category runtimeParameters("RUNTIME PARAMETERS");
-    // Geometric properties of bases
-    vector<string> vec_doubles_geometric{"Rise", "X_Disp", "Y_Disp", "Inclination", "Tip", "Twist"};
-    for (auto str : vec_doubles_geometric)
-        runtimeParameters.registerDoubleVecField(str);
 
     // Energetic filter properties of conformations
     vector<string> single_doubles_energy{"Max_Total_Energy", "Max_Angle_Energy", "Max_Bond_Energy",
-                                         "Max_VDW_Energy", "Max_Torsion_Energy", "Max_Distance"};
+                                         "Max_VDW_Energy", "Max_Torsion_Energy", "Max_Backbone_Interlink_Distance"};
     for (auto str : single_doubles_energy)
         runtimeParameters.registerDoubleField(str);
 
@@ -40,7 +38,16 @@ FileParser::FileParser() {
     // Store category in FileParser
     registerCategory(runtimeParameters);
 
-    // Backbone Parameters
+    // Helical Parameters //////////////////////////////////////////////////////////////////
+    Category helical_parameters("HELICAL PARAMETERS");
+    vector<string> vec_doubles_hp{"Tilt", "Roll", "Twist", "Shift", "Slide", "Rise", "Buckle", "Propeller", "Opening",
+                                  "Shear", "Stretch", "Stagger", "Inclination", "Tip", "X_Displacement",
+                                  "Y_Displacement"};
+    for (auto v : vec_doubles_hp)
+        helical_parameters.registerDoubleVecField(v, v.compare("Twist") == 0 || v.compare("Rise") == 0);
+    registerCategory(helical_parameters);
+
+    // Backbone Parameters /////////////////////////////////////////////////////////////////
     Category backboneParameters("BACKBONE PARAMETERS");
     vector<string> mult_size_backbone{"Interconnects", "Base_Connect"};
     for (auto str : mult_size_backbone)
@@ -49,7 +56,7 @@ FileParser::FileParser() {
 
     registerCategory(backboneParameters);
 
-    // Base Parameters
+    // Base Parameters /////////////////////////////////////////////////////////////////////
     Category base0Parameters("BASE PARAMETERS");
     vector<string> mult_string_base{"Code", "Name", "Base_File_Path"};
     for (auto str : mult_string_base)
@@ -59,7 +66,7 @@ FileParser::FileParser() {
     registerCategory(base0Parameters);
 }
 
-void FileParser::readFile() {
+void FileParser::readFile() { 
     ifstream f(file_path);
     if (f.is_open()) {
         cout << "Reading: " << file_path << endl;
@@ -85,7 +92,6 @@ void FileParser::readFile() {
             no_comment = no_comment.substr(no_comment.find_first_not_of(" \t\n"));
 
             if (no_comment.find("=") != string::npos && !c->empty()) {
-                transform(no_comment.begin(), no_comment.end(), no_comment.begin(), ::tolower);
                 c->parseLine(no_comment);
             } else if (no_comment.find("=") != string::npos && c->empty()) {
                 cerr << "Declared field before declaring a category on line " << line_number
@@ -116,6 +122,8 @@ void FileParser::readFile() {
 void Category::parseLine(std::string line) {
     string field = line.substr(0, line.find("="));
     string value = line.substr(line.find("=") + 1);
+
+    transform(field.begin(), field.end(), field.begin(), ::tolower);
 
     if (value.find_first_not_of(" \n\t") == string::npos) {
         cerr << "Error: Empty field \"" << field << "\" in category \"" << getName() << "." << endl;
@@ -295,6 +303,7 @@ void Category::validate() {
             }
         }
     }
+    // We want to be able to let user know all of the fields that are missing all at once, so we exit here
     if (error_found)
         exit(1);
 }

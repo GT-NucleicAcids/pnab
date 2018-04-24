@@ -149,7 +149,7 @@ class StringField : public Field< std::string > {
 public:
     using Field::Field;
     void parse(std::string str) {
-        while (!isalnum(str.front()))
+        while (!isalnum(str.front()) && !isgraph(str.front()))
             str.erase(0, 1);
         if (str.empty()) {
             std::cerr << "Field must contain alpha-numeric characters" << std::endl;
@@ -170,7 +170,7 @@ public:
         std::istringstream ss(str);
         std::string token;
         while ( getline(ss, token, ',') ) {
-            while (!isalnum(token.front()) && token.front() != '.')
+            while (!isalnum(token.front()) && !isgraph(str.front()))
                 token.erase(0, 1);
             if (token.empty()) {
                 std::cerr << "Field must contain alpha-numeric characters. " << std::endl;
@@ -189,7 +189,8 @@ class DoubleField : public Field< double > {
 public:
     using Field::Field;
     void parse(std::string str) {
-        while (!isalnum(str.front()) && str.front() != '.')
+        auto front = str.front();
+        while (!str.empty() && !isalnum(front) && !(front == '.' || front == '-'))
             str.erase(0, 1);
         if (str.empty()) {
             std::cerr << "Field must contain alpha-numeric characters. " << std::endl;
@@ -202,7 +203,7 @@ public:
 /**
  * \brief Used to hold multiple real number values
  */
-class DoubleVecField : public Field< std::vector<   double    > > {
+class DoubleVecField : public Field< std::vector<double> > {
 public:
     using Field::Field;
     void parse(std::string str) {
@@ -210,8 +211,11 @@ public:
         std::istringstream ss(str);
         std::string token;
         while ( getline(ss, token, ',') ) {
-            while (!isalnum(token.front()) && token.front() != '.')
+            auto front = token.front();
+            while (!token.empty() && !isalnum(front) && !(front == '.' || front == '-')) {
                 token.erase(0, 1);
+                front = token.front();
+            }
             if (token.empty()) {
                 std::cerr << "Field must contain alpha-numeric characters. " << std::endl;
                 exit(1);
