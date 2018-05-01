@@ -1,13 +1,12 @@
 #include <openbabel/obconversion.h>
 #include "FileParser.h"
 #include "Containers.h"
-#include "UnitChain.h"
-#include "SearchTypes/RandomRotorSearch.h"
 #include "Chain.h"
 #include "SearchTypes/MonteCarloRotorSearch.h"
 
 using namespace PNAB;
 using namespace OpenBabel;
+using namespace std;
 
 int main(int argc, char *argv[]) {
     if (argc < 1) {
@@ -29,8 +28,6 @@ int main(int argc, char *argv[]) {
     conv.SetOutFormat("PDB");
     conv.SetOutStream(&fileStream);
     OBMol mol;
-    std::array<double, 3> translate_arr = {0, 0, 3.4},
-                          rotation_arr  = {0, 0,  30};
     //uc.updateHelicalParameters(translate_arr, rotation_arr);
     //mol = uc.getUnit(0,0).getMol();
     PNAB::RuntimeParameters runtime_params(f);
@@ -39,24 +36,27 @@ int main(int argc, char *argv[]) {
     //mol = rrs.search();
 
     HelicalParameters hp(f);
-    MonteCarloRotorSearch mcrs(runtime_params, bases.bases[0], bases.bases[0], backbone, hp);
+    //vector<string> strand = {"Uracil", "Uracil", "Uracil"};
+    vector<string> strand = {"Adenine", "Uracil", "Adenine", "Uracil"};
+    //vector<string> strand = {"Adenine","Adenine","Adenine","Adenine"};
+    MonteCarloRotorSearch mcrs(runtime_params, backbone, hp,  bases, strand);
     mcrs.run();
-    auto mol_w_conf = mcrs.getMolecule();
-    auto coord_vec = mcrs.getCoordinates();
-    if (!coord_vec.empty())
-        mol_w_conf.SetCoordinates(coord_vec[0]);
-
+//    auto mol_w_conf = mcrs.getMolecule();
+//    auto coord_vec = mcrs.getCoordinates();
+//    if (!coord_vec.empty())
+//        mol_w_conf.SetCoordinates(coord_vec[0]);
+//
 //    Chain c(BaseUnit(PNAB::Base(), PNAB::Backbone()));
 //    mol = c.getChain();
-//    conv.Write(&mol);
-
-    std::filebuf fb_1;
-    fb_1.open("out_mc.pdb", std::ios::out);
-    std::ostream fileStream_1(&fb_1);
-    conv.SetOutFormat("PDB");
-    conv.SetOutStream(&fileStream_1);
-
-    conv.Write(&mol_w_conf);
+//    conv_.Write(&mol);
+//
+//    std::filebuf fb_1;
+//    fb_1.open("out_mc.pdb", std::ios::out);
+//    std::ostream fileStream_1(&fb_1);
+//    conv.SetOutFormat("PDB");
+//    conv.SetOutStream(&fileStream_1);
+//
+//    conv.Write(&mol_w_conf);
 
     // Create UnitChain
     // Perform Search

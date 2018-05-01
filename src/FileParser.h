@@ -488,6 +488,14 @@ public:
         return getCategoryByName(name);
     }
 
+    /**
+     * \brief Gives the number of base categories declared
+     * @return The count of base categories
+     */
+    unsigned getNumBaseCategories() {
+        return num_base_categories;
+    }
+
 private:
     /**
      * \brief Add a category with a given name which defines Category header in the input file
@@ -513,6 +521,7 @@ private:
 
     std::map< std::string, Category > stringToCategoryMap;        //!< Used to hold list of Category class objects
     std::string file_path;                                        //!< String containing path to input file
+    unsigned num_base_categories = 0;                             //!< Keeps track of the number of base parameters used
 
 };
 

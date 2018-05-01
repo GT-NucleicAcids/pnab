@@ -21,9 +21,8 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 #endif()
 
 set(SOURCE_FILES src/main.cpp src/Containers.h
-        src/SearchTypes/SearchMethod.cpp src/SearchTypes/SearchMethod.h
-                 src/UnitChain.cpp src/UnitChain.h src/ChainForceField.cpp
-                 src/ChainForceField.h src/SearchTypes/RandomRotorSearch.cpp src/SearchTypes/RandomRotorSearch.h src/Containers.cpp src/FileParser.cpp src/FileParser.h)
+        src/Containers.cpp src/FileParser.cpp
+        src/FileParser.h src/Chain.cpp src/Chain.h src/SearchTypes/MonteCarloRotorSearch.cpp src/SearchTypes/MonteCarloRotorSearch.h)
 
 add_executable(pNAB ${SOURCE_FILES})
 target_link_libraries(pNAB ${OPENBABEL2_LIBRARIES})

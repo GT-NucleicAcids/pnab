@@ -346,6 +346,8 @@ namespace PNAB {
         bool vector_atom_deleted;                   //!< \brief Whether or not the atom from \code{getVector()} has been deleted
     };
 
+    class Base;
+
     /**
      * \brief Class to fully define bases (i.e. Adenine, Cytosine)
      */
@@ -353,7 +355,7 @@ namespace PNAB {
 
     public:
 
-        Base() : name{}, code{}, linker{}, base{}, vector_atom_deleted{} {};
+        Base() : name{}, code{}, linker{}, base{}, vector_atom_deleted{}, pair_name{} {};
 
         /**
          * \brief Create Base from basic set of parameters
@@ -361,14 +363,17 @@ namespace PNAB {
          * @param codeT The code-name of the base
          * @param molT The molecule containing the base's chemical makeup
          * @param linkerT An array that contains how the base is to link to a backbone
+         * @param The name of the pair from other bases which is empty by default
          * in the form {base linker, hydrogen atom defining vector}
          */
-        Base(std::string nameT, std::string codeT, OpenBabel::OBMol &molT, std::array<std::size_t, 2> linkerT) {
+        Base(std::string nameT, std::string codeT, OpenBabel::OBMol &molT, std::array<std::size_t, 2> linkerT,
+             std::string pairT = "") {
             name = nameT;
             code = codeT;
             linker = linkerT;
             base = OpenBabel::OBMol(molT);
             vector_atom_deleted = false;
+            pair_name = pairT;
             validate();
         }
 
@@ -429,6 +434,13 @@ namespace PNAB {
         }
 
         /**
+         * \brief Get the name of the pair base
+         */
+        std::string getBasePairName() {
+            return pair_name;
+        }
+
+        /**
          * \brief Does some basic sanity checks (such as whether or not the indices of the atom are within the range
          * of the molecule
          */
@@ -436,7 +448,8 @@ namespace PNAB {
 
     private:
         std::string name,                               //!< \brief Full name of base (i.e. Adenine)
-                code;                                   //!< \brief Three character code to define base (Adenine: ADE)
+                    code,                               //!< \brief Three character code to define base (Adenine: ADE)
+                    pair_name;                          //!< \brief Name of the pair base
         OpenBabel::OBMol base;                          //!< \brief Pointer to OBMol defining the base
         std::array<std::size_t, 2 > linker;             //!< \brief Holds indices for atoms forming a vector to connect to backbone {linker, hydrogen}
         bool vector_atom_deleted;                       //!< \brief Whether or not the \code{getVector()} atom was deleted
@@ -453,7 +466,25 @@ namespace PNAB {
          */
         Bases(FileParser &fp);
 
+        Bases() {};
+
+        PNAB::Base getBaseFromName(std::string name) {
+            for (auto v : bases) {
+                if (v.getName().find(name) != std::string::npos)
+                    return v;
+            }
+            std::cerr << "Base \"" << name << "\" does not exists in list of bases. Please check input file."
+                      << std::endl;
+            throw 1;
+        }
+
+        std::vector<Base> getBasesFromStrand(std::vector<std::string> strand);
+        std::vector<Base> getComplimentBasesFromStrand(std::vector<std::string> strand);
+
+    private:
         std::vector<Base> bases;                        //!< \brief The vector of bases
+        bool all_bases_pair;
+        std::map<std::string, PNAB::Base> name_base_map;
     };
 
     /**

@@ -106,54 +106,86 @@ void Base::validate() {
 }
 
 Bases::Bases(FileParser &fp) {
-    Category base_params = fp.getCategory("BASE PARAMETERS");
-    vector<string> file_paths = base_params.getStringVecFieldDataFromName("Base_File_Path");
-    if (file_paths.size() == 0) {
-        cerr << "Bases: No file paths were specified." << endl;
-        exit(1);
-    }
-    size_t num_bases = file_paths.size(), i = 0;
-    vector<OBMol> mols(num_bases);
+
     OBConversion conv;
-    for (auto file : file_paths) {
-        OBFormat *inFormat = conv.FormatFromExt(file);
-        if (inFormat) {
-            conv.SetInFormat(inFormat);
-        } else {
+    for (unsigned i = 1; i <= fp.getNumBaseCategories(); ++i) {
+        Category base_params = fp.getCategory("BASE PARAMETERS " + to_string(i));
+        string file_path = base_params.getStringFieldDataFromName("Base_File_Path");
+        if (file_path.empty()) {
+            cerr << "Bases: No file path was specified." << endl;
+            exit(1);
+        }
+        OBFormat *in_format = conv.FormatFromExt(file_path);
+        if (in_format)
+            conv.SetInFormat(in_format);
+        else {
             cerr << "Base: Cannot determine file type from extension. Defaulting to PDB." << endl;
             conv.SetInFormat("PDB");
         }
-        if (!conv.ReadFile(&mols[i], file)) {
-            cerr << "Base: There was an error reading file for backbone: " << file << endl;
+        OBMol mol;
+        if (!conv.ReadFile(&mol, file_path)) {
+            cerr << "Base: There was an error reading file for base: " << file_path << endl;
             exit(1);
         }
-        i++;
+
+        auto vec = base_params.getSizeVecFieldDataFromName("Backbone_Connect");
+        if (vec.size() != 2) {
+            cerr << "Incorrect number of elements specified for Field \"Backbone_Connect\" in Category \""
+                 << base_params.getName() << "\". There must be exactly 2 indices indicated." << endl;
+            exit(1);
+        }
+        array<size_t, 2> linkers = {vec[0], vec[1]};
+
+        auto name = base_params.getStringFieldDataFromName("Name");
+        transform(name.begin(), name.end(), name.begin(), ::tolower);
+        auto code = base_params.getStringFieldDataFromName("Code");
+        transform(code.begin(), code.end(), code.begin(), ::tolower);
+        auto pair_name = base_params.getStringFieldDataFromName("Pair_Name");
+        transform(pair_name.begin(), pair_name.end(), pair_name.begin(), ::tolower);
+        bases.push_back(Base(name,code,mol,linkers, pair_name));
     }
 
-    auto vec = base_params.getSizeVecFieldDataFromName("Backbone_Connect");
-    if (vec.size() != 2 * num_bases) {
-        cerr << "Incorrect number of elements specified for Field \"Backbone_Connect\" in Category \""
-             << base_params.getName() << "\". There must be exactly 2 * (number of bases) indices indicated." << endl;
-        exit(1);
+    // Checking to see if the bases have pairs
+    all_bases_pair = true;
+    for (auto v : bases) {
+        auto pair_name = v.getBasePairName();
+        transform(pair_name.begin(), pair_name.end(), pair_name.begin(), ::tolower);
+        bool pair_found = false;
+        for (auto w : bases) {
+            if (w.getName().find(pair_name) != string::npos) {
+                auto base_name = v.getName();
+                transform(base_name.begin(), base_name.end(), base_name.begin(), ::tolower);
+                name_base_map.insert(pair<string,Base>(v.getName(),w));
+                pair_found = true;
+                break;
+            }
+        }
+        if (!pair_found) {
+            all_bases_pair = false;
+            break;
+        }
     }
+}
 
-    auto name_vec = base_params.getStringVecFieldDataFromName("Name");
-    auto code_vec = base_params.getStringVecFieldDataFromName("Code");
-    if (name_vec.size() != num_bases) {
-        cerr << "Incorrect number of names specified in Category 'BASE PARAMETERS'." << endl;
-        exit(1);
+std::vector<Base> Bases::getBasesFromStrand(std::vector<std::string> strand) {
+    vector<Base> bases;
+    for (auto &v : strand) {
+        transform(v.begin(), v.end(), v.begin(), ::tolower);
+        bases.push_back(getBaseFromName(v));
     }
-    if (code_vec.size() != num_bases) {
-        cerr << "Incorrect number of codes specified in Category 'BASE PARAMETERS'." << endl;
-        exit(1);
-    }
+    return bases;
+}
 
-    for (size_t j = 0; j < num_bases; ++j) {
-        array<size_t, 2> two{vec[2*j], vec[2*j + 1]};
-        transform(code_vec[j].begin(), code_vec[j].end(), code_vec[j].begin(), ::toupper);
-        bases.push_back(Base(name_vec[j], code_vec[j], mols[j], two));
+std::vector<Base> Bases::getComplimentBasesFromStrand(std::vector<std::string> strand) {
+    if (all_bases_pair) {
+        vector<Base> compliment_bases;
+        for (auto &v : strand) {
+            transform(v.begin(), v.end(), v.begin(), ::tolower);
+            compliment_bases.push_back(name_base_map.find(v)->second);
+        }
+        return compliment_bases;
     }
-
+    return vector<Base>();
 }
 
 BaseUnit::BaseUnit(Base base, Backbone backbone) {
@@ -185,16 +217,16 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
     // garbage code for debugging
     // TODO delete this code
 //    {
-//        OBConversion conv;
+//        OBConversion conv_;
 //        std::filebuf fb;
 //        fb.open("center_out.pdb", std::ios::out);
 //        std::ostream fileStream(&fb);
-//        conv.SetOutFormat("PDB");
-//        conv.SetOutStream(&fileStream);
+//        conv_.SetOutFormat("PDB");
+//        conv_.SetOutStream(&fileStream);
 //        OBMol mol;
 //        // mol += base.getMolecule();
 //        mol += backbone.getMolecule();
-//        conv.Write(&mol);
+//        conv_.Write(&mol);
 //    }
 
     backbone.rotate(rot);
@@ -203,16 +235,16 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
     // garbage code for debugging
     // TODO delete this code
 //    {
-//        OBConversion conv;
+//        OBConversion conv_;
 //        std::filebuf fb;
 //        fb.open("rot_trans_out.pdb", std::ios::out);
 //        std::ostream fileStream(&fb);
-//        conv.SetOutFormat("PDB");
-//        conv.SetOutStream(&fileStream);
+//        conv_.SetOutFormat("PDB");
+//        conv_.SetOutStream(&fileStream);
 //        OBMol mol;
 //        mol += base.getMolecule();
 //        mol += backbone.getMolecule();
-//        conv.Write(&mol);
+//        conv_.Write(&mol);
 //    }
 
     // Deleting old hydrogens that formed the vector
@@ -222,16 +254,16 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
     // garbage code for debugging
     // TODO delete this code
 //    {
-//        OBConversion conv;
+//        OBConversion conv_;
 //        std::filebuf fb;
 //        fb.open("rot_trans_delete_atoms_out.pdb", std::ios::out);
 //        std::ostream fileStream(&fb);
-//        conv.SetOutFormat("PDB");
-//        conv.SetOutStream(&fileStream);
+//        conv_.SetOutFormat("PDB");
+//        conv_.SetOutStream(&fileStream);
 //        OBMol mol;
 //        mol += base.getMolecule();
 //        mol += backbone.getMolecule();
-//        conv.Write(&mol);
+//        conv_.Write(&mol);
 //    }
 
     OBMol mol;
@@ -257,8 +289,8 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
         mol += backbone.getMolecule();
         mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
 
-        OBAtom *a = mol.GetAtom(10), *b = mol.GetAtom(5), *c = mol.GetAtom(22), *d = mol.GetAtom(18);
-        mol.SetTorsion(a, b, c, d, 82.2 * DEG_TO_RAD);
+//        OBAtom *a = mol.GetAtom(10), *b = mol.GetAtom(5), *c = mol.GetAtom(22), *d = mol.GetAtom(18);
+//        mol.SetTorsion(a, b, c, d, 82.2 * DEG_TO_RAD);
 
         conv.Write(&mol);
     }

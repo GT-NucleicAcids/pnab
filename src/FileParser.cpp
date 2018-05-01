@@ -56,17 +56,19 @@ FileParser::FileParser() {
 
     registerCategory(backboneParameters);
 
-    // Base Parameters /////////////////////////////////////////////////////////////////////
-    Category base0Parameters("BASE PARAMETERS");
-    vector<string> mult_string_base{"Code", "Name", "Base_File_Path"};
-    for (auto str : mult_string_base)
-        base0Parameters.registerStringVecField(str);
-    base0Parameters.registerSizeVecField("Backbone_Connect");
+    // Base parameters are added as needed in readFile()
+//    // Base Parameters /////////////////////////////////////////////////////////////////////
+//    Category base0Parameters("BASE PARAMETERS");
+//    vector<string> mult_string_base{"Code", "Name", "Base_File_Path"};
+//    for (auto str : mult_string_base)
+//        base0Parameters.registerStringField(str);
+//    base0Parameters.registerSizeVecField("Backbone_Connect");
 
-    registerCategory(base0Parameters);
+//    registerCategory(base0Parameters);
 }
 
-void FileParser::readFile() { 
+void FileParser::readFile() {
+    map<string,Category> found_categories;
     ifstream f(file_path);
     if (f.is_open()) {
         cout << "Reading: " << file_path << endl;
@@ -102,12 +104,36 @@ void FileParser::readFile() {
             else {
                 transform(no_comment.begin(),no_comment.end(),no_comment.begin(),::toupper);
                 auto it = stringToCategoryMap.find(no_comment);
+                if (found_categories.find(no_comment) != found_categories.end()
+                    || no_comment.find("BASE PARAMETERS") != string::npos) {
+                    // I find this workaround unsavory. The input file is easier to use if we can
+                    // simply have multiple instances of the BASE PARAMETERS category, so I'm hacking my way
+                    // through to make it possible. An more ideal solution would involve refactoring the FileParser
+                    // class entirely.
+                    if (no_comment.find("BASE PARAMETERS") == string::npos) {
+                        cerr << "Category \"" << no_comment << "\" on line " << line_number
+                             << " was already used. Please check the input file." << endl;
+                        exit(1);
+                    }
+
+                    // Base Parameters /////////////////////////////////////////////////////////////////////
+                    num_base_categories++;
+                    Category baseParameters("BASE PARAMETERS " + to_string(num_base_categories));
+                    vector<string> mult_string_base{"Code", "Name", "Base_File_Path", "Pair_Name"};
+                    for (auto str : mult_string_base)
+                        baseParameters.registerStringField(str);
+                    baseParameters.registerSizeVecField("Backbone_Connect");
+
+                    registerCategory(baseParameters);
+                    it = stringToCategoryMap.find("BASE PARAMETERS " + to_string(num_base_categories));
+                }
                 if (it == stringToCategoryMap.end()) {
                     cerr << "Category \"" << no_comment << "\" on line " << line_number
                          << " does not exist. Please check the input file." << endl;
                     exit(1);
                 }
                 c = &it->second;
+                found_categories.insert(*it);
             }
         }
         for (auto category_map : stringToCategoryMap) {
@@ -250,7 +276,8 @@ void Category::validate() {
             case SIZE_FIELD: {
                 for (auto sf : size_fields) {
                     if (!sf.isSet() & sf.isRequired()) {
-                        cout << "Required field \"" << sf.getName() << "\" is not set." << endl;
+                        cout << "Required field \"" << sf.getName() << "\" in Category \"" << name
+                             << "\" is not set." << endl;
                         error_found = true;
                     }
                 }
@@ -259,7 +286,8 @@ void Category::validate() {
             case SIZE_VEC_FIELD: {
                 for (auto sf : size_vec_fields) {
                     if (!sf.isSet() & sf.isRequired()) {
-                        cout << "Required field \"" << sf.getName() << "\" is not set." << endl;
+                        cout << "Required field \"" << sf.getName() << "\" in Category \"" << name
+                             << "\" is not set." << endl;
                         error_found = true;
                     }
                 }
@@ -268,7 +296,8 @@ void Category::validate() {
             case STRING_FIELD: {
                 for (auto sf : string_fields) {
                     if (!sf.isSet() & sf.isRequired()) {
-                        cout << "Required field \"" << sf.getName() << "\" is not set." << endl;
+                        cout << "Required field \"" << sf.getName() << "\" in Category \"" << name
+                             << "\" is not set." << endl;
                         error_found = true;
                     }
                 }
@@ -277,7 +306,8 @@ void Category::validate() {
             case STRING_VEC_FIELD: {
                 for (auto sf : string_vec_fields) {
                     if (!sf.isSet() & sf.isRequired()) {
-                        cout << "Required field \"" << sf.getName() << "\" is not set." << endl;
+                        cout << "Required field \"" << sf.getName() << "\" in Category \"" << name
+                             << "\" is not set." << endl;
                         error_found = true;
                     }
                 }
@@ -286,7 +316,8 @@ void Category::validate() {
             case DOUBLE_FIELD: {
                 for (auto sf : double_fields) {
                     if (!sf.isSet() & sf.isRequired()) {
-                        cout << "Required field \"" << sf.getName() << "\" is not set." << endl;
+                        cout << "Required field \"" << sf.getName() << "\" in Category \"" << name
+                             << "\" is not set." << endl;
                         error_found = true;
                     }
                 }
@@ -295,7 +326,8 @@ void Category::validate() {
             case DOUBLE_VEC_FIELD: {
                 for (auto sf : double_vec_fields) {
                     if (!sf.isSet() & sf.isRequired()) {
-                        cout << "Required field \"" << sf.getName() << "\" is not set." << endl;
+                        cout << "Required field \"" << sf.getName() << "\" in Category \"" << name
+                             << "\" is not set." << endl;
                         error_found = true;
                     }
                 }
