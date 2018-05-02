@@ -139,7 +139,7 @@ Bases::Bases(FileParser &fp) {
         auto name = base_params.getStringFieldDataFromName("Name");
         transform(name.begin(), name.end(), name.begin(), ::tolower);
         auto code = base_params.getStringFieldDataFromName("Code");
-        transform(code.begin(), code.end(), code.begin(), ::tolower);
+        transform(code.begin(), code.end(), code.begin(), ::toupper);
         auto pair_name = base_params.getStringFieldDataFromName("Pair_Name");
         transform(pair_name.begin(), pair_name.end(), pair_name.begin(), ::tolower);
         bases.push_back(Base(name,code,mol,linkers, pair_name));
@@ -324,6 +324,20 @@ RuntimeParameters::RuntimeParameters(FileParser &sp) {
     angleStepSize = rp.getSizeFieldDataFromName("Search_Step_Size",numeric_limits<size_t>::quiet_NaN());
     chain_length = rp.getSizeFieldDataFromName("Chain_Length",3ul);
     algorithm = rp.getStringFieldDataFromName("Algorithm");
+
+    // Strand parameters
+    strand = rp.getStringVecFieldDataFromName("Strand_Base_Names");
+    auto str = rp.getStringFieldDataFromName("Is_Double_Stranded", "false");
+    transform(str.begin(), str.end(), str.begin(), ::tolower);
+    if (str.find("true") != string::npos)
+        is_double_stranded = true;
+    else if (str.find("false") != string::npos)
+        is_double_stranded = false;
+    else {
+        cerr << "Unrecognized input value \"" << str << "\" in field \"is_double_stranded\". Please check input"
+             << " file for errors." << endl;
+        throw 1;
+    }
     validate();
 }
 

@@ -24,7 +24,7 @@ public:
      * @param strand List of base names that gives the identity of the test chain
      */
     MonteCarloRotorSearch(PNAB::RuntimeParameters &runtime_params, PNAB::Backbone backbone,
-                          PNAB::HelicalParameters &helical_params, PNAB::Bases bases, std::vector<std::string> strand);
+                          PNAB::HelicalParameters &helical_params, PNAB::Bases bases);
 
     bool run();
 
@@ -44,6 +44,8 @@ private:
     OpenBabel::OBConversion conv_;
     OpenBabel::OBMol test_chain_;
     unsigned monomer_num_coords_;
+    bool is_double_stranded_;
+    std::string ff_type_;
 
     double measureDistance(double *coords, unsigned head, unsigned tail);
     bool isPassingEFilter(const PNAB::ConformerData &conf_data);

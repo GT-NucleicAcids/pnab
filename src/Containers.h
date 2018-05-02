@@ -21,7 +21,7 @@ namespace PNAB {
         /**
          * \brief Empty constructor. Should not generally be used.
          */
-        RuntimeParameters() : mZ{}, mY{}, mX{}, energy_filter{}, max_distance(0), type(), parameter_file(),
+        RuntimeParameters() : energy_filter{}, max_distance(0), type(), parameter_file(),
                               base_to_backbone_bond_length(-1), num_steps(0), dihedral_discretization(0),
                               angleStepSize(0), chain_length(3), algorithm() {};
 
@@ -36,11 +36,6 @@ namespace PNAB {
          */
         void validate();
 
-        // Helical parameters
-        double mZ[9],                       //!< \brief Holds rotation matrix about x-axis
-                mY[9],                      //!< \brief Holds rotation matrix about y-axis
-                mX[9];                      //!< \brief Holds rotation matrix about z-axis
-
         // Energy parameters
         std::vector<double> energy_filter;      //!< \brief { max total E, max angle E, max bond E, max VDW E, max Torsion E }
         double max_distance;                    //!< \brief The maximum distance between head and tail of successive UnitChains that is accepted
@@ -54,8 +49,12 @@ namespace PNAB {
         std::size_t num_steps,                  //!< \brief Determines how many points are sampled in the Monte Carlo searches
                 dihedral_discretization,        //!< \brief The number of points to break up the total number of dihedral angle (step becomes 360 deg / dihedral_discretization)
                 angleStepSize,                  //!< \brief The step size for a systematic search
-                chain_length;                   //!< \brief The number of UnitChains to use for energy testing
+                chain_length;                   //!< \brief Default number of bases (the first specified) to occupy a strand. Overidden by strand variable
         std::string algorithm;                  //!< \brief The algorithm to use.
+
+        //Strand parameters
+        std::vector<std::string> strand;        //!< \brief Holds the names of each base used in the strand
+        bool is_double_stranded;                //!< \brief Defines if the program prints and tests double stranded molecules
 
     };
 

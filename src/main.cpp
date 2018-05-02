@@ -9,9 +9,9 @@ using namespace OpenBabel;
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    if (argc < 1) {
+    if (argc < 2) {
         std::cerr << "Too few input arguments. Include input file." << std::endl;
-        exit(1);
+        throw 1;
     }
     // Read input file
     FileParser f(argv[1]);
@@ -20,46 +20,9 @@ int main(int argc, char *argv[]) {
     RuntimeParameters rp(f);
     Backbone backbone(f);
     Bases bases(f);
-    //UnitChain uc({"ADA", "ADA"},bases, backbone);
-    OBConversion conv;
-    std::filebuf fb;
-    fb.open("out.pdb", std::ios::out);
-    std::ostream fileStream(&fb);
-    conv.SetOutFormat("PDB");
-    conv.SetOutStream(&fileStream);
-    OBMol mol;
-    //uc.updateHelicalParameters(translate_arr, rotation_arr);
-    //mol = uc.getUnit(0,0).getMol();
     PNAB::RuntimeParameters runtime_params(f);
-    //RandomRotorSearch rrs(runtime_params,uc);
-    //rrs.speak();
-    //mol = rrs.search();
-
     HelicalParameters hp(f);
-    //vector<string> strand = {"Uracil", "Uracil", "Uracil"};
-    vector<string> strand = {"Adenine", "Uracil", "Adenine", "Uracil"};
-    //vector<string> strand = {"Adenine","Adenine","Adenine","Adenine"};
-    MonteCarloRotorSearch mcrs(runtime_params, backbone, hp,  bases, strand);
+    MonteCarloRotorSearch mcrs(runtime_params, backbone, hp,  bases);
     mcrs.run();
-//    auto mol_w_conf = mcrs.getMolecule();
-//    auto coord_vec = mcrs.getCoordinates();
-//    if (!coord_vec.empty())
-//        mol_w_conf.SetCoordinates(coord_vec[0]);
-//
-//    Chain c(BaseUnit(PNAB::Base(), PNAB::Backbone()));
-//    mol = c.getChain();
-//    conv_.Write(&mol);
-//
-//    std::filebuf fb_1;
-//    fb_1.open("out_mc.pdb", std::ios::out);
-//    std::ostream fileStream_1(&fb_1);
-//    conv.SetOutFormat("PDB");
-//    conv.SetOutStream(&fileStream_1);
-//
-//    conv.Write(&mol_w_conf);
-
-    // Create UnitChain
-    // Perform Search
-
     return 0;
 }

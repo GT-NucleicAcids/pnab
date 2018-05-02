@@ -34,6 +34,8 @@ FileParser::FileParser() {
     for (auto str : single_size_search) {
         runtimeParameters.registerSizeField(str, is_needed[i++]);
     }
+    runtimeParameters.registerStringVecField("Strand_Base_Names", false);
+    runtimeParameters.registerStringField("Is_Double_Stranded", false);
 
     // Store category in FileParser
     registerCategory(runtimeParameters);
@@ -56,7 +58,8 @@ FileParser::FileParser() {
 
     registerCategory(backboneParameters);
 
-    // Base parameters are added as needed in readFile()
+/**********************************************************************************************
+//    Base parameters are added as needed in readFile()
 //    // Base Parameters /////////////////////////////////////////////////////////////////////
 //    Category base0Parameters("BASE PARAMETERS");
 //    vector<string> mult_string_base{"Code", "Name", "Base_File_Path"};
@@ -65,6 +68,7 @@ FileParser::FileParser() {
 //    base0Parameters.registerSizeVecField("Backbone_Connect");
 
 //    registerCategory(base0Parameters);
+***********************************************************************************************/
 }
 
 void FileParser::readFile() {

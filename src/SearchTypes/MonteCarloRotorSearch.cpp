@@ -10,9 +10,12 @@ using namespace std;
 using namespace OpenBabel;
 
 MonteCarloRotorSearch::MonteCarloRotorSearch(RuntimeParameters &runtime_params, Backbone backbone,
-                                             HelicalParameters &helical_params, Bases bases, vector<string> strand) {
+                                             HelicalParameters &helical_params, Bases bases) {
     runtime_params_ = runtime_params;
-    auto name = strand[0];
+    strand_ = runtime_params_.strand;
+    for (auto &v : strand_)
+        transform(v.begin(), v.end(), v.begin(), ::tolower);
+    auto name = strand_[0];
     transform(name.begin(), name.end(), name.begin(), ::tolower);
     base_a_ = bases.getBaseFromName(name);
     helical_params_ = helical_params;
@@ -22,17 +25,16 @@ MonteCarloRotorSearch::MonteCarloRotorSearch(RuntimeParameters &runtime_params, 
     step_translate_ = helical_params_.getStepTranslationVec();
     glbl_translate_ = helical_params_.getGlobalTranslationVec();
     bases_ = bases;
-    for (auto &v : strand)
-        transform(v.begin(), v.end(), v.begin(), ::tolower);
-    strand_ = strand;
     rng_.seed(std::random_device()());
+    is_double_stranded_ = runtime_params_.is_double_stranded;
+    ff_type_ = runtime_params_.type;
 }
 
 bool MonteCarloRotorSearch::run() {
     BaseUnit unit(base_a_, backbone_);
     auto range = unit.getBackboneIndexRange();
     backbone_range_ = {static_cast<unsigned >(range[0]), static_cast<unsigned >(range[1])};
-    Chain chain(bases_, backbone_,strand_, "GAFF", backbone_range_, false);
+    Chain chain(bases_, backbone_,strand_, ff_type_, backbone_range_, false);
     test_chain_ = chain.getChain();
     auto bu_a_mol = unit.getMol();
     auto bu_a_head_tail = unit.getBackboneLinkers();

@@ -38,6 +38,7 @@ private:
     OpenBabel::OBForceField *pFF_;
     std::array<unsigned, 2> monomer_bb_index_range_;
     std::vector<unsigned> bb_start_index_;
+    std::string ff_type_;
 
     OpenBabel::OBFFConstraints *constraintsTot_, *constraintsTor_, *constraintsAng_, *constraintsBond_;
 
