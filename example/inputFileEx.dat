@@ -1,0 +1,55 @@
+BACKBONE PARAMETERS
+	interconnects=(9, 14) 
+	base_connect=(12, 13) 
+	backbone_file_path=./rna_bb.pdb
+
+BASE PARAMETERS
+	backbone_connect=(5, 11) 
+	code=ADA 
+	name=Adenine
+	base_file_path=./adenine.pdb
+	pair_name=Uracil
+
+BASE PARAMETERS
+        backbone_connect=(2,1)
+        code=URA
+        name=Uracil
+        base_file_path=./uracil.pdb
+        pair_name=Adenine
+
+
+HELICAL PARAMETERS
+	tilt=0
+	roll=0 
+	twist=32.73 
+	shift=0
+	slide=0 
+	rise=2.81
+	buckle=0 
+	propeller=0 
+	opening=0 
+	shear=0 
+	stretch=0 
+	stagger=0, 
+	inclination=15.76
+	tip=7.35
+	x_displacement=-4.61
+	y_displacement=-0.19 
+
+RUNTIME PARAMETERS
+	search_size=36000000
+	dihedral_step_size=0
+	search_step_size=0
+	chain_length=0
+	force_field_type=GAFF
+#	force_field_parameter_file=
+	algorithm=WMC
+	max_total_energy=1e+15
+	max_angle_energy=1e+15
+	max_bond_energy=1e+15
+	max_vdw_energy=1e+15
+	max_torsion_energy=1e+15
+	max_backbone_interlink_distance=0.15
+	base_to_backbone_bond_length=0
+	strand_base_names=Uracil,Adenine,Adenine,Uracil,Uracil,Uracil,Adenine,Adenine,Uracil
+        is_double_stranded=true
