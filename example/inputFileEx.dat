@@ -1,14 +1,14 @@
 BACKBONE PARAMETERS
-	interconnects=(9, 14) 
-	base_connect=(12, 13) 
-	backbone_file_path=./rna_bb.pdb
+	interconnects=(9, 14)			#Determines which atom indices connect to other backbones 
+	base_connect=(12, 13) 			#Determines which atom indices form the vector connecting backbone to base molecule
+	backbone_file_path=./rna_bb.pdb		#Molecular structure of backbone
 
 BASE PARAMETERS
-	backbone_connect=(5, 11) 
-	code=ADA 
-	name=Adenine
-	base_file_path=./adenine.pdb
-	pair_name=Uracil
+	backbone_connect=(5, 11) 		#Vector of atoms used to connect to backbone base_connect atoms
+	code=ADA 				#3 letter code used to identify residue in PDB format
+	name=Adenine				#Name of molecule mostly used locally for determining the pair atom
+	base_file_path=./adenine.pdb		#Molecular structure of backbone
+	pair_name=Uracil			#The name of the pair molecular, must exist in this input file elsewhere
 
 BASE PARAMETERS
         backbone_connect=(2,1)
@@ -18,7 +18,7 @@ BASE PARAMETERS
         pair_name=Adenine
 
 
-HELICAL PARAMETERS
+HELICAL PARAMETERS				#Only global parameters are functional (twist is actually h_twist and rise is actually h_rise)
 	tilt=0
 	roll=0 
 	twist=32.73 
@@ -37,19 +37,19 @@ HELICAL PARAMETERS
 	y_displacement=-0.19 
 
 RUNTIME PARAMETERS
-	search_size=36000000
-	dihedral_step_size=0
-	search_step_size=0
-	chain_length=0
-	force_field_type=GAFF
-#	force_field_parameter_file=
-	algorithm=WMC
-	max_total_energy=1e+15
-	max_angle_energy=1e+15
-	max_bond_energy=1e+15
-	max_vdw_energy=1e+15
-	max_torsion_energy=1e+15
-	max_backbone_interlink_distance=0.15
-	base_to_backbone_bond_length=0
-	strand_base_names=Uracil,Adenine,Adenine,Uracil,Uracil,Uracil,Adenine,Adenine,Uracil
-        is_double_stranded=true
+	search_size=36000000				#Number of points to search
+	dihedral_step_size=0				#not in use (was for systmetaic search, will most likely be removed)
+	search_step_size=0				#not in use (was for systematic search, will most likely be removed)
+	chain_length=0					#not in use, determined by strand_base_names now
+	force_field_type=GAFF				#Choice between MMFF94, GAFF, and other FFs supported by OpenBabel natively
+#	force_field_parameter_file=			#Would determine additional parameters for FFs, not used or tested yet
+	algorithm=WMC					#Three letter code for search algorithm, currently only the monte-carlo method is implemented
+	max_total_energy=1e+15				#cuttoffs for the total energy of the entire molecule resulting from sequence specified
+	max_angle_energy=1e+15				#cuttoff for energy from angles between 3 consecutive atoms
+	max_bond_energy=1e+15				#cuttoff for energy from bond between newly bonded atoms
+	max_vdw_energy=1e+15				#cuttoff for total vdw energy
+	max_torsion_energy=1e+15			#energy cuttoff for energy from the new torsion formed bewteen linking backbones
+	max_backbone_interlink_distance=0.15		#The maximum distance between atom linkers in backbone. Conformers that do not meet this criteria are automatically rejected and do not even pass to energy analysis where a chain is built
+	base_to_backbone_bond_length=0			#Was used to determine custom bond length between where base connects to backbone, but is currently not implemented, and is the default length specified in the base parameters
+	strand_base_names=Uracil,Adenine,Adenine,Uracil,Uracil,Uracil,Adenine,Adenine,Uracil						#String of base_parameter names separated by commas
+        is_double_stranded=true				#Whether or not you wanted doouble stranded outputs or not
