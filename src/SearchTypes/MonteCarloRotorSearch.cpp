@@ -21,28 +21,33 @@ MonteCarloRotorSearch::MonteCarloRotorSearch(RuntimeParameters &runtime_params, 
     helical_params_ = helical_params;
     backbone_ = backbone;
     step_rot_ = helical_params_.getStepRotationOBMatrix();
-    glbl_rot_ = helical_params_.getGlobalRotationMatrix();
+    glbl_rot_ = helical_params_.getGlobalRotationOBMatrix();
     step_translate_ = helical_params_.getStepTranslationVec();
     glbl_translate_ = helical_params_.getGlobalTranslationVec();
     bases_ = bases;
     rng_.seed(std::random_device()());
     is_double_stranded_ = runtime_params_.is_double_stranded;
     ff_type_ = runtime_params_.type;
+    monomer_energy_tol = runtime_params.energy_filter[0] / runtime_params.strand.size();
 }
 
 bool MonteCarloRotorSearch::run() {
+    OBForceField *pFF_ = OBForceField::FindForceField(ff_type_);
+    bool isKCAL_ = pFF_->GetUnit().find("kcal") != string::npos;
     BaseUnit unit(base_a_, backbone_);
     auto range = unit.getBackboneIndexRange();
     backbone_range_ = {static_cast<unsigned >(range[0]), static_cast<unsigned >(range[1])};
-    Chain chain(bases_, backbone_,strand_, ff_type_, backbone_range_, false);
+    Chain chain(bases_, backbone_, strand_, ff_type_, backbone_range_, is_double_stranded_);
     test_chain_ = chain.getChain();
     auto bu_a_mol = unit.getMol();
     auto bu_a_head_tail = unit.getBackboneLinkers();
-    unsigned head = static_cast<unsigned>(bu_a_head_tail[0]),
-             tail = static_cast<unsigned>(bu_a_head_tail[1]);
+    auto head = static_cast<unsigned>(bu_a_head_tail[0]),
+         tail = static_cast<unsigned>(bu_a_head_tail[1]);
 
-    bu_a_mol.Translate(glbl_translate_);
-    bu_a_mol.Rotate(glbl_rot_.data());
+//    bu_a_mol.Translate(glbl_translate_);
+//    double *arr = new double[9]; glbl_rot_.GetArray(arr);
+//    bu_a_mol.Rotate(arr);
+//    delete arr;
 
     double* coords = bu_a_mol.GetCoordinates();
     uniform_real_distribution<double> dist(0, 2 * M_PI);
@@ -86,6 +91,10 @@ bool MonteCarloRotorSearch::run() {
         // if accept, add to vector of coord_vec_
         if (cur_dist < runtime_params_.max_distance) {
 
+            pFF_->Setup(bu_a_mol);
+            if (pFF_->Energy() > monomer_energy_tol)
+                continue;
+
             auto data = chain.generateConformerData(coords, helical_params_);
 
             if (!isPassingEFilter(data)) {
@@ -124,8 +133,12 @@ double MonteCarloRotorSearch::measureDistance(double *coords, unsigned head, uns
     vector3 head_coord(coords[hi], coords[hi + 1], coords[hi + 2]);
     vector3 tail_coord(coords[ti], coords[ti + 1], coords[ti + 2]);
 
-    tail_coord *= step_rot_;
+    tail_coord += glbl_translate_;
+    tail_coord *= glbl_rot_;
+    head_coord += glbl_translate_;
+    head_coord *= glbl_rot_;
     tail_coord += step_translate_;
+    tail_coord *= step_rot_;
     return sqrt(head_coord.distSq(tail_coord));
 }
 
@@ -178,6 +191,7 @@ void MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
     std::sort(conf_data_vec_.begin(), conf_data_vec_.end());
 
     double *ref = conf_data_vec_[0].monomer_coord;
+    monomer_energy_tol = conf_data_vec_.front().total_energy * 3;
 
     for (auto &v : conf_data_vec_) {
         v.rmsd = calcRMSD(ref, v.monomer_coord, monomer_num_coords_);

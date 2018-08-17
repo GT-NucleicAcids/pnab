@@ -213,61 +213,16 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
     double rot[9];
     matrix.GetArray(rot);
 
-
-    // garbage code for debugging
-    // TODO delete this code
-//    {
-//        OBConversion conv_;
-//        std::filebuf fb;
-//        fb.open("center_out.pdb", std::ios::out);
-//        std::ostream fileStream(&fb);
-//        conv_.SetOutFormat("PDB");
-//        conv_.SetOutStream(&fileStream);
-//        OBMol mol;
-//        // mol += base.getMolecule();
-//        mol += backbone.getMolecule();
-//        conv_.Write(&mol);
-//    }
-
     backbone.rotate(rot);
     backbone.translate(atoms[0]->GetVector() - atoms[3]->GetVector());
-
-    // garbage code for debugging
-    // TODO delete this code
-//    {
-//        OBConversion conv_;
-//        std::filebuf fb;
-//        fb.open("rot_trans_out.pdb", std::ios::out);
-//        std::ostream fileStream(&fb);
-//        conv_.SetOutFormat("PDB");
-//        conv_.SetOutStream(&fileStream);
-//        OBMol mol;
-//        mol += base.getMolecule();
-//        mol += backbone.getMolecule();
-//        conv_.Write(&mol);
-//    }
 
     // Deleting old hydrogens that formed the vector
     backbone.deleteVectorAtom();
     base.deleteVectorAtom();
 
-    // garbage code for debugging
-    // TODO delete this code
-//    {
-//        OBConversion conv_;
-//        std::filebuf fb;
-//        fb.open("rot_trans_delete_atoms_out.pdb", std::ios::out);
-//        std::ostream fileStream(&fb);
-//        conv_.SetOutFormat("PDB");
-//        conv_.SetOutStream(&fileStream);
-//        OBMol mol;
-//        mol += base.getMolecule();
-//        mol += backbone.getMolecule();
-//        conv_.Write(&mol);
-//    }
-
     OBMol mol;
     mol += base.getMolecule();
+    base_ += base.getMolecule();
 
     base_bond_indices = {1, mol.NumBonds()};
 
@@ -288,18 +243,49 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
         mol += base.getMolecule();
         mol += backbone.getMolecule();
         mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
-
-//        OBAtom *a = mol.GetAtom(10), *b = mol.GetAtom(5), *c = mol.GetAtom(22), *d = mol.GetAtom(18);
-//        mol.SetTorsion(a, b, c, d, 82.2 * DEG_TO_RAD);
-
         conv.Write(&mol);
     }
 
+    perceiveN3OrN1();
+
     unit = mol;
-    base_connect_index = base.getLinker()->GetIdx();
+    base_connect_index = num_atoms + backbone.getLinker()->GetIdx();
     backbone_interconnects = {backbone.getHead()->GetIdx() + num_atoms, backbone.getTail()->GetIdx() + num_atoms};
     base_index_range = {1, num_atoms};
     backbone_index_range = {num_atoms + 1, mol.NumAtoms()};
+}
+
+void BaseUnit::perceiveN3OrN1() {
+    vector3 zero{0, 0, 0};
+    pair<double,unsigned> n1_dist, n3_dist;
+    unsigned c6_index;
+    auto res = base_.GetResidue(0);
+    for (auto it = res->BeginAtoms(); it != res->EndAtoms(); ++it) {
+        auto a = *it;
+        auto a_num = a->GetAtomicNum();
+        auto a_type = string(a->GetType());
+        a_type = res->GetAtomID(a);
+        transform(a_type.begin(), a_type.end(), a_type.begin(), ::toupper);
+        if (a_num == 7 /*nitgrogen*/) {
+            if (a_type.find("N3") != string::npos) {
+                n3_dist = pair<double,unsigned>(a->GetVector().distSq(zero), a->GetIdx());
+            } else if (a_type.find("N1") != string::npos) {
+                n1_dist = pair<double,unsigned>(a->GetVector().distSq(zero), a->GetIdx());
+            }
+        } else if (a_num == 6) {
+            if (a_type.find("C6") != string::npos) {
+                c6_index = a->GetIdx();
+            }
+        }
+    }
+    if (n1_dist.first > n3_dist.first) {
+        c6_to_n3 = tuple<string,unsigned,unsigned>("N3", n3_dist.second, c6_index);
+    } else if (n3_dist.first > n1_dist.first) {
+        c6_to_n3 = tuple<string,unsigned,unsigned>("N1", n1_dist.second, 0);
+    } else {
+        cerr << "There was an error in perceiving N3 or N1 hydrogen bonding..." << endl;
+        throw(1);
+    }
 }
 
 RuntimeParameters::RuntimeParameters(FileParser &sp) {

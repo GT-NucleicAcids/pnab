@@ -68,7 +68,7 @@ namespace PNAB {
                               opening{}, shear{}, stretch{}, stagger{}, inclination{}, tip{}, x_displacement{},
                               y_displacement{} {};
 
-        HelicalParameters(FileParser &fp);
+        explicit HelicalParameters(FileParser &fp);
 
         std::array<double, 9> getGlobalRotationMatrix() {
             double eta = inclination.v * DEG_TO_RAD, theta = tip.v * DEG_TO_RAD;
@@ -123,6 +123,10 @@ namespace PNAB {
         OpenBabel::vector3 getStepTranslationVec(unsigned n = 0) {
             n++;
             return OpenBabel::vector3(n * shift.v, n * slide.v, n * rise.v);
+        }
+
+        double getTwist() {
+            return twist.v;
         }
 
     private:
@@ -512,15 +516,27 @@ namespace PNAB {
             return backbone_interconnects;
         };
 
+        const std::size_t getBaseConnectIndex() {
+            return base_connect_index;
+        }
+
+        std::tuple<std::string, unsigned, unsigned> getC6AndN3AtomIndices() {
+            return c6_to_n3;
+        }
+
 
 
     private:
-        OpenBabel::OBMol unit;                                  //!< \brief Holds molecule containing base with backbone attached
-        std::array< std::size_t, 2 > base_index_range,          //!< \brief Range of indices of the unit that are a part of the base, [start, stop]
-                                     backbone_index_range;      //!< \brief Range of indices of the unit that are a part of the backbone, [start, stop]
-        std::size_t base_connect_index;                         //!< \brief Atom index where Backbone connects to Base (the Base atom)
-        std::array< std::size_t, 2 > backbone_interconnects;    //!< \brief Atom indices defining where backbone connects
-        std::array< std::size_t, 2 > base_bond_indices;         //!< \brief Index range corresponding to bonds in the base of the BaseUnit
+        OpenBabel::OBMol unit;                                                       //!< \brief Holds molecule containing base with backbone attached
+        OpenBabel::OBMol base_;
+        std::array< std::size_t, 2 > base_index_range,                               //!< \brief Range of indices of the unit that are a part of the base, [start, stop]
+                                     backbone_index_range;                           //!< \brief Range of indices of the unit that are a part of the backbone, [start, stop]
+        std::size_t base_connect_index;                                              //!< \brief Atom index where Backbone connects to Base (the Base atom)
+        std::array< std::size_t, 2 > backbone_interconnects;                         //!< \brief Atom indices defining where backbone connects
+        std::array< std::size_t, 2 > base_bond_indices;                              //!< \brief Index range corresponding to bonds in the base of the BaseUnit
+        std::tuple<std::string, unsigned, unsigned> c6_to_n3;                        //!< \brief Holds atom type (N1 or N3) and index for C6 atom for a vector
+
+        void perceiveN3OrN1();
     };
 
     /**

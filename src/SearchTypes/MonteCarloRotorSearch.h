@@ -38,14 +38,14 @@ private:
     std::vector<std::string> strand_;
     std::mt19937_64 rng_;
     std::vector<PNAB::ConformerData> conf_data_vec_;
-    OpenBabel::matrix3x3 step_rot_;
-    std::array<double, 9> glbl_rot_;
+    OpenBabel::matrix3x3 step_rot_, glbl_rot_;
     OpenBabel::vector3 step_translate_, glbl_translate_;
     OpenBabel::OBConversion conv_;
     OpenBabel::OBMol test_chain_;
     unsigned monomer_num_coords_;
     bool is_double_stranded_;
     std::string ff_type_;
+    double monomer_energy_tol;
 
     double measureDistance(double *coords, unsigned head, unsigned tail);
     bool isPassingEFilter(const PNAB::ConformerData &conf_data);
