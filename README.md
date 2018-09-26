@@ -3,7 +3,7 @@
 ## Install instructions
 
 ### Dependencies
-[Openbabel](https://github.com/openbabel/openbabel), GCC 4+, CMAKE 2.4+\n
+[Openbabel](https://github.com/openbabel/openbabel), GCC 4+, CMAKE 2.4+, 
 (Optional) Doxygen
 
 For an Ubuntu system, run the following
