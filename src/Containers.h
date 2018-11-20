@@ -107,7 +107,7 @@ namespace PNAB {
             std::array<double, 9> z{cos(Omega), -sin(Omega), 0, sin(Omega), cos(Omega), 0, 0, 0, 1};
 
             auto m_mat = matrix_mult(z, m);
-            auto r_mat = m_mat;
+            std::array<double, 9> r_mat = {1, 0, 0, 0, 1, 0, 0, 0, 1};
             for (int i = 0; i < n; ++i)
                 r_mat = matrix_mult(m_mat, r_mat);
             return r_mat;
@@ -121,7 +121,7 @@ namespace PNAB {
         }
 
         OpenBabel::vector3 getStepTranslationVec(unsigned n = 0) {
-            n++;
+            //n++;
             return OpenBabel::vector3(n * shift.v, n * slide.v, n * rise.v);
         }
 

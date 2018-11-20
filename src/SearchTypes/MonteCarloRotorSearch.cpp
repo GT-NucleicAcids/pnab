@@ -20,9 +20,9 @@ MonteCarloRotorSearch::MonteCarloRotorSearch(RuntimeParameters &runtime_params, 
     base_a_ = bases.getBaseFromName(name);
     helical_params_ = helical_params;
     backbone_ = backbone;
-    step_rot_ = helical_params_.getStepRotationOBMatrix();
+    step_rot_ = helical_params_.getStepRotationOBMatrix(1);
     glbl_rot_ = helical_params_.getGlobalRotationOBMatrix();
-    step_translate_ = helical_params_.getStepTranslationVec();
+    step_translate_ = helical_params_.getStepTranslationVec(1);
     glbl_translate_ = helical_params_.getGlobalTranslationVec();
     bases_ = bases;
     rng_.seed(std::random_device()());

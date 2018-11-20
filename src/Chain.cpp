@@ -233,14 +233,14 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         head = chain.GetAtomById(head_ids[i]);
         tail = chain.GetAtomById(tail_ids[i]);
         FOR_NBORS_OF_ATOM(nbr, tail) {
-            if (nbr->IsHydrogen()) {
+            if (nbr->GetAtomicNum() == 1) {
                 deleted_atoms_ids.push_back(nbr->GetId());
                 chain.DeleteAtom(chain.GetAtom(nbr->GetIdx()));
                 break;
             }
         }
         FOR_NBORS_OF_ATOM(nbr, head) {
-            if (nbr->IsHydrogen()) {
+            if (nbr->GetAtomicNum() == 1) {
                 deleted_atoms_ids.push_back(nbr->GetId());
                 chain.DeleteAtom(chain.GetAtom(nbr->GetIdx()));
                 break;
@@ -354,7 +354,7 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
         }
         unsigned monomer_index = monomer_bb_index_range_[0] - 1;
         for (unsigned bbI = r - 1; bbI < n; bbI++) {
-            if (bbI + local_offset + 1 != deleted_atoms_ids[deleted_atom_index] + 1) {
+            if (deleted_atoms_ids.empty() || bbI + local_offset + 1 != deleted_atoms_ids[deleted_atom_index] + 1) {
                 vector3 v3;
                 v3.Set(conf + 3 * monomer_index);
 //                if (is_second_strand)
@@ -397,61 +397,26 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
         auto shift_index = 3 * chain_.NumAtoms();
         auto l = c_chain_.NumAtoms();
 
-//        c_center_ = {0, 0, 0};
-//        for (unsigned i = 0; i < l; ++i) {
-//            auto z = c_mol_weights_[i] * xyz[shift_index + 3 * i + 2];
-////            auto z = xyz[shift_index + 3 * i + 2] / l;
-//            c_center_ += {0, 0, z};
-//        }
 
-//        c_center_ = {0, 0, xyz[shift_index + (c_center_indices_[0] - 1) * 3 + 2]};
-//        if (c_center_indices_.size() == 2) {
-//            c_center_ += {0, 0, xyz[shift_index + (c_center_indices_[1] - 1) * 3 + 2]};
-//            c_center_ = c_center_ / 2;
-//        }
-
-        matrix3x3 change_sign({1, 0, 0},{0, -1, 0}, {0, 0, -1});
-//        vector3 trans = {0, 0, xyz[shift_index + (center_indices_[1] - 1) * 3 + 2]};
-        for (unsigned i = 0; i < l; ++i) {
-            vector3 v3;
-            v3.Set(xyz + 3 * i + shift_index);
-//            v3 -= c_center_;
-            v3 *= change_sign;
-//            v3 += trans;
-//            v3 -= s_trans;
-//            v3 += s_trans * (chain_length_ + 1) + vector3(0, 0, 1);
-//            v3 += 2 * center_;
-            v3.Get(xyz + 3 * i + shift_index);
-        }
-
-//        auto transform_vec = [](vector3 vec, unsigned index) {
-//            auto s_trans = hp.getStepTranslationVec(index);
-//            auto s_rot   = hp.getStepRotationOBMatrix(index);
-//            vec += g_trans;
-//            vec *= g_rot;
-//            vec += s_trans;
-//            vec *= s_rot;
-//        };
-
-//        double twist = 36.5 * DEG_TO_RAD; //dna
+        //        double twist = 36.5 * DEG_TO_RAD; //dna
         double twist = 33.2 * DEG_TO_RAD;   //rna
 
 
 //        double twist = hp.getTwist() * DEG_TO_RAD;
-        unsigned n = chain_length_ + 1;
+        unsigned n = chain_length_ - 1;
         auto z_rot = matrix3x3{{cos(twist * n), -sin(twist * n), 0},{sin(twist * n), cos(twist * n), 0}, {0, 0, 1}};
-        for (unsigned i = 0; i < l; ++i) {
-            vector3 v3;
-            v3.Set(xyz + 3 * i + shift_index);
-//            v3 += z_trans;
-            v3 *= z_rot;
-            v3.Get(xyz + 3 * i + shift_index);
-        }
+
+
+
+
+
+
+
 
         if (!z_trans.CanBeNormalized()) {
             z_trans = {0, 0, 0};
             std::reverse(c_n1_or_n3_tuple_.begin(), c_n1_or_n3_tuple_.end());
-            unsigned range = n1_or_n3_tuple_.size();
+            unsigned long range = n1_or_n3_tuple_.size();
             for (unsigned tuple_i = 0; tuple_i < range; ++tuple_i) {
                 auto first_base = n1_or_n3_tuple_[tuple_i];
                 auto last_c_base = c_n1_or_n3_tuple_[tuple_i];
@@ -466,7 +431,75 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                     n1_vec = vector3(xyz[3 * j + shift_index], xyz[3 * j + 1 + shift_index],
                                      xyz[3 * j + 2 + shift_index]);
 
-//                    twist = calcRotation(0, 1E-12, 1000, c6_vec, n1_vec, n3_vec);
+                    if (tuple_i == 0)
+                        twist = calcRotation(0, 1E-12, 3600, c6_vec, n1_vec, n3_vec);
+                    c6_vec = n3_vec - c6_vec;
+                    n1_n3_vec = n1_vec - n3_vec;
+
+                } else if (get<0>(last_c_base).find("N3") != string::npos) {
+
+                    // i refers to N1 and j refers to N3
+                    // cout << "lase base" << endl;
+                    auto c6_index = get<2>(last_c_base) - 1;
+                    c6_vec = vector3{xyz[3 * c6_index + shift_index], xyz[3 * c6_index + 1 + shift_index],
+                                     xyz[3 * c6_index + 2 + shift_index]};
+                    n1_vec = vector3(xyz[3 * i], xyz[3 * i + 1], xyz[3 * i + 2]);
+                    n3_vec = vector3(xyz[3 * j + shift_index], xyz[3 * j + 1 + shift_index],
+                                     xyz[3 * j + 2 + shift_index]);
+                    c6_vec = n3_vec - c6_vec;
+                    n1_n3_vec = n3_vec - n1_vec;
+
+                } else {
+                    cerr << "There was an error making the second strand. Compliment bases must match an N3 to N1."
+                         << endl;
+                    throw "NoN3ToN1Exception";
+                }
+            }
+            // TODO make this more efficient
+            // Reverse the tuples back, probably not necessary
+            std::reverse(c_n1_or_n3_tuple_.begin(), c_n1_or_n3_tuple_.end());
+        }
+
+
+        z_rot = matrix3x3{{cos(twist * n), -sin(twist * n), 0},{sin(twist * n), cos(twist * n), 0}, {0, 0, 1}};
+
+
+
+
+
+
+        matrix3x3 change_sign({1, 0, 0},{0, -1, 0}, {0, 0, -1});
+        for (unsigned i = 0; i < l; ++i) {
+            vector3 v3;
+            v3.Set(xyz + 3 * i + shift_index);
+            v3 *= change_sign;
+            v3 *= z_rot;
+            v3.Get(xyz + 3 * i + shift_index);
+        }
+
+
+
+
+        if (!z_trans.CanBeNormalized()) {
+            z_trans = {0, 0, 0};
+            std::reverse(c_n1_or_n3_tuple_.begin(), c_n1_or_n3_tuple_.end());
+            unsigned long range = n1_or_n3_tuple_.size();
+            for (unsigned tuple_i = 0; tuple_i < range; ++tuple_i) {
+                auto first_base = n1_or_n3_tuple_[tuple_i];
+                auto last_c_base = c_n1_or_n3_tuple_[tuple_i];
+                auto i = get<1>(first_base) - 1, j = get<1>(last_c_base) - 1;
+                vector3 c6_vec, n1_vec, n3_vec, n1_n3_vec;
+                if (get<0>(first_base).find("N3") != string::npos) {
+                    // i refers to N3 and j refers to N1
+                    // cout << "first base" << endl;
+                    auto c6_index = get<2>(first_base) - 1;
+                    c6_vec = vector3{xyz[3 * c6_index], xyz[3 * c6_index + 1], xyz[3 * c6_index + 2]};
+                    n3_vec = vector3(xyz[3 * i], xyz[3 * i + 1], xyz[3 * i + 2]);
+                    n1_vec = vector3(xyz[3 * j + shift_index], xyz[3 * j + 1 + shift_index],
+                                     xyz[3 * j + 2 + shift_index]);
+
+//                    if (tuple_i == 0)
+//                        twist = calcRotation(0, 1E-12, 3600, c6_vec, n1_vec, n3_vec);
                     c6_vec = n3_vec - c6_vec;
                     n1_n3_vec = n1_vec - n3_vec;
 
@@ -490,23 +523,23 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                     throw "NoN3ToN1Exception";
                 }
 
-//                double ncx = c6_vec.x(), ncy = c6_vec.y(), ncz = c6_vec.z(), nnx = n1_n3_vec.x(), nny = n1_n3_vec.y(), nnz = n1_n3_vec.z();
-//
-//                auto z = (ncz*pow(nnx,2) + ncz*pow(nny,2) - ncx*nnx*nnz - ncy*nny*nnz)/
-//                         (ncx*nnx + ncy*nny);
-//
-//                z_trans += {0, 0, z / range};
-//
+                double ncx = c6_vec.x(), ncy = c6_vec.y(), ncz = c6_vec.z(), nnx = n1_n3_vec.x(), nny = n1_n3_vec.y(), nnz = n1_n3_vec.z();
+
+                auto z = (ncz*pow(nnx,2) + ncz*pow(nny,2) - ncx*nnx*nnz - ncy*nny*nnz)/
+                         (ncx*nnx + ncy*nny);
+
+                z_trans += {0, 0, z / range};
+
 //                auto theta = -acos(-((ncx*nnx + ncy*nny)/
 //                                  sqrt(pow(ncx,2)*pow(nnx,2) + pow(ncy,2)*pow(nnx,2) +
 //                                       pow(ncx,2)*pow(nny,2) + pow(ncy,2)*pow(nny,2))));
-                double theta = twist;
+//                double theta = twist;
 //                cout << "calculated theta: " << fmod(theta * RAD_TO_DEG, 360) << ", twist: " << fmod(twist * (n + 1) * RAD_TO_DEG, 360) << endl;
             }
 
             // TODO add these as part of the conditional entrance into if block to avoid unnecessary calculations
-            s_trans_prev = hp.getStepTranslationVec(0);
-            s_rot_prev = hp.getStepRotationOBMatrix(0);
+            s_trans_prev = hp.getStepTranslationVec(1);
+            s_rot_prev = hp.getStepRotationOBMatrix(1);
             g_trans_prev = g_trans;
             g_rot_prev = g_rot;
 
@@ -516,28 +549,42 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
             //        unsigned n = chain_length_ + 1;
             //        auto z_rot = matrix3x3{{cos(twist * n), -sin(twist * n), 0},{sin(twist * n), cos(twist * n), 0}, {0, 0, 1}};
 
-            // TODO make this more effecient
+            // TODO make this more efficient
             // Reverse the tuples back, probably not necessary
             std::reverse(c_n1_or_n3_tuple_.begin(), c_n1_or_n3_tuple_.end());
 
         }
 
+        // TODO the twist and translation cannot be performed simultaneously, need to do rotation before translation
+//        twist = 33.2 * DEG_TO_RAD;
+        z_rot = matrix3x3{{cos(twist), -sin(twist), 0},{sin(twist), cos(twist), 0}, {0, 0, 1}};
         for (unsigned i = 0; i < l; ++i) {
             vector3 v3;
             v3.Set(xyz + 3 * i + shift_index);
             v3 += z_trans;
-            //            v3 *= z_rot;
+//            v3 *= z_rot;
             v3.Get(xyz + 3 * i + shift_index);
         }
+//        for (unsigned i = 0; i < l; ++i) {
+//            vector3 v3;
+//            v3.Set(xyz + 3 * i + shift_index);
+//            v3 *= z_rot;
+//            v3.Get(xyz + 3 * i + shift_index);
+//        }
 
     }
 }
 
 double Chain::calcRotation(double init_theta, double tol, unsigned max_iterations, vector3 c6_vec, vector3 n1_vec, vector3 n3_vec) {
-    double theta = init_theta;
+    double theta = init_theta - 0.1 * DEG_TO_RAD;
     double best_theta = theta;
     double best_angle = 10000;
     auto n1_vec_original = n1_vec;
+
+//    cout << "C6: " << c6_vec << endl;
+//    cout << "N1: " << n1_vec_original << endl;
+//    cout << "N3: " << n3_vec << endl;
+
     for (unsigned i = 0; i < max_iterations; ++i) {
 
         theta = theta + 0.1 * DEG_TO_RAD;
@@ -546,13 +593,17 @@ double Chain::calcRotation(double init_theta, double tol, unsigned max_iteration
         double c6x = c6_vec.x(), c6y = c6_vec.y(), c6z = c6_vec.z(), n1x = n1_vec.x(), n1y = n1_vec.y(), n1z = n1_vec.z(),
                 n3x = n3_vec.x(), n3y = n3_vec.y(), n3z = n3_vec.z();
 
-        double angle = acos(((n1x - n3x)*(-c6x + n3x) + (n1y - n3y)*(-c6y + n3y))/
-                              (sqrt(pow(c6x - n3x,2) + pow(c6y - n3y,2))*
+
+        double angle = RAD_TO_DEG*acos(((n1x - n3x)*(-c6x + n3x) + (n1y - n3y)*(-c6y + n3y))/
+                              (sqrt(pow(-c6x + n3x,2) + pow(-c6y + n3y,2))*
                                sqrt(pow(n1x - n3x,2) + pow(n1y - n3y,2))));
-//        cout << "theta, angle: " << theta*RAD_TO_DEG << ", " << RAD_TO_DEG*angle << endl;
-        if (angle < best_angle) {
+
+//        cout << "theta, angle: " << theta*RAD_TO_DEG << ", " << angle << endl;
+//        angle -= 180;
+        if (abs(angle) < best_angle) {
             best_theta = theta;
-            best_angle = angle;
+            best_angle = abs(angle);
+//            cout << "theta, angle: " << best_theta*RAD_TO_DEG << ", " << best_angle << endl;
         }
 
 //        cout << "Current best angle: " << RAD_TO_DEG*best_angle << endl;
@@ -591,6 +642,7 @@ double Chain::calcRotation(double init_theta, double tol, unsigned max_iteration
 //
 //        theta = theta - f / df;
     }
+//    cout << "Best theta, best angle: " << best_theta*RAD_TO_DEG << ", " << best_angle << endl;
     return best_theta;
 //    cerr << "Failed to converge" << endl;
 //    return 0;
