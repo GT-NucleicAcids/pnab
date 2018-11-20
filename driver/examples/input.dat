@@ -1,0 +1,43 @@
+BACKBONE PARAMETERS
+    Interconnects=9,14
+    base_connect=12,13
+    backbone_file_path=/theoryfs2/ds/alenaizan/Gits/pNAB/driver/examples/rna_bb.pdb
+
+BASE PARAMETERS 1
+    backbone_connect=5,11
+    code=ADA
+    name=Adenine
+    base_file_path=/theoryfs2/ds/alenaizan/Gits/pNAB/driver/examples/adenine.pdb
+    pair_name=Uracil
+
+HELICAL PARAMETERS
+    tilt=0.0
+    roll=0.0
+    twist=32.73
+    shift=0.0
+    slide=0.0
+    rise=2.81
+    buckle=0.0
+    propeller=0.0
+    opening=0.0
+    shear=0.0
+    stretch=0.0
+    stagger=0.0
+    inclination=15.76
+    tip=7.35
+    x_displacement=-4.61
+    y_displacement=-0.19
+
+RUNTIME PARAMETERS
+    search_size=360000
+    force_field_type=GAFF
+    algorithm=WMC
+    max_total_energy=10000.0
+    max_angle_energy=1000000000000000.0
+    max_bond_energy=1000000000000000.0
+    max_vdw_energy=1000000000000000.0
+    max_torsion_energy=1000000000000000.0
+    max_backbone_interlink_distance=0.15
+    strand_base_names=Adenine,Adenine,Adenine
+    is_double_stranded=False
+
