@@ -1,8 +1,5 @@
 import subprocess
-import glob
 import copy
-
-import numpy as np
 
 import options
 import input_methods
@@ -31,7 +28,7 @@ class pNAB_run(object):
         """
 
         instance = cls()
-        instance._options = options.set_options(options.options_dict())
+        instance._options = options.set_options(options.get_options_dict())
 
         return instance
     

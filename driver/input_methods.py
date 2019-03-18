@@ -11,7 +11,7 @@ def read_input(input_file_name):
     """
 
     input_file = open(input_file_name).readlines()
-    options_dict = options.options_dict()
+    options_dict = options.get_options_dict()
     input_dict = {}
     num_bases = 0
 
@@ -56,7 +56,7 @@ def read_json(json_file_name):
         json_input = json.load(f) 
 
     num_bases = len([i for i in json_input if 'BASE PARAMETERS' in i])
-    options_dict = options.options_dict()
+    options_dict = options.get_options_dict()
     if num_bases > 1:
         options.replicate_base_option(options_dict, num_bases)
 

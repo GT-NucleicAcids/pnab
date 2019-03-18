@@ -1,4 +1,5 @@
 import json
+import collections
 
 import numpy as np
 
@@ -14,7 +15,7 @@ def get_results():
 
     keys = [i.strip() for i in open('energy_data.csv').readline().strip('\n').split(',')][1:]
 
-    results = {}
+    results = collections.OrderedDict()
 
     for conformer in range(data.shape[0]):
         results['conformer_%i.pdb' %data[conformer, 0]] = {}

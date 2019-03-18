@@ -11,6 +11,7 @@ confirmation.
 import os
 import copy
 
+import draw
 
 def set_options(options_dict):
     """
@@ -38,6 +39,9 @@ def _ask_options_questions(options_dict):
                                                                                options_dict[k1][k2]['default']))
                                                  or options_dict[k1][k2]['default'])
 
+            if 'Path' in k2:
+                num_atoms = 'component.structure.atomCount'
+                draw.view_nglviewer(options_dict[k1][k2]['new_value'], atom_index=num_atoms)
 
 def replicate_base_option(options_dict, num_bases):
     """
@@ -74,7 +78,7 @@ def _validate_input_file(file_name):
     return file_name
 
 
-def _validate_atom_indicies(x):
+def _validate_atom_indices(x):
     """
     Method to validate provided tuple of atom indices
     """
@@ -92,19 +96,6 @@ _options_dict = {}
 
 # Backbone Parameter
 _options_dict['BACKBONE PARAMETERS'] = {}
-_options_dict['BACKBONE PARAMETERS']['Interconnects'] = {
-                                                        'glossory': 'two atom indices that connect to the two backbones',
-                                                        'default': None,
-                                                        'validation': lambda x: _validate_atom_indicies(x),
-                                                        }
-
-_options_dict['BACKBONE PARAMETERS']['Base_Connect'] = {
-                                                       'glossory': ('two atom indicies that form the vector' + 
-                                                                   ' connecting backbone to base molecule'),
-                                                       'default': None,
-                                                       'validation': lambda x: _validate_atom_indicies(x),
-                                                       }
-
 _options_dict['BACKBONE PARAMETERS']['Backbone_File_Path'] = {
                                                              'glossory': ('path to the file containing the molecular' +
                                                                          ' structure of the backbone'),
@@ -112,13 +103,32 @@ _options_dict['BACKBONE PARAMETERS']['Backbone_File_Path'] = {
                                                              'validation': lambda x: _validate_input_file(x),
                                                              }
 
+_options_dict['BACKBONE PARAMETERS']['Interconnects'] = {
+                                                        'glossory': 'two atom indices that connect to the two backbones',
+                                                        'default': None,
+                                                        'validation': lambda x: _validate_atom_indices(x),
+                                                        }
+
+_options_dict['BACKBONE PARAMETERS']['Base_Connect'] = {
+                                                       'glossory': ('two atom indices that form the vector' + 
+                                                                   ' connecting backbone to base molecule'),
+                                                       'default': None,
+                                                       'validation': lambda x: _validate_atom_indices(x),
+                                                       }
+
 # Base Parameters
 _options_dict['BASE PARAMETERS 1'] = {}
+
+_options_dict['BASE PARAMETERS 1']['Base_File_Path'] = {
+                                                       'glossory': 'path to file containing the structure of the base',
+                                                       'default': 'base.pdb',
+                                                       'validation': lambda x: _validate_input_file(x),
+                                                       }
 _options_dict['BASE PARAMETERS 1']['Backbone_Connect'] = {
                                                          'glossory': ('two atoms that define a vector connecting to backbone' +
                                                                      ' atoms that connect to the base'),
                                                          'default': None,
-                                                         'validation': lambda x: _validate_atom_indicies(x),
+                                                         'validation': lambda x: _validate_atom_indices(x),
                                                          }
 
 _options_dict['BASE PARAMETERS 1']['Code'] = {
@@ -132,12 +142,6 @@ _options_dict['BASE PARAMETERS 1']['Name'] = {
                                              'default': 'base',
                                              'validation': lambda x: str(x),
                                              }
-
-_options_dict['BASE PARAMETERS 1']['Base_File_Path'] = {
-                                                       'glossory': 'path to file containing the structure of the base',
-                                                       'default': 'base.pdb',
-                                                       'validation': lambda x: _validate_input_file(x),
-                                                       }
 
 _options_dict['BASE PARAMETERS 1']['Pair_Name'] = {
                                                   'glossory': 'name of the pairing base',
@@ -345,7 +349,7 @@ for k1 in _options_dict:
 
 # Finished defining default options_dict
 
-def options_dict():
+def get_options_dict():
     """
     Function to return a deep copy of options_dict
     """

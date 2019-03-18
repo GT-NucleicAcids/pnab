@@ -1,12 +1,9 @@
-import time
-from IPython.display import clear_output
-
 import pNAB
-import view
+import draw
 
 
 """
-Driver for the jupyter notebook that simplifies parsing input, running, and outputting results
+Driver for pNAB notebook that simplifies parsing input, running, and outputting results
 """
 
 
@@ -47,20 +44,16 @@ def get_results(inst):
     """
 
     results = inst.get_results()
-    jsmol_path = input('To view the molecules, please provide path to jsmol directory [None]:') or None
+    max_show = 10 if len(results) > 10 else len(results)
     print("There are %i candidates:\n" %len(results))
+    print('Showing the best %i candidates ...\n' %max_show)
 
-    for conformer in results:
-        print(conformer)
+    for conformer in list(results)[:max_show]:
+        print('\n', conformer)
 
         for key in results[conformer]:
             print(key, ': ', results[conformer][key])
 
-        if jsmol_path is not None:
-            a = view.view(jsmol_path, conformer)
-            a.view()
-            time.sleep(15)
-            clear_output()
-        
+        draw.view_nglviewer(conformer)
 
     return results
