@@ -7,7 +7,6 @@
 
 #include <openbabel/obconversion.h>
 #include <openbabel/forcefield.h>
-#include "../FileParser.h"
 #include "../Chain.h"
 #include <openbabel/rotor.h>
 

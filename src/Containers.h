@@ -8,10 +8,9 @@
 #include <string>
 #include <random>
 #include <openbabel/mol.h>
-#include "FileParser.h"
+#include <openbabel/obconversion.h>
 
 namespace PNAB {
-
     /**
      * \brief A class for holding necessary parameters for conformational searches
      */
@@ -24,12 +23,6 @@ namespace PNAB {
         RuntimeParameters() : energy_filter{}, max_distance(0), type(), parameter_file(),
                               base_to_backbone_bond_length(-1), num_steps(0), dihedral_discretization(0),
                               angleStepSize(0), chain_length(3), algorithm() {};
-
-        /**
-         * \brief Constructs RuntimeParameters from a FileParser object that is already constructed from an input file
-         * @param sp The FileParser that contains all of the desired information
-         */
-        RuntimeParameters(FileParser &sp);
 
         /**
          * \brief Basic sanity checks for values. Exits the program if errors are encountered.
@@ -58,6 +51,24 @@ namespace PNAB {
 
     };
 
+
+     /**
+     * \brief Holds values for all helical parameters from python. HelicalParameters are created from
+     * the data included in this class.
+     * This class was created to ease the creation of backbone parameters without using the RangeField
+     * structure
+     */
+    class PyHelicalParameters {
+
+    public:
+        PyHelicalParameters() : tilt{}, roll{}, twist{}, shift{}, slide{}, rise{}, buckle{}, propeller{},
+                              opening{}, shear{}, stretch{}, stagger{}, inclination{}, tip{}, x_displacement{},
+                              y_displacement{} {};
+        std::vector<double> tilt, roll, twist, shift, slide, rise, buckle, propeller, opening, shear, 
+                                 stretch, stagger, inclination, tip, x_displacement, y_displacement; 
+
+    }; 
+
     /**
      * \brief Holds values for all helical parameters including whether or not parameters are ranges or single valued
      */
@@ -68,7 +79,7 @@ namespace PNAB {
                               opening{}, shear{}, stretch{}, stagger{}, inclination{}, tip{}, x_displacement{},
                               y_displacement{} {};
 
-        explicit HelicalParameters(FileParser &fp);
+        explicit HelicalParameters(PyHelicalParameters &hp);
 
         std::array<double, 9> getGlobalRotationMatrix() {
             double eta = inclination.v * DEG_TO_RAD, theta = tip.v * DEG_TO_RAD;
@@ -239,28 +250,17 @@ namespace PNAB {
     class Backbone {
     public:
 
-        Backbone() : backbone{}, interconnects{}, linker{}, vector_atom_deleted{} {}
+        Backbone() : backbone{}, file_path{}, interconnects{}, linker{}, vector_atom_deleted{} {}
 
         /**
          * \brief Backbone unit
-         * @param molP The molecule containing the molecule
+         * @param file_path The path to the file containing the backbone molecule
          * @param interconnects The atom indices that define the periodic conditions between backbones
-         * @param linkerT The atom indices used to align and connect backbone to base in the form
+         * @param linker The atom indices used to align and connect backbone to base in the form
          * {atom to which base is bonded, hydrogen used to define vector for alignment to be deleted}
          */
-        Backbone(OpenBabel::OBMol &molP, std::array<unsigned, 2> interconnects, std::array<unsigned, 2> linker) {
-            backbone = OpenBabel::OBMol(molP);
-            this->interconnects = interconnects;
-            this->linker = linker;
-            vector_atom_deleted = false;
-        }
-
-        /**
-         * \brief Create a Backbone from from a FileParser
-         * @param fp The FileParser containing all the information for the Backbone
-         */
-        Backbone(FileParser &fp);
-
+        Backbone(std::string file_path, std::array<unsigned, 2> interconnects, std::array<unsigned,2> linker); 
+            
 
         /**
          * \brief Gives the pointer to an atom that is the head from interconnects{head, tail}
@@ -341,11 +341,11 @@ namespace PNAB {
         */
         void validate();
 
-    private:
         std::array<unsigned , 2> interconnects,   //!< \brief { head, tail }
                 linker,                             //!< \brief { atom index connecting to backbone, hydrogen defining vector }
                 new_interconnects;                  //!< \brief Fixed Bonds
         OpenBabel::OBMol backbone;                  //!< \brief The molecule for the backbone
+        std::string file_path;
         bool vector_atom_deleted;                   //!< \brief Whether or not the atom from \code{getVector()} has been deleted
     };
 
@@ -364,21 +364,14 @@ namespace PNAB {
          * \brief Create Base from basic set of parameters
          * @param nameT The name of the base, full name
          * @param codeT The code-name of the base
-         * @param molT The molecule containing the base's chemical makeup
+         * @param file_path The path to the file containing the base molecule
          * @param linkerT An array that contains how the base is to link to a backbone
-         * @param The name of the pair from other bases which is empty by default
+         * @param pairT The name of the pair from other bases which is empty by default
          * in the form {base linker, hydrogen atom defining vector}
          */
-        Base(std::string nameT, std::string codeT, OpenBabel::OBMol &molT, std::array<std::size_t, 2> linkerT,
-             std::string pairT = "") {
-            name = nameT;
-            code = codeT;
-            linker = linkerT;
-            base = OpenBabel::OBMol(molT);
-            vector_atom_deleted = false;
-            pair_name = pairT;
-            validate();
-        }
+
+        Base(std::string nameT, std::string codeT, std::string file_path, std::array<std::size_t, 2> linkerT,
+             std::string pairT = "");
 
         /**
          * \brief Gives the atom of the base that connects directly to the backbone
@@ -449,10 +442,10 @@ namespace PNAB {
          */
         void validate();
 
-    private:
         std::string name,                               //!< \brief Full name of base (i.e. Adenine)
                     code,                               //!< \brief Three character code to define base (Adenine: ADE)
-                    pair_name;                          //!< \brief Name of the pair base
+                    pair_name,                          //!< \brief Name of the pair base
+                    file_path;                          //!< \brief Path to a file containing the base
         OpenBabel::OBMol base;                          //!< \brief Pointer to OBMol defining the base
         std::array<std::size_t, 2 > linker;             //!< \brief Holds indices for atoms forming a vector to connect to backbone {linker, hydrogen}
         bool vector_atom_deleted;                       //!< \brief Whether or not the \code{getVector()} atom was deleted
@@ -464,10 +457,10 @@ namespace PNAB {
     struct Bases {
     public:
         /**
-         * \brief Basic constructor for the Bases so we can feed it the FileParser as an input to make the Base
-         * @param fp The FileParser that contains all of the information about the Bases needed
+         * \brief Basic constructor for the Bases so we can feed it the base parameters created in python
+         * @param py_bases The vector containing the information about the Bases needed
          */
-        Bases(FileParser &fp);
+        Bases(std::vector<Base> py_bases);
 
         Bases() {};
 

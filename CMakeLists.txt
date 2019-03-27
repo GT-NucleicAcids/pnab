@@ -20,20 +20,28 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 #    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 #endif()
 
-set(SOURCE_FILES src/main.cpp src/Containers.h
-        src/Containers.cpp src/FileParser.cpp
-        src/FileParser.h src/Chain.cpp src/Chain.h src/SearchTypes/MonteCarloRotorSearch.cpp src/SearchTypes/MonteCarloRotorSearch.h)
-
-add_executable(pNAB ${SOURCE_FILES})
-target_link_libraries(pNAB ${OPENBABEL2_LIBRARIES})
-
 # add a target to generate API documentation with Doxygen
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxygen/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-    add_custom_target(doc
-            ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    add_custom_target(doc ALL
+            COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             COMMENT "Generating API documentation with Doxygen" VERBATIM
             )
 endif(DOXYGEN_FOUND)
+
+# pybind11
+set(SOURCE_FILES src/binder.cpp
+        src/Containers.h src/Containers.cpp
+        src/Chain.cpp src/Chain.h
+        src/SearchTypes/MonteCarloRotorSearch.cpp src/SearchTypes/MonteCarloRotorSearch.h
+        )
+
+find_package(pybind11 REQUIRED)
+pybind11_add_module(bind src/binder.cpp ${SOURCE_FILES})
+target_link_libraries(bind PRIVATE ${OPENBABEL2_LIBRARY})
+
+add_library(restore_default_visibility INTERFACE)
+target_compile_options(restore_default_visibility INTERFACE -fvisibility=default)
+target_link_libraries(bind PRIVATE restore_default_visibility)

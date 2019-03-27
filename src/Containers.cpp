@@ -22,10 +22,10 @@ void Backbone::deleteVectorAtom() {
     }
 }
 
-Backbone::Backbone(FileParser &sp) {
+Backbone::Backbone(std::string file_path, std::array<unsigned, 2> interconnects, std::array<unsigned,2> linker) {
     vector_atom_deleted = false;
-    Category backbone_params = sp.getCategory("BACKBONE PARAMETERS");
-    string file_path = backbone_params.getStringFieldDataFromName("Backbone_File_Path");
+    this->interconnects = interconnects;
+    this->linker = linker;
     OBConversion conv(file_path);
     OBFormat *inFormat = conv.FormatFromExt(file_path);
     if (inFormat) {
@@ -39,18 +39,18 @@ Backbone::Backbone(FileParser &sp) {
         exit(1);
     }
 
-    auto vec = backbone_params.getSizeVecFieldDataFromName("Interconnects");
+    auto vec = interconnects;
     if (vec.size() != 2) {
-        cerr << "Backbone: Incorrect number of elements specified for Field \"Interconnects\" in Category \""
-             << backbone_params.getName() << "\". There must be exactly 2 indices indicated." << endl;
+        cerr << "Backbone: Incorrect number of elements specified for Field \"Interconnects\" \""
+             << "\". There must be exactly 2 indices indicated." << endl;
         exit(1);
     }
     copy(vec.begin(), vec.end(), interconnects.begin());
 
-    vec = backbone_params.getSizeVecFieldDataFromName("Base_Connect");
+    vec = linker;
     if (vec.size() != 2) {
-        cerr << "Backbone: Incorrect number of elements specified for Field \"Base_Connect\" in Category \""
-             << backbone_params.getName() << "\". There must be exactly 2 indices indicated." << endl;
+        cerr << "Backbone: Incorrect number of elements specified for Field \"Base_Connect\""
+             << "\". There must be exactly 2 indices indicated." << endl;
         exit(1);
     }
     copy(vec.begin(), vec.end(), linker.begin());
@@ -84,6 +84,39 @@ void Backbone::validate() {
     }
 }
 
+
+Base::Base(string nameT, string codeT, string file_path, array<std::size_t, 2> linkerT, string pairT) {
+    name = nameT;
+    code = codeT;
+    linker = linkerT;
+
+    if (file_path.empty()) {
+        cerr << "Bases: No file path was specified." << endl;
+        exit(1);
+    }
+    OBConversion conv;
+    OBFormat *in_format = conv.FormatFromExt(file_path);
+    if (in_format)
+        conv.SetInFormat(in_format);
+    else {
+        cerr << "Base: Cannot determine file type from extension. Defaulting to PDB." << endl;
+        conv.SetInFormat("PDB");
+    }
+    OBMol molT;
+    if (!conv.ReadFile(&molT, file_path)) {
+        cerr << "Base: There was an error reading file for base: " << file_path << endl;
+        exit(1);
+    }
+
+
+    
+    base = OBMol(molT);
+    vector_atom_deleted = false;
+    pair_name = pairT;
+    validate();
+}
+   
+
 void Base::validate() {
     if (linker.size() == 2) {
         for (auto i : linker)
@@ -105,44 +138,26 @@ void Base::validate() {
     }
 }
 
-Bases::Bases(FileParser &fp) {
+Bases::Bases(vector<Base> py_bases) {
 
-    OBConversion conv;
-    for (unsigned i = 1; i <= fp.getNumBaseCategories(); ++i) {
-        Category base_params = fp.getCategory("BASE PARAMETERS " + to_string(i));
-        string file_path = base_params.getStringFieldDataFromName("Base_File_Path");
-        if (file_path.empty()) {
-            cerr << "Bases: No file path was specified." << endl;
-            exit(1);
-        }
-        OBFormat *in_format = conv.FormatFromExt(file_path);
-        if (in_format)
-            conv.SetInFormat(in_format);
-        else {
-            cerr << "Base: Cannot determine file type from extension. Defaulting to PDB." << endl;
-            conv.SetInFormat("PDB");
-        }
-        OBMol mol;
-        if (!conv.ReadFile(&mol, file_path)) {
-            cerr << "Base: There was an error reading file for base: " << file_path << endl;
-            exit(1);
-        }
+    for (unsigned i = 0; i < py_bases.size(); ++i) {
+        string file_path = py_bases[i].file_path;
 
-        auto vec = base_params.getSizeVecFieldDataFromName("Backbone_Connect");
+        auto vec = py_bases[i].linker;
         if (vec.size() != 2) {
-            cerr << "Incorrect number of elements specified for Field \"Backbone_Connect\" in Category \""
-                 << base_params.getName() << "\". There must be exactly 2 indices indicated." << endl;
+            cerr << "Incorrect number of elements specified for Field \"Backbone_Connect\" "
+                 << "\". There must be exactly 2 indices indicated." << endl;
             exit(1);
         }
         array<size_t, 2> linkers = {vec[0], vec[1]};
 
-        auto name = base_params.getStringFieldDataFromName("Name");
+        auto name = py_bases[i].name;
         transform(name.begin(), name.end(), name.begin(), ::tolower);
-        auto code = base_params.getStringFieldDataFromName("Code");
+        auto code = py_bases[i].code;
         transform(code.begin(), code.end(), code.begin(), ::toupper);
-        auto pair_name = base_params.getStringFieldDataFromName("Pair_Name");
+        auto pair_name = py_bases[i].pair_name;
         transform(pair_name.begin(), pair_name.end(), pair_name.begin(), ::tolower);
-        bases.push_back(Base(name,code,mol,linkers, pair_name));
+        bases.push_back(Base(name,code,file_path,linkers, pair_name));
     }
 
     // Checking to see if the bases have pairs
@@ -288,48 +303,9 @@ void BaseUnit::perceiveN3OrN1() {
     }
 }
 
-RuntimeParameters::RuntimeParameters(FileParser &sp) {
-    Category rp = sp.getCategory("RUNTIME PARAMETERS");
-
-    // Geometric Parameters
-    base_to_backbone_bond_length = rp.getDoubleFieldDataFromName("Base_to_Backbone_Bond_Length", numeric_limits<double>::quiet_NaN());
-
-    // Energetic parameters
-    vector<string> single_doubles_energy{"Max_Total_Energy", "Max_Angle_Energy", "Max_Bond_Energy",
-                                         "Max_VDW_Energy", "Max_Torsion_Energy"};
-    energy_filter.clear();
-    for (auto d_val : single_doubles_energy)
-        energy_filter.push_back(rp.getDoubleFieldDataFromName(d_val));
-    max_distance = rp.getDoubleFieldDataFromName("Max_Backbone_Interlink_Distance");
-
-    // ForceField Parameters
-    type = rp.getStringFieldDataFromName("Force_Field_Type","GAFF");
-    parameter_file = rp.getStringFieldDataFromName("Force_Field_Parameter_File");
-    num_steps = rp.getSizeFieldDataFromName("Search_Size");
-    dihedral_discretization = rp.getSizeFieldDataFromName("Dihedral_Step_Size",numeric_limits<size_t>::quiet_NaN());
-    angleStepSize = rp.getSizeFieldDataFromName("Search_Step_Size",numeric_limits<size_t>::quiet_NaN());
-    chain_length = rp.getSizeFieldDataFromName("Chain_Length",3ul);
-    algorithm = rp.getStringFieldDataFromName("Algorithm");
-
-    // Strand parameters
-    strand = rp.getStringVecFieldDataFromName("Strand_Base_Names");
-    auto str = rp.getStringFieldDataFromName("Is_Double_Stranded", "false");
-    transform(str.begin(), str.end(), str.begin(), ::tolower);
-    if (str.find("true") != string::npos)
-        is_double_stranded = true;
-    else if (str.find("false") != string::npos)
-        is_double_stranded = false;
-    else {
-        cerr << "Unrecognized input value \"" << str << "\" in field \"is_double_stranded\". Please check input"
-             << " file for errors." << endl;
-        throw 1;
-    }
-    validate();
-}
-
 void RuntimeParameters::validate() {
 
-    if (!isnan(base_to_backbone_bond_length) & base_to_backbone_bond_length < 0) {
+    if (!std::isnan(base_to_backbone_bond_length) & base_to_backbone_bond_length < 0) {
         cerr << "Base_to_Backbone_Bond_Length must be greater than 0." << endl;
         exit(1);
     }
@@ -339,18 +315,32 @@ void RuntimeParameters::validate() {
     }
 }
 
-HelicalParameters::HelicalParameters(FileParser &fp) {
-    Category hp = fp.getCategory("HELICAL PARAMETERS");
+HelicalParameters::HelicalParameters(PyHelicalParameters &hp) {
 
     vector<RangeField*> ranges{&tilt, &roll, &twist, &shift, &slide, &rise, &buckle, &propeller,
                                &opening, &shear, &stretch, &stagger, &inclination, &tip,
                                &x_displacement, &y_displacement};
-    vector<string> names{"Tilt", "Roll", "Twist", "Shift", "Slide", "Rise", "Buckle", "Propeller", "Opening",
-                         "Shear", "Stretch", "Stagger", "Inclination", "Tip", "X_Displacement", "Y_Displacement"};
+
+    tilt.d = hp.tilt;
+    roll.d = hp.roll;
+    twist.d = hp.twist;
+    shift.d = hp.shift;
+    slide.d = hp.slide;
+    rise.d = hp.rise;
+    buckle.d = hp.buckle;
+    propeller.d = hp.propeller;
+    opening.d = hp.opening;
+    shear.d = hp.shear;
+    stretch.d = hp.stretch;
+    stagger.d = hp.stagger;
+    inclination.d = hp.inclination;
+    tip.d = hp.tip;
+    x_displacement.d = hp.x_displacement;
+    y_displacement.d = hp.y_displacement;
 
     unsigned i = 0;
     for (auto &r : ranges) {
-        r->d = hp.getDoubleVecFieldDataFromName(names[i++]);
         checkRangeField(*r);
     }
+
 }
