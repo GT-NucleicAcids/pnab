@@ -48,6 +48,9 @@ class CMakeBuild(build_ext):
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
             build_args += ['--', '-j2']
 
+        path = os.path.split(os.path.dirname(sys.executable))[0]
+        cmake_args += ['-DCMAKE_PREFIX_PATH=' + path]
+
         env = os.environ.copy()
         env['CXXFLAGS'] = '{} -DVERSION_INFO=\\"{}\\"'.format(env.get('CXXFLAGS', ''),
                                                               self.distribution.get_version())
