@@ -1,3 +1,9 @@
+"""proto-Nucleic Acid Builder
+proto-Nucleic Acid Builder
+
+Details
+"""
+
 from __future__ import division, absolute_import, print_function
 
 import json
@@ -16,13 +22,14 @@ from pNAB.driver import draw
 
 
 class pNAB(object):
-    """
+    """ pNAN run class
+
     A class that contains methods to create a pNAB run. It makes input,
     runs it, and parses results.
     """
 
     def __init__(self, file_path=None):
-
+        """The constructor"""
 
         if file_path is not None:
             self.options = json.loads(open(file_path, 'r').read())
@@ -50,6 +57,7 @@ class pNAB(object):
 
 
     def _run(self, config):
+        """ function to run one helical configuration."""
         config, prefix = config[0], config[1]
 
         runtime_parameters = bind.RuntimeParameters()
@@ -82,9 +90,7 @@ class pNAB(object):
 
 
     def run(self):
-        """
-        Fuction to run input and return execution status
-        """
+        """ Fuction to prepare helical configurations and run them in parallel."""
 
         config = list(itertools.product(*[np.random.uniform(val[0], val[1], val[2]) 
                                        for k, val in self.options['HelicalParameters'].items()]))
@@ -98,9 +104,7 @@ class pNAB(object):
 
 
     def get_results(self):
-        """
-        Extract the results from the run and report it to the user.
-        """
+        """Extract the results from the run and report it to the user."""
 
         header = ('Conformer Index, Energy (kcal/mol), Distance (A), Bond Energy, Angle Energy,' +
                   ' Torsion Energy, VDW Energy, Total Torsion Energy, RMSD (A)')
@@ -150,5 +154,3 @@ class pNAB(object):
                 print(header.split(', ')[i-1] + ': ' + str(conformer[i]))
 
             draw.view_py3dmol(str(int(conformer[0])) + '_' + str(int(conformer[1])) + '.pdb')
-
-        return self.results

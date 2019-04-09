@@ -1,4 +1,6 @@
-"""
+"""options
+file for preparing and validation options
+
 This is an option file that defines a dictionary containing all the available options for the builder code.
 options_dict has at least four keys: Backbone, Base, HelicalParameters, and RuntimeParameters.
 Note that there might be more than one Base keys that are numbered to account for
@@ -16,9 +18,7 @@ import copy
 from pNAB.driver import draw
 
 def set_options():
-    """
-    A method to get user-defined options
-    """
+    """A method to get user-defined options."""
 
     options_dict = _ask_options_questions()
 
@@ -26,9 +26,7 @@ def set_options():
 
 
 def _ask_options_questions():
-    """
-    A method that ask the user for options
-    """
+    """A method that ask the user for options."""
 
     options_dict = {}
     num_bases = int(input("Enter number of distinct bases [1]: ") or 1)
@@ -56,6 +54,10 @@ def _ask_options_questions():
 
 
 def _validate_all_options(options):
+    """A method to validate all options.
+
+    Used when the user provides an input file
+    """
     for k1 in options:
         k1_val = k1
         if 'Base' in k1:
@@ -65,18 +67,14 @@ def _validate_all_options(options):
             options[k1][k2] = _options_dict[k1_val][k2]['validation'](options[k1][k2])
 
 def _replicate_base_option(num_bases):
-    """
-    replicates initial options for bases if the number of distinct bases is greater than 1
-    """
+    """replicates initial options for bases if the number of distinct bases is greater than 1."""
 
     for i in range(2, num_bases + 1):
         _options_dict.update({'Base %i' %i: copy.deepcopy(_options_dict['Base 1'])})
 
 
 def _validate_input_file(file_name):
-    """
-    Method to validate provided path to a geomerty file. Check whether the file exists or not.
-    """
+    """Method to validate provided path to a geomerty file. Check whether the file exists or not."""
 
     file_name = str(file_name)
     if not os.path.isfile(file_name):
@@ -86,9 +84,7 @@ def _validate_input_file(file_name):
 
 
 def _validate_atom_indices(x):
-    """
-    Method to validate provided tuple of atom indices
-    """
+    """Method to validate provided tuple of atom indices."""
 
     x = list(eval(x)) if isinstance(x, str) else list(x)
     if len(x) != 2:
@@ -102,9 +98,7 @@ def _validate_atom_indices(x):
 
 
 def _validate_helical_parameters(x):
-    """
-    Method to validate provided helical parameters
-    """
+    """Method to validate provided helical parameters."""
 
     if isinstance(x, str):
         x = eval(x)
@@ -126,9 +120,7 @@ def _validate_helical_parameters(x):
 
 
 def _validate_energy_filter(x):
-    """
-    Method to validate provided energy filter
-    """
+    """Method to validate provided energy filter."""
 
     if isinstance(x, str):
         x = eval(x)
@@ -144,9 +136,7 @@ def _validate_energy_filter(x):
     return x
    
 def _validate_algorithm(algorithm):
-    """
-    method to validate algorithm. Checks if the requested algorith is available.
-    """
+    """method to validate algorithm. Checks if the requested algorith is available."""
 
     available_algorithms = ['WMC']
     algorithm = str(algorithm).upper()

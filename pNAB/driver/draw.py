@@ -1,6 +1,7 @@
-"""
-This is a file that contains visualization utilities used
-with the Jupyter notebook driver.
+"""visualization support
+Provides visualization utilities.
+
+This is a file that contains visualization utilities used with the Jupyter notebook driver.
 The visualization utilities are two: 1) JSME for drawing
 molecules. 2) Py3DMol for visualizing results.
 """
@@ -8,7 +9,8 @@ molecules. 2) Py3DMol for visualizing results.
 from __future__ import division, absolute_import, print_function
 
 def draw():
-    """
+    """JSME molecule editor.
+    
     HTML script for JSME. This has to be displayed from inside the 
     Jupyter notebook in order for the program to get the molecules
     drawn by the user. Jupyter implements security measures that prevents
@@ -147,7 +149,8 @@ with open("""` + name + `""" + '.pdb', 'w') as f:
 
 
 def view_py3dmol(conformer, label=False):
-    """
+    """Py3DMol viewer.
+
     A function to view molecular geometries using the Py3DMol project.
     """
 
