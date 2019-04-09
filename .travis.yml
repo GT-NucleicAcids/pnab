@@ -4,8 +4,8 @@ sudo: false
 matrix:
   include:
 
-  - env:
-    - PYTHON_VER='3.6'
+  #- env:
+  #  - PYTHON_VER='3.6'
 
   - env:
     - PYTHON_VER='3.7'
@@ -24,6 +24,7 @@ install:
   - source activate tenv
   - conda install -c openbabel openbabel
   - conda install -c conda-forge eigen
+  - conda install -c conda-forge pybind11
   - conda install pytest pytest-cov codecov -c conda-forge
   - pip install py3DMol
   - conda list
