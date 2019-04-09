@@ -43,4 +43,5 @@ notifications:
   email: false
 
 after_success:
+  - CODECOV_TOKEN="aeae5652-faed-4a41-986d-69006b8a3a6b"
   - codecov
