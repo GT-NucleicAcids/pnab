@@ -23,7 +23,11 @@ def test_run():
     """
     test running with provided option file
     """
+    import os
+
     import pNAB
+
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
     run = pNAB.pNAB('files/options.dat')
     run.run()
@@ -36,7 +40,11 @@ def test_run2():
     test running with provided option file. Run over ranges of helical parameters:
     five twist values and three inclination values
     """
+    import os
+
     import pNAB
+
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
     run = pNAB.pNAB('files/helical_parameters_range.dat')
     run.run()
@@ -49,4 +57,3 @@ def test_run2():
 
     print(run.results)
     print(run.config_dict)
-

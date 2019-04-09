@@ -41,7 +41,11 @@ def test_binder_2():
     """
     test binder 2
     """
+    import os
+
     from pNAB import bind
+
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
     backbone = bind.Backbone()
     backbone.file_path = 'files/rna_bb.pdb'

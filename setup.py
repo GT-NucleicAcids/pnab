@@ -59,7 +59,7 @@ class CMakeBuild(build_ext):
 setup(
     name='pNAB',
     packages=find_packages(),
-    package_data={'pNAB': ['tests/*py']},
+    package_data={'pNAB': ['tests/*py', 'tests/files/*']},
     install_requires=['numpy'],
     ext_modules=[CMakeExtension('pNAB/pNAB')],
     cmdclass=dict(build_ext=CMakeBuild),
