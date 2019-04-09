@@ -1,0 +1,91 @@
+{
+    "Backbone": {
+        "file_path": "files/rna_bb.pdb",
+        "interconnects": [
+            9,
+            14
+        ],
+        "linker": [
+            12,
+            13
+        ]
+    },
+    "Base 1": {
+        "file_path": "files/adenine.pdb",
+        "linker": [
+            5,
+            11
+        ],
+        "code": "ADA",
+        "name": "Adenine",
+        "pair_name": "Uracil"
+    },
+    "HelicalParameters": {
+        "twist": [
+            20.00,
+            40.00,
+            5
+        ],
+        "shift": [
+            0.0,
+            0.0,
+            1
+        ],
+        "slide": [
+            0.0,
+            0.0,
+            1
+        ],
+        "rise": [
+            2.81,
+            2.81,
+            1
+        ],
+        "inclination": [
+            10,
+            20,
+            3
+        ],
+        "tip": [
+            7.35,
+            7.35,
+            1
+        ],
+        "x_displacement": [
+            -4.61,
+            -4.61,
+            1
+        ],
+        "y_displacement": [
+            -0.19,
+            -0.19,
+            1
+        ]
+    },
+    "RuntimeParameters": {
+        "num_steps": 100000,
+        "type": "GAFF",
+        "algorithm": "WMC",
+        "energy_filter": [
+            10000.0,
+            10000.0,
+            10000.0,
+            10000.0,
+            10000.0
+        ],
+        "max_distance": 0.15,
+        "strand": [
+            "Adenine",
+            "Adenine",
+            "Adenine",
+            "Adenine",
+            "Adenine",
+            "Adenine",
+            "Adenine",
+            "Adenine",
+            "Adenine",
+            "Adenine"
+        ],
+        "is_double_stranded": false
+    }
+}

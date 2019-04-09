@@ -31,15 +31,17 @@ if(DOXYGEN_FOUND)
             )
 endif(DOXYGEN_FOUND)
 
-# pybind11
-set(SOURCE_FILES src/binder.cpp
-        src/Containers.h src/Containers.cpp
-        src/Chain.cpp src/Chain.h
-        src/SearchTypes/MonteCarloRotorSearch.cpp src/SearchTypes/MonteCarloRotorSearch.h
+set(SOURCE_DIR pNAB/src)
+include_directories(${SOURCE_DIR})
+set(SOURCE_FILES 
+        ${SOURCE_DIR}/Containers.cpp
+        ${SOURCE_DIR}/Chain.cpp
+        ${SOURCE_DIR}/SearchTypes/MonteCarloRotorSearch.cpp
         )
 
+# pybind11
 find_package(pybind11 REQUIRED)
-pybind11_add_module(bind src/binder.cpp ${SOURCE_FILES})
+pybind11_add_module(bind ${SOURCE_DIR}/binder.cpp ${SOURCE_FILES})
 target_link_libraries(bind PRIVATE ${OPENBABEL2_LIBRARY})
 
 add_library(restore_default_visibility INTERFACE)
