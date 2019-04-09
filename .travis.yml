@@ -36,6 +36,7 @@ before_script:
 script:
   - pwd
   - python setup.py install
+  - cd
   - python -c "import sys, pNAB; rc = pNAB.test(extras=['--cov']); sys.exit(rc)"
 
 notifications:
