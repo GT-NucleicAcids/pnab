@@ -1,7 +1,7 @@
 """proto-Nucleic Acid Builder
 proto-Nucleic Acid Builder
 
-Details
+details
 """
 
 from __future__ import division, absolute_import, print_function
