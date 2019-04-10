@@ -1,5 +1,4 @@
 codecov:
-  token: aeae5652-faed-4a41-986d-69006b8a3a6b
   max_report_age: off
   notify:
     after_n_builds: 1

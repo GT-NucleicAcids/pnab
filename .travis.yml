@@ -36,13 +36,12 @@ before_script:
 script:
   - pwd
   - python setup.py install
-  - cd ..
-  - python -c "import sys, pNAB; rc = pNAB.test(extras=['--cov']); sys.exit(rc)"
-  - cd pNAB
+#  - python -c "import sys, pNAB; rc = pNAB.test(extras=['--cov']); sys.exit(rc)"
+  - cd build
+  - pytest --cov
 
 notifications:
   email: false
 
 after_success:
-  - CODECOV_TOKEN="aeae5652-faed-4a41-986d-69006b8a3a6b"
-  - codecov
+  - codecov --token="aeae5652-faed-4a41-986d-69006b8a3a6b"
