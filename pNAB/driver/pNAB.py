@@ -7,7 +7,6 @@ details
 from __future__ import division, absolute_import, print_function
 
 import json
-import collections
 import itertools
 from io import StringIO
 import multiprocessing as mp
@@ -18,6 +17,7 @@ import numpy as np
 
 from pNAB import bind
 from pNAB.driver import options
+from pNAB.driver import widgets
 from pNAB.driver import draw
 
 
@@ -46,14 +46,15 @@ class pNAB(object):
                 raise Exception('Please choose either "1" or "2"')
 
             if input_method == '1':
-                self.options = options.set_options()
-                with open('options.dat', 'w') as f:
-                    f.write(json.dumps(self.options, indent=4))
+                self._options = options.set_options()
+                self.options = None
+                self._input_file = None
 
             else:
                 file_path = input('Enter path to input [options.dat]: ') or 'options.dat'
                 self.options = json.loads(open(file_path, 'r').read())
                 options._validate_all_options(self.options)
+                self._input_file = file_path
 
 
     def _run(self, config):
@@ -92,8 +93,19 @@ class pNAB(object):
     def run(self):
         """ Fuction to prepare helical configurations and run them in parallel."""
 
+        if self._input_file is None:
+            # Used Jupyter notebook; extract options
+            self.options = widgets.extract_options(self._options)
+            options._validate_all_options(self.options)
+            # Workaround as widget states are not serializable and cannot be used with multiprocess
+            temp = self._options
+            del self._options
+            with open('options.dat', 'w') as f:
+                f.write(json.dumps(self.options, indent=4))
+
         config = list(itertools.product(*[np.random.uniform(val[0], val[1], val[2]) 
                                        for k, val in self.options['HelicalParameters'].items()]))
+
         prefix = [str(i) for i in range(1, len(config) + 1)]
 
         pool = mp.Pool(mp.cpu_count())
@@ -101,6 +113,9 @@ class pNAB(object):
         self._results = pool.map(self._run, zip(config, prefix))
 
         pool.close()
+
+        if self._input_file is None:
+            self._options = temp
 
 
     def get_results(self):
@@ -119,10 +134,10 @@ class pNAB(object):
             if results[i][1] is None:
                 continue
             prefix_dict[str(int(results[i][0]))] = results[i][1]
-            results[i][1] = 'prefix: ' + results[i][0] + '\n' + results[i][1]
-            np.savetxt(f, results[i][2], fmt='%12i' + '%12.2f'*8, header=time + '\n' + results[i][1] + '\n' + header)
+            prefix_str = 'prefix: ' + results[i][0] + '\n'
+            np.savetxt(f, results[i][2], fmt='%12i' + '%12.2f'*8, header=time + '\n' + prefix_str + results[i][1] + '\n' + header)
             for conf in results[i][2][:, 0]:
-                config_dict[str(int(results[i][0])) + '_' + str(int(conf))] = results[i][1].strip(',')
+                config_dict[str(int(results[i][0])) + '_' + str(int(conf))] = (prefix_str + results[i][1]).strip(',')
             prefix = np.array([int(results[i][0])]*results[i][2].shape[0]).reshape((results[i][2].shape[0], 1))
             all_results = np.vstack((all_results, np.hstack((prefix, results[i][2]))))
         f.close()
