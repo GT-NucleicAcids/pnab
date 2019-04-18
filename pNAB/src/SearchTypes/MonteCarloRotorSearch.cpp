@@ -34,6 +34,10 @@ MonteCarloRotorSearch::MonteCarloRotorSearch(RuntimeParameters &runtime_params, 
 
 std::string MonteCarloRotorSearch::run() {
     OBForceField *pFF_ = OBForceField::FindForceField(ff_type_);
+    if (!pFF_) {
+        cerr << "Cannot find force field. Exiting" << endl;
+        exit(1);
+    }
     bool isKCAL_ = pFF_->GetUnit().find("kcal") != string::npos;
     BaseUnit unit(base_a_, backbone_, is_double_stranded_);
     auto range = unit.getBackboneIndexRange();
@@ -161,7 +165,6 @@ std::string MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
     }
     ostringstream strs;
     filebuf fb;
-    //ofstream csv;
     stringstream output_string;
 
     // Set output format
@@ -201,10 +204,6 @@ std::string MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
                << v.rmsd   << endl;
     }
 
-    // save to csv file
-    //csv.open("energy_data.csv");
-    //csv << output_string.str();
-    //csv.close();
 
     return output_string.str();
 }

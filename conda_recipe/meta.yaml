@@ -1,0 +1,52 @@
+package:
+  name: pnab
+  version: "0.1.0"
+
+source:
+  path: /theoryfs2/ds/alenaizan/Gits/pNAB
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - cmake
+  host:
+    #- {{ compiler('c') }}
+    #- {{ compiler('cxx') }}
+    #- libgcc=4.8.5
+    - python {{ python }}
+    - setuptools
+    #- setuptools
+    #- cmake
+    - pybind11
+    - eigen
+    - openbabel {{ openbabel }}
+  run:
+    - openbabel {{ openbabel }}*
+    - numpy
+    #- py3dmol
+
+test:
+  files:
+    - tests/test_binder.py
+    - tests/rna_bb.pdb
+    - tests/adenine.pdb
+  #requires:
+  #  - pytest
+  imports:
+    - pNAB
+  commands:
+  #  - pytest --pyargs pNAB
+    #- export LD_LIBRARY_PATH=$PREFIX/lib
+    #- export BABEL_LIBDIR=$PREFIX/lib
+    #- export BABEL_DATADIR=$PREFIX/share/openbabel
+    - ${PYTHON} tests/test_binder.py
+
+about:
+  home: https://github.com/alenaizan/pNAB
+  license: None
+  license_family: None
+  summary: Nucleic Acid Builder

@@ -1,0 +1,121 @@
+{
+    "Backbone": {
+        "file_path": "files/rna_bb.pdb",
+        "interconnects": [
+            9,
+            14
+        ],
+        "linker": [
+            12,
+            13
+        ]
+    },
+    "Base 1": {
+        "file_path": "files/adenine.pdb",
+        "linker": [
+            5,
+            11
+        ],
+        "code": "ADA",
+        "name": "A",
+        "pair_name": "U"
+    },
+    "Base 2": {
+        "file_path": "files/guanine.pdb",
+        "linker": [
+            2,
+            1
+        ],
+        "code": "GUA",
+        "name": "G",
+        "pair_name": "C"
+    },
+    "Base 3": {
+        "file_path": "files/cytosine.pdb",
+        "linker": [
+            2,
+            1
+        ],
+        "code": "CYT",
+        "name": "C",
+        "pair_name": "G"
+    },
+    "Base 4": {
+        "file_path": "files/uracil.pdb",
+        "linker": [
+            2,
+            1
+        ],
+        "code": "URA",
+        "name": "U",
+        "pair_name": "A"
+    },
+    "HelicalParameters": {
+        "twist": [
+            30.00,
+            35.00,
+            50
+        ],
+        "shift": [
+            0.0,
+            0.0,
+            1
+        ],
+        "slide": [
+            0.0,
+            0.0,
+            1
+        ],
+        "rise": [
+            2.81,
+            2.81,
+            1
+        ],
+        "inclination": [
+            15.00,
+            18.00,
+            30
+        ],
+        "tip": [
+            7.35,
+            7.35,
+            1
+        ],
+        "x_displacement": [
+            -4.61,
+            -4.61,
+            1
+        ],
+        "y_displacement": [
+            -0.19,
+            -0.19,
+            1
+        ]
+    },
+    "RuntimeParameters": {
+        "num_steps": 100000000,
+        "type": "GAFF",
+        "algorithm": "WMC",
+        "energy_filter": [
+            1e10,
+            0.1,
+            4,
+            0,
+            1e10
+        ],
+        "max_distance": 0.05,
+        "strand": [
+            "C",
+            "G",
+            "A",
+            "U",
+            "U",
+            "U",
+            "A",
+            "G",
+            "C",
+            "G"
+        ],
+        "is_double_stranded": false
+    }
+}

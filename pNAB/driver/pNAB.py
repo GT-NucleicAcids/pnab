@@ -17,7 +17,10 @@ import numpy as np
 
 from pNAB import bind
 from pNAB.driver import options
-from pNAB.driver import widgets
+try:
+    from pNAB.driver import widgets
+except:
+    pass
 from pNAB.driver import draw
 
 
@@ -34,6 +37,7 @@ class pNAB(object):
         if file_path is not None:
             self.options = json.loads(open(file_path, 'r').read())
             options._validate_all_options(self.options)
+            self._input_file = file_path
 
         else:
             print("There are two methods to use the Nucleic Acid Builder:\n"
@@ -81,11 +85,11 @@ class pNAB(object):
         if result.ndim == 1:
             result = result.reshape(1, len(result))
 
-        if result.shape[1] != 0:
-            header = ''.join(['%s=%.2f, ' %(k, val) for k, val in zip(self.options['HelicalParameters'], config)])
-            header = header.strip(', ')
-        else:
-            header = result = None
+        header = ''.join(['%s=%.2f, ' %(k, val) for k, val in zip(self.options['HelicalParameters'], config)])
+        header = header.strip(', ')
+
+        if result.shape[1] == 0:
+            result = None
 
         return [prefix, header, result] 
 
@@ -131,11 +135,14 @@ class pNAB(object):
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         all_results = np.zeros((0, 10))
         for i in range(len(results)):
-            if results[i][1] is None:
-                continue
             prefix_dict[str(int(results[i][0]))] = results[i][1]
+            if results[i][2] is None:
+                continue
             prefix_str = 'prefix: ' + results[i][0] + '\n'
-            np.savetxt(f, results[i][2], fmt='%12i' + '%12.2f'*8, header=time + '\n' + prefix_str + results[i][1] + '\n' + header)
+            head = prefix_str + results[i][1] + '\n' + header
+            if i == 0:
+                head = time + '\n' + head
+            np.savetxt(f, results[i][2], fmt='%12i' + '%12.4f'*8, header=head)
             for conf in results[i][2][:, 0]:
                 config_dict[str(int(results[i][0])) + '_' + str(int(conf))] = (prefix_str + results[i][1]).strip(',')
             prefix = np.array([int(results[i][0])]*results[i][2].shape[0]).reshape((results[i][2].shape[0], 1))
@@ -148,7 +155,7 @@ class pNAB(object):
 
         max_show = 10 if len(self.results) > 10 else len(self.results)
         f = open('summary.dat', 'ab')
-        np.savetxt(f, self.results[:max_show], fmt='%12i' + '%12i' + '%12.2f'*8,
+        np.savetxt(f, self.results[:max_show], fmt='%12i' + '%12i' + '%12.4f'*8,
                    header=time + '\n'  + 'Prefix, ' + header )
         f.close()
 

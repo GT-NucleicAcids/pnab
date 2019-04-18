@@ -1,0 +1,14 @@
+openbabel:
+    - 2.4.1
+#eigen:
+#    - 3.3.7
+#c_compiler:
+#    - gcc                              # [linux]
+#cxx_compiler:
+#    - g++                              # [linux]
+#target_platform:
+#    - linux-64                         # [linux]
+#c_compiler_version:
+#    - 4.8.5                            # [linux]
+#cxx_compiler_version:
+#    - 4.8.5                            # [linux]

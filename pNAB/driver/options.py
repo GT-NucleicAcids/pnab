@@ -15,7 +15,10 @@ from __future__ import division, absolute_import, print_function
 import os
 import copy
 
-from pNAB.driver import widgets
+try:
+    from pNAB.driver import widgets
+except:
+    pass
 
 def set_options():
     """A method to get user-defined options."""
@@ -317,7 +320,7 @@ _options_dict['RuntimeParameters']['energy_filter'] = {
                                                                     'Cuttoff for energy from bond between newly bonded atoms\n' +
                                                                     'Cuttoff for total van der Waals energy\n' + 
                                                                     'Cuttoff for torsional energy between backbone linkers\n'),
-                                                       'default': (1e5, 1e5, 1e5, 1e5, 1e5),
+                                                       'default': (1e10, 5, 5, 0, 1e0),
                                                        'validation': lambda x: _validate_energy_filter(x), 
                                                       }
 
@@ -325,7 +328,7 @@ _options_dict['RuntimeParameters']['max_distance'] = {
                                                       'glossory': ('The maximum distance between atom' +
                                                                    ' linkers in backbone.' 
                                                                    ),
-                                                      'default': 0.5,
+                                                      'default': 0.05,
                                                       'validation': lambda x: float(x),
                                                       }
 

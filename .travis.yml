@@ -4,8 +4,8 @@ sudo: false
 matrix:
   include:
 
-  #- env:
-  #  - PYTHON_VER='3.6'
+  - env:
+    - PYTHON_VER='3.6'
 
   - env:
     - PYTHON_VER='3.7'
@@ -20,14 +20,8 @@ install:
 
   - conda info -a
 
-  - conda create -q -n tenv python=$PYTHON_VER numpy
-  - source activate tenv
-  - conda install -c anaconda cmake
-  - conda install -c openbabel openbabel
-  - conda install -c conda-forge eigen
-  - conda install -c conda-forge pybind11
-  - conda install pytest pytest-cov codecov -c conda-forge
-  - pip install py3DMol
+  - conda create -n pNAB python=$PYTHON_VER numpy cmake openbabel eigen pybind11 py3dmol pytest pytest-cov codecov -c openbabel -c conda-forge
+  - source activate pNAB
   - conda list
 
 before_script:
@@ -36,7 +30,6 @@ before_script:
 script:
   - pwd
   - python setup.py install
-#  - python -c "import sys, pNAB; rc = pNAB.test(extras=['--cov']); sys.exit(rc)"
   - cd build
   - pytest --cov
 
