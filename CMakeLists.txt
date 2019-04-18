@@ -7,8 +7,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
 # find and setup openbabel
-find_package(OpenBabel2 REQUIRED)
-include_directories(${OPENBABEL2_INCLUDE_DIR})
+find_package(OpenBabel2 CONFIG REQUIRED)
 
 find_package(Eigen3 REQUIRED) # find and setup Eigen3 if available
 set(EIGEN2_SUPPORT_STAGE10_FULL_EIGEN2_API TRUE)
@@ -42,7 +41,8 @@ set(SOURCE_FILES
 # pybind11
 find_package(pybind11 REQUIRED)
 pybind11_add_module(bind ${SOURCE_DIR}/binder.cpp ${SOURCE_FILES})
-target_link_libraries(bind PRIVATE ${OPENBABEL2_LIBRARY})
+target_link_libraries(bind PRIVATE openbabel)
+target_include_directories(bind PRIVATE ${OpenBabel2_INCLUDE_DIRS})
 
 add_library(restore_default_visibility INTERFACE)
 target_compile_options(restore_default_visibility INTERFACE -fvisibility=default)
