@@ -21,14 +21,14 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 
 # add a target to generate API documentation with Doxygen
 find_package(Doxygen)
-if(DOXYGEN_FOUND)
+if(BUILD_DOCS AND DOXYGEN_FOUND)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxygen/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
     add_custom_target(doc ALL
             COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             COMMENT "Generating API documentation with Doxygen" VERBATIM
             )
-endif(DOXYGEN_FOUND)
+endif()
 
 set(SOURCE_DIR pNAB/src)
 include_directories(${SOURCE_DIR})
