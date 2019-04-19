@@ -1,14 +1,25 @@
+target_platform:
+    - osx-64                           # [osx]
+    - linux-64                         # [linux]
+#CONDA_BUILD_SYSROOT:
+#    - /Users/github/SDKs/MacOSX10.9.sdk  # [osx]
+cxx_compiler:
+    - clangxx                          # [osx]
+    - gxx                              # [linux]
+cxx_compiler_version:
+    - 7.3.0                            # [linux]
+
 openbabel:
     - 2.4.1
-#eigen:
-#    - 3.3.7
-#c_compiler:
-#    - gcc                              # [linux]
-#cxx_compiler:
-#    - g++                              # [linux]
-#target_platform:
-#    - linux-64                         # [linux]
-#c_compiler_version:
-#    - 4.8.5                            # [linux]
-#cxx_compiler_version:
-#    - 4.8.5                            # [linux]
+pybind11:
+    - 2.2.3
+python:
+    - 3.7
+    - 3.6
+PY_ABBR:
+    - python3.7m
+    - python3.6m
+
+zip_keys:
+    - python
+    - PY_ABBR
