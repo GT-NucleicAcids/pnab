@@ -3,47 +3,36 @@ package:
   version: "0.1.0"
 
 source:
-  path: /theoryfs2/ds/alenaizan/Gits/pNAB
+  #path: ../../../pNAB
+  git_url: git@github.com:alenaizan/pNAB.git  # [linux]
+  git_url: https://github.com/alenaizan/pNAB.git  # [osx]
+  git_tag: labdriver
 
 build:
-  number: 0
+  number: 2
 
 requirements:
   build:
-    - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
   host:
-    #- {{ compiler('c') }}
-    #- {{ compiler('cxx') }}
-    #- libgcc=4.8.5
-    - python {{ python }}
-    - setuptools
-    #- setuptools
-    #- cmake
-    - pybind11
     - eigen
     - openbabel {{ openbabel }}
+    - pybind11
+    - python {{ python }}
   run:
-    - openbabel {{ openbabel }}*
     - numpy
-    #- py3dmol
+    - {{ pin_compatible('openbabel', max_pin='x.x') }}
+    - {{ pin_compatible('python', max_pin='x.x') }}
+    - py3dmol
 
 test:
-  files:
-    - tests/test_binder.py
-    - tests/rna_bb.pdb
-    - tests/adenine.pdb
-  #requires:
-  #  - pytest
   imports:
     - pNAB
+  requires:
+    - pytest
   commands:
-  #  - pytest --pyargs pNAB
-    #- export LD_LIBRARY_PATH=$PREFIX/lib
-    #- export BABEL_LIBDIR=$PREFIX/lib
-    #- export BABEL_DATADIR=$PREFIX/share/openbabel
-    - ${PYTHON} tests/test_binder.py
+    - pytest --pyargs pNAB
 
 about:
   home: https://github.com/alenaizan/pNAB
