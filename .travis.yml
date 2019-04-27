@@ -59,10 +59,10 @@ script:
   - cd build
   - make -j${CPU_COUNT}
   - cd ..
-  - cp -R pNAB ${SP_DIR}
-  - cp build/bind.*.so ${SP_DIR}/pNAB
-  - ls -l ${SP_DIR}/pNAB
-  - python -c "import sys; del sys.path[0]; import pNAB; pNAB.test(extras='--cov')"
+  - cp -R pnab ${SP_DIR}
+  - cp build/bind.*.so ${SP_DIR}/pnab
+  - ls -l ${SP_DIR}/pnab
+  - python -c "import sys; del sys.path[0]; import pnab; pnab.test(extras='--cov')"
 
 notifications:
   email: false
