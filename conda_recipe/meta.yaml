@@ -4,8 +4,8 @@ package:
 
 source:
   #path: ../../../pNAB
-  git_url: git@github.com:alenaizan/pNAB.git  # [linux]
-  git_url: https://github.com/alenaizan/pNAB.git  # [osx]
+  git_url: git@github.com:alenaizan/pnab.git  # [linux]
+  git_url: https://github.com/alenaizan/pnab.git  # [osx]
   git_tag: labdriver
 
 build:
@@ -35,7 +35,7 @@ test:
     - pytest --pyargs pnab
 
 about:
-  home: https://github.com/alenaizan/pNAB
+  home: https://github.com/alenaizan/pnab
   license: None
   license_family: None
-  summary: Nucleic Acid Builder
+  summary: proto-Nucleic Acid Builder

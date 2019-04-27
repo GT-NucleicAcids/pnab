@@ -41,4 +41,4 @@ cp build/bind.*.so ${SP_DIR}/pnab
 ls -l ${SP_DIR}/pnab
 
 # test
-python -c "import sys; del sys.path[0]; import pnab; pnab.test()"
+pytest --cov

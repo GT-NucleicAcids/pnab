@@ -62,7 +62,7 @@ script:
   - cp -R pnab ${SP_DIR}
   - cp build/bind.*.so ${SP_DIR}/pnab
   - ls -l ${SP_DIR}/pnab
-  - python -c "import sys; del sys.path[0]; import pnab; pnab.test(extras=['--cov'])"
+  - pytest --cov
 
 notifications:
   email: false
