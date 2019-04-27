@@ -33,6 +33,7 @@ ${PREFIX}/bin/cmake \
 
 cd build
 make -j${CPU_COUNT}
+cp bind.*so ../pnab
 cd ..
 
 # install

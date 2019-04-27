@@ -58,6 +58,7 @@ script:
     -DCMAKE_PREFIX_PATH="${PREFIX}"
   - cd build
   - make -j${CPU_COUNT}
+  - cp bind.*so ../pnab
   - cd ..
   - cp -R pnab ${SP_DIR}
   - cp build/bind.*.so ${SP_DIR}/pnab
