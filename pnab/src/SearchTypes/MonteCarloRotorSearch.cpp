@@ -190,7 +190,7 @@ std::string MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
     conf_data.chain_coords_present = false;
     conf_data_vec_.push_back(conf_data);
 
-    output_string << "#Conformer Index, Energy (kcal/mol), Distance (A), Bond Energy, Angle Energy,";
+    output_string << "# Prefix, Conformer Index, Energy (kcal/mol), Distance (A), Bond Energy, Angle Energy,";
     output_string << " Torsion Energy, VDW Energy, Total Torsion Energy, RMSD (A)" << endl;
     std::sort(conf_data_vec_.begin(), conf_data_vec_.end());
 
@@ -199,9 +199,9 @@ std::string MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
 
     for (auto &v : conf_data_vec_) {
         v.rmsd = calcRMSD(ref, v.monomer_coord, monomer_num_coords_);
-        output_string << v.index  << ", " << v.total_energy << ", " << v.distance << ", " << v.bondE << ", "
-               << v.angleE << ", " << v.torsionE     << ", " << v.VDWE     << ", " << v.totTorsionE << ", "
-               << v.rmsd   << endl;
+        output_string << prefix_ << ", " << v.index  << ", " << v.total_energy << ", " << v.distance << ", "
+               << v.bondE << ", " << v.angleE << ", " << v.torsionE     << ", " << v.VDWE     << ", "
+               << v.totTorsionE << ", " << v.rmsd   << endl;
     }
 
 

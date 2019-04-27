@@ -1,7 +1,7 @@
 import ipywidgets as widgets
 from IPython.display import display
 
-from pNAB.driver import draw
+from pnab.driver import draw
 
 
 options = {}
@@ -16,17 +16,20 @@ def backbone(param, file_path):
 
     num_atoms = draw.view_py3dmol(file_path, label=True)
 
-    linker = widgets.SelectMultiple(options=range(1, num_atoms + 1)) 
-    interconnects = widgets.SelectMultiple(options=range(1, num_atoms + 1))
+    linker1 = widgets.Dropdown(options=range(1, num_atoms + 1)) 
+    linker2 = widgets.Dropdown(options=range(1, num_atoms + 1)) 
+    interconnects1 = widgets.Dropdown(options=range(1, num_atoms + 1))
+    interconnects2 = widgets.Dropdown(options=range(1, num_atoms + 1))
 
-    box1 = widgets.HBox([widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker])
-    box2 = widgets.HBox([widgets.Label(param['interconnects']['glossory'], layout={'width': '400px'}), interconnects])
+    box1 = widgets.HBox([widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker1, linker2])
+    box2 = widgets.HBox([widgets.Label(param['interconnects']['glossory'],
+                layout={'width': '400px'}), interconnects1, interconnects2])
 
     display(box1)
     display(box2)
 
-    options['Backbone'] = {'file_path': file_path, 'linker': linker,
-                           'interconnects': interconnects}
+    options['Backbone'] = {'file_path': file_path, 'linker': [linker1, linker2],
+                           'interconnects': [interconnects1, interconnects2]}
 
 
 def base(param, file_path, base_number):
@@ -38,12 +41,14 @@ def base(param, file_path, base_number):
 
     num_atoms = draw.view_py3dmol(file_path, label=True)
 
-    linker = widgets.SelectMultiple(options=range(1, num_atoms + 1)) 
+    linker1 = widgets.Dropdown(options=range(1, num_atoms + 1)) 
+    linker2 = widgets.Dropdown(options=range(1, num_atoms + 1)) 
+    
     code = widgets.Text()
     name = widgets.Text()
     pair_name = widgets.Text()
 
-    box1 = widgets.HBox([widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker])
+    box1 = widgets.HBox([widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker1, linker2])
     box2 = widgets.HBox([widgets.Label(param['code']['glossory'], layout={'width': '400px'}), code])
     box3 = widgets.HBox([widgets.Label(param['name']['glossory'], layout={'width': '400px'}), name])
     box4 = widgets.HBox([widgets.Label(param['pair_name']['glossory'], layout={'width': '400px'}), pair_name])
@@ -54,7 +59,7 @@ def base(param, file_path, base_number):
     display(box4)
 
     options['Base %i' %base_number]['file_path'] = file_path
-    options['Base %i' %base_number]['linker'] = linker
+    options['Base %i' %base_number]['linker'] = [linker1, linker2]
     options['Base %i' %base_number]['code'] = code
     options['Base %i' %base_number]['name'] = name
     options['Base %i' %base_number]['pair_name'] = pair_name
@@ -68,7 +73,8 @@ def bases(param, num_bases):
 
     for i in range(num_bases):
         options['Base %i' %(i+1)] = {}
-        path = widgets.interactive(base, param=widgets.fixed(param), file_path=widgets.Text(value='', description="Base File", style={'description_width': 'initial'}),
+        path = widgets.interactive(base, param=widgets.fixed(param), file_path=widgets.Text(value='',
+                                   description="Base File", style={'description_width': 'initial'}),
                                    base_number=widgets.fixed(i+1))
         display(path)
 
@@ -167,10 +173,16 @@ def extract_options(_options):
             if isinstance(val2, str):
                 user_options[k1][k2] = val2
             elif k1 == 'Backbone':
-                user_options[k1][k2] = val2.value
+                if isinstance(val2, list):
+                    user_options[k1][k2] = [val2[0].value, val2[1].value]
+                else:
+                    user_options[k1][k2] = val2.value
 
             elif 'Base' in k1:
-                user_options[k1][k2] = val2.value
+                if isinstance(val2, list):
+                    user_options[k1][k2] = [val2[0].value, val2[1].value]
+                else:
+                    user_options[k1][k2] = val2.value
 
             elif k1 == 'HelicalParameters':
                 user_options[k1][k2] = [val2[0].value[0], val2[0].value[1], val2[1].value]

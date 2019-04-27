@@ -4,7 +4,7 @@ if [ "$(uname)" == "Linux" ]; then
     # configure
     ${BUILD_PREFIX}/bin/cmake \
         -H${SRC_DIR} \
-        -Bbuild3 \
+        -Bbuild \
         -DCMAKE_INSTALL_PREFIX=${PREFIX} \
         -DCMAKE_BUILD_TYPE=Debug \
         -DCMAKE_C_COMPILER=${CC} \
@@ -26,11 +26,11 @@ if [ "$(uname)" == "Linux" ]; then
 fi
 
 # build
-cd build3
+cd build
 make -j${CPU_COUNT}
 cd ..
 
 # install
-cp -R pNAB ${SP_DIR}
-cp build3/bind.*.so ${SP_DIR}/pNAB
-ls -l ${SP_DIR}/pNAB
+cp -R pnab ${SP_DIR}
+cp build3/bind.*.so ${SP_DIR}/pnab
+ls -l ${SP_DIR}/pnab

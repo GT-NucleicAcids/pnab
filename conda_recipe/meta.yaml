@@ -28,11 +28,11 @@ requirements:
 
 test:
   imports:
-    - pNAB
+    - pnab
   requires:
     - pytest
   commands:
-    - pytest --pyargs pNAB
+    - pytest --pyargs pnab
 
 about:
   home: https://github.com/alenaizan/pNAB

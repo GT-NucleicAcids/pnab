@@ -6,7 +6,7 @@ def test_binder_1():
     """
     test binder
     """
-    from pNAB import bind
+    from pnab import bind
 
     backbone = bind.Backbone()
     backbone_attr = {'file_path': str, 'interconnects': list, 'linker': list}
@@ -43,7 +43,7 @@ def test_binder_2():
     """
     import os
 
-    from pNAB import bind
+    from pnab import bind
 
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 

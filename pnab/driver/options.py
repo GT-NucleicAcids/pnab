@@ -16,7 +16,7 @@ import os
 import copy
 
 try:
-    from pNAB.driver import widgets
+    from pnab.driver import widgets
 except:
     pass
 

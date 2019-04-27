@@ -1,12 +1,12 @@
 """proto-Nucleic Acid Builder
 proto-Nucleic Acid Builder
 
-details
+Main file
 """
 
 from __future__ import division, absolute_import, print_function
 
-import json
+import yaml
 import itertools
 from io import StringIO
 import multiprocessing as mp
@@ -15,13 +15,13 @@ warnings.filterwarnings("ignore", category=UserWarning)
 import datetime
 import numpy as np
 
-from pNAB import bind
-from pNAB.driver import options
+from pnab import bind
+from pnab.driver import options
 try:
-    from pNAB.driver import widgets
+    from pnab.driver import widgets
 except:
     pass
-from pNAB.driver import draw
+from pnab.driver import draw
 
 
 class pNAB(object):
@@ -35,7 +35,7 @@ class pNAB(object):
         """The constructor"""
 
         if file_path is not None:
-            self.options = json.loads(open(file_path, 'r').read())
+            self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
             options._validate_all_options(self.options)
             self._input_file = file_path
 
@@ -56,7 +56,7 @@ class pNAB(object):
 
             else:
                 file_path = input('Enter path to input [options.dat]: ') or 'options.dat'
-                self.options = json.loads(open(file_path, 'r').read())
+                self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
                 options._validate_all_options(self.options)
                 self._input_file = file_path
 
@@ -82,16 +82,32 @@ class pNAB(object):
         result = bind.run(runtime_parameters, backbone, bases, helical_parameters, prefix)
         result = np.genfromtxt(StringIO(result), delimiter=',')
 
-        if result.ndim == 1:
+        if result.size == 0:
+            result = None
+        elif result.ndim == 1:
             result = result.reshape(1, len(result))
 
         header = ''.join(['%s=%.2f, ' %(k, val) for k, val in zip(self.options['HelicalParameters'], config)])
         header = header.strip(', ')
 
-        if result.shape[1] == 0:
-            result = None
-
         return [prefix, header, result] 
+
+
+    def _single_result(self, results):
+        """ Extract results for each helical configuration as it finishe."""
+
+        with open('prefix.dat', 'ab') as f:
+            f.write(str.encode(yaml.dump({results[0]:results[1]})))
+
+        if results[2] is None:
+            return
+
+        header = results[1] + '\n'
+        header += ('Prefix, Conformer Index, Energy (kcal/mol), Distance (A), Bond Energy, Angle Energy,' +
+                  ' Torsion Energy, VDW Energy, Total Torsion Energy, RMSD (A)')
+
+        with open('results.dat', 'ab') as f:
+            np.savetxt(f, results[2], fmt='%12i'*2 + '%12.4f'*8, header=header)
 
 
     def run(self):
@@ -104,17 +120,24 @@ class pNAB(object):
             # Workaround as widget states are not serializable and cannot be used with multiprocess
             temp = self._options
             del self._options
+
             with open('options.dat', 'w') as f:
-                f.write(json.dumps(self.options, indent=4))
+                f.write(yaml.dump(self.options))
 
-        config = list(itertools.product(*[np.random.uniform(val[0], val[1], val[2]) 
-                                       for k, val in self.options['HelicalParameters'].items()]))
+        config = itertools.product(*[np.random.uniform(val[0], val[1], val[2])
+                                       for val in self.options['HelicalParameters'].values()])
+        num_config = np.prod([val[2] for val in self.options['HelicalParameters'].values()])
+        prefix = (str(i) for i in range(1, num_config + 1))
 
-        prefix = [str(i) for i in range(1, len(config) + 1)]
+        pool = mp.Pool(mp.cpu_count(), maxtasksperchild=1)
 
-        pool = mp.Pool(mp.cpu_count())
+        time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        with open('results.dat', 'w') as f: f.write('# ' + time + '\n')
+        with open('prefix.dat', 'w') as f: f.write('# ' + time + '\n')
 
-        self._results = pool.map(self._run, zip(config, prefix))
+        prefix_dict = {}
+        for results in pool.imap(self._run, zip(config, prefix)):
+            self._single_result(results)
 
         pool.close()
 
@@ -125,54 +148,34 @@ class pNAB(object):
     def get_results(self):
         """Extract the results from the run and report it to the user."""
 
-        header = ('Conformer Index, Energy (kcal/mol), Distance (A), Bond Energy, Angle Energy,' +
+        header = ('Prefix, Conformer Index, Energy (kcal/mol), Distance (A), Bond Energy, Angle Energy,' +
                   ' Torsion Energy, VDW Energy, Total Torsion Energy, RMSD (A)')
 
-        results = self._results
-        f = open('results.dat', 'ab')
-        config_dict = {}
-        prefix_dict = {}
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        all_results = np.zeros((0, 10))
-        for i in range(len(results)):
-            prefix_dict[str(int(results[i][0]))] = results[i][1]
-            if results[i][2] is None:
-                continue
-            prefix_str = 'prefix: ' + results[i][0] + '\n'
-            head = prefix_str + results[i][1] + '\n' + header
-            if i == 0:
-                head = time + '\n' + head
-            np.savetxt(f, results[i][2], fmt='%12i' + '%12.4f'*8, header=head)
-            for conf in results[i][2][:, 0]:
-                config_dict[str(int(results[i][0])) + '_' + str(int(conf))] = (prefix_str + results[i][1]).strip(',')
-            prefix = np.array([int(results[i][0])]*results[i][2].shape[0]).reshape((results[i][2].shape[0], 1))
-            all_results = np.vstack((all_results, np.hstack((prefix, results[i][2]))))
-        f.close()
+        self.results = np.loadtxt('results.dat')
+        if self.results.size == 0:
+            print("No candidate found")
+            return
 
-        all_results = all_results[all_results[:, 2].argsort()]
-        self.config_dict = config_dict
-        self.results = all_results
+        elif self.results.ndim == 1:
+            self.results = self.results.reshape(1, len(self.results))
 
-        max_show = 10 if len(self.results) > 10 else len(self.results)
-        f = open('summary.dat', 'ab')
-        np.savetxt(f, self.results[:max_show], fmt='%12i' + '%12i' + '%12.4f'*8,
-                   header=time + '\n'  + 'Prefix, ' + header )
-        f.close()
+        self.prefix = yaml.load(open('prefix.dat'), yaml.FullLoader)
 
-        f = open('prefix.dat', 'ab')
-        f.write(str.encode(time + '\n'))
-        for k, v in prefix_dict.items():
-            f.write(str.encode(k + ': ' + v + '\n'))
-        f.close()
+        summary = self.results[self.results[:, 2].argsort()][:10]
+
+        np.savetxt('summary.dat', summary, fmt='%12i'*2 + '%12.4f'*8,
+                   header=time + '\n' + header)
 
         print("There are %i candidates:\n" %len(self.results))
-        print('Showing the best %i candidates ...\n' %max_show)
+        print('Showing the best %i candidates ...\n' %len(summary))
 
-        for conformer in list(self.results)[:max_show]:
-            print('\n\n' + str(int(conformer[1])))
-            print('\n' +  config_dict[str(int(conformer[0])) + '_' + str(int(conformer[1]))]) 
+        for conformer in summary:
+            print(int(conformer[1]))
+            print(self.prefix['%i' %conformer[0]])
 
-            for i in range(2, len(conformer)):
-                print(header.split(', ')[i-1] + ': ' + str(conformer[i]))
+            for i in range(2, len(conformer) - 1):
+                print(header.split(', ')[i] + ': ' + str(conformer[i]))
+            print('\n')
 
             draw.view_py3dmol(str(int(conformer[0])) + '_' + str(int(conformer[1])) + '.pdb')

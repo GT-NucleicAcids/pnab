@@ -6,8 +6,8 @@ def test_options():
     """
     test parity between the C++ classes and the python options
     """
-    from pNAB import bind
-    from pNAB.driver.options import _options_dict
+    from pnab import bind
+    from pnab.driver.options import _options_dict
 
     components = ['Backbone', 'Base 1', 'RuntimeParameters', 'HelicalParameters']
     assert all([i in _options_dict for i in components])
@@ -25,11 +25,11 @@ def test_run():
     """
     import os
 
-    import pNAB
+    import pnab
 
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-    run = pNAB.pNAB('files/options_rna.dat')
+    run = pnab.pNAB('files/options_rna.dat')
     run.run()
     run.get_results()
     print(run.results)
@@ -42,11 +42,11 @@ def test_run():
 #    """
 #    import os
 #
-#    import pNAB
+#    import pnab
 #
 #    os.chdir(os.path.dirname(os.path.realpath(__file__)))
 #
-#    run = pNAB.pNAB('files/options_rna_range.dat')
+#    run = pnab.pNAB('files/options_rna_range.dat')
 #    run.run()
 #    assert len(run._results) == 15
 #
@@ -56,4 +56,3 @@ def test_run():
 #        assert '%i_%i' %(prefix, conformer) in run.config_dict
 #
 #    print(run.results)
-#    print(run.config_dict)

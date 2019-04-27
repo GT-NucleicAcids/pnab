@@ -30,7 +30,7 @@ if(BUILD_DOCS AND DOXYGEN_FOUND)
             )
 endif()
 
-set(SOURCE_DIR pNAB/src)
+set(SOURCE_DIR pnab/src)
 include_directories(${SOURCE_DIR})
 set(SOURCE_FILES 
         ${SOURCE_DIR}/Containers.cpp
