@@ -47,4 +47,4 @@ extraction:
         - cd build
         - make -j2
         - export PATH=/usr/bin/:$PATH
-        - which python
+        - cd ..
