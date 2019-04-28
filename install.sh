@@ -31,6 +31,7 @@ ${PREFIX}/bin/cmake \
     -Dpybind11_DIR="${PREFIX}/share/cmake/pybind11" \
     -DCMAKE_PREFIX_PATH="${PREFIX}"
 
+# build
 cd build
 make -j${CPU_COUNT}
 cp bind.*so ../pnab
