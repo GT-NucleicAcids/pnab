@@ -40,9 +40,8 @@ extraction:
           -Dpybind11_DIR="${PREFIX}/share/cmake/pybind11"
           -DCMAKE_PREFIX_PATH="${PREFIX}"
          
-    #index:
-    #  build_command:
-    #    - cd build
-    #    - make -j2
-    #    - export PATH=/usr/bin/:$PATH
-    #    - cd ..
+    index:
+      build_command:
+        - cd build
+        - make -j2
+        - cd ..
