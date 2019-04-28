@@ -1,0 +1,43 @@
+extraction:
+  cpp:
+    after_prepare:
+        - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+        bash miniconda.sh -b -p $HOME/miniconda
+        - hash -r
+        - conda config --set always_yes yes --set changeps1 no
+        - conda update -q conda
+        - PYTHON_VER = '3.7'
+        - conda create -n conda-forge python=$PYTHON_VER cmake gcc_linux-64 gxx_linux-64 openbabel eigen pybind11
+        - source activate pnab
+    configure:
+      command:
+        - pwd
+        - PREFIX=$CONDA_PREFIX
+        - SRC_DIR=./
+        - PY_ABBR="python${PYTHON_VER}m"
+        - SP_DIR=$PREFIX/lib/python${PYTHON_VER}/site-packages
+        - ${PREFIX}/bin/cmake
+          -H${SRC_DIR}
+          -Bbuild
+          -DCMAKE_INSTALL_PREFIX=${PREFIX}
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_C_COMPILER=${CC}
+          -DCMAKE_CXX_COMPILER=${CXX}
+          -DCMAKE_C_FLAGS="${CFLAGS}"
+          -DCMAKE_CXX_FLAGS="${CXXFLAGS}"
+          -DPYTHON_EXECUTABLE="${PREFIX}/bin/python"
+          -DPYTHON_LIBRARY="${PREFIX}/lib/lib${PY_ABBR}${SHLIB_EXT}"
+          -DPYTHON_INCLUDE_DIR="${PREFIX}/include/${PY_ABBR}"
+          -DBUILD_SHARED_LIBS=ON
+          -DBUILD_DOCS=OFF
+          -DENABLE_OPENMP=OFF
+          -DENABLE_XHOST=OFF
+          -DENABLE_GENERIC=ON
+          -Dopenbabel2_DIR="${PREFIX}/lib/cmake/openbabel2"
+          -Dpybind11_DIR="${PREFIX}/share/cmake/pybind11"
+          -DCMAKE_PREFIX_PATH="${PREFIX}"
+         
+    index:
+      build_command:
+        - cd build
+        - make -j2
