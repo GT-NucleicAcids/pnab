@@ -4,11 +4,8 @@ extraction:
       version: 3
   cpp:
     after_prepare:
-        - which python
-        - python -V
         - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
         - bash miniconda.sh -b -p $HOME/miniconda
-        - export PATH_TEMP=$PATH
         - export PATH="$HOME/miniconda/bin:$PATH"
         - hash -r
         - conda config --set always_yes yes --set changeps1 no
@@ -44,12 +41,10 @@ extraction:
           -Dopenbabel2_DIR="${PREFIX}/lib/cmake/openbabel2"
           -Dpybind11_DIR="${PREFIX}/share/cmake/pybind11"
           -DCMAKE_PREFIX_PATH="${PREFIX}"
-        - source deactivate
-        - export PATH=$PATH_TEMP
          
     index:
       build_command:
         - cd build
         - make -j2
+        - export PATH=/usr/bin/:$PATH
         - which python
-        - python -V
