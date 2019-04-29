@@ -6,7 +6,7 @@ if [ "$(uname)" == "Linux" ]; then
         -H${SRC_DIR} \
         -Bbuild \
         -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-        -DCMAKE_BUILD_TYPE=Debug \
+        -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_C_COMPILER=${CC} \
         -DCMAKE_CXX_COMPILER=${CXX} \
         -DCMAKE_C_FLAGS="${CFLAGS}" \

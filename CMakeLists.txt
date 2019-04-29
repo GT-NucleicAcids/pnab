@@ -40,7 +40,8 @@ set(SOURCE_FILES
 
 # pybind11
 find_package(pybind11 REQUIRED)
-pybind11_add_module(bind ${SOURCE_DIR}/binder.cpp ${SOURCE_FILES})
+# Must add NO_EXTRAS; otherwise code does not work in Release mode
+pybind11_add_module(bind NO_EXTRAS ${SOURCE_DIR}/binder.cpp ${SOURCE_FILES})
 target_link_libraries(bind PRIVATE openbabel)
 target_include_directories(bind PRIVATE ${OpenBabel2_INCLUDE_DIRS})
 
