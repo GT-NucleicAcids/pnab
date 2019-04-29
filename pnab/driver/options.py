@@ -17,7 +17,7 @@ import copy
 
 try:
     from pnab.driver import widgets
-except:
+except ImportError:
     pass
 
 def set_options():

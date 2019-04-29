@@ -1,5 +1,4 @@
 from __future__ import division, absolute_import, print_function
-import pytest
 
 
 def test_options():
@@ -33,26 +32,3 @@ def test_run():
     run.run()
     run.get_results()
     print(run.results)
-
-
-#def test_run2():
-#    """
-#    test running with provided option file. Run over ranges of helical parameters:
-#    five twist values and three inclination values
-#    """
-#    import os
-#
-#    import pnab
-#
-#    os.chdir(os.path.dirname(os.path.realpath(__file__)))
-#
-#    run = pnab.pNAB('files/options_rna_range.dat')
-#    run.run()
-#    assert len(run._results) == 15
-#
-#    run.get_results()
-#
-#    for prefix, conformer in zip(run.results[:, 0], run.results[:, 1]):
-#        assert '%i_%i' %(prefix, conformer) in run.config_dict
-#
-#    print(run.results)

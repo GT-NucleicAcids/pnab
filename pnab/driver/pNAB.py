@@ -19,7 +19,7 @@ from pnab import bind
 from pnab.driver import options
 try:
     from pnab.driver import widgets
-except:
+except ImportError:
     pass
 from pnab.driver import draw
 
@@ -135,7 +135,6 @@ class pNAB(object):
         with open('results.dat', 'w') as f: f.write('# ' + time + '\n')
         with open('prefix.dat', 'w') as f: f.write('# ' + time + '\n')
 
-        prefix_dict = {}
         for results in pool.imap(self._run, zip(config, prefix)):
             self._single_result(results)
 

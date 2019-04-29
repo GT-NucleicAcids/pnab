@@ -129,7 +129,7 @@ std::string MonteCarloRotorSearch::run() {
     }
 
     for (auto &v : conf_data_vec_)
-        delete v.monomer_coord;
+        delete[] v.monomer_coord;
 
     return output_string;
 }
@@ -186,7 +186,7 @@ std::string MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
     conv_.Write(&test_chain_);
     fb.close();
 
-    delete conf_data.coords;
+    delete[] conf_data.coords;
     conf_data.chain_coords_present = false;
     conf_data_vec_.push_back(conf_data);
 

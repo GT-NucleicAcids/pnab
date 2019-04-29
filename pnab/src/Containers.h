@@ -75,9 +75,8 @@ namespace PNAB {
             return OpenBabel::vector3(x_displacement, y_displacement);
         }
 
-        std::array<double, 9> getBasePairRotationMatrix() {
-
-        };
+        //std::array<double, 9> getBasePairRotationMatrix() {
+        //};
 
         OpenBabel::vector3 getBasePairTranslationVec() {
             return OpenBabel::vector3(shear, stretch, stagger);
