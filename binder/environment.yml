@@ -1,0 +1,7 @@
+name: pnab
+channels:
+    - conda-forge
+    - psi4/label/dev
+dependencies:
+    - pnab
+    - py3dmol
