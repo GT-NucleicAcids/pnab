@@ -3,7 +3,7 @@
 #
 #  OPENBABEL2_FOUND - system has OpenBabel2
 #  OPENBABEL2_INCLUDE_DIR - the OpenBabel2 include directory
-#  OPENBABEL2_LIBRARIES - Link these to use OpenBabel2
+#  OPENBABEL2_LIBRARY - Link these to use OpenBabel2
 # Copyright (c) 2006, 2007 Carsten Niehaus, <cniehaus@gmx.de>
 # Copyright (C) 2008 Marcus D. Hanwell <marcus@cryos.org>
 # Redistribution and use is allowed according to the terms of the BSD license.
@@ -11,7 +11,7 @@
 
 include(MacroEnsureVersion)
 
-if(OPENBABEL2_INCLUDE_DIR AND OPENBABEL2_LIBRARIES AND OPENBABEL2_VERSION_MET)
+if(OPENBABEL2_INCLUDE_DIR AND OPENBABEL2_LIBRARY AND OPENBABEL2_VERSION_MET)
   # in cache already
   set(OPENBABEL2_FOUND TRUE)
 
@@ -48,21 +48,21 @@ else()
       endif(NOT OPENBABEL2_INCLUDE_DIR)
     endif()
 
-    find_library(OPENBABEL2_LIBRARIES NAMES openbabel openbabel-2
+    find_library(OPENBABEL2_LIBRARY NAMES openbabel openbabel-2
       PATHS
       ${_obLinkDir}
       ${GNUWIN32_DIR}/lib
-      $ENV{OPENBABEL2_LIBRARIES}
+      $ENV{OPENBABEL2_LIBRARY}
     )
   endif()
 
-  if(OPENBABEL2_INCLUDE_DIR AND OPENBABEL2_LIBRARIES AND OPENBABEL2_VERSION_MET)
+  if(OPENBABEL2_INCLUDE_DIR AND OPENBABEL2_LIBRARY AND OPENBABEL2_VERSION_MET)
     set(OPENBABEL2_FOUND TRUE)
-  endif(OPENBABEL2_INCLUDE_DIR AND OPENBABEL2_LIBRARIES AND OPENBABEL2_VERSION_MET)
+  endif(OPENBABEL2_INCLUDE_DIR AND OPENBABEL2_LIBRARY AND OPENBABEL2_VERSION_MET)
 
   if(OPENBABEL2_FOUND)
     if(NOT OpenBabel2_FIND_QUIETLY)
-      message(STATUS "Found OpenBabel 2.3 or later: ${OPENBABEL2_LIBRARIES}")
+      message(STATUS "Found OpenBabel 2.3 or later: ${OPENBABEL2_LIBRARY}")
     endif()
   else()
     if(OpenBabel2_FIND_REQUIRED)
@@ -70,7 +70,7 @@ else()
     endif()
   endif()
 
-  mark_as_advanced(OPENBABEL2_INCLUDE_DIR OPENBABEL2_LIBRARIES)
+  mark_as_advanced(OPENBABEL2_INCLUDE_DIR OPENBABEL2_LIBRARY)
 
 endif()
 

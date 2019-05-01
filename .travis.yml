@@ -1,0 +1,59 @@
+    
+language: python
+sudo: false
+matrix:
+  include:
+
+  - env:
+    - PYTHON_VER='3.6'
+
+  - env:
+    - PYTHON_VER='3.7'
+
+install:
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+
+  - conda info -a
+
+  - conda create -n pnab -c conda-forge python=$PYTHON_VER numpy cmake
+        gcc_linux-64 gxx_linux-64 openbabel eigen pybind11 pyyaml py3dmol
+        pytest pytest-cov codecov
+        
+  - source activate pnab
+  - conda list
+
+before_script:
+  - python -V
+
+script:
+  - pwd
+  - PREFIX=$CONDA_PREFIX
+  - SRC_DIR=./
+  - PY_ABBR="python${PYTHON_VER}m"
+  - SP_DIR=$PREFIX/lib/python${PYTHON_VER}/site-packages
+  - ${PREFIX}/bin/cmake 
+    -H${SRC_DIR}
+    -Bbuild
+    -DCMAKE_BUILD_TYPE=Release
+    -DPYTHON_EXECUTABLE="${PREFIX}/bin/python"
+    -DPYTHON_LIBRARY="${PREFIX}/lib/lib${PY_ABBR}${SHLIB_EXT}"
+    -DPYTHON_INCLUDE_DIR="${PREFIX}/include/${PY_ABBR}"
+  - cd build
+  - make
+  - cp bind.*so ../pnab
+  - cd ..
+  - cp -R pnab ${SP_DIR}
+  - cp build/bind.*.so ${SP_DIR}/pnab
+  - ls -l ${SP_DIR}/pnab
+  - pytest --cov
+
+notifications:
+  email: false
+
+after_success:
+  - codecov
