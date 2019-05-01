@@ -56,6 +56,11 @@ def test_energy_filter():
     output2 = bind.run(rp, backbone, bases, hp, '2')
     output2 = np.genfromtxt(StringIO(output2), delimiter=',')
 
+    if output2.size == 0:
+        return
+    elif output2.ndim == 1:
+        output2 = output2.reshape(1, len(output2))
+
     filter_index = [2, 4, 5, 7, 8]
     for i in filter_index:
         assert all([val < output1[i] for val in output2[:, i]])
