@@ -4,6 +4,8 @@ from __future__ import division, absolute_import, print_function
 def test_binder_1():
     """
     test binder
+
+    Test exposed C++ classes attributes and their types
     """
     from pnab import bind
 
@@ -39,6 +41,8 @@ def test_binder_1():
 def test_binder_2():
     """
     test binder 2
+
+    Test that the C++ binder runs
     """
     import os
 

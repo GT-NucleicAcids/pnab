@@ -3,7 +3,7 @@ from __future__ import division, absolute_import, print_function
 
 def test_options():
     """
-    test parity between the C++ classes and the python options
+    test parity between the C++ attributes of classes and the python options
     """
     from pnab import bind
     from pnab.driver.options import _options_dict
@@ -28,7 +28,24 @@ def test_run():
 
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-    run = pnab.pNAB('files/options_rna.dat')
+    run = pnab.pNAB('files/options_rna.yaml')
     run.run()
     run.get_results()
-    print(run.results)
+
+
+def test_run_range():
+    """
+    test running with provided option file
+    """
+    import os
+
+    import pnab
+
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+    run = pnab.pNAB('files/options_rna_range.yaml')
+    run.run()
+    run.get_results()
+
+    # Confirm the number of tested configurations
+    assert len(run.prefix) == 15

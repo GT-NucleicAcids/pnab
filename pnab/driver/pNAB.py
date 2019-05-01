@@ -147,6 +147,8 @@ class pNAB(object):
     def get_results(self):
         """Extract the results from the run and report it to the user."""
 
+        self.prefix = yaml.load(open('prefix.dat'), yaml.FullLoader)
+
         header = ('Prefix, Conformer Index, Energy (kcal/mol), Distance (A), Bond Energy, Angle Energy,' +
                   ' Torsion Energy, VDW Energy, Total Torsion Energy, RMSD (A)')
 
@@ -159,8 +161,6 @@ class pNAB(object):
         elif self.results.ndim == 1:
             self.results = self.results.reshape(1, len(self.results))
 
-        self.prefix = yaml.load(open('prefix.dat'), yaml.FullLoader)
-
         summary = self.results[self.results[:, 2].argsort()][:10]
 
         np.savetxt('summary.dat', summary, fmt='%12i'*2 + '%12.4f'*8,
@@ -170,6 +170,7 @@ class pNAB(object):
         print('Showing the best %i candidates ...\n' %len(summary))
 
         for conformer in summary:
+            print("Prefix: %i" %conformer[0])
             print(int(conformer[1]))
             print(self.prefix['%i' %conformer[0]])
 

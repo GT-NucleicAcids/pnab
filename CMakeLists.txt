@@ -6,18 +6,11 @@ set(CMAKE_CXX_STANDARD 11)
 # set the module path
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
-# find and setup openbabel
 find_package(OpenBabel2 CONFIG REQUIRED)
 
 find_package(Eigen3 REQUIRED) # find and setup Eigen3 if available
 set(EIGEN2_SUPPORT_STAGE10_FULL_EIGEN2_API TRUE)
 include_directories(${EIGEN3_INCLUDE_DIR})
-
-#find_package(OpenMP)
-#if (OPENMP_FOUND)
-#    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-#    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-#endif()
 
 # add a target to generate API documentation with Doxygen
 find_package(Doxygen)
