@@ -32,17 +32,25 @@ before_script:
 
 script:
   - pwd
-  - cmake -Bbuild -DCMAKE_BUILD_TYPE=Release
+  - PREFIX=$CONDA_PREFIX
+  - SRC_DIR=./
+  - PY_ABBR="python${PYTHON_VER}m"
+  - SP_DIR=$PREFIX/lib/python${PYTHON_VER}/site-packages
+  - ${PREFIX}/bin/cmake
+    -H${SRC_DIR}
+    -Bbuild
+    -DCMAKE_BUILD_TYPE=Release
+    -DPYTHON_EXECUTABLE="${PREFIX}/bin/python"
+    -DPYTHON_LIBRARY="${PREFIX}/lib/lib${PY_ABBR}${SHLIB_EXT}"
+    -DPYTHON_INCLUDE_DIR="${PREFIX}/include/${PY_ABBR}"
   - cd build
   - make
   - cp bind.*so ../pnab
   - cd ..
-  - SP_DIR=$CONDA_PREFIX/lib/python${PYTHON_VER}/site-packages
   - cp -R pnab ${SP_DIR}
   - cp build/bind.*.so ${SP_DIR}/pnab
   - ls -l ${SP_DIR}/pnab
-  - pytest --cov
-
+- pytest --cov
 notifications:
   email: false
 
