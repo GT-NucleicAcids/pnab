@@ -36,7 +36,7 @@ script:
   - SRC_DIR=./
   - PY_ABBR="python${PYTHON_VER}m"
   - SP_DIR=$PREFIX/lib/python${PYTHON_VER}/site-packages
-  - ${PREFIX}/bin/cmake
+  - ${PREFIX}/bin/cmake 
     -H${SRC_DIR}
     -Bbuild
     -DCMAKE_BUILD_TYPE=Release
@@ -50,7 +50,8 @@ script:
   - cp -R pnab ${SP_DIR}
   - cp build/bind.*.so ${SP_DIR}/pnab
   - ls -l ${SP_DIR}/pnab
-- pytest --cov
+  - pytest --cov
+
 notifications:
   email: false
 
