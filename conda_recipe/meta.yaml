@@ -4,9 +4,9 @@ package:
 
 source:
   #path: ../../../pNAB
-  git_url: git@github.com:alenaizan/pnab.git  # [linux]
+  git_url: https://github.com/alenaizan/pnab.git  # [linux]
   git_url: https://github.com/alenaizan/pnab.git  # [osx]
-  git_tag: labdriver
+  git_tag: v0.1
 
 build:
   number: 2
@@ -25,6 +25,7 @@ requirements:
     - {{ pin_compatible('openbabel', max_pin='x.x') }}
     - {{ pin_compatible('python', max_pin='x.x') }}
     - py3dmol
+    - pyyaml
 
 test:
   imports:
@@ -32,7 +33,7 @@ test:
   requires:
     - pytest
   commands:
-    - pytest --pyargs pnab
+    - python -c "import pnab; pnab.test()"
 
 about:
   home: https://github.com/alenaizan/pnab
