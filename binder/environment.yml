@@ -1,7 +1,6 @@
 name: pnab
 channels:
     - conda-forge
-    - psi4/label/dev
+    - alenaizan
 dependencies:
     - pnab
-    - py3dmol

@@ -16,6 +16,7 @@ cd ..
 # install
 SP_DIR=$CONDA_PREFIX/lib/python3.7/site-packages
 cp -R pnab ${SP_DIR}
+cp -R tests ${SP_DIR}/pnab
 cp build/bind.*.so ${SP_DIR}/pnab
 ls -l ${SP_DIR}/pnab
 

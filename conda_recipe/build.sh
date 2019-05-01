@@ -32,5 +32,6 @@ cd ..
 
 # install
 cp -R pnab ${SP_DIR}
-cp build3/bind.*.so ${SP_DIR}/pnab
+cp build/bind.*.so ${SP_DIR}/pnab
+cp -R tests ${SP_DIR}/pnab
 ls -l ${SP_DIR}/pnab
