@@ -49,12 +49,17 @@ def test_energy_filter():
     output1 = bind.run(rp, backbone, bases, hp, '1')
     output1 = np.genfromtxt(StringIO(output1), delimiter=',')
 
-    rp.num_steps = 10000000
+    rp.num_steps = 100000000
     rp.energy_filter = [output1[2], output1[5], output1[4], output1[7], output1[8]]
     rp.max_distance = 0.2
 
     output2 = bind.run(rp, backbone, bases, hp, '2')
     output2 = np.genfromtxt(StringIO(output2), delimiter=',')
+
+    if output2.size == 0:
+        return
+    elif output2.ndim == 1:
+        output2 = output2.reshape(1, len(output2))
 
     filter_index = [2, 4, 5, 7, 8]
     for i in filter_index:
