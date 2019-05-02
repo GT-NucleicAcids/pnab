@@ -17,7 +17,6 @@ public:
     Chain(PNAB::Bases bases, PNAB::Backbone backbone, std::vector<std::string> strand,
           std::string ff_type, std::array<unsigned, 2> &range, bool double_stranded = true);
     ~Chain() {
-        delete constraintsAng_, constraintsBond_, constraintsTor_, constraintsTot_;
         for (auto v : base_coords_vec_)
             delete v;
     }
@@ -48,7 +47,7 @@ private:
     std::vector<std::tuple<std::string,unsigned,unsigned>> n1_or_n3_tuple_, c_n1_or_n3_tuple_;
     OpenBabel::vector3 z_trans;
 
-    OpenBabel::OBFFConstraints *constraintsTot_, *constraintsTor_, *constraintsAng_, *constraintsBond_;
+    OpenBabel::OBFFConstraints constraintsTot_, constraintsTor_, constraintsAng_, constraintsBond_;
 
     void fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data);
     void setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids,

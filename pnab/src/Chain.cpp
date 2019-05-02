@@ -21,12 +21,6 @@ Chain::Chain(Bases bases, Backbone backbone, vector<string> strand, string ff_ty
     pFF_ = OBForceField::FindForceField(ff_type_);
     isKCAL_ = pFF_->GetUnit().find("kcal") != string::npos;
 
-    // Setting up constraints
-    constraintsTot_ = new OBFFConstraints;
-    constraintsTor_ = new OBFFConstraints;
-    constraintsAng_ = new OBFFConstraints;
-    constraintsBond_ = new OBFFConstraints;
-
     auto bases_A = bases.getBasesFromStrand(strand);
 
     setupChain(bases_A, chain_, new_bond_ids_, deleted_atoms_ids_, num_bu_A_mol_atoms_, bb_start_index_,
@@ -109,7 +103,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data)
     auto n = chain_length_;
 
     // Get total energies and VDW
-    pFF_->Setup(*current_mol, *constraintsTot_);
+    pFF_->Setup(*current_mol, constraintsTot_);
     conf_data.total_energy = pFF_->Energy() / n;
     conf_data.VDWE = pFF_->E_VDW() / n;
     conf_data.totTorsionE = pFF_->E_Torsion() / n;
@@ -118,15 +112,15 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data)
         n = 2;
 
     // Get torsional energies
-    pFF_->SetConstraints(*constraintsTor_);
+    pFF_->SetConstraints(constraintsTor_);
     conf_data.torsionE = pFF_->E_Torsion() / (n - 1);
 
     // Get angle energy
-    pFF_->SetConstraints(*constraintsAng_);
+    pFF_->SetConstraints(constraintsAng_);
     conf_data.angleE = pFF_->E_Angle() / (n - 1);
 
     // Get bond energy
-    pFF_->SetConstraints(*constraintsBond_);
+    pFF_->SetConstraints(constraintsBond_);
     conf_data.bondE = pFF_->E_Bond() / (n - 1);
 
     if (!isKCAL_) {
@@ -291,9 +285,9 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
     }
     FOR_ATOMS_OF_MOL(a, chain) {
         if(std::find(torsionAtoms.begin(), torsionAtoms.end(), a->GetIdx()) == torsionAtoms.end()) {
-            constraintsTor_->AddIgnore(a->GetIdx() + offset);
-            constraintsAng_->AddIgnore(a->GetIdx() + offset);
-            constraintsBond_->AddIgnore(a->GetIdx() + offset);
+            constraintsTor_.AddIgnore(a->GetIdx() + offset);
+            constraintsAng_.AddIgnore(a->GetIdx() + offset);
+            constraintsBond_.AddIgnore(a->GetIdx() + offset);
         }
     }
 
@@ -302,8 +296,8 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
         FOR_NBORS_OF_ATOM(nbr, chain.GetAtomById(new_bond_ids.at(i))) {
             nbrIdx = nbr->GetIdx();
             if (nbrIdx != chain.GetAtomById(new_bond_ids.at(i - 1))->GetIdx()) {
-                constraintsAng_->AddIgnore(nbrIdx + offset);
-                constraintsBond_->AddIgnore(nbrIdx + offset);
+                constraintsAng_.AddIgnore(nbrIdx + offset);
+                constraintsBond_.AddIgnore(nbrIdx + offset);
             }
         }
     }
@@ -313,15 +307,11 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
         FOR_NBORS_OF_ATOM(nbr, chain.GetAtomById(new_bond_ids.at(i))) {
             nbrIdx = nbr->GetIdx();
             if (nbrIdx != chain.GetAtomById(new_bond_ids.at(i + 1))->GetIdx()) {
-                constraintsBond_->AddIgnore(nbrIdx + offset);
+                constraintsBond_.AddIgnore(nbrIdx + offset);
             }
         }
     }
 
-    if (!(constraintsTot_ && constraintsTor_ && constraintsAng_ && constraintsBond_)) {
-        cerr << "Error initializing force field constraints for chain. Exiting..." << endl;
-        exit(1);
-    }
 }
 
 void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters &hp,
