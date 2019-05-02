@@ -55,7 +55,7 @@ class pNAB(object):
                 self._input_file = None
 
             else:
-                file_path = input('Enter path to input [options.dat]: ') or 'options.dat'
+                file_path = input('Enter path to input [options.yaml]: ') or 'options.yaml'
                 self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
                 options._validate_all_options(self.options)
                 self._input_file = file_path
@@ -96,7 +96,7 @@ class pNAB(object):
     def _single_result(self, results):
         """ Extract results for each helical configuration as it finishe."""
 
-        with open('prefix.dat', 'ab') as f:
+        with open('prefix.yaml', 'ab') as f:
             f.write(str.encode(yaml.dump({results[0]:results[1]})))
 
         if results[2] is None:
@@ -106,8 +106,8 @@ class pNAB(object):
         header += ('Prefix, Conformer Index, Energy (kcal/mol), Distance (A), Bond Energy, Angle Energy,' +
                   ' Torsion Energy, VDW Energy, Total Torsion Energy, RMSD (A)')
 
-        with open('results.dat', 'ab') as f:
-            np.savetxt(f, results[2], fmt='%12i'*2 + '%12.4f'*8, header=header)
+        with open('results.csv', 'ab') as f:
+            np.savetxt(f, results[2], delimiter=',', header=header)
 
 
     def run(self):
@@ -121,7 +121,7 @@ class pNAB(object):
             temp = self._options
             del self._options
 
-            with open('options.dat', 'w') as f:
+            with open('options.yaml', 'w') as f:
                 f.write(yaml.dump(self.options))
 
         config = itertools.product(*[np.random.uniform(val[0], val[1], val[2])
@@ -132,8 +132,8 @@ class pNAB(object):
         pool = mp.Pool(mp.cpu_count(), maxtasksperchild=1)
 
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        with open('results.dat', 'w') as f: f.write('# ' + time + '\n')
-        with open('prefix.dat', 'w') as f: f.write('# ' + time + '\n')
+        with open('results.csv', 'w') as f: f.write('# ' + time + '\n')
+        with open('prefix.yaml', 'w') as f: f.write('# ' + time + '\n')
 
         for results in pool.imap(self._run, zip(config, prefix)):
             self._single_result(results)
@@ -147,13 +147,13 @@ class pNAB(object):
     def get_results(self):
         """Extract the results from the run and report it to the user."""
 
-        self.prefix = yaml.load(open('prefix.dat'), yaml.FullLoader)
+        self.prefix = yaml.load(open('prefix.yaml'), yaml.FullLoader)
 
         header = ('Prefix, Conformer Index, Energy (kcal/mol), Distance (A), Bond Energy, Angle Energy,' +
                   ' Torsion Energy, VDW Energy, Total Torsion Energy, RMSD (A)')
 
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        self.results = np.loadtxt('results.dat')
+        self.results = np.loadtxt('results.csv', delimiter=',')
         if self.results.size == 0:
             print("No candidate found")
             return
@@ -163,8 +163,7 @@ class pNAB(object):
 
         summary = self.results[self.results[:, 2].argsort()][:10]
 
-        np.savetxt('summary.dat', summary, fmt='%12i'*2 + '%12.4f'*8,
-                   header=time + '\n' + header)
+        np.savetxt('summary.csv', summary, delimiter=',', header=time + '\n' + header)
 
         print("There are %i candidates:\n" %len(self.results))
         print('Showing the best %i candidates ...\n' %len(summary))

@@ -439,7 +439,7 @@ namespace PNAB {
             return backbone_interconnects;
         };
 
-        const std::size_t getBaseConnectIndex() {
+        std::size_t getBaseConnectIndex() {
             return base_connect_index;
         }
 

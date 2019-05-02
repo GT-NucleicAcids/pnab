@@ -104,7 +104,7 @@ std::string MonteCarloRotorSearch::run() {
             auto data = chain.generateConformerData(coords, helical_params_);
 
             if (!isPassingEFilter(data)) {
-                delete data.coords;
+                delete[] data.coords;
             } else {
                 data.monomer_coord = new double[monomer_num_coords_];
                 data.index = search_index;
