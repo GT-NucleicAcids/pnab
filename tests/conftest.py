@@ -8,7 +8,7 @@ def tear_down():
     import os
     import glob
 
-    patterns = ['*pdb', '*dat']
+    patterns = ['*pdb', '*csv', '*.yaml']
     pytest_scratches = []
     for pat in patterns:
         pytest_scratches.extend(glob.glob(pat))
