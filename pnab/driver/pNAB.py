@@ -41,7 +41,7 @@ class pNAB(object):
 
         else:
             print("There are two methods to use the Nucleic Acid Builder:\n"
-                  "1. Answer a list of questions\n"
+                  "1. Specify your options below\n"
                   "2. Use an existing input file\n")
 
             input_method = input('Enter input method (1, 2) [1]: ') or '1'
