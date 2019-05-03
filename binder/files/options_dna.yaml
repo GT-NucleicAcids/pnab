@@ -1,0 +1,96 @@
+Backbone:
+  file_path: files/dna_bb.pdb
+  interconnects:
+  - 10
+  - 1
+  linker:
+  - 12
+  - 13
+Base 1:
+  code: ADA
+  file_path: files/adenine.pdb
+  linker:
+  - 5
+  - 11
+  name: A
+  pair_name: T
+Base 2:
+  code: GUA
+  file_path: files/guanine.pdb
+  linker:
+  - 2
+  - 1
+  name: G
+  pair_name: C
+Base 3:
+  code: CYT
+  file_path: files/cytosine.pdb
+  linker:
+  - 2
+  - 1
+  name: C
+  pair_name: G
+Base 4:
+  code: THY
+  file_path: files/thymine.pdb
+  linker:
+  - 2
+  - 1
+  name: T
+  pair_name: A
+HelicalParameters:
+  inclination:
+  - -5.97
+  - -5.97
+  - 1
+  rise:
+  - 3.38
+  - 3.38
+  - 1
+  shift:
+  - 0.0
+  - 0.0
+  - 1
+  slide:
+  - 0.0
+  - 0.0
+  - 1
+  tip:
+  - 1.78
+  - 1.78
+  - 1
+  twist:
+  - 36.01
+  - 36.01
+  - 1
+  x_displacement:
+  - -0.01
+  - -0.01
+  - 1
+  y_displacement:
+  - -0.02
+  - -0.02
+  - 1
+RuntimeParameters:
+  algorithm: WMC
+  energy_filter:
+  - 10000000000.0
+  - 10
+  - 100
+  - 100
+  - 10000000000.0
+  is_double_stranded: false
+  max_distance: 0.15
+  num_steps: 1000000
+  strand:
+  - C
+  - G
+  - A
+  - T
+  - T
+  - T
+  - A
+  - G
+  - C
+  - G
+  type: GAFF
