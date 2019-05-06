@@ -1,19 +1,19 @@
 Backbone:
   file_path: files/rna_bb.pdb
-  interconnects:
+  interconnects: # Backbone to backbone connection
   - 9
   - 14
-  linker:
+  linker: # Backbone to base connection
   - 12
   - 13
 Base 1:
-  code: ADA
+  code: ADA # Three-letter code for residue in PDB format
   file_path: files/adenine.pdb
   linker:
   - 5
   - 11
   name: A
-  pair_name: U
+  pair_name: U # Used for double-stranded systems
 Base 2:
   code: GUA
   file_path: files/guanine.pdb
@@ -40,12 +40,12 @@ Base 4:
   pair_name: A
 HelicalParameters:
   inclination:
-  - 15.76
-  - 15.76
-  - 1
+  - 15.76 # Initial point in the range
+  - 15.76 # Final point in the range
+  - 1 # Number of configrations
   rise:
-  - 2.81
-  - 2.81
+  - 2.80
+  - 2.80
   - 1
   shift:
   - 0.0
@@ -56,12 +56,12 @@ HelicalParameters:
   - 0.0
   - 1
   tip:
-  - 7.35
+  - 7.35 
   - 7.35
   - 1
   twist:
-  - 32.73
-  - 32.73
+  - 32.52
+  - 32.52
   - 1
   x_displacement:
   - -4.61
@@ -72,17 +72,17 @@ HelicalParameters:
   - -0.19
   - 1
 RuntimeParameters:
-  algorithm: WMC
+  algorithm: WMC # Search algorithm for dihedrals; only WMC available now
   energy_filter:
-  - 10000000000.0
-  - 10
-  - 100
-  - 100
-  - 10000000000.0
+  - 10000000000.0 # Total Energy of the system
+  - 5.0 # Angle energy involving newly formed backbone bonds
+  - 5.0 # Bond energy involving newly formed backbone bonds
+  - 15.0 # Total van der Waals energy
+  - 10000000000.0 # Total torsional energy of the backbone
   is_double_stranded: false
-  max_distance: 0.15
-  num_steps: 1000000
-  strand:
+  max_distance: 0.05 # Maximum distance between atom linkers in backbone
+  num_steps: 100000000 # Number of steps for backbone dihedral search
+  strand: # Sequence of base names
   - C
   - G
   - A
@@ -93,4 +93,4 @@ RuntimeParameters:
   - G
   - C
   - G
-  type: GAFF
+  type: GAFF # Force field type

@@ -75,13 +75,13 @@ RuntimeParameters:
   algorithm: WMC
   energy_filter:
   - 10000000000.0
-  - 10
-  - 100
-  - 100
+  - 5.0
+  - 5.0
+  - 15.0
   - 10000000000.0
   is_double_stranded: false
-  max_distance: 0.15
-  num_steps: 100000
+  max_distance: 0.05
+  num_steps: 10000000
   strand:
   - C
   - G
