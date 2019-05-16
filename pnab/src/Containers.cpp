@@ -229,6 +229,11 @@ BaseUnit::BaseUnit(Base base, Backbone backbone, bool is_double_stranded) {
     matrix.GetArray(rot);
 
     backbone.rotate(rot);
+
+    // Necessary to invert to get correct DNA and RNA structures
+    double invert[9] = {1, 0, 0, 0, 1, 0, 0, 0, -1};
+    backbone.rotate(invert);
+
     backbone.translate(atoms[0]->GetVector() - atoms[3]->GetVector());
 
     // Deleting old hydrogens that formed the vector
@@ -247,19 +252,19 @@ BaseUnit::BaseUnit(Base base, Backbone backbone, bool is_double_stranded) {
 
     // garbage code for debugging
     // TODO delete this code
-    //{
-    //    OBConversion conv;
-    //    std::filebuf fb;
-    //    fb.open("base_unit_example_out.pdb", std::ios::out);
-    //    std::ostream fileStream(&fb);
-    //    conv.SetOutFormat("PDB");
-    //    conv.SetOutStream(&fileStream);
-    //    OBMol mol;
-    //    mol += base.getMolecule();
-    //    mol += backbone.getMolecule();
-    //    mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
-    //    conv.Write(&mol);
-    //}
+    {
+        OBConversion conv;
+        std::filebuf fb;
+        fb.open("base_unit_example_out.pdb", std::ios::out);
+        std::ostream fileStream(&fb);
+        conv.SetOutFormat("PDB");
+        conv.SetOutStream(&fileStream);
+        OBMol mol;
+        mol += base.getMolecule();
+        mol += backbone.getMolecule();
+        mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
+        conv.Write(&mol);
+    }
 
     if (is_double_stranded)
         perceiveN3OrN1();
