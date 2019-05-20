@@ -16,8 +16,8 @@ def test_energy_filter():
 
     backbone = bind.Backbone()
     backbone.file_path = 'files/rna_bb.pdb'
-    backbone.interconnects = [9, 14]
-    backbone.linker = [12, 13]
+    backbone.interconnects = [10, 1]
+    backbone.linker = [13, 14]
 
     base = bind.Base()
     base.file_path = 'files/adenine.pdb'
@@ -30,12 +30,12 @@ def test_energy_filter():
     hp = bind.HelicalParameters()
     hp.shift = 0
     hp.slide = 0
-    hp.twist = 32.73
-    hp.rise = 2.81
-    hp.inclination = 15.76
-    hp.tip = 7.35
-    hp.x_displacement = -4.61
-    hp.y_displacement = -0.19
+    hp.twist = 32.39
+    hp.rise = 2.53
+    hp.inclination = 22.9
+    hp.tip = 0.08
+    hp.x_displacement = -4.54
+    hp.y_displacement = -0.02
 
     rp = bind.RuntimeParameters()
     rp.num_steps = 1

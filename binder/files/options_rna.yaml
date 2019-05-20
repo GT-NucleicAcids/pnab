@@ -1,11 +1,11 @@
 Backbone:
   file_path: files/rna_bb.pdb
   interconnects: # Backbone to backbone connection
-  - 9
-  - 14
+  - 10
+  - 1
   linker: # Backbone to base connection
-  - 12
   - 13
+  - 14
 Base 1:
   code: ADA # Three-letter code for residue in PDB format
   file_path: files/adenine.pdb
@@ -40,12 +40,12 @@ Base 4:
   pair_name: A
 HelicalParameters:
   inclination:
-  - 15.76 # Initial point in the range
-  - 15.76 # Final point in the range
+  - 22.9 # Initial point in the range
+  - 22.9 # Final point in the range
   - 1 # Number of configrations
   rise:
-  - 2.80
-  - 2.80
+  - 2.53
+  - 2.53
   - 1
   shift:
   - 0.0
@@ -56,20 +56,20 @@ HelicalParameters:
   - 0.0
   - 1
   tip:
-  - 7.35 
-  - 7.35
+  - 0.08 
+  - 0.08 
   - 1
   twist:
-  - 32.52
-  - 32.52
+  - 32.39
+  - 32.39
   - 1
   x_displacement:
-  - -4.61
-  - -4.61
+  - -4.54
+  - -4.54
   - 1
   y_displacement:
-  - -0.19
-  - -0.19
+  - -0.02
+  - -0.02
   - 1
 RuntimeParameters:
   algorithm: WMC # Search algorithm for dihedrals; only WMC available now
