@@ -1,10 +1,13 @@
+codecov:
+  max_report_age: off
+
 coverage:
   ignore:
     - "tests/.*"
-status:
-  project:
-    default:
-      threshold: 50%
-  patch:
-    default:
-      threshold: 50%
+  status:
+    project:
+      default:
+        threshold: 50%
+    patch:
+      default:
+        threshold: 50%
