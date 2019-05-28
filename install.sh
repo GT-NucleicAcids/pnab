@@ -1,11 +1,11 @@
 #!/bin/bash
 
 conda create -n pnab -c conda-forge python numpy cmake openbabel eigen \
-    pybind11 pyyaml py3dmol gcc_linux-64 gxx_linux-64 pytest pytest-cov codecov
+    pybind11 pyyaml py3dmol gcc_linux-64 gxx_linux-64 pytest graphviz
 
 source activate pnab
 
-cmake -Bbuild -DCMAKE_BUILD_TYPE=Release
+cmake -Bbuild -DCMAKE_BUILD_TYPE=Release -DBUILD_DOCS=OFF
 
 # build
 cd build
