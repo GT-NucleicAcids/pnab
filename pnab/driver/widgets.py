@@ -155,6 +155,7 @@ def display_widgets(_options):
     display(widgets.HTML(value=('These bases are already defined:' +
                                'Adenine (A), Guanine (G), Cytosine (C), Uracil (U), and Thymine (T)' +
                                '<br> To add other bases, please edit the input yaml file')))
+    # Do not accept additional bases through the Jupyter interface
     #display(widgets.interactive(bases, param=widgets.fixed(_options['Base 1']), 
     #                            num_bases=widgets.IntText(value=0,
     #                            description="Number of Additional Bases", style={'description_width': 'initial'})))
