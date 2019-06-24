@@ -6,38 +6,6 @@ Backbone:
   linker: # Backbone to base connection
   - 13
   - 14
-Base 1:
-  code: ADA # Three-letter code for residue in PDB format
-  file_path: files/adenine.pdb
-  linker:
-  - 5
-  - 11
-  name: A
-  pair_name: U # Used for double-stranded systems
-Base 2:
-  code: GUA
-  file_path: files/guanine.pdb
-  linker:
-  - 2
-  - 1
-  name: G
-  pair_name: C
-Base 3:
-  code: CYT
-  file_path: files/cytosine.pdb
-  linker:
-  - 2
-  - 1
-  name: C
-  pair_name: G
-Base 4:
-  code: URA
-  file_path: files/uracil.pdb
-  linker:
-  - 2
-  - 1
-  name: U
-  pair_name: A
 HelicalParameters:
   inclination:
   - 22.9 # Initial point in the range
@@ -82,15 +50,5 @@ RuntimeParameters:
   is_double_stranded: false
   max_distance: 0.05 # Maximum distance between atom linkers in backbone
   num_steps: 100000000 # Number of steps for backbone dihedral search
-  strand: # Sequence of base names
-  - C
-  - G
-  - A
-  - U
-  - U
-  - U
-  - A
-  - G
-  - C
-  - G
+  strand: CGAUUUAGCG # Sequence of base names
   type: GAFF # Force field type

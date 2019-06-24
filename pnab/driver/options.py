@@ -46,8 +46,8 @@ def _validate_all_options(options):
     num_bases = len(['Base' for i in options if 'Base' in i])
     _replicate_base_option(num_bases)
 
-    for k1 in _options_dict:
-        for k2 in _options_dict[k1]:
+    for k1 in options:
+        for k2 in options[k1]:
             options[k1][k2] = _options_dict[k1][k2]['validation'](options[k1][k2])
 
 
@@ -130,6 +130,11 @@ def _validate_algorithm(algorithm):
     else:
         raise Exception('Available alogrithms are %s' %str(available_algorithms))
 
+def _validate_base_name(name):
+    name = str(name)
+    if len(a) > 1:
+        raise Exception("Base name must be one letter") 
+
 
 # Set glossory of options, default values and validation methods
 
@@ -178,9 +183,9 @@ _options_dict['Base 1']['code'] = {
                                              }
 
 _options_dict['Base 1']['name'] = {
-                                             'glossory': 'Base name',
-                                             'default': 'base',
-                                             'validation': lambda x: str(x),
+                                             'glossory': 'One-letter base name',
+                                             'default': 'b',
+                                             'validation': lambda x: _validate_base_name(x),
                                              }
 
 _options_dict['Base 1']['pair_name'] = {
@@ -209,6 +214,37 @@ _options_dict['HelicalParameters']['twist'] = {
                                                'validation': lambda x: _validate_helical_parameters(x),
                                                }
 
+_options_dict['HelicalParameters']['inclination'] = {
+                                                     'glossory': 'Inclination',
+                                                     'default': 0.0,
+                                                     'validation': lambda x: _validate_helical_parameters(x),
+                                                     }
+
+_options_dict['HelicalParameters']['tip'] = {
+                                             'glossory': 'Tip',
+                                             'default': 0.0,
+                                             'validation': lambda x: _validate_helical_parameters(x),
+                                             }
+
+_options_dict['HelicalParameters']['rise'] = {
+                                              'glossory': 'Rise',
+                                              'default': 0.0,
+                                              'validation': lambda x: _validate_helical_parameters(x),
+                                              }
+
+_options_dict['HelicalParameters']['x_displacement'] = {
+                                                        'glossory': 'X-Displacement',
+                                                        'default': 0.0,
+                                                        'validation': lambda x: _validate_helical_parameters(x),
+                                                        }
+
+_options_dict['HelicalParameters']['y_displacement'] = {
+                                                        'glossory': 'Y-Displacement',
+                                                        'default': 0.0,
+                                                        'validation': lambda x: _validate_helical_parameters(x),
+                                                        }
+
+
 _options_dict['HelicalParameters']['shift'] = {
                                                'glossory': 'Shift',
                                                'default': 0.0,
@@ -220,12 +256,6 @@ _options_dict['HelicalParameters']['slide'] = {
                                                'default': 0.0,
                                                'validation': lambda x: _validate_helical_parameters(x),
                                                }
-
-_options_dict['HelicalParameters']['rise'] = {
-                                              'glossory': 'Rise',
-                                              'default': 0.0,
-                                              'validation': lambda x: _validate_helical_parameters(x),
-                                              }
 
 #_options_dict['HelicalParameters']['buckle'] = {
 #                                                'glossory': 'Buckle',
@@ -262,30 +292,6 @@ _options_dict['HelicalParameters']['rise'] = {
 #                                                 'default': 0.0,
 #                                                 'validation': lambda x: _validate_helical_parameters(x),
 #                                                 }
-
-_options_dict['HelicalParameters']['inclination'] = {
-                                                     'glossory': 'Inclination',
-                                                     'default': 0.0,
-                                                     'validation': lambda x: _validate_helical_parameters(x),
-                                                     }
-
-_options_dict['HelicalParameters']['tip'] = {
-                                             'glossory': 'Tip',
-                                             'default': 0.0,
-                                             'validation': lambda x: _validate_helical_parameters(x),
-                                             }
-
-_options_dict['HelicalParameters']['x_displacement'] = {
-                                                        'glossory': 'X-Displacement',
-                                                        'default': 0.0,
-                                                        'validation': lambda x: _validate_helical_parameters(x),
-                                                        }
-
-_options_dict['HelicalParameters']['y_displacement'] = {
-                                                        'glossory': 'Y-Displacement',
-                                                        'default': 0.0,
-                                                        'validation': lambda x: _validate_helical_parameters(x),
-                                                        }
 
 # Runtime Parameters
 _options_dict['RuntimeParameters'] = {}
@@ -333,10 +339,10 @@ _options_dict['RuntimeParameters']['max_distance'] = {
                                                       }
 
 _options_dict['RuntimeParameters']['strand'] = {
-                                                'glossory': 'List of base names in strand',
+                                                'glossory': 'FASTA string for nucleotide sequence',
                                                 'default': None,
-                                                'validation': lambda x: ([i.strip() for i in x.split(',') if i] if isinstance(x, str)
-                                                                         else [str(i).strip() for i in tuple(x) if i]),
+                                                'validation': lambda x: list(x), #lambda x: ([i.strip() for i in x.split(',') if i] if isinstance(x, str)
+                                                              #           else [str(i).strip() for i in tuple(x) if i]),
                                                 }
 
 _options_dict['RuntimeParameters']['is_double_stranded'] = {
