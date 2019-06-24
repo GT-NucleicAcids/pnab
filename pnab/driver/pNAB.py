@@ -6,6 +6,7 @@ Main file
 
 from __future__ import division, absolute_import, print_function
 
+import os
 import yaml
 import itertools
 from io import StringIO
@@ -15,6 +16,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 import datetime
 import numpy as np
 
+from pnab import __file__ as pnab_dir
 from pnab import bind
 from pnab.driver import options
 try:
@@ -71,11 +73,10 @@ class pNAB(object):
         backbone = bind.Backbone()
         [backbone.__setattr__(k, val) for k, val in self.options['Backbone'].items()]
 
-        num_bases = len([i for i in self.options if 'Base' in i])
-        bases = [bind.Base() for i in range(num_bases)]
-        for i in range(len(bases)):
-            [bases[i].__setattr__(k, val) for k, val in self.options['Base %i' %(i + 1)].items()]
-
+        py_bases = [self.options[i] for i in self.options if 'Base' in i]
+        bases = [bind.Base() for i in range(len(py_bases))]
+        for i, b in enumerate(py_bases):
+            [bases[i].__setattr__(k, val) for k, val in b.items()]
 
         helical_parameters = bind.HelicalParameters()
         [helical_parameters.__setattr__(k, val) for k, val in zip(self.options['HelicalParameters'], config)]
@@ -124,6 +125,14 @@ class pNAB(object):
             with open('options.yaml', 'w') as f:
                 f.write(yaml.dump(self.options))
 
+        # Add library of bases
+        data_dir = os.path.join(os.path.dirname(pnab_dir), 'data')
+        bases_lib = yaml.load(open(os.path.join(data_dir, 'bases_library.yaml'), 'r'), yaml.FullLoader)
+        for b in bases_lib.values():
+            b['file_path'] = os.path.join(data_dir, b['file_path'])
+        self.options.update(bases_lib)
+
+        # Extract configurations
         config = itertools.product(*[np.random.uniform(val[0], val[1], val[2])
                                        for val in self.options['HelicalParameters'].values()])
         num_config = np.prod([val[2] for val in self.options['HelicalParameters'].values()])

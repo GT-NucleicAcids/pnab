@@ -87,9 +87,9 @@ def helical_parameters(param):
     for k in param:
         param_dict[k] = []
         if k in ['inclination', 'tip', 'twist']:
-            param_dict[k].append(widgets.FloatRangeSlider(value=[-180, 180], min=-180, max=180, step=0.01, readout_format='.2f'))
+            param_dict[k].append(widgets.FloatRangeSlider(value=[0, 0], min=-180, max=180, step=0.01, readout_format='.2f'))
         else:
-            param_dict[k].append(widgets.FloatRangeSlider(value=[-10, 100], min=-10, max=10, step=0.01, readout_format='.3f'))
+            param_dict[k].append(widgets.FloatRangeSlider(value=[0, 0], min=-10, max=10, step=0.01, readout_format='.3f'))
         param_dict[k].append(widgets.BoundedIntText(value=1, min=1, max=1000, step=1, description='Steps'))
         box = widgets.HBox([widgets.Label(param[k]['glossory'], layout={'width': '100px'}), param_dict[k][0], param_dict[k][1]])
         display(box)
@@ -152,12 +152,18 @@ def display_widgets(_options):
                                 file_path=widgets.Text(value='', description="Backbone File",
                                 style={'description_width': 'initial'})))
     display(widgets.HTML(value='<b>Bases</b>'))
-    display(widgets.interactive(bases, param=widgets.fixed(_options['Base 1']), 
-                                num_bases=widgets.IntSlider(min=1,max=10,step=1,value=1,
-                                description="Number of Bases", style={'description_width': 'initial'})))
+    display(widgets.HTML(value=('These bases are already defined:' +
+                               'Adenine (A), Guanine (G), Cytosine (C), Uracil (U), and Thymine (T)' +
+                               '<br> To add other bases, please edit the input yaml file')))
+    # Do not accept additional bases through the Jupyter interface
+    #display(widgets.interactive(bases, param=widgets.fixed(_options['Base 1']), 
+    #                            num_bases=widgets.IntText(value=0,
+    #                            description="Number of Additional Bases", style={'description_width': 'initial'})))
     display(widgets.HTML(value='<b>Helical Parameters</b>'))
+    display(widgets.HTML(value='Angles in degrees, distances in Angstroms'))
     helical_parameters(_options['HelicalParameters'])
     display(widgets.HTML(value='<b>Runtime Parameters</b>'))
+    display(widgets.HTML(value='Energies in kcal/mol, distance in Angstroms'))
     runtime_parameters(_options['RuntimeParameters'])
 
     return options
