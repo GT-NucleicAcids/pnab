@@ -22,8 +22,8 @@ def backbone(param, file_specified):
 
         num_atoms = draw.view_py3dmol(file_path, label=True)
 
-        linker1 = widgets.Dropdown(options=range(1, num_atoms + 1)) 
-        linker2 = widgets.Dropdown(options=range(1, num_atoms + 1)) 
+        linker1 = widgets.Dropdown(options=range(1, num_atoms + 1))
+        linker2 = widgets.Dropdown(options=range(1, num_atoms + 1))
         interconnects1 = widgets.Dropdown(options=range(1, num_atoms + 1))
         interconnects2 = widgets.Dropdown(options=range(1, num_atoms + 1))
 
@@ -175,7 +175,7 @@ def display_widgets(_options):
     display(widgets.HTML(value='<b>Bases</b>'))
     display(widgets.HTML(value=('These bases are already defined:' +
                                '<br> Adenine (A), Guanine (G), Cytosine (C), Uracil (U), Thymine (T), ' +
-                               'cyanuric acid (X), and triaminopyrimidine (Y)' + 
+                               'Cyanuric Acid (X), and Triaminopyrimidine (Y)' + 
                                '<br> To add other bases, please edit the generated input yaml file and run it directly.')))
     # Do not accept additional bases through the Jupyter interface
     #display(widgets.interactive(bases, param=widgets.fixed(_options['Base 1']), 
