@@ -20,9 +20,10 @@ from pnab import __file__ as pnab_dir
 from pnab import bind
 from pnab.driver import options
 try:
-    from pnab.driver import widgets
+    from pnab.driver import jupyter_widgets
 except ImportError:
     pass
+
 from pnab.driver import draw
 
 
@@ -116,7 +117,7 @@ class pNAB(object):
 
         if self._input_file is None:
             # Used Jupyter notebook; extract options
-            self.options = widgets.extract_options(self._options)
+            self.options = jupyter_widgets.extract_options(self._options)
             options._validate_all_options(self.options)
             # Workaround as widget states are not serializable and cannot be used with multiprocess
             temp = self._options
@@ -138,14 +139,23 @@ class pNAB(object):
         num_config = np.prod([val[2] for val in self.options['HelicalParameters'].values()])
         prefix = (str(i) for i in range(1, num_config + 1))
 
-        pool = mp.Pool(mp.cpu_count(), maxtasksperchild=1)
+        # Catch interruption
+        import signal
+        def init_worker():
+            signal.signal(signal.SIGINT, signal.SIG_IGN)
+
+        pool = mp.Pool(mp.cpu_count(), init_worker)
 
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         with open('results.csv', 'w') as f: f.write('# ' + time + '\n')
         with open('prefix.yaml', 'w') as f: f.write('# ' + time + '\n')
 
-        for results in pool.imap(self._run, zip(config, prefix)):
-            self._single_result(results)
+        try:
+            for results in pool.imap(self._run, zip(config, prefix)):
+                self._single_result(results)
+        except KeyboardInterrupt:
+            print("Caught interruption; stopping ...")
+            pool.terminate()
 
         pool.close()
 

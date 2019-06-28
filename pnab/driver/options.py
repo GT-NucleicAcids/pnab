@@ -16,7 +16,7 @@ import os
 import copy
 
 try:
-    from pnab.driver import widgets
+    from pnab.driver import jupyter_widgets
 except ImportError:
     pass
 
@@ -32,7 +32,7 @@ def _ask_options_questions():
     """A method that ask the user for options."""
 
     options_dict = {}
-    options_dict = widgets.display_widgets(_options_dict)
+    options_dict = jupyter_widgets.display_widgets(_options_dict)
 
     return options_dict
 
@@ -134,6 +134,8 @@ def _validate_base_name(name):
     name = str(name)
     if len(a) > 1:
         raise Exception("Base name must be one letter") 
+
+    return name
 
 
 # Set glossory of options, default values and validation methods
@@ -296,8 +298,8 @@ _options_dict['HelicalParameters']['slide'] = {
 # Runtime Parameters
 _options_dict['RuntimeParameters'] = {}
 _options_dict['RuntimeParameters']['num_steps'] = {
-                                                   'glossory': 'Number of points to search',
-                                                   'default': 1000000,
+                                                   'glossory': 'Number of points to search over dihedral angles',
+                                                   'default': 100000000,
                                                    'validation': lambda x: int(x),
                                                    }
 
@@ -326,7 +328,7 @@ _options_dict['RuntimeParameters']['energy_filter'] = {
                                                                     'Cuttoff for energy from bond between newly bonded atoms\n' +
                                                                     'Cuttoff for total van der Waals energy\n' + 
                                                                     'Cuttoff for torsional energy between backbone linkers\n'),
-                                                       'default': (1e10, 5, 5, 0, 1e0),
+                                                       'default': (1e10, 10, 10, 0, 10),
                                                        'validation': lambda x: _validate_energy_filter(x), 
                                                       }
 
