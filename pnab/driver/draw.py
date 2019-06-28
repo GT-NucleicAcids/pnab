@@ -109,8 +109,7 @@ def view_py3dmol(conformer, label=False):
     view.zoomTo()
 
     if label:
-        for i in range(num_atoms):
-            view.addLabel(str(i + 1), {}, {'serial': i + 1})
+        view.addPropertyLabels("serial")
 
     view.show()
 

@@ -38,3 +38,19 @@ Base T:
   - 1
   name: T
   pair_name: A
+Base X:
+  code: CYA
+  file_path: cyanuric_acid.pdb
+  linker:
+  - 5
+  - 8
+  name: X
+  pair_name: Y
+Base Y:
+  code: TAP
+  file_path: triaminopyrimidine.pdb
+  linker:
+  - 6 #14 #8
+  - 7 #16 #10
+  name: Y
+  pair_name: X

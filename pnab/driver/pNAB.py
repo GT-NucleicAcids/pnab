@@ -20,9 +20,12 @@ from pnab import __file__ as pnab_dir
 from pnab import bind
 from pnab.driver import options
 try:
-    from pnab.driver import widgets
+    from pnab.driver import jupyter_widgets
+    import ipywidgets as widgets
+    from IPython.display import display
 except ImportError:
-    pass
+    print("Running the program in the command line")
+
 from pnab.driver import draw
 
 
@@ -47,6 +50,7 @@ class pNAB(object):
                   "2. Use an existing input file\n")
 
             input_method = input('Enter input method (1, 2) [1]: ') or '1'
+            input_method = input_method.strip()
 
             if input_method not in ['1', '2']:
                 raise Exception('Please choose either "1" or "2"')
@@ -57,10 +61,27 @@ class pNAB(object):
                 self._input_file = None
 
             else:
-                file_path = input('Enter path to input [options.yaml]: ') or 'options.yaml'
-                self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
-                options._validate_all_options(self.options)
-                self._input_file = file_path
+                path = ['']
+
+                def use_file(file_specified):
+                    file_path = path[-1]
+                    if os.path.isfile(file_path): 
+                        self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
+                        options._validate_all_options(self.options)
+                        self._input_file = file_path
+
+                # Browse for input file
+                toggle = widgets.ToggleButton(description='Choose file')
+                def on_click(change):
+                    from PyQt5 import QtGui
+                    from PyQt5 import QtGui, QtWidgets
+                    
+                    app = QtWidgets.QApplication([dir])
+                    fname = QtWidgets.QFileDialog.getOpenFileName(None, "Select a file...", '.', filter="All files (*)")
+                    path.append(fname[0])
+
+                toggle.observe(on_click, 'value')
+                display(widgets.interactive(temp, file_specified=toggle))
 
 
     def _run(self, config):
@@ -116,7 +137,7 @@ class pNAB(object):
 
         if self._input_file is None:
             # Used Jupyter notebook; extract options
-            self.options = widgets.extract_options(self._options)
+            self.options = jupyter_widgets.extract_options(self._options)
             options._validate_all_options(self.options)
             # Workaround as widget states are not serializable and cannot be used with multiprocess
             temp = self._options
@@ -138,14 +159,23 @@ class pNAB(object):
         num_config = np.prod([val[2] for val in self.options['HelicalParameters'].values()])
         prefix = (str(i) for i in range(1, num_config + 1))
 
-        pool = mp.Pool(mp.cpu_count(), maxtasksperchild=1)
+        # Catch interruption
+        import signal
+        def init_worker():
+            signal.signal(signal.SIGINT, signal.SIG_IGN)
+
+        pool = mp.Pool(mp.cpu_count(), init_worker)
 
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         with open('results.csv', 'w') as f: f.write('# ' + time + '\n')
         with open('prefix.yaml', 'w') as f: f.write('# ' + time + '\n')
 
-        for results in pool.imap(self._run, zip(config, prefix)):
-            self._single_result(results)
+        try:
+            for results in pool.imap(self._run, zip(config, prefix)):
+                self._single_result(results)
+        except KeyboardInterrupt:
+            print("Caught interruption; stopping ...")
+            pool.terminate()
 
         pool.close()
 

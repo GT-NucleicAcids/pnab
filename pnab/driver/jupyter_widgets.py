@@ -1,3 +1,6 @@
+# For some reason, kernel dies in Jupyter notebook if openbabel is not imported here
+import openbabel
+
 import ipywidgets as widgets
 from IPython.display import display
 
@@ -6,63 +9,66 @@ from pnab.driver import draw
 
 options = {}
 
-def backbone(param, file_path):
+backbone_path = ['']
+
+def backbone(param, file_specified):
     """Backbone widget for use in Jupyter notebook"""
 
     import os
 
-    if not os.path.isfile(file_path):
-        return
+    file_path = backbone_path[-1]
 
-    num_atoms = draw.view_py3dmol(file_path, label=True)
+    if os.path.isfile(file_path):
 
-    linker1 = widgets.Dropdown(options=range(1, num_atoms + 1)) 
-    linker2 = widgets.Dropdown(options=range(1, num_atoms + 1)) 
-    interconnects1 = widgets.Dropdown(options=range(1, num_atoms + 1))
-    interconnects2 = widgets.Dropdown(options=range(1, num_atoms + 1))
+        num_atoms = draw.view_py3dmol(file_path, label=True)
 
-    box1 = widgets.HBox([widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker1, linker2])
-    box2 = widgets.HBox([widgets.Label(param['interconnects']['glossory'],
-                layout={'width': '400px'}), interconnects1, interconnects2])
+        linker1 = widgets.Dropdown(options=range(1, num_atoms + 1))
+        linker2 = widgets.Dropdown(options=range(1, num_atoms + 1))
+        interconnects1 = widgets.Dropdown(options=range(1, num_atoms + 1))
+        interconnects2 = widgets.Dropdown(options=range(1, num_atoms + 1))
 
-    display(box1)
-    display(box2)
+        box1 = widgets.HBox([widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker1, linker2])
+        box2 = widgets.HBox([widgets.Label(param['interconnects']['glossory'],
+                    layout={'width': '400px'}), interconnects1, interconnects2])
 
-    options['Backbone'] = {'file_path': file_path, 'linker': [linker1, linker2],
-                           'interconnects': [interconnects1, interconnects2]}
+        display(box1)
+        display(box2)
+
+        options['Backbone'] = {'file_path': file_path, 'linker': [linker1, linker2],
+                               'interconnects': [interconnects1, interconnects2]}
 
 
-def base(param, file_path, base_number):
-    """Base widget for use in Jupyter notebook"""
-    import os
-
-    if not os.path.isfile(file_path):
-        return
-
-    num_atoms = draw.view_py3dmol(file_path, label=True)
-
-    linker1 = widgets.Dropdown(options=range(1, num_atoms + 1)) 
-    linker2 = widgets.Dropdown(options=range(1, num_atoms + 1)) 
-    
-    code = widgets.Text()
-    name = widgets.Text()
-    pair_name = widgets.Text()
-
-    box1 = widgets.HBox([widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker1, linker2])
-    box2 = widgets.HBox([widgets.Label(param['code']['glossory'], layout={'width': '400px'}), code])
-    box3 = widgets.HBox([widgets.Label(param['name']['glossory'], layout={'width': '400px'}), name])
-    box4 = widgets.HBox([widgets.Label(param['pair_name']['glossory'], layout={'width': '400px'}), pair_name])
-
-    display(box1)
-    display(box2)
-    display(box3)
-    display(box4)
-
-    options['Base %i' %base_number]['file_path'] = file_path
-    options['Base %i' %base_number]['linker'] = [linker1, linker2]
-    options['Base %i' %base_number]['code'] = code
-    options['Base %i' %base_number]['name'] = name
-    options['Base %i' %base_number]['pair_name'] = pair_name
+#def base(param, file_path, base_number):
+#    """Base widget for use in Jupyter notebook"""
+#    import os
+#
+#    if not os.path.isfile(file_path):
+#        return
+#
+#    num_atoms = draw.view_py3dmol(file_path, label=True)
+#
+#    linker1 = widgets.Dropdown(options=range(1, num_atoms + 1)) 
+#    linker2 = widgets.Dropdown(options=range(1, num_atoms + 1)) 
+#    
+#    code = widgets.Text()
+#    name = widgets.Text()
+#    pair_name = widgets.Text()
+#
+#    box1 = widgets.HBox([widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker1, linker2])
+#    box2 = widgets.HBox([widgets.Label(param['code']['glossory'], layout={'width': '400px'}), code])
+#    box3 = widgets.HBox([widgets.Label(param['name']['glossory'], layout={'width': '400px'}), name])
+#    box4 = widgets.HBox([widgets.Label(param['pair_name']['glossory'], layout={'width': '400px'}), pair_name])
+#
+#    display(box1)
+#    display(box2)
+#    display(box3)
+#    display(box4)
+#
+#    options['Base %i' %base_number]['file_path'] = file_path
+#    options['Base %i' %base_number]['linker'] = [linker1, linker2]
+#    options['Base %i' %base_number]['code'] = code
+#    options['Base %i' %base_number]['name'] = name
+#    options['Base %i' %base_number]['pair_name'] = pair_name
 
 
 def bases(param, num_bases):
@@ -134,6 +140,7 @@ def runtime_parameters(param):
     display(box)
     options['RuntimeParameters']['strand'] = strand
 
+
     is_double_stranded = widgets.Checkbox(value=param['is_double_stranded']['default'])
     box = widgets.HBox([widgets.Label(param['is_double_stranded']['glossory'], layout={'width': '400px'}), is_double_stranded])
     display(box)
@@ -147,23 +154,40 @@ def display_widgets(_options):
     return widgets which can be used to extract user options
     """
 
+    display(widgets.HTML(value='Specifiy your options below. When you finish, run the next cell.'))
+
     display(widgets.HTML(value='<b>Backbone</b>'))
+
+    toggle = widgets.ToggleButton(description='Choose file')
+    def on_click(change):
+        from PyQt5 import QtGui
+        from PyQt5 import QtGui, QtWidgets
+        
+        app = QtWidgets.QApplication([dir])
+        fname = QtWidgets.QFileDialog.getOpenFileName(None, "Select a file...", '.', filter="All files (*)")
+        backbone_path.append(fname[0])
+
+    toggle.observe(on_click, 'value')
     display(widgets.interactive(backbone, param=widgets.fixed(_options['Backbone']),
-                                file_path=widgets.Text(value='', description="Backbone File",
-                                style={'description_width': 'initial'})))
+                                file_specified=toggle, description="", style={'description_width': 'initial'}))  
+
+
     display(widgets.HTML(value='<b>Bases</b>'))
     display(widgets.HTML(value=('These bases are already defined:' +
-                               'Adenine (A), Guanine (G), Cytosine (C), Uracil (U), and Thymine (T)' +
-                               '<br> To add other bases, please edit the input yaml file')))
+                               '<br> Adenine (A), Guanine (G), Cytosine (C), Uracil (U), Thymine (T), ' +
+                               'Cyanuric Acid (X), and Triaminopyrimidine (Y)' + 
+                               '<br> To add other bases, please edit the generated input yaml file and run it directly.')))
     # Do not accept additional bases through the Jupyter interface
     #display(widgets.interactive(bases, param=widgets.fixed(_options['Base 1']), 
     #                            num_bases=widgets.IntText(value=0,
     #                            description="Number of Additional Bases", style={'description_width': 'initial'})))
     display(widgets.HTML(value='<b>Helical Parameters</b>'))
-    display(widgets.HTML(value='Angles in degrees, distances in Angstroms'))
+    display(widgets.HTML(value='All angles are in degrees and all distances in Angstroms.' + 
+                               '<br> Random configurations over the ranges of each helical parameter will be generated for sampling.' +
+                               '<br> The steps are the number of configurations generated for each helical parameter.'))
     helical_parameters(_options['HelicalParameters'])
     display(widgets.HTML(value='<b>Runtime Parameters</b>'))
-    display(widgets.HTML(value='Energies in kcal/mol, distance in Angstroms'))
+    display(widgets.HTML(value='All energies are in kcal/mol and all distances in Angstroms'))
     runtime_parameters(_options['RuntimeParameters'])
 
     return options
