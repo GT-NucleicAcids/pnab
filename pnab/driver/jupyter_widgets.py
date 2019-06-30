@@ -1,6 +1,3 @@
-# For some reason, kernel dies in Jupyter notebook if openbabel is not imported here
-import openbabel
-
 import ipywidgets as widgets
 from IPython.display import display
 
@@ -9,33 +6,30 @@ from pnab.driver import draw
 
 options = {}
 
-backbone_path = ['']
-
-def backbone(param, file_specified):
+def backbone(param, file_path):
     """Backbone widget for use in Jupyter notebook"""
 
     import os
 
-    file_path = backbone_path[-1]
+    if not os.path.isfile(file_path):
+        return
 
-    if os.path.isfile(file_path):
+    num_atoms = draw.view_py3dmol(file_path, label=True)
 
-        num_atoms = draw.view_py3dmol(file_path, label=True)
+    linker1 = widgets.Dropdown(options=range(1, num_atoms + 1))
+    linker2 = widgets.Dropdown(options=range(1, num_atoms + 1))
+    interconnects1 = widgets.Dropdown(options=range(1, num_atoms + 1))
+    interconnects2 = widgets.Dropdown(options=range(1, num_atoms + 1))
 
-        linker1 = widgets.Dropdown(options=range(1, num_atoms + 1))
-        linker2 = widgets.Dropdown(options=range(1, num_atoms + 1))
-        interconnects1 = widgets.Dropdown(options=range(1, num_atoms + 1))
-        interconnects2 = widgets.Dropdown(options=range(1, num_atoms + 1))
+    box1 = widgets.HBox([widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker1, linker2])
+    box2 = widgets.HBox([widgets.Label(param['interconnects']['glossory'],
+                layout={'width': '400px'}), interconnects1, interconnects2])
 
-        box1 = widgets.HBox([widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker1, linker2])
-        box2 = widgets.HBox([widgets.Label(param['interconnects']['glossory'],
-                    layout={'width': '400px'}), interconnects1, interconnects2])
+    display(box1)
+    display(box2)
 
-        display(box1)
-        display(box2)
-
-        options['Backbone'] = {'file_path': file_path, 'linker': [linker1, linker2],
-                               'interconnects': [interconnects1, interconnects2]}
+    options['Backbone'] = {'file_path': file_path, 'linker': [linker1, linker2],
+                           'interconnects': [interconnects1, interconnects2]}
 
 
 #def base(param, file_path, base_number):
@@ -157,20 +151,9 @@ def display_widgets(_options):
     display(widgets.HTML(value='Specifiy your options below. When you finish, run the next cell.'))
 
     display(widgets.HTML(value='<b>Backbone</b>'))
-
-    toggle = widgets.ToggleButton(description='Choose file')
-    def on_click(change):
-        from PyQt5 import QtGui
-        from PyQt5 import QtGui, QtWidgets
-        
-        app = QtWidgets.QApplication([dir])
-        fname = QtWidgets.QFileDialog.getOpenFileName(None, "Select a file...", '.', filter="All files (*)")
-        backbone_path.append(fname[0])
-
-    toggle.observe(on_click, 'value')
     display(widgets.interactive(backbone, param=widgets.fixed(_options['Backbone']),
-                                file_specified=toggle, description="", style={'description_width': 'initial'}))  
-
+                                file_path=widgets.Text(value='', description="Backbone File",
+                                style={'description_width': 'initial'})))
 
     display(widgets.HTML(value='<b>Bases</b>'))
     display(widgets.HTML(value=('These bases are already defined:' +
