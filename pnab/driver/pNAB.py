@@ -21,8 +21,6 @@ from pnab import bind
 from pnab.driver import options
 try:
     from pnab.driver import jupyter_widgets
-    import ipywidgets as widgets
-    from IPython.display import display
 except ImportError:
     print("Running the program in the command line")
 
@@ -61,27 +59,10 @@ class pNAB(object):
                 self._input_file = None
 
             else:
-                path = ['']
-
-                def use_file(file_specified):
-                    file_path = path[-1]
-                    if os.path.isfile(file_path): 
-                        self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
-                        options._validate_all_options(self.options)
-                        self._input_file = file_path
-
-                # Browse for input file
-                toggle = widgets.ToggleButton(description='Choose file')
-                def on_click(change):
-                    from PyQt5 import QtGui
-                    from PyQt5 import QtGui, QtWidgets
-                    
-                    app = QtWidgets.QApplication([dir])
-                    fname = QtWidgets.QFileDialog.getOpenFileName(None, "Select a file...", '.', filter="All files (*)")
-                    path.append(fname[0])
-
-                toggle.observe(on_click, 'value')
-                display(widgets.interactive(temp, file_specified=toggle))
+                file_path = input('Enter path to input [options.yaml]: ') or 'options.yaml'
+                self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
+                options._validate_all_options(self.options)
+                self._input_file = file_path
 
 
     def _run(self, config):
