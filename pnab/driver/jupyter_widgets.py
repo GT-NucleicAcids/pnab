@@ -140,6 +140,10 @@ def runtime_parameters(param):
     display(box)
     options['RuntimeParameters']['is_double_stranded'] =  is_double_stranded
 
+    pair_A_U = widgets.Checkbox(value=param['pair_A_U']['default'])
+    box = widgets.HBox([widgets.Label(param['pair_A_U']['glossory'], layout={'width': '400px'}), pair_A_U])
+    display(box)
+    options['RuntimeParameters']['pair_A_U'] =  pair_A_U
 
 
 def display_widgets(_options):

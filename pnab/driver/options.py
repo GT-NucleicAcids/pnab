@@ -132,7 +132,7 @@ def _validate_algorithm(algorithm):
 
 def _validate_base_name(name):
     name = str(name)
-    if len(a) > 1:
+    if len(name) > 1:
         raise Exception("Base name must be one letter") 
 
     return name
@@ -352,3 +352,8 @@ _options_dict['RuntimeParameters']['is_double_stranded'] = {
                                                             'default': False,
                                                             'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
                                                             }
+_options_dict['RuntimeParameters']['pair_A_U'] = {
+                                                  'glossory': 'Pair A with U',
+                                                  'default': False,
+                                                  'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
+                                                  }
