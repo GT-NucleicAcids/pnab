@@ -418,7 +418,7 @@ namespace PNAB {
      */
     class BaseUnit {
     public:
-        BaseUnit(Base b, Backbone backbone, bool is_double_stranded);
+        BaseUnit(Base b, Backbone backbone);
         const OpenBabel::OBMol getMol() {
             return unit;
         }
@@ -443,10 +443,6 @@ namespace PNAB {
             return base_connect_index;
         }
 
-        std::tuple<std::string, unsigned, unsigned> getC6AndN3AtomIndices() {
-            return c6_to_n3;
-        }
-
 
 
     private:
@@ -457,9 +453,6 @@ namespace PNAB {
         std::size_t base_connect_index;                                              //!< \brief Atom index where Backbone connects to Base (the Base atom)
         std::array< std::size_t, 2 > backbone_interconnects;                         //!< \brief Atom indices defining where backbone connects
         std::array< std::size_t, 2 > base_bond_indices;                              //!< \brief Index range corresponding to bonds in the base of the BaseUnit
-        std::tuple<std::string, unsigned, unsigned> c6_to_n3;                        //!< \brief Holds atom type (N1 or N3) and index for C6 atom for a vector
-
-        void perceiveN3OrN1();
     };
 
     /**

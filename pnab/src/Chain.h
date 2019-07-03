@@ -53,15 +53,11 @@ private:
     void setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids,
                         std::vector<unsigned> &deleted_atoms_ids, std::vector<unsigned> &num_base_unit_atoms,
                         std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
-                        std::vector<std::tuple<std::string, unsigned, unsigned>> &h1_or_h3_tuple,
                         unsigned chain_index, bool double_stranded);
     void setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids, unsigned offset = 0);
     void setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters &hp, std::vector<unsigned> &num_bu_atoms,
                            std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
                            std::vector<unsigned> &deleted_atoms_ids, bool is_second_strand);
-
-    double calcRotation(double init_z, double tol, unsigned max_iterations,OpenBabel::vector3 c6_vec,
-                        OpenBabel::vector3 n1_vec, OpenBabel::vector3 n3_vec);
 
 };
 

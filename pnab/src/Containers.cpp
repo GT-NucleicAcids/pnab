@@ -203,7 +203,7 @@ std::vector<Base> Bases::getComplimentBasesFromStrand(std::vector<std::string> s
     return vector<Base>();
 }
 
-BaseUnit::BaseUnit(Base base, Backbone backbone, bool is_double_stranded) {
+BaseUnit::BaseUnit(Base base, Backbone backbone) {
 
     // We go ahead and center everything so we can rotate later
     backbone.center();
@@ -239,7 +239,7 @@ BaseUnit::BaseUnit(Base base, Backbone backbone, bool is_double_stranded) {
 
     backbone.translate(atoms[0]->GetVector() - atoms[3]->GetVector());
 
-    // Deleting old hydrogens that formed the vector
+    // Deleting old atoms that formed the vector
     backbone.deleteVectorAtom();
     base.deleteVectorAtom();
 
@@ -269,45 +269,9 @@ BaseUnit::BaseUnit(Base base, Backbone backbone, bool is_double_stranded) {
     //    conv.Write(&mol);
     //}
 
-    if (is_double_stranded)
-        perceiveN3OrN1();
-
     unit = mol;
     base_connect_index = num_atoms + backbone.getLinker()->GetIdx();
     backbone_interconnects = {backbone.getHead()->GetIdx() + num_atoms, backbone.getTail()->GetIdx() + num_atoms};
     base_index_range = {1, num_atoms};
     backbone_index_range = {num_atoms + 1, mol.NumAtoms()};
-}
-
-void BaseUnit::perceiveN3OrN1() {
-    vector3 zero{0, 0, 0};
-    pair<double,unsigned> n1_dist, n3_dist;
-    unsigned c6_index;
-    auto res = base_.GetResidue(0);
-    for (auto it = res->BeginAtoms(); it != res->EndAtoms(); ++it) {
-        auto a = *it;
-        auto a_num = a->GetAtomicNum();
-        auto a_type = string(a->GetType());
-        a_type = res->GetAtomID(a);
-        transform(a_type.begin(), a_type.end(), a_type.begin(), ::toupper);
-        if (a_num == 7 /*nitgrogen*/) {
-            if (a_type.find("N3") != string::npos) {
-                n3_dist = pair<double,unsigned>(a->GetVector().distSq(zero), a->GetIdx());
-            } else if (a_type.find("N1") != string::npos) {
-                n1_dist = pair<double,unsigned>(a->GetVector().distSq(zero), a->GetIdx());
-            }
-        } else if (a_num == 6) {
-            if (a_type.find("C6") != string::npos) {
-                c6_index = a->GetIdx();
-            }
-        }
-    }
-    if (n1_dist.first > n3_dist.first) {
-        c6_to_n3 = tuple<string,unsigned,unsigned>("N3", n3_dist.second, c6_index);
-    } else if (n3_dist.first > n1_dist.first) {
-        c6_to_n3 = tuple<string,unsigned,unsigned>("N1", n1_dist.second, 0);
-    } else {
-        cerr << "There was an error in perceiving N3 or N1 hydrogen bonding..." << endl;
-        throw(1);
-    }
 }

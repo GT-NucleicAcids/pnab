@@ -132,6 +132,8 @@ class pNAB(object):
         bases_lib = yaml.load(open(os.path.join(data_dir, 'bases_library.yaml'), 'r'), yaml.FullLoader)
         for b in bases_lib.values():
             b['file_path'] = os.path.join(data_dir, b['file_path'])
+        if self.options['RuntimeParameters'].pop('pair_A_U', None):
+            bases_lib['Base A']['pair_name'] = 'U'
         self.options.update(bases_lib)
 
         # Extract configurations

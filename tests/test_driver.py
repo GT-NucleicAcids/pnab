@@ -12,10 +12,14 @@ def test_options():
     assert all([i in _options_dict for i in components])
 
 
-    assert all([i in bind.Backbone.__dict__ for i in _options_dict['Backbone']])
-    assert all([i in bind.Base.__dict__ for i in _options_dict['Base 1']])
-    assert all([i in bind.RuntimeParameters.__dict__ for i in _options_dict['RuntimeParameters']])
-    assert all([i in bind.HelicalParameters.__dict__ for i in _options_dict['HelicalParameters']])
+    assert all([i in _options_dict['Backbone'] for i in bind.Backbone.__dict__
+                if not i.startswith('__')])
+    assert all([i in _options_dict['Base 1'] for i in bind.Base.__dict__
+                if not i.startswith('__')])
+    assert all([i in _options_dict['RuntimeParameters'] for i in
+                bind.RuntimeParameters.__dict__ if not i.startswith('__')])
+    assert all([i in _options_dict['HelicalParameters'] for i in
+                bind.HelicalParameters.__dict__ if not i.startswith('__')])
 
 
 def test_run():

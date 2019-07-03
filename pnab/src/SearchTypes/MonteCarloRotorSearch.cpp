@@ -39,7 +39,7 @@ std::string MonteCarloRotorSearch::run() {
         exit(1);
     }
     bool isKCAL_ = pFF_->GetUnit().find("kcal") != string::npos;
-    BaseUnit unit(base_a_, backbone_, is_double_stranded_);
+    BaseUnit unit(base_a_, backbone_);
     auto range = unit.getBackboneIndexRange();
     backbone_range_ = {static_cast<unsigned >(range[0]), static_cast<unsigned >(range[1])};
     Chain chain(bases_, backbone_, strand_, ff_type_, backbone_range_, is_double_stranded_);
