@@ -3,4 +3,4 @@ channels:
     - conda-forge
     - alenaizan
 dependencies:
-    - pnab
+    - pnab=0.2.0
