@@ -4,9 +4,9 @@
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/alenaizan/pnab.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/alenaizan/pnab/context:python)
 
 ## Try the Package
-Click on launch binder to see how the program workshttps://github.com/alenaizan/pnab/blob/master/README.md.
+Click on launch binder to see how the program works.
 
-## Installation Instructions
+## Installation Instructions for Linux Operating Systems
 To install the conda package, first install miniconda/anaconda. Then,
 ```
 conda config --add channels conda-forge
