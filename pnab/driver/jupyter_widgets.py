@@ -145,6 +145,12 @@ def runtime_parameters(param):
     display(box)
     options['RuntimeParameters']['pair_A_U'] =  pair_A_U
 
+    is_hexad = widgets.Checkbox(value=param['is_hexad']['default'])
+    box = widgets.HBox([widgets.Label(param['is_hexad']['glossory'], layout={'width': '400px'}), is_hexad])
+    display(box)
+    options['RuntimeParameters']['is_hexad'] =  is_hexad
+
+
 
 def display_widgets(_options):
     """Display all widgets Jupyter notebook and options

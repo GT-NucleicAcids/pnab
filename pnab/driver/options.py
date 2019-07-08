@@ -323,11 +323,11 @@ _options_dict['RuntimeParameters']['algorithm'] = {
                                                    }
 
 _options_dict['RuntimeParameters']['energy_filter'] = {
-                                                       'glossory': ('Cuttoff for the total energy of the molecule\n' + 
-                                                                    'Cuttoff for energy from angles between three consecutive atoms\n' +
-                                                                    'Cuttoff for energy from bond between newly bonded atoms\n' +
-                                                                    'Cuttoff for total van der Waals energy\n' + 
-                                                                    'Cuttoff for torsional energy between backbone linkers\n'),
+                                                       'glossory': ('Total energy per nucleotide cutoff\n' + 
+                                                                    'Angle energy per nucleotide cutoff for backbone linkers\n' +
+                                                                    'Bond energy per nuclotide cutoff for backbone linkers\n' +
+                                                                    'Total van der Waals energy per nucleotide cutoff\n' + 
+                                                                    'Torsional energy per nucleotide cutoff for backbone linkers\n'),
                                                        'default': (1e10, 10, 10, 0, 10),
                                                        'validation': lambda x: _validate_energy_filter(x), 
                                                       }
@@ -341,7 +341,7 @@ _options_dict['RuntimeParameters']['max_distance'] = {
                                                       }
 
 _options_dict['RuntimeParameters']['strand'] = {
-                                                'glossory': 'FASTA string for nucleotide sequence',
+                                                'glossory': 'FASTA string for nucleotide sequence (e.g. GCAT or XYXY) ',
                                                 'default': None,
                                                 'validation': lambda x: list(x), #lambda x: ([i.strip() for i in x.split(',') if i] if isinstance(x, str)
                                                               #           else [str(i).strip() for i in tuple(x) if i]),
@@ -353,7 +353,13 @@ _options_dict['RuntimeParameters']['is_double_stranded'] = {
                                                             'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
                                                             }
 _options_dict['RuntimeParameters']['pair_A_U'] = {
-                                                  'glossory': 'Pair A with U',
+                                                  'glossory': 'Pair A with U (Default is A-T pairing)',
                                                   'default': False,
                                                   'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
                                                   }
+_options_dict['RuntimeParameters']['is_hexad'] = {
+                                                  'glossory': 'Hexad strands',
+                                                  'default': False,
+                                                  'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
+                                                  }
+

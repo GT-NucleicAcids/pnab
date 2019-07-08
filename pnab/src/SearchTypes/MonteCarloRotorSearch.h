@@ -44,7 +44,7 @@ private:
     OpenBabel::OBConversion conv_;
     OpenBabel::OBMol test_chain_;
     unsigned monomer_num_coords_;
-    bool is_double_stranded_;
+    bool is_double_stranded_, is_hexad_;
     std::string ff_type_;
     double monomer_energy_tol;
     std::string prefix_;
