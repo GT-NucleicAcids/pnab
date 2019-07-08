@@ -59,7 +59,8 @@ class pNAB(object):
                 self._input_file = None
 
             else:
-                file_path = input('Enter path to input [options.yaml]: ') or 'options.yaml'
+                file_path = (input('Enter path to input [files/options_rna.yaml]: ')
+                             or 'files/options_rna.yaml')
                 self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
                 options._validate_all_options(self.options)
                 self._input_file = file_path
@@ -106,7 +107,7 @@ class pNAB(object):
             return
 
         header = results[1] + '\n'
-        header += ('Prefix, Conformer Index, Energy (kcal/mol), Distance (A), Bond Energy, Angle Energy,' +
+        header += ('Prefix, Conformer Index, Energy (kcal/mol/nucleotide), Distance (A), Bond Energy, Angle Energy,' +
                   ' Torsion Energy, VDW Energy, Total Torsion Energy, RMSD (A)')
 
         with open('results.csv', 'ab') as f:
@@ -171,7 +172,7 @@ class pNAB(object):
 
         self.prefix = yaml.load(open('prefix.yaml'), yaml.FullLoader)
 
-        header = ('Prefix, Conformer Index, Energy (kcal/mol), Distance (A), Bond Energy, Angle Energy,' +
+        header = ('Prefix, Conformer Index, Energy (kcal/mol/nucleotide), Distance (A), Bond Energy, Angle Energy,' +
                   ' Torsion Energy, VDW Energy, Total Torsion Energy, RMSD (A)')
 
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
