@@ -9,143 +9,63 @@ using namespace std;
 using namespace PNAB;
 using namespace OpenBabel;
 
-Chain::Chain(Bases bases, Backbone backbone, vector<string> strand, string ff_type,
+Chain::Chain(Bases bases, const Backbone &backbone, vector<string> strand, string ff_type,
              std::array<unsigned, 2> &range, bool double_stranded, bool hexad) {
 
     hexad_ = hexad;
     double_stranded_ = double_stranded;
     ff_type_ = ff_type;
     monomer_bb_index_range_ = range;
-    chain_length_ = static_cast<unsigned>(strand.size());
     backbone_ = backbone;
     chain_length_ = static_cast<unsigned>(strand.size());
     pFF_ = OBForceField::FindForceField(ff_type_);
     isKCAL_ = pFF_->GetUnit().find("kcal") != string::npos;
 
-    if (double_stranded_) {
-        auto bases_A = bases.getBasesFromStrand(strand);
-        auto bases_B = bases.getComplimentBasesFromStrand(strand);
-        if (bases_B.empty()) {
-            cerr << "User requested double stranded chain, however not all bases have a valid compliment. Please check"
-                 << " input file. Exiting..." << endl;
-            throw 1;
-        }
-
-        // Strand 1
-        setupChain(bases_A, chain_, new_bond_ids_, deleted_atoms_ids_, num_bu_A_mol_atoms_, bb_start_index_,
-                   base_coords_vec_, 0, double_stranded_, hexad);
-        std::sort(deleted_atoms_ids_.begin(), deleted_atoms_ids_.end());
-        setupFFConstraints(chain_, new_bond_ids_);
-        combined_chain_ += chain_;
-
-        // Strand 2
-        setupChain(bases_B, c_chain_, c_new_bond_ids_, c_deleted_atoms_id_, num_bu_B_mol_atoms_, c_bb_start_index_,
-                   c_base_coords_vec_, 1, double_stranded_, false);
-        std::sort(c_deleted_atoms_id_.begin(), c_deleted_atoms_id_.end());
-        setupFFConstraints(c_chain_, c_new_bond_ids_, c_chain_.NumAtoms());
-        combined_chain_ += c_chain_;
+    auto bases_A = bases.getBasesFromStrand(strand);
+    auto bases_B = bases.getComplimentBasesFromStrand(strand);
+    std::vector<std::vector<Base>> v_bases{bases_A, bases_B};
+    if (bases_B.empty() && (double_stranded_ || hexad_)) {
+        cerr << "User requested double stranded or hexad chain, however not all bases have a valid compliment. Please check"
+             << " input file. Exiting..." << endl;
+        throw 1;
     }
 
-    else if (hexad_) {
-        auto bases_A = bases.getBasesFromStrand(strand);
-        auto bases_B = bases.getComplimentBasesFromStrand(strand);
-        if (bases_B.empty()) {
-            cerr << "User requested hexad chain, however not all bases have a valid compliment. Please check"
-                 << " input file. Exiting..." << endl;
-            throw 1;
-        }
-
-        // Strand 1
-        setupChain(bases_A, chain_, new_bond_ids_, deleted_atoms_ids_, num_bu_A_mol_atoms_, bb_start_index_,
-                   base_coords_vec_, 0, false, hexad);
-        std::sort(deleted_atoms_ids_.begin(), deleted_atoms_ids_.end());
-        setupFFConstraints(chain_, new_bond_ids_);
-        combined_chain_ += chain_;
-
-        // Strand 2
-        setupChain(bases_B, c_chain_, c_new_bond_ids_, c_deleted_atoms_id_, num_bu_B_mol_atoms_, c_bb_start_index_,
-                   c_base_coords_vec_, 1, false, hexad_);
-        std::sort(c_deleted_atoms_id_.begin(), c_deleted_atoms_id_.end());
-        setupFFConstraints(c_chain_, c_new_bond_ids_, chain_.NumAtoms());
-        combined_chain_ += c_chain_;
-
-
-        // Strand 3
-        setupChain(bases_A, d_chain_, d_new_bond_ids_, d_deleted_atoms_id_, num_bu_A_mol_atoms_, d_bb_start_index_,
-                   d_base_coords_vec_, 2, false, hexad_);
-        std::sort(d_deleted_atoms_id_.begin(), d_deleted_atoms_id_.end());
-        setupFFConstraints(d_chain_, d_new_bond_ids_, chain_.NumAtoms() + c_chain_.NumAtoms());
-        combined_chain_ += d_chain_;
-
-        // Strand 4
-        setupChain(bases_B, e_chain_, e_new_bond_ids_, e_deleted_atoms_id_, num_bu_B_mol_atoms_, e_bb_start_index_,
-                   e_base_coords_vec_, 3, false, hexad_);
-        std::sort(e_deleted_atoms_id_.begin(), e_deleted_atoms_id_.end());
-        setupFFConstraints(e_chain_, e_new_bond_ids_, chain_.NumAtoms() * 2 + c_chain_.NumAtoms());
-        combined_chain_ += e_chain_;
-
-        // Strand 5
-        setupChain(bases_A, f_chain_, f_new_bond_ids_, f_deleted_atoms_id_, num_bu_A_mol_atoms_, f_bb_start_index_,
-                   f_base_coords_vec_, 4, false, hexad_);
-        std::sort(f_deleted_atoms_id_.begin(), f_deleted_atoms_id_.end());
-        setupFFConstraints(f_chain_, f_new_bond_ids_, chain_.NumAtoms() * 2 + c_chain_.NumAtoms() * 2);
-        combined_chain_ += f_chain_;
-
-        // Strand 6
-        setupChain(bases_B, g_chain_, g_new_bond_ids_, g_deleted_atoms_id_, num_bu_B_mol_atoms_, g_bb_start_index_,
-                   g_base_coords_vec_, 5, false, hexad_);
-        std::sort(g_deleted_atoms_id_.begin(), g_deleted_atoms_id_.end());
-        setupFFConstraints(g_chain_, g_new_bond_ids_, chain_.NumAtoms() * 3 + c_chain_.NumAtoms() * 2);
-        combined_chain_ += g_chain_;
-
-    }    
-
-
-    else {
-        auto bases_A = bases.getBasesFromStrand(strand);
-        setupChain(bases_A, chain_, new_bond_ids_, deleted_atoms_ids_, num_bu_A_mol_atoms_, bb_start_index_,
-                   base_coords_vec_, 0, double_stranded_, hexad);
-        std::sort(deleted_atoms_ids_.begin(), deleted_atoms_ids_.end());
-        setupFFConstraints(chain_, new_bond_ids_);
+    n_chains_ = 1;
+    if (double_stranded_)
+        n_chains_ = 2;
+    else if (hexad_)
+        n_chains_ = 6;
+    unsigned offset = 0;
+    for (unsigned i=0; i < n_chains_; i++) {
+        setupChain(v_bases[i%2], v_chain_[i], v_new_bond_ids_[i], v_deleted_atoms_ids_[i], v_num_bu_A_mol_atoms_[i], v_bb_start_index_[i],
+                   v_base_coords_vec_[i], i);
+        std::sort(v_deleted_atoms_ids_[i].begin(), v_deleted_atoms_ids_[i].end());
+        setupFFConstraints(v_chain_[i], v_new_bond_ids_[i], offset);
+        offset += v_chain_[i].NumAtoms();
+        combined_chain_ += v_chain_[i];
     }
 
-    if (double_stranded_ || hexad_)
-        pFF_->Setup(combined_chain_);
-    else
-        pFF_->Setup(chain_);
+    pFF_->Setup(combined_chain_);
 }
 
 ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp) {
-    if (chain_.NumAtoms() <= 0) {
+    if (v_chain_[0].NumAtoms() <= 0) {
         cout << "There are no atoms in the chain_. Exiting..." << endl;
         exit(0);
     }
 
     unsigned num_cooords;
     if (double_stranded_)
-        num_cooords = (chain_.NumAtoms() + c_chain_.NumAtoms()) * 3;
+        num_cooords = (v_chain_[0].NumAtoms() + v_chain_[1].NumAtoms()) * 3;
     else if (hexad_)
-        num_cooords = (chain_.NumAtoms() * 3 + c_chain_.NumAtoms() * 3) * 3;
+        num_cooords = (v_chain_[0].NumAtoms() * 3 + v_chain_[1].NumAtoms() * 3) * 3;
     else
-        num_cooords = chain_.NumAtoms() * 3;
+        num_cooords = v_chain_[0].NumAtoms() * 3;
     auto *xyz = new double[num_cooords];
 
 
-    if (double_stranded_) {
-        setCoordsForChain(xyz,conf,hp,num_bu_A_mol_atoms_,bb_start_index_,base_coords_vec_,deleted_atoms_ids_, false, false, 0);
-        setCoordsForChain(xyz,conf,hp,num_bu_B_mol_atoms_,c_bb_start_index_,c_base_coords_vec_,c_deleted_atoms_id_, true, false, 1);
-    }
-
-    else if (hexad_) {
-        setCoordsForChain(xyz,conf,hp,num_bu_A_mol_atoms_,bb_start_index_,base_coords_vec_,deleted_atoms_ids_, false, false, 0);
-        setCoordsForChain(xyz,conf,hp,num_bu_B_mol_atoms_,c_bb_start_index_,c_base_coords_vec_,c_deleted_atoms_id_, false, true, 1);
-        setCoordsForChain(xyz,conf,hp,num_bu_A_mol_atoms_,d_bb_start_index_,d_base_coords_vec_,d_deleted_atoms_id_, false, true, 2);
-        setCoordsForChain(xyz,conf,hp,num_bu_B_mol_atoms_,e_bb_start_index_,e_base_coords_vec_,e_deleted_atoms_id_, false, true, 3);
-        setCoordsForChain(xyz,conf,hp,num_bu_A_mol_atoms_,f_bb_start_index_,f_base_coords_vec_,f_deleted_atoms_id_, false, true, 4);
-        setCoordsForChain(xyz,conf,hp,num_bu_B_mol_atoms_,g_bb_start_index_,g_base_coords_vec_,g_deleted_atoms_id_, false, true, 5);
-    }
-    else {
-        setCoordsForChain(xyz,conf,hp,num_bu_A_mol_atoms_,bb_start_index_,base_coords_vec_,deleted_atoms_ids_, false, false, 0);
+    for (unsigned i=0; i < n_chains_; i++) {
+        setCoordsForChain(xyz,conf,hp,v_num_bu_A_mol_atoms_[i],v_bb_start_index_[i], v_base_coords_vec_[i],v_deleted_atoms_ids_[i], i);
     }
 
     ConformerData data;
@@ -159,10 +79,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data)
 
     OBMol *current_mol;
 
-    if (double_stranded_ || hexad_)
-        current_mol = &combined_chain_;
-    else
-        current_mol = &chain_;
+    current_mol = &combined_chain_;
 
     current_mol->SetCoordinates(xyz);
 
@@ -206,7 +123,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data)
 void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids,
                        std::vector<unsigned> &deleted_atoms_ids, std::vector<unsigned> &num_base_unit_atoms,
                        std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
-                       unsigned chain_index, bool double_stranded, bool hexad) {
+                       unsigned chain_index) {
 
     auto bases_A = strand;
     unsigned neighbor_id;
@@ -252,12 +169,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
             r->SetChainNum(chain_index);
             r->SetChain(chain_letter);
             r->SetTitle(base_names[c].c_str());
-            if (chain_index % 2 == 0 || hexad) {
-                r->SetNum(c + 1);
-            }
-            else if (chain_index % 2 == 1) {
-                r->SetNum(bu_A_mol.size()*2 -  c);
-            }
+            r->SetNum(c + 1);
         }
         chain += v;
         c++;
@@ -267,19 +179,21 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
 
     std::vector<long int> center_ids;
     unsigned count = 0, index = 0;
-    if (chain_index == 0 || hexad) {
+    if (chain_index == 0 || hexad_) {
         for (unsigned i = 0; i < bu_linkers_vec.size(); ++i) {
             head_ids.push_back(static_cast<int>(chain.GetAtom(count + bu_linkers_vec[i][0])->GetId()));
             count += num_base_unit_atoms[index++];
             tail_ids.push_back(static_cast<int>(chain.GetAtom(count + bu_linkers_vec[i + 1][1])->GetId()));
         }
     }
-    else if (chain_index == 1)
+
+    else if (chain_index == 1) {
         for (unsigned i = 0; i < bu_linkers_vec.size(); ++i) {
             tail_ids.push_back(static_cast<int>(chain.GetAtom(count + bu_linkers_vec[i    ][1])->GetId()));
             count += num_base_unit_atoms[index++];
             head_ids.push_back(static_cast<int>(chain.GetAtom(count + bu_linkers_vec[i + 1][0])->GetId()));
         }
+    }
 
     for (unsigned i = 0; i < head_ids.size(); i++) {
         head = chain.GetAtomById(head_ids[i]);
@@ -354,26 +268,21 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
 void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters &hp,
                               std::vector<unsigned> &num_bu_atoms,
                               std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
-                              std::vector<unsigned> &deleted_atoms_ids, bool is_second_strand, bool is_hexad, unsigned chain_index) {
+                              std::vector<unsigned> &deleted_atoms_ids, unsigned chain_index) {
 
-    vector3 z_trans{0, 0, 0};
-    vector3 s_trans_prev, g_trans_prev;
-    matrix3x3 s_rot_prev, g_rot_prev, z_rot;
+    matrix3x3 change_sign, z_rot;
     auto g_rot = hp.getGlobalRotationOBMatrix();
     auto g_trans = hp.getGlobalTranslationVec();
     unsigned xyzI = 0, local_offset = 0, deleted_atom_index = 0;
-    if (is_second_strand)
-        xyzI = 3 * chain_.NumAtoms();
-    else if (is_hexad)
-        xyzI = 3 * chain_.NumAtoms() * ((chain_index + 1) / 2) + 3 * c_chain_.NumAtoms() * (chain_index / 2); 
-
-
-    matrix3x3 change_sign({1, 0, 0},{0, -1, 0}, {0, 0, -1});
-    if (is_hexad) {
-        double twist = chain_index * 60.0 * DEG_TO_RAD;
-        z_rot = matrix3x3{{cos(twist), -sin(twist), 0},{sin(twist), cos(twist), 0}, {0, 0, 1}};
+    if (double_stranded_ && chain_index == 1) {
+        xyzI = 3 * v_chain_[0].NumAtoms();
+        change_sign = {{1, 0, 0},{0, -1, 0}, {0, 0, -1}};
     }
-
+    else if (hexad_) {
+        xyzI = 3 * v_chain_[0].NumAtoms() * ((chain_index + 1) / 2) + 3 * v_chain_[1].NumAtoms() * (chain_index / 2); 
+        double twist = chain_index * 60.0 * DEG_TO_RAD;
+        z_rot = {{cos(twist), -sin(twist), 0},{sin(twist), cos(twist), 0}, {0, 0, 1}};
+    }
 
     for (unsigned i = 0; i < chain_length_; ++i) {
         auto n = num_bu_atoms[i];
@@ -387,10 +296,10 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
 
             v3 += g_trans; v3 *= g_rot;
 
-            if (is_second_strand)
+            if (double_stranded_ && chain_index == 1)
                 v3 *= change_sign;
 
-            else if (is_hexad) {
+            else if (hexad_) {
                 v3 *= z_rot;
             }
 
@@ -406,10 +315,10 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
 
                 v3 += g_trans; v3 *= g_rot;
 
-                if (is_second_strand)
+                if (double_stranded_ && chain_index == 1)
                     v3 *= change_sign;
 
-                else if (is_hexad) {
+                else if (hexad_) {
                     v3 *= z_rot;
                 }
                 
