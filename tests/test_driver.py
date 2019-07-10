@@ -53,3 +53,33 @@ def test_run_range():
 
     # Confirm the number of tested configurations
     assert len(run.prefix) == 15
+
+
+def test_duplex():
+    """
+    test generating duplex with provided option file
+    """
+    import os
+
+    import pnab
+
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+    run = pnab.pNAB('files/options_dna.yaml')
+    run.run()
+    run.get_results()
+
+
+def test_hexad():
+    """
+    test generating hexad with provided option file
+    """
+    import os
+
+    import pnab
+
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+    run = pnab.pNAB('files/options_hexad.yaml')
+    run.run()
+    run.get_results()
