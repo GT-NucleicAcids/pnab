@@ -182,6 +182,7 @@ std::string MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
     ostream fileStream(&fb);
 
     // Set the conformer save to file
+    test_chain_.SetTitle(strs.str().c_str());
     test_chain_.SetCoordinates(conf_data.coords);
     conv_.SetOutStream(&fileStream);
     conv_.Write(&test_chain_);
