@@ -150,6 +150,11 @@ def runtime_parameters(param):
     display(box)
     options['RuntimeParameters']['is_hexad'] =  is_hexad
 
+    is_parallel = widgets.Checkbox(value=param['is_parallel']['default'])
+    box = widgets.HBox([widgets.Label(param['is_parallel']['glossory'], layout={'width': '400px'}), is_parallel])
+    display(box)
+    options['RuntimeParameters']['is_parallel'] =  is_parallel
+
 
 
 def display_widgets(_options):

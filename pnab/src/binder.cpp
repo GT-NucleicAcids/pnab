@@ -36,6 +36,7 @@ PYBIND11_MODULE(bind, m) {
         .def_readwrite("strand", &PNAB::RuntimeParameters::strand)
         .def_readwrite("is_double_stranded", &PNAB::RuntimeParameters::is_double_stranded)
         .def_readwrite("is_hexad", &PNAB::RuntimeParameters::is_hexad)
+        .def_readwrite("is_parallel", &PNAB::RuntimeParameters::is_parallel)
         ;
 
     py::class_<PNAB::HelicalParameters>(m, "HelicalParameters")

@@ -29,6 +29,7 @@ MonteCarloRotorSearch::MonteCarloRotorSearch(RuntimeParameters &runtime_params, 
     rng_.seed(std::random_device()());
     is_double_stranded_ = runtime_params_.is_double_stranded;
     is_hexad_ = runtime_params_.is_hexad;
+    is_parallel_ = runtime_params_.is_parallel;
     ff_type_ = runtime_params_.type;
     monomer_energy_tol = runtime_params.energy_filter[0];
 }
@@ -43,7 +44,7 @@ std::string MonteCarloRotorSearch::run() {
     BaseUnit unit(base_a_, backbone_);
     auto range = unit.getBackboneIndexRange();
     backbone_range_ = {static_cast<unsigned >(range[0]), static_cast<unsigned >(range[1])};
-    Chain chain(bases_, backbone_, strand_, ff_type_, backbone_range_, is_double_stranded_, is_hexad_);
+    Chain chain(bases_, backbone_, strand_, ff_type_, backbone_range_, is_double_stranded_, is_hexad_, is_parallel_);
     test_chain_ = chain.getChain();
     auto bu_a_mol = unit.getMol();
     auto bu_a_head_tail = unit.getBackboneLinkers();

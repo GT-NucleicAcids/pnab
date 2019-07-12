@@ -362,4 +362,9 @@ _options_dict['RuntimeParameters']['is_hexad'] = {
                                                   'default': False,
                                                   'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
                                                   }
+_options_dict['RuntimeParameters']['is_parallel'] = {
+                                                  'glossory': 'Are hexad strands parallel',
+                                                  'default': True,
+                                                  'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
+                                                  }
 

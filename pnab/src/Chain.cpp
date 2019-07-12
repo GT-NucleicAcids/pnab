@@ -10,8 +10,9 @@ using namespace PNAB;
 using namespace OpenBabel;
 
 Chain::Chain(Bases bases, const Backbone &backbone, vector<string> strand, string ff_type,
-             std::array<unsigned, 2> &range, bool double_stranded, bool hexad) {
+             std::array<unsigned, 2> &range, bool double_stranded, bool hexad, bool is_parallel) {
 
+    is_parallel_ = is_parallel;
     hexad_ = hexad;
     double_stranded_ = double_stranded;
     ff_type_ = ff_type;
@@ -179,7 +180,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
 
     std::vector<long int> center_ids;
     unsigned count = 0, index = 0;
-    if (chain_index == 0 || hexad_) {
+    if (chain_index%2 == 0 || (hexad_ && is_parallel_)) {
         for (unsigned i = 0; i < bu_linkers_vec.size(); ++i) {
             head_ids.push_back(static_cast<int>(chain.GetAtom(count + bu_linkers_vec[i][0])->GetId()));
             count += num_base_unit_atoms[index++];
@@ -187,7 +188,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         }
     }
 
-    else if (chain_index == 1) {
+    else if (chain_index%2 == 1) {
         for (unsigned i = 0; i < bu_linkers_vec.size(); ++i) {
             tail_ids.push_back(static_cast<int>(chain.GetAtom(count + bu_linkers_vec[i    ][1])->GetId()));
             count += num_base_unit_atoms[index++];
@@ -280,6 +281,7 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
     }
     else if (hexad_) {
         xyzI = 3 * v_chain_[0].NumAtoms() * ((chain_index + 1) / 2) + 3 * v_chain_[1].NumAtoms() * (chain_index / 2); 
+        change_sign = {{1, 0, 0},{0, -1, 0}, {0, 0, -1}};
         double twist = chain_index * 60.0 * DEG_TO_RAD;
         z_rot = {{cos(twist), -sin(twist), 0},{sin(twist), cos(twist), 0}, {0, 0, 1}};
     }
@@ -300,10 +302,15 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                 v3 *= change_sign;
 
             else if (hexad_) {
+                if (chain_index%2 == 1 && !is_parallel_)
+                    v3 *= change_sign;
                 v3 *= z_rot;
             }
 
+
             v3 += s_trans; v3 *= s_rot;
+
+
             v3.Get(xyz + xyzI);
             xyzI += 3;
         }
@@ -319,10 +326,14 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                     v3 *= change_sign;
 
                 else if (hexad_) {
+                    if (chain_index%2 == 1 && !is_parallel_) 
+                        v3 *= change_sign;
                     v3 *= z_rot;
                 }
-                
+               
                 v3 += s_trans; v3 *= s_rot;
+
+
                 v3.Get(xyz + xyzI);
                 xyzI += 3;
             } else {
