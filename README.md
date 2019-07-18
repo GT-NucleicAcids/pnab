@@ -16,7 +16,7 @@ conda install -c alenaizan pnab
 If you prefer to compile the package, install miniconda/anaconda. Then,
 
 ```
-git clone -b driver https://github.com/alenaizan/pnab.git
+git clone https://github.com/alenaizan/pnab.git
 cd pnab
 sh install.sh 
 ```
