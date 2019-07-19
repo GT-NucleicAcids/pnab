@@ -15,27 +15,6 @@ from __future__ import division, absolute_import, print_function
 import os
 import copy
 
-try:
-    from pnab.driver import jupyter_widgets
-except ImportError:
-    pass
-
-def set_options():
-    """A method to get user-defined options."""
-
-    options_dict = _ask_options_questions()
-
-    return options_dict
-
-
-def _ask_options_questions():
-    """A method that ask the user for options."""
-
-    options_dict = {}
-    options_dict = jupyter_widgets.display_widgets(_options_dict)
-
-    return options_dict
-
 
 def _validate_all_options(options):
     """A method to validate all options.
@@ -46,9 +25,20 @@ def _validate_all_options(options):
     num_bases = len(['Base' for i in options if 'Base' in i])
     _replicate_base_option(num_bases)
 
+    print(options)
+    print(_options_dict)
+
     for k1 in options:
         for k2 in options[k1]:
             options[k1][k2] = _options_dict[k1][k2]['validation'](options[k1][k2])
+
+    if options['RuntimeParameters']['is_double_stranded'] and ("X" in options['RuntimeParameters']['strand'] or "Y" in options['RuntimeParameters']['strand']):
+        raise Exception("Cannot build double strands for triaminopyrimidine or cyanuric acid")
+
+    elif options['RuntimeParameters']['is_hexad']:
+        for i in ['A', 'G', 'C', 'U', 'T']:
+            if i in options['RuntimeParameters']['strand']:
+                raise Exception("Cannot build hexads for canonical nucleobases")
 
 
 def _replicate_base_option(num_bases):
@@ -120,22 +110,22 @@ def _validate_energy_filter(x):
 
     return x
    
-def _validate_algorithm(algorithm):
-    """method to validate algorithm. Checks if the requested algorith is available."""
-
-    available_algorithms = ['WMC']
-    algorithm = str(algorithm).upper()
-    if algorithm in available_algorithms:
-        return algorithm
-    else:
-        raise Exception('Available alogrithms are %s' %str(available_algorithms))
-
 def _validate_base_name(name):
     name = str(name)
     if len(name) > 1:
         raise Exception("Base name must be one letter") 
 
     return name
+
+def _validate_strand(strand):
+    strand = list(strand)
+    if "X" in strand or "Y" in strand:
+        for i in ["A", "G", "C", "T", "U"]:
+            if i in strand:
+                raise Exception("Cannot combine canonincal and non-canonical nucleobases")
+
+    return strand
+
 
 
 # Set glossory of options, default values and validation methods
@@ -212,50 +202,50 @@ _options_dict['HelicalParameters'] = {}
 
 _options_dict['HelicalParameters']['twist'] = {
                                                'glossory': 'Twist',
-                                               'default': 0.0,
+                                               'default': [0.0, 0.0, 1],
                                                'validation': lambda x: _validate_helical_parameters(x),
                                                }
 
 _options_dict['HelicalParameters']['inclination'] = {
                                                      'glossory': 'Inclination',
-                                                     'default': 0.0,
+                                                     'default': [0.0, 0.0, 1],
                                                      'validation': lambda x: _validate_helical_parameters(x),
                                                      }
 
 _options_dict['HelicalParameters']['tip'] = {
                                              'glossory': 'Tip',
-                                             'default': 0.0,
+                                             'default': [0.0, 0.0, 1],
                                              'validation': lambda x: _validate_helical_parameters(x),
                                              }
 
 _options_dict['HelicalParameters']['rise'] = {
                                               'glossory': 'Rise',
-                                              'default': 0.0,
+                                              'default': [0.0, 0.0, 1],
                                               'validation': lambda x: _validate_helical_parameters(x),
                                               }
 
 _options_dict['HelicalParameters']['x_displacement'] = {
                                                         'glossory': 'X-Displacement',
-                                                        'default': 0.0,
+                                                        'default': [0.0, 0.0, 1],
                                                         'validation': lambda x: _validate_helical_parameters(x),
                                                         }
 
 _options_dict['HelicalParameters']['y_displacement'] = {
                                                         'glossory': 'Y-Displacement',
-                                                        'default': 0.0,
+                                                        'default': [0.0, 0.0, 1],
                                                         'validation': lambda x: _validate_helical_parameters(x),
                                                         }
 
 
 _options_dict['HelicalParameters']['shift'] = {
                                                'glossory': 'Shift',
-                                               'default': 0.0,
+                                               'default': [0.0, 0.0, 1],
                                                'validation': lambda x: _validate_helical_parameters(x),
                                                }
 
 _options_dict['HelicalParameters']['slide'] = {
                                                'glossory': 'Slide',
-                                               'default': 0.0,
+                                               'default': [0.0, 0.0, 1],
                                                'validation': lambda x: _validate_helical_parameters(x),
                                                }
 
@@ -316,12 +306,6 @@ _options_dict['RuntimeParameters']['type'] = {
 #                                                        'validation': lambda x: _validate_input_file(x),
 #                                                        }
 
-_options_dict['RuntimeParameters']['algorithm'] = {
-                                                   'glossory': 'Three letter code for search algorithm',
-                                                   'default': 'WMC',
-                                                   'validation': lambda x: _validate_algorithm(x),
-                                                   }
-
 _options_dict['RuntimeParameters']['energy_filter'] = {
                                                        'glossory': ('Total energy per nucleotide cutoff\n' + 
                                                                     'Angle energy per nucleotide cutoff for backbone linkers\n' +
@@ -343,8 +327,7 @@ _options_dict['RuntimeParameters']['max_distance'] = {
 _options_dict['RuntimeParameters']['strand'] = {
                                                 'glossory': 'FASTA string for nucleotide sequence (e.g. GCAT or XYXY) ',
                                                 'default': None,
-                                                'validation': lambda x: list(x), #lambda x: ([i.strip() for i in x.split(',') if i] if isinstance(x, str)
-                                                              #           else [str(i).strip() for i in tuple(x) if i]),
+                                                'validation': lambda x: _validate_strand(x),
                                                 }
 
 _options_dict['RuntimeParameters']['is_double_stranded'] = {

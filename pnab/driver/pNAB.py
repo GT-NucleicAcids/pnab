@@ -19,11 +19,6 @@ import numpy as np
 from pnab import __file__ as pnab_dir
 from pnab import bind
 from pnab.driver import options
-try:
-    from pnab.driver import jupyter_widgets
-except ImportError:
-    print("Running the program in the command line")
-
 from pnab.driver import draw
 
 
@@ -34,37 +29,12 @@ class pNAB(object):
     runs it, and parses results.
     """
 
-    def __init__(self, file_path=None):
+    def __init__(self, file_path):
         """The constructor"""
 
-        if file_path is not None:
-            self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
-            options._validate_all_options(self.options)
-            self._input_file = file_path
-
-        else:
-            print("There are two methods to use the Nucleic Acid Builder:\n"
-                  "1. Specify your options below\n"
-                  "2. Use an existing input file\n")
-
-            input_method = input('Enter input method (1, 2) [1]: ') or '1'
-            input_method = input_method.strip()
-
-            if input_method not in ['1', '2']:
-                raise Exception('Please choose either "1" or "2"')
-
-            if input_method == '1':
-                self._options = options.set_options()
-                self.options = None
-                self._input_file = None
-
-            else:
-                file_path = (input('Enter path to input [files/options_rna.yaml]: ')
-                             or 'files/options_rna.yaml')
-                self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
-                options._validate_all_options(self.options)
-                self._input_file = file_path
-
+        self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
+        options._validate_all_options(self.options)
+        self._input_file = file_path
 
     def _run(self, config):
         """ function to run one helical configuration."""
@@ -117,17 +87,6 @@ class pNAB(object):
     def run(self):
         """ Fuction to prepare helical configurations and run them in parallel."""
 
-        if self._input_file is None:
-            # Used Jupyter notebook; extract options
-            self.options = jupyter_widgets.extract_options(self._options)
-            options._validate_all_options(self.options)
-            # Workaround as widget states are not serializable and cannot be used with multiprocess
-            temp = self._options
-            del self._options
-
-            with open('options.yaml', 'w') as f:
-                f.write(yaml.dump(self.options))
-
         # Add library of bases
         data_dir = os.path.join(os.path.dirname(pnab_dir), 'data')
         bases_lib = yaml.load(open(os.path.join(data_dir, 'bases_library.yaml'), 'r'), yaml.FullLoader)
@@ -163,9 +122,6 @@ class pNAB(object):
 
         pool.close()
 
-        if self._input_file is None:
-            self._options = temp
-
 
     def get_results(self):
         """Extract the results from the run and report it to the user."""
@@ -192,6 +148,8 @@ class pNAB(object):
         print('Showing the best %i candidates ...\n' %len(summary))
 
         for conformer in summary:
+            import time
+            time.sleep(0.1)
             print("Prefix: %i" %conformer[0])
             print(int(conformer[1]))
             print(self.prefix['%i' %conformer[0]])
