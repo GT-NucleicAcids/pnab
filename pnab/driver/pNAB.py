@@ -38,33 +38,16 @@ class pNAB(object):
         """The constructor"""
 
         if file_path is not None:
+            # Using command line
             self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
             options._validate_all_options(self.options)
             self._input_file = file_path
 
         else:
-            print("There are two methods to use the Nucleic Acid Builder:\n"
-                  "1. Specify your options below\n"
-                  "2. Use an existing input file\n")
-
-            input_method = input('Enter input method (1, 2) [1]: ') or '1'
-            input_method = input_method.strip()
-
-            if input_method not in ['1', '2']:
-                raise Exception('Please choose either "1" or "2"')
-
-            if input_method == '1':
-                self._options = options.set_options()
-                self.options = None
-                self._input_file = None
-
-            else:
-                file_path = (input('Enter path to input [files/options_rna.yaml]: ')
-                             or 'files/options_rna.yaml')
-                self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
-                options._validate_all_options(self.options)
-                self._input_file = file_path
-
+            # Using Jupyter notebook
+            self._options = options.set_options()
+            self.options = None
+            self._input_file = None
 
     def _run(self, config):
         """ function to run one helical configuration."""

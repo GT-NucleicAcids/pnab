@@ -109,7 +109,7 @@ def view_py3dmol(conformer, label=False):
     view.zoomTo()
 
     if label:
-        view.addPropertyLabels("serial")
+        view.addPropertyLabels("serial", {}, {'fontColor': 'black', 'showBackground': False})
 
     view.show()
 

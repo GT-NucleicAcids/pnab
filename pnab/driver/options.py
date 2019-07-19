@@ -212,50 +212,50 @@ _options_dict['HelicalParameters'] = {}
 
 _options_dict['HelicalParameters']['twist'] = {
                                                'glossory': 'Twist',
-                                               'default': 0.0,
+                                               'default': [0.0, 0.0, 1],
                                                'validation': lambda x: _validate_helical_parameters(x),
                                                }
 
 _options_dict['HelicalParameters']['inclination'] = {
                                                      'glossory': 'Inclination',
-                                                     'default': 0.0,
+                                                     'default': [0.0, 0.0, 1],
                                                      'validation': lambda x: _validate_helical_parameters(x),
                                                      }
 
 _options_dict['HelicalParameters']['tip'] = {
                                              'glossory': 'Tip',
-                                             'default': 0.0,
+                                             'default': [0.0, 0.0, 1],
                                              'validation': lambda x: _validate_helical_parameters(x),
                                              }
 
 _options_dict['HelicalParameters']['rise'] = {
                                               'glossory': 'Rise',
-                                              'default': 0.0,
+                                              'default': [0.0, 0.0, 1],
                                               'validation': lambda x: _validate_helical_parameters(x),
                                               }
 
 _options_dict['HelicalParameters']['x_displacement'] = {
                                                         'glossory': 'X-Displacement',
-                                                        'default': 0.0,
+                                                        'default': [0.0, 0.0, 1],
                                                         'validation': lambda x: _validate_helical_parameters(x),
                                                         }
 
 _options_dict['HelicalParameters']['y_displacement'] = {
                                                         'glossory': 'Y-Displacement',
-                                                        'default': 0.0,
+                                                        'default': [0.0, 0.0, 1],
                                                         'validation': lambda x: _validate_helical_parameters(x),
                                                         }
 
 
 _options_dict['HelicalParameters']['shift'] = {
                                                'glossory': 'Shift',
-                                               'default': 0.0,
+                                               'default': [0.0, 0.0, 1],
                                                'validation': lambda x: _validate_helical_parameters(x),
                                                }
 
 _options_dict['HelicalParameters']['slide'] = {
                                                'glossory': 'Slide',
-                                               'default': 0.0,
+                                               'default': [0.0, 0.0, 1],
                                                'validation': lambda x: _validate_helical_parameters(x),
                                                }
 

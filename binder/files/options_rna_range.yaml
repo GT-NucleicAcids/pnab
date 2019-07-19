@@ -47,6 +47,8 @@ RuntimeParameters:
   - 10.0
   - 0.0
   - 10.0
+  is_hexad: false
+  is_parallel: false
   is_double_stranded: false
   max_distance: 0.05
   num_steps: 10000000
