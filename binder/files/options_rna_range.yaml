@@ -40,7 +40,6 @@ HelicalParameters:
   - -0.02
   - 1
 RuntimeParameters:
-  algorithm: WMC
   energy_filter:
   - 10000000000.0
   - 10.0

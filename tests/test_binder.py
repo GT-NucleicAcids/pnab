@@ -23,7 +23,7 @@ def test_binder_1():
 
     runtime_parameters = bind.RuntimeParameters()
     runtime_parameters_attr = {'energy_filter': list, 'max_distance': float, 'type': str,
-                               'num_steps': int, 'algorithm': str, 'strand': list,
+                               'num_steps': int, 'strand': list,
                                'is_double_stranded': bool} 
     assert all([i in runtime_parameters.__dir__() for i in runtime_parameters_attr])
     assert all([type(runtime_parameters.__getattribute__(k)) is val
@@ -76,7 +76,6 @@ def test_binder_2():
     rp = bind.RuntimeParameters()
     rp.num_steps = 1000000
     rp.type = 'GAFF'
-    rp.algorithm = 'WMC'
     rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0, 10000.0]
     rp.max_distance = 0.05
     rp.strand = ['Adenine']*10

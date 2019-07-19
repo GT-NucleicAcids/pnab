@@ -6,5 +6,5 @@ from __future__ import division, absolute_import, print_function
 
 from . import bind
 from .driver.pNAB import pNAB
-from .driver.draw import draw
+from .driver.jupyter_widgets import builder
 from .extras import test

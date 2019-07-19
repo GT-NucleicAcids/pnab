@@ -40,7 +40,6 @@ HelicalParameters:
   - 0
   - 1
 RuntimeParameters:
-  algorithm: WMC
   energy_filter:
   - 10000000000.0
   - 10.0
@@ -48,6 +47,7 @@ RuntimeParameters:
   - 0.0
   - 10.0
   is_double_stranded: true
+  is_hexad: false
   max_distance: 0.05
   num_steps: 100000000
   strand: CGAT

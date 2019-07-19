@@ -20,9 +20,8 @@ namespace PNAB {
         /**
          * \brief Empty constructor. Should not generally be used.
          */
-        RuntimeParameters() : energy_filter{}, max_distance(0), type(), parameter_file(),
-                              base_to_backbone_bond_length(-1), num_steps(0), dihedral_discretization(0),
-                              angleStepSize(0), chain_length(3), algorithm(), is_double_stranded(false),
+        RuntimeParameters() : energy_filter{}, max_distance(), type(),
+                              num_steps(0), strand{}, is_double_stranded(false),
                               is_hexad(false), is_parallel(true){};
 
         // Energy parameters
@@ -30,16 +29,9 @@ namespace PNAB {
         double max_distance;                    //!< \brief The maximum distance between head and tail of successive UnitChains that is accepted
 
         // Force Field Parameters
-        std::string type,                       //!< \brief The type of the ForceField such as "GAFF" or "MMFF94"
-                parameter_file;                 //!< \brief An additional parameter file in case missing bonds, angles, torsions, etc. are missing
-        double base_to_backbone_bond_length;    //!< \brief The bond length between Base and Backbone, can be left to default which is original distance of the distance between the atom of getLinker() and getVector() of the Backbone
+        std::string type;                       //!< \brief The type of the ForceField such as "GAFF" or "MMFF94"
 
-        // Search algorithm
-        std::size_t num_steps,                  //!< \brief Determines how many points are sampled in the Monte Carlo searches
-                dihedral_discretization,        //!< \brief The number of points to break up the total number of dihedral angle (step becomes 360 deg / dihedral_discretization)
-                angleStepSize,                  //!< \brief The step size for a systematic search
-                chain_length;                   //!< \brief Default number of bases (the first specified) to occupy a strand. Overidden by strand variable
-        std::string algorithm;                  //!< \brief The algorithm to use.
+        std::size_t num_steps;                  //!< \brief Determines how many points are sampled in the Monte Carlo searches
 
         //Strand parameters
         std::vector<std::string> strand;        //!< \brief Holds the names of each base used in the strand

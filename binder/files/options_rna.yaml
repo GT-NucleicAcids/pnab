@@ -40,7 +40,6 @@ HelicalParameters:
   - -0.02
   - 1
 RuntimeParameters:
-  algorithm: WMC # Search algorithm for dihedrals; only WMC available now
   energy_filter:
   - 10000000000.0 # Total Energy of the system
   - 10.0 # Angle energy involving newly formed backbone bonds

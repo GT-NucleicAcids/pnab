@@ -40,7 +40,6 @@ def test_energy_filter():
     rp = bind.RuntimeParameters()
     rp.num_steps = 1
     rp.type = 'GAFF'
-    rp.algorithm = 'WMC'
     rp.energy_filter = [1e100]*5
     rp.max_distance = 1e100
     rp.strand = ['Adenine']*5

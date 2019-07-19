@@ -2,7 +2,9 @@ import yaml
 import ipywidgets as widgets
 from IPython.display import display, Javascript
 
+from pnab.driver.pNAB import pNAB
 from pnab.driver import draw
+from pnab.driver.options import _options_dict as _options
 
 
 options = {}
@@ -159,11 +161,6 @@ def runtime_parameters(param):
     display(box)
     options['RuntimeParameters']['type'] = ff_type
 
-    algorithm = widgets.Text(value=param['algorithm']['default'])
-    box = widgets.HBox([widgets.Label(param['algorithm']['glossory'], layout={'width': '400px'}), algorithm])
-    display(box)
-    options['RuntimeParameters']['algorithm'] = algorithm
-
     options['RuntimeParameters']['energy_filter'] = []
     for i in range(5): 
         label = param['energy_filter']['glossory'].split('\n')[i]
@@ -204,35 +201,46 @@ def runtime_parameters(param):
     options['RuntimeParameters']['is_parallel'] =  is_parallel
 
 
-def upload_input(_options, f):
+def upload_input(param, f):
     if f:
         input_file = list(f.keys())[0]
         with open(input_file, 'wb') as w:
             w.write(list(f.values())[0]['content'])
 
         display(widgets.HTML(value=input_file))
-        show(_options, input_file) 
+        show(param, input_file) 
 
 
-def show(_options, input_file):
+def show(param, input_file):
 
     if input_file == "Upload file":
-        display(widgets.interactive(upload_input, _options=widgets.fixed(_options), f=widgets.FileUpload(accept='', multiple=False, description="Input File")))
+        display(widgets.interactive(upload_input, param=widgets.fixed(param), f=widgets.FileUpload(accept='', multiple=False, description="Input File")))
         return
 
     options = yaml.load(open(input_file, 'r'), yaml.FullLoader)
 
     for k1, v1 in options.items():
         for k2, v2 in options[k1].items():
-            _options[k1][k2]['default'] = options[k1][k2]
+            param[k1][k2]['default'] = options[k1][k2]
 
-    backbone(_options['Backbone'])
+    backbone(param['Backbone'])
     bases()
-    helical_parameters(_options['HelicalParameters'])
-    runtime_parameters(_options['RuntimeParameters'])
+    helical_parameters(param['HelicalParameters'])
+    runtime_parameters(param['RuntimeParameters'])
 
 
-def display_widgets(_options):
+def run(b):
+    run_options = extract_options(options)
+    with open('options.yaml', 'w') as f:
+     f.write(yaml.dump(run_options))
+
+    run = pNAB('options.yaml')
+    run.run()
+    run.get_results()
+
+
+
+def display_widgets(param):
     """Display all widgets Jupyter notebook and options
 
     return widgets which can be used to extract user options
@@ -246,17 +254,19 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 """
     display(Javascript(disable_js))
     draw.draw()
-    display(widgets.interactive(show, _options=widgets.fixed(_options),
+    display(widgets.interactive(show, param=widgets.fixed(param),
             input_file=widgets.Dropdown(options=['files/options_rna.yaml', 'files/options_dna.yaml', 'files/options_hexad.yaml', 'Upload file'],
                                         style={'description_width': 'initial'}, description='Input File')))
-    return options
+    button = widgets.Button(description='Run')
+    button.on_click(run)
+    display(button)
 
 
-def extract_options(_options):
+def extract_options(param):
     """Extract user options from the widgets"""
 
     user_options = {}
-    for k1, val1 in _options.items():
+    for k1, val1 in param.items():
         user_options[k1] = {}
         for k2, val2 in val1.items():
             if isinstance(val2, str):
@@ -265,12 +275,13 @@ def extract_options(_options):
                 if isinstance(val2, list):
                     user_options[k1][k2] = [val2[0].value, val2[1].value]
                 else:
-                    user_options[k1][k2] = val2.value
+                    user_options[k1][k2] = val2
 
             elif 'Base' in k1:
                 if isinstance(val2, list):
                     user_options[k1][k2] = [val2[0].value, val2[1].value]
                 else:
+                    print(k1, k2, val2)
                     user_options[k1][k2] = val2.value
 
             elif k1 == 'HelicalParameters':
@@ -284,3 +295,7 @@ def extract_options(_options):
                     user_options[k1][k2] = val2.value
 
     return user_options
+
+
+def builder():
+    display_widgets(_options)
