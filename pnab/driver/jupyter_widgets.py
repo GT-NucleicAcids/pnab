@@ -1,3 +1,5 @@
+import os
+
 import yaml
 import ipywidgets as widgets
 from IPython.display import display, Javascript
@@ -5,6 +7,7 @@ from IPython.display import display, Javascript
 from pnab.driver.pNAB import pNAB
 from pnab.driver import draw
 from pnab.driver.options import _options_dict as _options
+from pnab import __path__
 
 
 options = {}
@@ -12,12 +15,12 @@ options = {}
 
 def path(file_path, param):
 
-    import os
-
     if not os.path.isfile(file_path):
-        param['linker']['default'][0] = param['linker']['default'][1] = 1
-        param['interconnects']['default'][0] = param['interconnects']['default'][1] = 1
-        return
+        file_path = os.path.join(__path__[0], 'data', file_path)
+        if not os.path.isfile(file_path):
+            param['linker']['default'][0] = param['linker']['default'][1] = 1
+            param['interconnects']['default'][0] = param['interconnects']['default'][1] = 1
+            return
 
     num_atoms = draw.view_py3dmol(file_path, label=True)
 
@@ -156,7 +159,7 @@ def runtime_parameters(param):
     display(box)
     options['RuntimeParameters']['num_steps'] = num_steps
 
-    ff_type = widgets.Text(value=param['type']['default'])
+    ff_type = widgets.Dropdown(options=['GAFF', 'MMFF94', 'MMFF94s', 'UFF', 'Ghemical'])
     box = widgets.HBox([widgets.Label(param['type']['glossory'], layout={'width': '400px'}), ff_type])
     display(box)
     options['RuntimeParameters']['type'] = ff_type
@@ -208,14 +211,17 @@ def upload_input(param, f):
             w.write(list(f.values())[0]['content'])
 
         display(widgets.HTML(value=input_file))
-        show(param, input_file) 
+        show(param, input_file, uploaded=True)
 
 
-def show(param, input_file):
+def show(param, input_file, uploaded=False):
 
     if input_file == "Upload file":
         display(widgets.interactive(upload_input, param=widgets.fixed(param), f=widgets.FileUpload(accept='', multiple=False, description="Input File")))
         return
+
+    if not uploaded:
+        input_file = os.path.join(__path__[0], 'data', input_file)
 
     options = yaml.load(open(input_file, 'r'), yaml.FullLoader)
 
@@ -254,8 +260,8 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 """
     display(Javascript(disable_js))
     draw.draw()
-    display(widgets.interactive(show, param=widgets.fixed(param),
-            input_file=widgets.Dropdown(options=['files/options_rna.yaml', 'files/options_dna.yaml', 'files/options_hexad.yaml', 'Upload file'],
+    display(widgets.interactive(show, param=widgets.fixed(param), uploaded=widgets.fixed(False),
+            input_file=widgets.Dropdown(options=['RNA.yaml', 'DNA.yaml', 'Hexad.yaml', 'Upload file'],
                                         style={'description_width': 'initial'}, description='Input File')))
     button = widgets.Button(description='Run')
     button.on_click(run)
@@ -281,7 +287,6 @@ def extract_options(param):
                 if isinstance(val2, list):
                     user_options[k1][k2] = [val2[0].value, val2[1].value]
                 else:
-                    print(k1, k2, val2)
                     user_options[k1][k2] = val2.value
 
             elif k1 == 'HelicalParameters':

@@ -15,6 +15,8 @@ from __future__ import division, absolute_import, print_function
 import os
 import copy
 
+from pnab import __path__
+
 
 def _validate_all_options(options):
     """A method to validate all options.
@@ -24,9 +26,6 @@ def _validate_all_options(options):
 
     num_bases = len(['Base' for i in options if 'Base' in i])
     _replicate_base_option(num_bases)
-
-    print(options)
-    print(_options_dict)
 
     for k1 in options:
         for k2 in options[k1]:
@@ -53,7 +52,9 @@ def _validate_input_file(file_name):
 
     file_name = str(file_name)
     if not os.path.isfile(file_name):
-        raise Exception("Cannot find file: %s" %file_name)
+        file_name = os.path.join(__path__[0], 'data', file_name)
+        if not os.path.isfile(file_name):
+            raise Exception("Cannot find file: %s" %file_name)
 
     return file_name
 

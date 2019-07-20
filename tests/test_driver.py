@@ -26,13 +26,9 @@ def test_run():
     """
     test running with provided option file
     """
-    import os
-
     import pnab
 
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
-
-    run = pnab.pNAB('files/options_rna.yaml')
+    run = pnab.pNAB('RNA.yaml')
     run.run()
     run.get_results()
 
@@ -41,13 +37,9 @@ def test_run_range():
     """
     test running with provided option file
     """
-    import os
-
     import pnab
 
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
-
-    run = pnab.pNAB('files/options_rna_range.yaml')
+    run = pnab.pNAB('RNA2.yaml')
     run.run()
     run.get_results()
 
@@ -59,13 +51,9 @@ def test_duplex():
     """
     test generating duplex with provided option file
     """
-    import os
-
     import pnab
 
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
-
-    run = pnab.pNAB('files/options_dna.yaml')
+    run = pnab.pNAB('DNA.yaml')
     run.run()
     run.get_results()
 
@@ -74,12 +62,8 @@ def test_hexad():
     """
     test generating hexad with provided option file
     """
-    import os
-
     import pnab
 
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
-
-    run = pnab.pNAB('files/options_hexad.yaml')
+    run = pnab.pNAB('Hexad.yaml')
     run.run()
     run.get_results()
