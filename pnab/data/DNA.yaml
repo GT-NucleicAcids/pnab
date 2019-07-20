@@ -1,5 +1,5 @@
 Backbone:
-  file_path: files/dna_bb.pdb
+  file_path: dna_bb.pdb
   interconnects:
   - 10
   - 1
@@ -8,12 +8,12 @@ Backbone:
   - 13
 HelicalParameters:
   inclination:
-  - 0
-  - 0
+  - 2.78 
+  - 2.78
   - 1
   rise:
-  - 3.4
-  - 3.4
+  - 3.37
+  - 3.37
   - 1
   shift:
   - 0
@@ -24,16 +24,16 @@ HelicalParameters:
   - 0
   - 1
   tip:
-  - 0 
-  - 0
+  - 0.01
+  - 0.01
   - 1
   twist:
-  - 30
-  - 30
+  - 35.77
+  - 35.77
   - 1
   x_displacement:
-  - 0
-  - 0
+  - 0.49
+  - 0.49
   - 1
   y_displacement:
   - 0
@@ -46,9 +46,10 @@ RuntimeParameters:
   - 10.0
   - 0.0
   - 10.0
-  is_double_stranded: false
-  is_hexad: true
+  is_hexad: false
+  is_parallel: false
+  is_double_stranded: true
   max_distance: 0.05
   num_steps: 100000000
-  strand: XYXY
+  strand: CGATTTAGCG
   type: GAFF

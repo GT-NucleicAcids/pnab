@@ -1,5 +1,5 @@
 Backbone:
-  file_path: files/rna_bb.pdb
+  file_path: rna_bb.pdb
   interconnects: # Backbone to backbone connection
   - 10
   - 1
@@ -16,12 +16,12 @@ HelicalParameters:
   - 2.53
   - 1
   shift:
-  - 0.0
-  - 0.0
+  - 0
+  - 0
   - 1
   slide:
-  - 0.0
-  - 0.0
+  - 0
+  - 0
   - 1
   tip:
   - 0.08 
@@ -46,9 +46,10 @@ RuntimeParameters:
   - 10.0 # Bond energy involving newly formed backbone bonds
   - 0.0 # Total van der Waals energy
   - 10.0 # Total torsional energy of the backbone
-  is_double_stranded: false
   is_hexad: false
+  is_parallel: false
+  is_double_stranded: false
   max_distance: 0.05 # Maximum distance between atom linkers in backbone
   num_steps: 100000000 # Number of steps for backbone dihedral search
-  strand: CGAU # Sequence of base names
+  strand: CGAUUUAGCG # Sequence of base names
   type: GAFF # Force field type

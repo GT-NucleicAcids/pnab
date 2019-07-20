@@ -16,7 +16,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 import datetime
 import numpy as np
 
-from pnab import __file__ as pnab_dir
+from pnab import __path__
 from pnab import bind
 from pnab.driver import options
 from pnab.driver import draw
@@ -32,6 +32,8 @@ class pNAB(object):
     def __init__(self, file_path):
         """The constructor"""
 
+        if not os.path.isfile(file_path):
+            file_path = os.path.join(__path__[0], 'data', file_path)
         self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
         options._validate_all_options(self.options)
         self._input_file = file_path
@@ -88,7 +90,7 @@ class pNAB(object):
         """ Fuction to prepare helical configurations and run them in parallel."""
 
         # Add library of bases
-        data_dir = os.path.join(os.path.dirname(pnab_dir), 'data')
+        data_dir = os.path.join(__path__[0], 'data')
         bases_lib = yaml.load(open(os.path.join(data_dir, 'bases_library.yaml'), 'r'), yaml.FullLoader)
         for b in bases_lib.values():
             b['file_path'] = os.path.join(data_dir, b['file_path'])
