@@ -8,6 +8,6 @@ from . import bind
 from .driver.pNAB import pNAB
 try:
     from .driver.jupyter_widgets import builder
-except:
+except ImportError:
     pass
 from .extras import test
