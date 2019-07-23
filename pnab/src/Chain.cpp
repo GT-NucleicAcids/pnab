@@ -94,14 +94,9 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data)
     pFF_->Setup(*current_mol, constraintsTot_);
     conf_data.total_energy = pFF_->Energy() / n;
     conf_data.VDWE = pFF_->E_VDW() / n;
-    conf_data.totTorsionE = pFF_->E_Torsion() / n;
 
     if (n - 1 <= 0)
         n = 2;
-
-    // Get torsional energies
-    pFF_->SetConstraints(constraintsTor_);
-    conf_data.torsionE = pFF_->E_Torsion() / (n - 1);
 
     // Get angle energy
     pFF_->SetConstraints(constraintsAng_);
@@ -114,10 +109,8 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data)
     if (!isKCAL_) {
         conf_data.total_energy *= KJ_TO_KCAL;
         conf_data.VDWE         *= KJ_TO_KCAL;
-        conf_data.totTorsionE  *= KJ_TO_KCAL;
-        conf_data.torsionE     *= KJ_TO_KCAL;
-        conf_data.angleE       *= KJ_TO_KCAL;
         conf_data.bondE        *= KJ_TO_KCAL;
+        conf_data.angleE       *= KJ_TO_KCAL;
     }
 }
 
@@ -237,7 +230,6 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
     }
     FOR_ATOMS_OF_MOL(a, chain) {
         if(std::find(torsionAtoms.begin(), torsionAtoms.end(), a->GetIdx()) == torsionAtoms.end()) {
-            constraintsTor_.AddIgnore(a->GetIdx() + offset);
             constraintsAng_.AddIgnore(a->GetIdx() + offset);
             constraintsBond_.AddIgnore(a->GetIdx() + offset);
         }

@@ -46,7 +46,6 @@ private:
     unsigned monomer_num_coords_;
     bool is_double_stranded_, is_hexad_, is_parallel_;
     std::string ff_type_;
-    double monomer_energy_tol;
     std::string prefix_;
 
     double measureDistance(double *coords, unsigned head, unsigned tail);

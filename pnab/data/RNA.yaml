@@ -41,11 +41,10 @@ HelicalParameters:
   - 1
 RuntimeParameters:
   energy_filter:
-  - 10000000000.0 # Total Energy of the system
   - 10.0 # Angle energy involving newly formed backbone bonds
   - 10.0 # Bond energy involving newly formed backbone bonds
   - 0.0 # Total van der Waals energy
-  - 10.0 # Total torsional energy of the backbone
+  - 10000000000.0 # Total Energy of the system
   is_hexad: false
   is_parallel: false
   is_double_stranded: false

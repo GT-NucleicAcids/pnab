@@ -48,7 +48,7 @@ private:
     std::string ff_type_;
     PNAB::Backbone backbone_;
 
-    OpenBabel::OBFFConstraints constraintsTot_, constraintsTor_, constraintsAng_, constraintsBond_;
+    OpenBabel::OBFFConstraints constraintsTot_, constraintsAng_, constraintsBond_;
 
     void fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data);
     void setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids,
