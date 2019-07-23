@@ -165,7 +165,7 @@ def runtime_parameters(param):
     options['RuntimeParameters']['type'] = ff_type
 
     options['RuntimeParameters']['energy_filter'] = []
-    for i in range(5): 
+    for i in range(4): 
         label = param['energy_filter']['glossory'].split('\n')[i]
         energy_filter = widgets.FloatText(value=param['energy_filter']['default'][i])
         box = widgets.HBox([widgets.Label(label, layout={'width': '400px'}), energy_filter])

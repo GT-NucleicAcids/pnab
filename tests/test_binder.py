@@ -76,7 +76,7 @@ def test_binder_2():
     rp = bind.RuntimeParameters()
     rp.num_steps = 1000000
     rp.type = 'GAFF'
-    rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0, 10000.0]
+    rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0]
     rp.max_distance = 0.05
     rp.strand = ['Adenine']*10
     rp.is_double_stranded = False

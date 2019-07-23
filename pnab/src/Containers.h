@@ -25,7 +25,7 @@ namespace PNAB {
                               is_hexad(false), is_parallel(true){};
 
         // Energy parameters
-        std::vector<double> energy_filter;      //!< \brief { max total E, max angle E, max bond E, max VDW E, max Torsion E }
+        std::vector<double> energy_filter;      //!< \brief {max bond E, max angle E, max VDW E, max total E}
         double max_distance;                    //!< \brief The maximum distance between head and tail of successive UnitChains that is accepted
 
         // Force Field Parameters
@@ -460,12 +460,10 @@ namespace PNAB {
         double *coords,                             //!< \brief Pointer to array containing coordinates of all atoms in molecule chain
                *monomer_coord,                      //!< \brief Pointer to array containing coordinates of a single monomer
                 distance,                           //!< \brief distance between \code{interconnects} in \code{Backbone} for successive \code{UnitChain}s
-                total_energy,                       //!< \brief Total energy of the conformation divided by number of \code{UnitChain}s in chain tested
-                angleE,                             //!< \brief Total energy of angles of the conformation divided by number of \code{UnitChain}s
                 bondE,                              //!< \brief Total energy of bonds
+                angleE,                             //!< \brief Total energy of angles of the conformation divided by number of \code{UnitChain}s
                 VDWE,                               //!< \brief Total van Der Wals Energy
-                torsionE,                           //!< \brief Torsion energy due to backbone
-                totTorsionE,                        //!< \brief Total torsional energy
+                total_energy,                       //!< \brief Total energy of the conformation divided by number of \code{UnitChain}s in chain tested
                 rmsd;                               //!< \brief Root-mean square distance from lowest energy conformer
         std::size_t index;                          //!< \brief The index of the conformer
         bool chain_coords_present;                  //!< \brief Have the chain coordinates in coord been deleted?

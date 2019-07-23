@@ -102,8 +102,8 @@ def _validate_energy_filter(x):
         x = eval(x)
 
     x = list(x)
-    if len(x) != 5:
-        raise Exception("Five values must be provided for the energy filter")
+    if len(x) != 4:
+        raise Exception("Four values must be provided for the energy filter")
 
     for i in x:
         if not isinstance(i, (float, int)):
@@ -308,18 +308,17 @@ _options_dict['RuntimeParameters']['type'] = {
 #                                                        }
 
 _options_dict['RuntimeParameters']['energy_filter'] = {
-                                                       'glossory': ('Total energy per nucleotide cutoff\n' + 
-                                                                    'Angle energy per nucleotide cutoff for backbone linkers\n' +
-                                                                    'Bond energy per nuclotide cutoff for backbone linkers\n' +
+                                                       'glossory': ('Bond energy per nuclotide cutoff for backbone linkers\n' +
+                                                                    'Angle energy per nucleotide cutoff for backbone linkers\n' +                                                                    
                                                                     'Total van der Waals energy per nucleotide cutoff\n' + 
-                                                                    'Torsional energy per nucleotide cutoff for backbone linkers\n'),
-                                                       'default': (1e10, 10, 10, 0, 10),
+                                                                    'Total energy per nucleotide cutoff\n'),
+                                                       'default': (5, 5, 0, 10000000000),
                                                        'validation': lambda x: _validate_energy_filter(x), 
                                                       }
 
 _options_dict['RuntimeParameters']['max_distance'] = {
                                                       'glossory': ('The maximum distance between atom' +
-                                                                   ' linkers in backbone.' 
+                                                                   ' linkers in backbone' 
                                                                    ),
                                                       'default': 0.05,
                                                       'validation': lambda x: float(x),

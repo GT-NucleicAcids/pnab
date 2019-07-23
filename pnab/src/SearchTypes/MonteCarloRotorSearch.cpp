@@ -31,7 +31,6 @@ MonteCarloRotorSearch::MonteCarloRotorSearch(RuntimeParameters &runtime_params, 
     is_hexad_ = runtime_params_.is_hexad;
     is_parallel_ = runtime_params_.is_parallel;
     ff_type_ = runtime_params_.type;
-    monomer_energy_tol = runtime_params.energy_filter[0];
 }
 
 std::string MonteCarloRotorSearch::run() {
@@ -80,7 +79,6 @@ std::string MonteCarloRotorSearch::run() {
         OBRotor *r = rl.BeginRotor(ri);
         double best_dist = std::numeric_limits<double>::infinity(), cur_dist = best_dist;
         while (r) {
-
             bool accept = false;
             best_dist = std::numeric_limits<double>::infinity();
             while (!accept) {
@@ -98,10 +96,6 @@ std::string MonteCarloRotorSearch::run() {
 
         // if accept, add to vector of coord_vec_
         if (cur_dist < runtime_params_.max_distance) {
-
-            pFF_->Setup(bu_a_mol);
-            if (pFF_->Energy() > monomer_energy_tol)
-                continue;
 
             auto data = chain.generateConformerData(coords, helical_params_);
 
@@ -151,8 +145,8 @@ double MonteCarloRotorSearch::measureDistance(double *coords, unsigned head, uns
 }
 
 bool MonteCarloRotorSearch::isPassingEFilter(const PNAB::ConformerData &conf_data) {
-    vector<double> cur_vals = {conf_data.total_energy, conf_data.angleE, conf_data.bondE,
-                               conf_data.VDWE, conf_data.totTorsionE};
+    vector<double> cur_vals = {conf_data.bondE, conf_data.angleE, 
+                               conf_data.VDWE, conf_data.total_energy};
     auto max_vals = runtime_params_.energy_filter;
     for (auto i = 0; i < max_vals.size(); ++i)
         if (max_vals[i] < cur_vals[i])
@@ -193,18 +187,16 @@ std::string MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
     conf_data.chain_coords_present = false;
     conf_data_vec_.push_back(conf_data);
 
-    output_string << "# Prefix, Conformer Index, Energy (kcal/mol), Distance (A), Bond Energy, Angle Energy,";
-    output_string << " Torsion Energy, VDW Energy, Total Torsion Energy, RMSD (A)" << endl;
+    output_string << "# Prefix, Conformer Index, Distance (A), Energy (kcal/mol), VDW Energy, Bond Energy, Angle Energy, ";
+    output_string << "RMSD (A)" << endl;
     std::sort(conf_data_vec_.begin(), conf_data_vec_.end());
 
     double *ref = conf_data_vec_[0].monomer_coord;
-    monomer_energy_tol = conf_data_vec_.front().total_energy * 3;
 
     for (auto &v : conf_data_vec_) {
         v.rmsd = calcRMSD(ref, v.monomer_coord, monomer_num_coords_);
-        output_string << prefix_ << ", " << v.index  << ", " << v.total_energy << ", " << v.distance << ", "
-               << v.bondE << ", " << v.angleE << ", " << v.torsionE     << ", " << v.VDWE     << ", "
-               << v.totTorsionE << ", " << v.rmsd   << endl;
+        output_string << prefix_ << ", " << v.index  << ", " << v.distance << ", " << v.total_energy << ", "
+               << v.VDWE << ", " << v.bondE << ", " << v.angleE << ", " << v.rmsd   << endl;
     }
 
 
