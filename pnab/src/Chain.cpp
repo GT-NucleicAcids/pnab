@@ -272,6 +272,7 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                               std::vector<unsigned> &deleted_atoms_ids, unsigned chain_index) {
 
     matrix3x3 change_sign, z_rot;
+    matrix3x3 change_sign2 = {{-1, 0, 0},{0, 1, 0}, {0, 0, -1}};
     auto g_rot = hp.getGlobalRotationOBMatrix();
     auto g_trans = hp.getGlobalTranslationVec();
     unsigned xyzI = 0, local_offset = 0, deleted_atom_index = 0;
@@ -310,6 +311,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
 
             v3 += s_trans; v3 *= s_rot;
 
+            // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
+            v3 *=  change_sign2;
 
             v3.Get(xyz + xyzI);
             xyzI += 3;
@@ -333,6 +336,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                
                 v3 += s_trans; v3 *= s_rot;
 
+                // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
+                v3 *=  change_sign2;
 
                 v3.Get(xyz + xyzI);
                 xyzI += 3;
@@ -343,4 +348,5 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
         }
         local_offset += n;
     }
+
 }
