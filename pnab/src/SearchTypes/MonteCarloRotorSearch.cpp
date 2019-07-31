@@ -29,7 +29,6 @@ MonteCarloRotorSearch::MonteCarloRotorSearch(RuntimeParameters &runtime_params, 
     rng_.seed(std::random_device()());
     is_double_stranded_ = runtime_params_.is_double_stranded;
     is_hexad_ = runtime_params_.is_hexad;
-    is_parallel_ = runtime_params_.is_parallel;
     ff_type_ = runtime_params_.type;
 }
 
@@ -43,12 +42,13 @@ std::string MonteCarloRotorSearch::run() {
     BaseUnit unit(base_a_, backbone_);
     auto range = unit.getBackboneIndexRange();
     backbone_range_ = {static_cast<unsigned >(range[0]), static_cast<unsigned >(range[1])};
-    Chain chain(bases_, backbone_, strand_, ff_type_, backbone_range_, is_double_stranded_, is_hexad_, is_parallel_);
+    Chain chain(bases_, backbone_, strand_, ff_type_, backbone_range_, is_double_stranded_, is_hexad_, runtime_params_.strand_orientation);
     test_chain_ = chain.getChain();
     auto bu_a_mol = unit.getMol();
     auto bu_a_head_tail = unit.getBackboneLinkers();
     auto head = static_cast<unsigned>(bu_a_head_tail[0]),
          tail = static_cast<unsigned>(bu_a_head_tail[1]);
+
     std::string output_string;
 
 //    bu_a_mol.Translate(glbl_translate_);
@@ -77,6 +77,7 @@ std::string MonteCarloRotorSearch::run() {
 
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
         OBRotor *r = rl.BeginRotor(ri);
+        
         double best_dist = std::numeric_limits<double>::infinity(), cur_dist = best_dist;
         while (r) {
             bool accept = false;
@@ -96,6 +97,7 @@ std::string MonteCarloRotorSearch::run() {
 
         // if accept, add to vector of coord_vec_
         if (cur_dist < runtime_params_.max_distance) {
+
 
             auto data = chain.generateConformerData(coords, helical_params_);
 
@@ -188,7 +190,7 @@ std::string MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
     conf_data_vec_.push_back(conf_data);
 
     output_string << "# Prefix, Conformer Index, Distance (A), Energy (kcal/mol), VDW Energy, Bond Energy, Angle Energy, ";
-    output_string << "RMSD (A)" << endl;
+    output_string << "RMSD" << endl;
     std::sort(conf_data_vec_.begin(), conf_data_vec_.end());
 
     double *ref = conf_data_vec_[0].monomer_coord;
@@ -196,7 +198,7 @@ std::string MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
     for (auto &v : conf_data_vec_) {
         v.rmsd = calcRMSD(ref, v.monomer_coord, monomer_num_coords_);
         output_string << prefix_ << ", " << v.index  << ", " << v.distance << ", " << v.total_energy << ", "
-               << v.VDWE << ", " << v.bondE << ", " << v.angleE << ", " << v.rmsd   << endl;
+               << v.VDWE << ", " << v.bondE << ", " << v.angleE << ", " << v.rmsd << endl;
     }
 
 

@@ -38,6 +38,16 @@ class pNAB(object):
         options._validate_all_options(self.options)
         self._input_file = file_path
 
+        # Add library of bases
+        data_dir = os.path.join(__path__[0], 'data')
+        bases_lib = yaml.load(open(os.path.join(data_dir, 'bases_library.yaml'), 'r'), yaml.FullLoader)
+        for b in bases_lib.values():
+            b['file_path'] = os.path.join(data_dir, b['file_path'])
+        if self.options['RuntimeParameters'].pop('pair_A_U', None):
+            bases_lib['Base A']['pair_name'] = 'U'
+        self.options.update(bases_lib)
+
+
     def _run(self, config):
         """ function to run one helical configuration."""
         config, prefix = config[0], config[1]
@@ -79,7 +89,7 @@ class pNAB(object):
             return
 
         header = results[1] + '\n'
-        header = ('Prefix, Conformer Index, Distance (A), Energy (kcal/mol/nucleotide), VDW Energy, Bond Energy, Angle Energy, RMSD (A)')
+        header += ('Prefix, Conformer Index, Distance (A), Energy (kcal/mol/nucleotide), VDW Energy, Bond Energy, Angle Energy, RMSD (A)')
 
         with open('results.csv', 'ab') as f:
             np.savetxt(f, results[2], delimiter=',', header=header)
@@ -87,15 +97,6 @@ class pNAB(object):
 
     def run(self):
         """ Fuction to prepare helical configurations and run them in parallel."""
-
-        # Add library of bases
-        data_dir = os.path.join(__path__[0], 'data')
-        bases_lib = yaml.load(open(os.path.join(data_dir, 'bases_library.yaml'), 'r'), yaml.FullLoader)
-        for b in bases_lib.values():
-            b['file_path'] = os.path.join(data_dir, b['file_path'])
-        if self.options['RuntimeParameters'].pop('pair_A_U', None):
-            bases_lib['Base A']['pair_name'] = 'U'
-        self.options.update(bases_lib)
 
         # Extract configurations
         config = itertools.product(*[np.random.uniform(val[0], val[1], val[2])

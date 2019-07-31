@@ -22,7 +22,7 @@ namespace PNAB {
          */
         RuntimeParameters() : energy_filter{}, max_distance(), type(),
                               num_steps(0), strand{}, is_double_stranded(false),
-                              is_hexad(false), is_parallel(true){};
+                              is_hexad(false), strand_orientation(std::vector<bool> {true, true, true, true, true, true}){};
 
         // Energy parameters
         std::vector<double> energy_filter;      //!< \brief {max bond E, max angle E, max VDW E, max total E}
@@ -37,7 +37,7 @@ namespace PNAB {
         std::vector<std::string> strand;        //!< \brief Holds the names of each base used in the strand
         bool is_double_stranded;                //!< \brief Defines if the program prints and tests double stranded molecules
         bool is_hexad;                          //!< \brief Defines if the program prints and tests hexad molecules
-        bool is_parallel;                       //!< \brief Defines if the hexad molecule is parallel or anti-parallel
+        std::vector<bool> strand_orientation;   //!< \brief Defines strand orientation for hexads
 
     };
 
