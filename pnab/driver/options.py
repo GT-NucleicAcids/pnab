@@ -24,11 +24,12 @@ def _validate_all_options(options):
     Used when the user provides an input file
     """
 
-    num_bases = len(['Base' for i in options if 'Base' in i])
-    _replicate_base_option(num_bases)
-
-    for k1 in options:
-        for k2 in options[k1]:
+    for k1 in _options_dict:
+        if k1 not in options:
+            options['k1'] = {}
+        for k2 in _options_dict[k1]:
+            if k2 not in options[k1]:
+                options[k1][k2] = _options_dict[k1][k2]['default']
             options[k1][k2] = _options_dict[k1][k2]['validation'](options[k1][k2])
 
     if options['RuntimeParameters']['is_double_stranded'] and ("X" in options['RuntimeParameters']['strand'] or "Y" in options['RuntimeParameters']['strand']):
@@ -38,13 +39,6 @@ def _validate_all_options(options):
         for i in ['A', 'G', 'C', 'U', 'T']:
             if i in options['RuntimeParameters']['strand']:
                 raise Exception("Cannot build hexads for canonical nucleobases")
-
-
-def _replicate_base_option(num_bases):
-    """replicates initial options for bases if the number of distinct bases is greater than 1."""
-
-    for i in range(2, num_bases + 1):
-        _options_dict.update({'Base %i' %i: copy.deepcopy(_options_dict['Base 1'])})
 
 
 def _validate_input_file(file_name):
@@ -127,6 +121,14 @@ def _validate_strand(strand):
 
     return strand
 
+def _validate_strand_orientation(strand):
+    strand = list(strand)
+    for i, val in enumerate(strand):
+        strand[i] = bool(eval(val.title())) if isinstance(val, str) else bool(val)
+
+    return strand
+
+
 
 
 # Set glossory of options, default values and validation methods
@@ -154,39 +156,6 @@ _options_dict['Backbone']['linker'] = {
                                                        'default': None,
                                                        'validation': lambda x: _validate_atom_indices(x),
                                                        }
-
-# Base Parameters
-_options_dict['Base 1'] = {}
-
-_options_dict['Base 1']['file_path'] = {
-                                                       'glossory': 'Path to file containing the structure of the base',
-                                                       'default': 'base.pdb',
-                                                       'validation': lambda x: _validate_input_file(x),
-                                                       }
-_options_dict['Base 1']['linker'] = {
-                                                         'glossory': ('Two atoms forming a vector connecting to backbone'),
-                                                         'default': None,
-                                                         'validation': lambda x: _validate_atom_indices(x),
-                                                         }
-
-_options_dict['Base 1']['code'] = {
-                                             'glossory': 'Three-letter code',
-                                             'default': 'RES',
-                                             'validation': lambda x: str(x),
-                                             }
-
-_options_dict['Base 1']['name'] = {
-                                             'glossory': 'One-letter base name',
-                                             'default': 'b',
-                                             'validation': lambda x: _validate_base_name(x),
-                                             }
-
-_options_dict['Base 1']['pair_name'] = {
-                                                  'glossory': 'Name of the pairing base',
-                                                  'default': 'pairing_base',
-                                                  'validation': lambda x: str(x),
-                                                  }
-
 # Helical Parameters
 _options_dict['HelicalParameters'] = {}
 #_options_dict['HelicalParameters']['tilt'] = {
@@ -308,11 +277,11 @@ _options_dict['RuntimeParameters']['type'] = {
 #                                                        }
 
 _options_dict['RuntimeParameters']['energy_filter'] = {
-                                                       'glossory': ('Bond energy per nuclotide cutoff for backbone linkers\n' +
-                                                                    'Angle energy per nucleotide cutoff for backbone linkers\n' +                                                                    
-                                                                    'Total van der Waals energy per nucleotide cutoff\n' + 
-                                                                    'Total energy per nucleotide cutoff\n'),
-                                                       'default': (5, 5, 0, 10000000000),
+                                                       'glossory': ('Maximum energy per bond for newly formed bonds in the backbone\n' +
+                                                                    'Maximum energy per agnle for newly formed angles in the backbone\n' +
+                                                                    'Maximum van der Waals energy per nucleotide\n' +
+                                                                    'Maximum total energy per nucleotide\n'),
+                                                       'default': (3, 3, 0, 10000000000),
                                                        'validation': lambda x: _validate_energy_filter(x), 
                                                       }
 
@@ -345,9 +314,9 @@ _options_dict['RuntimeParameters']['is_hexad'] = {
                                                   'default': False,
                                                   'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
                                                   }
-_options_dict['RuntimeParameters']['is_parallel'] = {
-                                                  'glossory': 'Are hexad strands parallel',
-                                                  'default': True,
-                                                  'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
+_options_dict['RuntimeParameters']['strand_orientation'] = {
+                                                  'glossory': 'Orientation of each strand in the hexad (up or down)',
+                                                  'default': [True, True, True, True, True, True],
+                                                  'validation': lambda x: _validate_strand_orientation(x),
                                                   }
 

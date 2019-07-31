@@ -41,14 +41,20 @@ HelicalParameters:
   - 1
 RuntimeParameters:
   energy_filter:
-  - 10.0
-  - 10.0
-  - 0.0
+  - 3.0
+  - 3.0
+  - 20.0
   - 10000000000.0
   is_hexad: true
-  is_parallel: true
+  strand_orientation:
+  - true
+  - true
+  - true
+  - true
+  - true
+  - true
   is_double_stranded: false
   max_distance: 0.05
   num_steps: 100000000
-  strand: XYXY
+  strand: XYX
   type: GAFF

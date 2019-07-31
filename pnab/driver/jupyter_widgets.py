@@ -198,10 +198,14 @@ def runtime_parameters(param):
     display(box)
     options['RuntimeParameters']['is_hexad'] =  is_hexad
 
-    is_parallel = widgets.Checkbox(value=param['is_parallel']['default'])
-    box = widgets.HBox([widgets.Label(param['is_parallel']['glossory'], layout={'width': '400px'}), is_parallel])
+    options['RuntimeParameters']['strand_orientation'] = []
+    box = [widgets.Label(param['strand_orientation']['glossory'], layout={'width': '400px'})]
+    for i in range(6):
+        strand_orientation = widgets.Checkbox(value=param['strand_orientation']['default'][i], indent=False, layout={'width': '50px'})
+        options['RuntimeParameters']['strand_orientation'].append(strand_orientation)
+        box.append(strand_orientation)
+    box = widgets.HBox(box)
     display(box)
-    options['RuntimeParameters']['is_parallel'] =  is_parallel
 
 
 def upload_input(param, f):
@@ -293,7 +297,7 @@ def extract_options(param):
                 user_options[k1][k2] = [val2[0].value[0], val2[0].value[1], val2[1].value]
 
             else:
-                if k2 == 'energy_filter':
+                if k2 == 'energy_filter' or k2 == 'strand_orientation':
                     user_options[k1][k2] = [i.value for i in val2]
 
                 else:

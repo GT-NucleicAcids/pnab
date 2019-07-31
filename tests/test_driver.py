@@ -8,13 +8,11 @@ def test_options():
     from pnab import bind
     from pnab.driver.options import _options_dict
 
-    components = ['Backbone', 'Base 1', 'RuntimeParameters', 'HelicalParameters']
+    components = ['Backbone', 'RuntimeParameters', 'HelicalParameters']
     assert all([i in _options_dict for i in components])
 
 
     assert all([i in _options_dict['Backbone'] for i in bind.Backbone.__dict__
-                if not i.startswith('__')])
-    assert all([i in _options_dict['Base 1'] for i in bind.Base.__dict__
                 if not i.startswith('__')])
     assert all([i in _options_dict['RuntimeParameters'] for i in
                 bind.RuntimeParameters.__dict__ if not i.startswith('__')])

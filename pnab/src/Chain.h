@@ -15,7 +15,8 @@ class Chain {
 public:
     Chain() {};
     Chain(PNAB::Bases bases, const PNAB::Backbone &backbone, std::vector<std::string> strand,
-          std::string ff_type, std::array<unsigned, 2> &range, bool double_stranded = true, bool hexad = false, bool is_parallel = true);
+          std::string ff_type, std::array<unsigned, 2> &range, bool double_stranded = true, bool hexad = false,
+          std::vector<bool> strand_orientation = {true, true, true, true, true, true});
     ~Chain() {
         for (auto v : v_base_coords_vec_) {
             for (auto i : v) 
@@ -41,7 +42,8 @@ private:
     std::vector<std::vector<std::size_t>> v_base_connect_index = std::vector<std::vector<size_t>>(6);
     std::vector<std::vector<double*>> v_base_coords_vec_ = std::vector<std::vector<double*>>(6);
     unsigned chain_length_, n_chains_;
-    bool isKCAL_, double_stranded_, hexad_, is_parallel_;
+    bool isKCAL_, double_stranded_, hexad_, canonical_nucleobase_;
+    std::vector<bool> strand_orientation_;
     OpenBabel::OBForceField *pFF_;
     std::array<unsigned, 2> monomer_bb_index_range_;
     std::vector<std::vector<unsigned>> v_bb_start_index_ = std::vector<std::vector<unsigned>>(6);

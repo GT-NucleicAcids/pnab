@@ -10,9 +10,9 @@ using namespace PNAB;
 using namespace OpenBabel;
 
 Chain::Chain(Bases bases, const Backbone &backbone, vector<string> strand, string ff_type,
-             std::array<unsigned, 2> &range, bool double_stranded, bool hexad, bool is_parallel) {
+             std::array<unsigned, 2> &range, bool double_stranded, bool hexad, vector<bool> strand_orientation) {
 
-    is_parallel_ = is_parallel;
+    strand_orientation_ = strand_orientation;
     hexad_ = hexad;
     double_stranded_ = double_stranded;
     ff_type_ = ff_type;
@@ -24,6 +24,19 @@ Chain::Chain(Bases bases, const Backbone &backbone, vector<string> strand, strin
 
     auto bases_A = bases.getBasesFromStrand(strand);
     auto bases_B = bases.getComplimentBasesFromStrand(strand);
+
+    canonical_nucleobase_ = false;
+    for (auto v: bases_A) {
+        if (canonical_nucleobase_)
+            break;
+        for (auto i: std::vector<string> {"a", "g", "c", "t", "u"}) {
+            if (v.getName() == i) {
+                canonical_nucleobase_ = true;
+                break;
+            }
+        }
+    }
+
     std::vector<std::vector<Base>> v_bases{bases_A, bases_B};
     if (bases_B.empty() && (double_stranded_ || hexad_)) {
         cerr << "User requested double stranded or hexad chain, however not all bases have a valid compliment. Please check"
@@ -92,19 +105,19 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data)
 
     // Get total energies and VDW
     pFF_->Setup(*current_mol, constraintsTot_);
-    conf_data.total_energy = pFF_->Energy() / n;
-    conf_data.VDWE = pFF_->E_VDW() / n;
+    conf_data.total_energy = pFF_->Energy(false) / n;
+    conf_data.VDWE = pFF_->E_VDW(false) / n;
 
     if (n - 1 <= 0)
         n = 2;
 
     // Get angle energy
     pFF_->SetConstraints(constraintsAng_);
-    conf_data.angleE = pFF_->E_Angle() / (n - 1);
+    conf_data.angleE = pFF_->E_Angle(false) / (n - 1);
 
     // Get bond energy
     pFF_->SetConstraints(constraintsBond_);
-    conf_data.bondE = pFF_->E_Bond() / (n - 1);
+    conf_data.bondE = pFF_->E_Bond(false) / (n - 1);
 
     if (!isKCAL_) {
         conf_data.total_energy *= KJ_TO_KCAL;
@@ -173,7 +186,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
 
     std::vector<long int> center_ids;
     unsigned count = 0, index = 0;
-    if (chain_index%2 == 0 || (hexad_ && is_parallel_)) {
+    if ((canonical_nucleobase_ && chain_index == 0) || (!canonical_nucleobase_ && strand_orientation_[chain_index])) {
         for (unsigned i = 0; i < bu_linkers_vec.size(); ++i) {
             head_ids.push_back(static_cast<int>(chain.GetAtom(count + bu_linkers_vec[i][0])->GetId()));
             count += num_base_unit_atoms[index++];
@@ -181,7 +194,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         }
     }
 
-    else if (chain_index%2 == 1) {
+    else {
         for (unsigned i = 0; i < bu_linkers_vec.size(); ++i) {
             tail_ids.push_back(static_cast<int>(chain.GetAtom(count + bu_linkers_vec[i    ][1])->GetId()));
             count += num_base_unit_atoms[index++];
@@ -272,8 +285,9 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
         xyzI = 3 * v_chain_[0].NumAtoms();
         change_sign = {{1, 0, 0},{0, -1, 0}, {0, 0, -1}};
     }
-    else if (hexad_) {
-        xyzI = 3 * v_chain_[0].NumAtoms() * ((chain_index + 1) / 2) + 3 * v_chain_[1].NumAtoms() * (chain_index / 2); 
+    else if (!canonical_nucleobase_) {
+        if (hexad_)
+            xyzI = 3 * v_chain_[0].NumAtoms() * ((chain_index + 1) / 2) + 3 * v_chain_[1].NumAtoms() * (chain_index / 2); 
         change_sign = {{1, 0, 0},{0, -1, 0}, {0, 0, -1}};
         double twist = chain_index * 60.0 * DEG_TO_RAD;
         z_rot = {{cos(twist), -sin(twist), 0},{sin(twist), cos(twist), 0}, {0, 0, 1}};
@@ -294,8 +308,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
             if (double_stranded_ && chain_index == 1)
                 v3 *= change_sign;
 
-            else if (hexad_) {
-                if (chain_index%2 == 1 && !is_parallel_)
+            else if (!canonical_nucleobase_) {
+                if (!strand_orientation_[chain_index])
                     v3 *= change_sign;
                 v3 *= z_rot;
             }
@@ -304,7 +318,7 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
             v3 += s_trans; v3 *= s_rot;
 
             // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
-            v3 *=  change_sign2;
+            //v3 *=  change_sign2;
 
             v3.Get(xyz + xyzI);
             xyzI += 3;
@@ -320,8 +334,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                 if (double_stranded_ && chain_index == 1)
                     v3 *= change_sign;
 
-                else if (hexad_) {
-                    if (chain_index%2 == 1 && !is_parallel_) 
+                else if (!canonical_nucleobase_) {
+                    if (!strand_orientation_[chain_index])
                         v3 *= change_sign;
                     v3 *= z_rot;
                 }
@@ -329,7 +343,7 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                 v3 += s_trans; v3 *= s_rot;
 
                 // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
-                v3 *=  change_sign2;
+                //v3 *=  change_sign2;
 
                 v3.Get(xyz + xyzI);
                 xyzI += 3;

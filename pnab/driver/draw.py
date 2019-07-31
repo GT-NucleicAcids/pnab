@@ -56,9 +56,10 @@ builder.Build(mol)
 mol.AddHydrogens()
 ff = openbabel.OBForceField.FindForceField("mmff94")
 ff.Setup(mol)
-ff.SteepestDescent(500)
+ff.SteepestDescent(5000, 1e-4)
+ff.WeightedRotorSearch(1000, 10000)
+ff.ConjugateGradients(5000, 1e-6)
 ff.GetCoordinates(mol)
-mol.DeleteHydrogens()
 with open("""` + name + `""" + '.pdb', 'w') as f:
     f.write(conv.WriteString(mol))
         `;
@@ -104,12 +105,14 @@ def view_py3dmol(conformer, label=False):
     mol = conv.WriteString(mol)
 
     view = py3Dmol.view()
-    view.addModel(mol, 'pdb')
+    view.addModel(mol, 'pdb', {'keepH': True})
     view.setStyle({'stick':{}})
     view.zoomTo()
 
     if label:
         view.addPropertyLabels("serial", {}, {'fontColor': 'black', 'showBackground': False})
+    else:
+        view.setProjection("orthographic")
 
     view.show()
 
