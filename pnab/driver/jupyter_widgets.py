@@ -1,4 +1,5 @@
 import os
+import datetime
 
 import yaml
 import ipywidgets as widgets
@@ -241,8 +242,19 @@ def show(param, input_file, uploaded=False):
 
 def run(b):
     run_options = extract_options(options)
+    file_path = 'options.yaml'
+    while True:
+        if os.path.isfile(file_path):
+            file_path = '_' + file_path
+        else:
+            if os.path.isfile('options.yaml'):
+                os.rename('options.yaml', file_path)
+            break
+
+    time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     with open('options.yaml', 'w') as f:
-     f.write(yaml.dump(run_options))
+        f.write('# ' + time + '\n')
+        f.write(yaml.dump(run_options))
 
     run = pNAB('options.yaml')
     run.run()
