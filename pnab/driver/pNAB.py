@@ -111,6 +111,16 @@ class pNAB(object):
 
         pool = mp.Pool(mp.cpu_count(), init_worker)
 
+        for f in ['results.csv', 'prefix.yaml', 'summary.csv']:
+            file_path = f
+            while True:
+                if os.path.isfile(file_path):
+                    file_path = '_' + file_path
+                else:
+                    if os.path.isfile(f):
+                        os.rename(f, file_path)
+                    break
+
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         with open('results.csv', 'w') as f: f.write('# ' + time + '\n')
         with open('prefix.yaml', 'w') as f: f.write('# ' + time + '\n')
