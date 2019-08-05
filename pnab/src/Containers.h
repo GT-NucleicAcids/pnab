@@ -25,7 +25,7 @@ namespace PNAB {
                               is_hexad(false), strand_orientation(std::vector<bool> {true, true, true, true, true, true}){};
 
         // Energy parameters
-        std::vector<double> energy_filter;      //!< \brief {max bond E, max angle E, max VDW E, max total E}
+        std::vector<double> energy_filter;      //!< \brief {max bond E, max angle E, max torsion E, max VDW E, max total E}
         double max_distance;                    //!< \brief The maximum distance between head and tail of successive UnitChains that is accepted
 
         // Force Field Parameters
@@ -460,13 +460,15 @@ namespace PNAB {
         double *coords,                             //!< \brief Pointer to array containing coordinates of all atoms in molecule chain
                *monomer_coord,                      //!< \brief Pointer to array containing coordinates of a single monomer
                 distance,                           //!< \brief distance between \code{interconnects} in \code{Backbone} for successive \code{UnitChain}s
-                bondE,                              //!< \brief Total energy of bonds
-                angleE,                             //!< \brief Total energy of angles of the conformation divided by number of \code{UnitChain}s
+                bondE,                              //!< \brief Energy of newly formed bonds in the backbone divided by number of \code{UnitChain}s -1
+                angleE,                             //!< \brief Energy of newly formed angles in the backbone divided by number of \code{UnitChain}s -1
+                torsionE,                           //!< \brief Energy of all rotatable torsions divided by number of \code{UnitChain}s
                 VDWE,                               //!< \brief Total van Der Wals Energy
                 total_energy,                       //!< \brief Total energy of the conformation divided by number of \code{UnitChain}s in chain tested
                 rmsd;                               //!< \brief Root-mean square distance from lowest energy conformer
         std::size_t index;                          //!< \brief The index of the conformer
         bool chain_coords_present;                  //!< \brief Have the chain coordinates in coord been deleted?
+        bool accepted;                              //!< \brief Is the energy of the conformer less than the thresholds
 
         /**
          * \brief Used for simple sorting based on total energy of the conformer

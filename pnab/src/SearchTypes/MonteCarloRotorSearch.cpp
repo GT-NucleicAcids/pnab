@@ -78,32 +78,23 @@ std::string MonteCarloRotorSearch::run() {
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
         OBRotor *r = rl.BeginRotor(ri);
         
-        double best_dist = std::numeric_limits<double>::infinity(), cur_dist = best_dist;
         while (r) {
-            bool accept = false;
-            best_dist = std::numeric_limits<double>::infinity();
-            while (!accept) {
-                auto angle = dist(rng_);
-                r->SetToAngle(coords, angle);
-                cur_dist = measureDistance(coords, head, tail);
-                if (cur_dist < best_dist
-                    || exp(-pow(cur_dist - best_dist, 2) / k_effective) > one_zero_dist(rng_)) {
-                    accept = true;
-                    best_dist = cur_dist;
-                }
-            }
+            auto angle = dist(rng_);
+            r->SetToAngle(coords, angle);
             r = rl.NextRotor(ri);
         }
+
+        double cur_dist = measureDistance(coords, head, tail);
 
         // if accept, add to vector of coord_vec_
         if (cur_dist < runtime_params_.max_distance) {
 
+            auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
 
-            auto data = chain.generateConformerData(coords, helical_params_);
-
-            if (!isPassingEFilter(data)) {
+            if (!data.accepted)
                 delete[] data.coords;
-            } else {
+
+            else {
                 data.monomer_coord = new double[monomer_num_coords_];
                 data.index = search_index;
                 data.distance = cur_dist;
@@ -146,16 +137,6 @@ double MonteCarloRotorSearch::measureDistance(double *coords, unsigned head, uns
     return sqrt(head_coord.distSq(tail_coord));
 }
 
-bool MonteCarloRotorSearch::isPassingEFilter(const PNAB::ConformerData &conf_data) {
-    vector<double> cur_vals = {conf_data.bondE, conf_data.angleE, 
-                               conf_data.VDWE, conf_data.total_energy};
-    auto max_vals = runtime_params_.energy_filter;
-    for (auto i = 0; i < max_vals.size(); ++i)
-        if (max_vals[i] < cur_vals[i])
-            return false;
-    return true;
-}
-
 std::string MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
     if (!conf_data.chain_coords_present) {
         cerr << "Trying to print conformer with no chain_ coordinates. Exiting..." << endl;
@@ -189,7 +170,7 @@ std::string MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
     conf_data.chain_coords_present = false;
     conf_data_vec_.push_back(conf_data);
 
-    output_string << "# Prefix, Conformer Index, Distance (A), Energy (kcal/mol), VDW Energy, Bond Energy, Angle Energy, ";
+    output_string << "# Prefix, Conformer Index, Distance (A), Bond Energy, Angle Energy, Torsion Energy, VDW Energy, Total Energy (kcal/mol)";
     output_string << "RMSD" << endl;
     std::sort(conf_data_vec_.begin(), conf_data_vec_.end());
 
@@ -197,8 +178,8 @@ std::string MonteCarloRotorSearch::print(PNAB::ConformerData conf_data) {
 
     for (auto &v : conf_data_vec_) {
         v.rmsd = calcRMSD(ref, v.monomer_coord, monomer_num_coords_);
-        output_string << prefix_ << ", " << v.index  << ", " << v.distance << ", " << v.total_energy << ", "
-               << v.VDWE << ", " << v.bondE << ", " << v.angleE << ", " << v.rmsd << endl;
+        output_string << prefix_ << ", " << v.index  << ", " << v.distance << ", " << v.bondE << ", " << v.angleE << ", "
+            << v.torsionE << ", " << v.VDWE << ", " << v.total_energy << ", " << v.rmsd << endl;
     }
 
 

@@ -13,7 +13,6 @@ confirmation.
 from __future__ import division, absolute_import, print_function
 
 import os
-import copy
 
 from pnab import __path__
 
@@ -96,8 +95,8 @@ def _validate_energy_filter(x):
         x = eval(x)
 
     x = list(x)
-    if len(x) != 4:
-        raise Exception("Four values must be provided for the energy filter")
+    if len(x) != 5:
+        raise Exception("Five values must be provided for the energy filter")
 
     for i in x:
         if not isinstance(i, (float, int)):
@@ -279,9 +278,10 @@ _options_dict['RuntimeParameters']['type'] = {
 _options_dict['RuntimeParameters']['energy_filter'] = {
                                                        'glossory': ('Maximum energy per bond for newly formed bonds in the backbone\n' +
                                                                     'Maximum energy per agnle for newly formed angles in the backbone\n' +
+                                                                    'Maximum torsional energy per nucleotide for rotatable bonds\n' +
                                                                     'Maximum van der Waals energy per nucleotide\n' +
                                                                     'Maximum total energy per nucleotide\n'),
-                                                       'default': (3, 3, 0, 10000000000),
+                                                       'default': (3, 3, 10, 0, 10000000000),
                                                        'validation': lambda x: _validate_energy_filter(x), 
                                                       }
 
