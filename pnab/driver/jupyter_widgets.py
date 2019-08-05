@@ -160,13 +160,13 @@ def runtime_parameters(param):
     display(box)
     options['RuntimeParameters']['num_steps'] = num_steps
 
-    ff_type = widgets.Dropdown(options=['GAFF', 'MMFF94', 'MMFF94s', 'UFF', 'Ghemical'])
+    ff_type = widgets.Dropdown(options=['GAFF', 'MMFF94', 'MMFF94s', 'UFF'])
     box = widgets.HBox([widgets.Label(param['type']['glossory'], layout={'width': '400px'}), ff_type])
     display(box)
     options['RuntimeParameters']['type'] = ff_type
 
     options['RuntimeParameters']['energy_filter'] = []
-    for i in range(4): 
+    for i in range(5):
         label = param['energy_filter']['glossory'].split('\n')[i]
         energy_filter = widgets.FloatText(value=param['energy_filter']['default'][i])
         box = widgets.HBox([widgets.Label(label, layout={'width': '400px'}), energy_filter])

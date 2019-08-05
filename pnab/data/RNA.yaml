@@ -43,6 +43,7 @@ RuntimeParameters:
   energy_filter:
   - 3.0 # Angle energy involving newly formed backbone bonds
   - 3.0 # Bond energy involving newly formed backbone bonds
+  - 10.0 # Total torsional energy of rotatable bonds
   - 0.0 # Total van der Waals energy
   - 10000000000.0 # Total Energy of the system
   is_hexad: false

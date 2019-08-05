@@ -43,6 +43,7 @@ RuntimeParameters:
   energy_filter:
   - 3.0
   - 3.0
+  - 10.0
   - 20.0
   - 10000000000.0
   is_hexad: true

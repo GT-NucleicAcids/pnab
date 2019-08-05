@@ -49,7 +49,7 @@ def test_energy_filter():
     output1 = np.genfromtxt(StringIO(output1), delimiter=',')
 
     rp.num_steps = 10000000
-    rp.energy_filter = [output1[5], output1[6], output1[3], output1[4]]
+    rp.energy_filter = [output1[3], output1[4], output1[5], output1[6], output1[7]]
     rp.max_distance = 0.2
 
     output2 = bind.run(rp, backbone, bases, hp, '2')
@@ -60,6 +60,6 @@ def test_energy_filter():
     elif output2.ndim == 1:
         output2 = output2.reshape(1, len(output2))
 
-    filter_index = [5, 6, 3, 4]
+    filter_index = [3, 4, 5, 6, 7]
     for i in filter_index:
         assert all([val < output1[i] for val in output2[:, i]])

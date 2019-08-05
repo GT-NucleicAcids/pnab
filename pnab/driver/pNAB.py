@@ -89,7 +89,7 @@ class pNAB(object):
             return
 
         header = results[1] + '\n'
-        header += ('Prefix, Conformer Index, Distance (A), Energy (kcal/mol/nucleotide), VDW Energy, Bond Energy, Angle Energy, RMSD (A)')
+        header += ('Prefix, Conformer Index, Distance (A), Bond Energy, Angle Energy, Torsion Energy, Van der Waals Energy, Total Energy (kcal/mol), RMSD (A)')
 
         with open('results.csv', 'ab') as f:
             np.savetxt(f, results[2], delimiter=',', header=header)
@@ -140,7 +140,7 @@ class pNAB(object):
 
         self.prefix = yaml.load(open('prefix.yaml'), yaml.FullLoader)
 
-        header = ('Prefix, Conformer Index, Distance (A), Energy (kcal/mol/nucleotide), VDW Energy, Bond Energy, Angle Energy, RMSD (A)')
+        header = ('Prefix, Conformer Index, Distance (A), Bond Energy, Angle Energy, Torsion Energy, Van der Waals Energy, Total Energy (kcal/mol), RMSD (A)')
 
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self.results = np.loadtxt('results.csv', delimiter=',')
@@ -151,7 +151,7 @@ class pNAB(object):
         elif self.results.ndim == 1:
             self.results = self.results.reshape(1, len(self.results))
 
-        summary = self.results[self.results[:, 3].argsort()][:10]
+        summary = self.results[self.results[:, 7].argsort()][:10]
 
         np.savetxt('summary.csv', summary, delimiter=',', header=time + '\n' + header)
 

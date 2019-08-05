@@ -49,7 +49,6 @@ private:
     std::string prefix_;
 
     double measureDistance(double *coords, unsigned head, unsigned tail);
-    bool isPassingEFilter(const PNAB::ConformerData &conf_data);
     std::string print(PNAB::ConformerData conf_data);
     double calcRMSD(double *ref, double *conf, unsigned long size) {
         double rmsd = 0;

@@ -7,6 +7,7 @@
 
 #include <openbabel/forcefield.h>
 #include "Containers.h"
+#include <openbabel/rotor.h>
 
 #define KJ_TO_KCAL 0.239006
 
@@ -24,7 +25,7 @@ public:
         }
     }
 
-    PNAB::ConformerData generateConformerData(double *xyz, PNAB::HelicalParameters &hp);
+    PNAB::ConformerData generateConformerData(double *xyz, PNAB::HelicalParameters &hp, std::vector<double> energy_filter);
 
     OpenBabel::OBMol getChain() {
         if (double_stranded_ || hexad_)
@@ -49,10 +50,13 @@ private:
     std::vector<std::vector<unsigned>> v_bb_start_index_ = std::vector<std::vector<unsigned>>(6);
     std::string ff_type_;
     PNAB::Backbone backbone_;
+    std::vector<std::vector<unsigned int>> all_torsions_;
+    int number_of_all_torsions=0;
+    std::vector<bool> correct_torsions;
 
-    OpenBabel::OBFFConstraints constraintsTot_, constraintsAng_, constraintsBond_;
+    OpenBabel::OBFFConstraints constraintsAng_, constraintsBond_, constraintsTor_;
 
-    void fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data);
+    void fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data, std::vector<double> energy_filter);
     void setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids,
                         std::vector<unsigned> &deleted_atoms_ids, std::vector<unsigned> &num_base_unit_atoms,
                         std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
@@ -62,6 +66,7 @@ private:
                            std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
                            std::vector<unsigned> &deleted_atoms_ids, unsigned chain_index);
 
+    void checkTorsions();
 };
 
 
