@@ -7,6 +7,7 @@
 
 #include <string>
 #include <random>
+#include <array>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
 
