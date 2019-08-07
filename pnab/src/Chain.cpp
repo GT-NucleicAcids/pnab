@@ -478,7 +478,7 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
         if ((atoms.find(a) != atoms.end()) && (atoms.find(b) != atoms.end()) && (atoms.find(c) != atoms.end()) && (atoms.find(d) != atoms.end())) {
             bool save = true;
             for (auto v: all_torsions_) {
-                if ((a == v[0] && b == v[1] && c == v[2] && d == v[3] || a == v[3] && b == v[2] && c == v[1] && d == v[0])) {
+                if (((a == v[0] && b == v[1] && c == v[2] && d == v[3]) || (a == v[3] && b == v[2] && c == v[1] && d == v[0]))) {
                     save = false;
                     number_of_all_torsions++;
                     break;
