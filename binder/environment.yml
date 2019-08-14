@@ -4,3 +4,4 @@ channels:
     - alenaizan
 dependencies:
     - pnab
+    - ipywidgets=7.5.0
