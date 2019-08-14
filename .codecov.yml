@@ -4,6 +4,7 @@ codecov:
 coverage:
   ignore:
     - "tests/.*"
+    - "pnab/driver/jupyter_widgets.py"
   status:
     project:
       default:
