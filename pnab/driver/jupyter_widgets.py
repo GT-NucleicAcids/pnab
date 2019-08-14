@@ -141,7 +141,8 @@ def runtime_parameters(param):
     options['RuntimeParameters'] = {}
 
     # Search algorithm
-    dropdown = widgets.Dropdown(options=['Random Search', 'Systematic Search', 'Monte Carlo Search', 'Weighted Random Search', 'Weighted Monte Carlo Search'],
+    dropdown = widgets.Dropdown(value=param['search_algorithm']['default'].title(),
+                                options=['Weighted Monte Carlo Search', 'Monte Carlo Search', 'Weighted Random Search', 'Random Search', 'Systematic Search'],
                                 description=param['search_algorithm']['glossory'],
                                 style={'description_width': 'initial'},
                                 layout={'width': '75%'})
