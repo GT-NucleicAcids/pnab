@@ -256,10 +256,22 @@ _options_dict['HelicalParameters']['slide'] = {
 
 # Runtime Parameters
 _options_dict['RuntimeParameters'] = {}
+_options_dict['RuntimeParameters']['search_algorithm'] = {
+                                                   'glossory': 'Search algorithm',
+                                                   'default': 'random search',
+                                                   'validation': lambda x: x.lower(),
+                                                   }
+
+
 _options_dict['RuntimeParameters']['num_steps'] = {
                                                    'glossory': 'Number of points to search over dihedral angles',
-                                                   'default': 100000000,
+                                                   'default': 1000000,
                                                    'validation': lambda x: int(x),
+                                                   }
+_options_dict['RuntimeParameters']['dihedral_step'] = {
+                                                   'glossory': 'Dihedral step size for systematic search in degrees',
+                                                   'default': 1,
+                                                   'validation': lambda x: float(x),
                                                    }
 
 _options_dict['RuntimeParameters']['type'] = {

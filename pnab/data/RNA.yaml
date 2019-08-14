@@ -40,6 +40,7 @@ HelicalParameters:
   - -0.02
   - 1
 RuntimeParameters:
+  search_algorithm: "weighted monte carlo search" # Search algorithm
   energy_filter:
   - 3.0 # Angle energy involving newly formed backbone bonds
   - 3.0 # Bond energy involving newly formed backbone bonds
@@ -56,6 +57,6 @@ RuntimeParameters:
   - true
   is_double_stranded: false
   max_distance: 0.05 # Maximum distance between atom linkers in backbone
-  num_steps: 100000000 # Number of steps for backbone dihedral search
+  num_steps: 1000000 # Number of steps for backbone dihedral search
   strand: CGAUUUAGCG # Sequence of base names
   type: GAFF # Force field type

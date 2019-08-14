@@ -31,7 +31,9 @@ namespace PNAB {
         // Force Field Parameters
         std::string type;                       //!< \brief The type of the ForceField such as "GAFF" or "MMFF94"
 
+        std::string search_algorithm;           //!< \brief Determines the search algorithm
         std::size_t num_steps;                  //!< \brief Determines how many points are sampled in the Monte Carlo searches
+        double dihedral_step;                   //!< \brief Determines the dihedral step size for systematic search
 
         //Strand parameters
         std::vector<std::string> strand;        //!< \brief Holds the names of each base used in the strand

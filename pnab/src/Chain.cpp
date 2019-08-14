@@ -20,6 +20,10 @@ Chain::Chain(Bases bases, const Backbone &backbone, vector<string> strand, strin
     backbone_ = backbone;
     chain_length_ = static_cast<unsigned>(strand.size());
     pFF_ = OBForceField::FindForceField(ff_type_);
+    if (!pFF_) {
+        cerr << "Cannot find force field. Exiting" << endl;
+        exit(1);
+    }
     isKCAL_ = pFF_->GetUnit().find("kcal") != string::npos;
 
     auto bases_A = bases.getBasesFromStrand(strand);

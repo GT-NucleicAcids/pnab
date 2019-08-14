@@ -23,8 +23,8 @@ def test_binder_1():
 
     runtime_parameters = bind.RuntimeParameters()
     runtime_parameters_attr = {'energy_filter': list, 'max_distance': float, 'type': str,
-                               'num_steps': int, 'strand': list,
-                               'is_double_stranded': bool} 
+                               'search_algorithm': str, 'num_steps': int, 'dihedral_step': float,
+                               'strand': list, 'is_double_stranded': bool} 
     assert all([i in runtime_parameters.__dir__() for i in runtime_parameters_attr])
     assert all([type(runtime_parameters.__getattribute__(k)) is val
                 for k, val in runtime_parameters_attr.items()])
@@ -51,12 +51,12 @@ def test_binder_2():
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
     backbone = bind.Backbone()
-    backbone.file_path = 'files/rna_bb.pdb'
+    backbone.file_path = os.path.join('files', 'rna_bb.pdb')
     backbone.interconnects = [10, 1]
     backbone.linker = [13, 14]
 
     base = bind.Base()
-    base.file_path = 'files/adenine.pdb'
+    base.file_path = os.path.join('files', 'adenine.pdb')
     base.code = 'ADA'
     base.linker = [5, 11]
     base.name = 'Adenine'
@@ -74,11 +74,12 @@ def test_binder_2():
     hp.y_displacement = -0.02
 
     rp = bind.RuntimeParameters()
+    rp.search_algorithm = 'weighted random search'
     rp.num_steps = 1000000
     rp.type = 'GAFF'
     rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0]
     rp.max_distance = 0.05
-    rp.strand = ['Adenine']*10
+    rp.strand = ['Adenine']*5
     rp.is_double_stranded = False
 
     output = bind.run(rp, backbone, bases, hp, 'test')
