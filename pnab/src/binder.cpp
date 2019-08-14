@@ -3,7 +3,7 @@
 #include <pybind11/stl_bind.h>
 
 #include "Containers.h"
-#include "SearchTypes/MonteCarloRotorSearch.h"
+#include "SearchTypes/ConformationSearch.h"
 
 namespace PNAB {
     std::string run(RuntimeParameters runtime_params, Backbone py_backbone,
@@ -11,8 +11,8 @@ namespace PNAB {
         Backbone backbone(py_backbone.file_path, py_backbone.interconnects, py_backbone.linker);
         Bases bases(py_bases);
 
-        MonteCarloRotorSearch mcrs(runtime_params, backbone, hp,  bases, prefix);
-        std::string output = mcrs.run();
+        ConformationSearch search(runtime_params, backbone, hp,  bases, prefix);
+        std::string output = search.run();
 
         return output;
 
@@ -29,7 +29,9 @@ PYBIND11_MODULE(bind, m) {
         .def_readwrite("energy_filter", &PNAB::RuntimeParameters::energy_filter)
         .def_readwrite("max_distance", &PNAB::RuntimeParameters::max_distance)
         .def_readwrite("type", &PNAB::RuntimeParameters::type)
+        .def_readwrite("search_algorithm", &PNAB::RuntimeParameters::search_algorithm)
         .def_readwrite("num_steps", &PNAB::RuntimeParameters::num_steps)
+        .def_readwrite("dihedral_step", &PNAB::RuntimeParameters::dihedral_step)
         .def_readwrite("strand", &PNAB::RuntimeParameters::strand)
         .def_readwrite("is_double_stranded", &PNAB::RuntimeParameters::is_double_stranded)
         .def_readwrite("is_hexad", &PNAB::RuntimeParameters::is_hexad)

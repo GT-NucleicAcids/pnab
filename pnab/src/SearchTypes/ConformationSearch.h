@@ -2,15 +2,15 @@
 // Created by jbarnett8 on 2/26/18.
 //
 
-#ifndef PNAB_MONTECARLOROTORSEARCH_H
-#define PNAB_MONTECARLOROTORSEARCH_H
+#ifndef PNAB_CONFORMATIONSEARCH_H
+#define PNAB_CONFORMATIONSEARCH_H
 
 #include <openbabel/obconversion.h>
 #include <openbabel/forcefield.h>
 #include "../Chain.h"
 #include <openbabel/rotor.h>
 
-class MonteCarloRotorSearch {
+class ConformationSearch {
 
 public:
     /**
@@ -23,11 +23,15 @@ public:
      * @param strand List of base names that gives the identity of the test chain
      * @param prefix to conformer index for multiprocess computations
      */
-    MonteCarloRotorSearch(PNAB::RuntimeParameters &runtime_params, PNAB::Backbone backbone,
-                          PNAB::HelicalParameters &helical_params, PNAB::Bases bases,
-                          std::string prefix);
+    ConformationSearch(PNAB::RuntimeParameters &runtime_params, PNAB::Backbone backbone,
+                       PNAB::HelicalParameters &helical_params, PNAB::Bases bases,
+                       std::string prefix);
 
     std::string run();
+    std::string RandomSearch(bool weighted);
+    std::string MonteCarloSearch(bool weighted);
+    std::string SystematicSearch();
+    std::vector <std::piecewise_linear_distribution<double>> weighted_distributions(OpenBabel::OBRotorList &rl, OpenBabel::OBMol &bu_a_mol);
 
 private:
     PNAB::RuntimeParameters runtime_params_;
@@ -57,6 +61,7 @@ private:
         }
         return sqrt(rmsd/size);
     }
+    void printProgress(std::size_t search_index, std::size_t search_size);
 };
 
 #endif //PNAB_MONTECARLOROTORSEARCH_H

@@ -38,6 +38,7 @@ def test_energy_filter():
     hp.y_displacement = -0.02
 
     rp = bind.RuntimeParameters()
+    rp.search_algorithm = 'weighted monte carlo search'
     rp.num_steps = 1
     rp.type = 'GAFF'
     rp.energy_filter = [1e100]*5
@@ -48,9 +49,9 @@ def test_energy_filter():
     output1 = bind.run(rp, backbone, bases, hp, '1')
     output1 = np.genfromtxt(StringIO(output1), delimiter=',')
 
-    rp.num_steps = 10000000
+    rp.num_steps = 1000000
     rp.energy_filter = [output1[3], output1[4], output1[5], output1[6], output1[7]]
-    rp.max_distance = 0.2
+    rp.max_distance = 0.05
 
     output2 = bind.run(rp, backbone, bases, hp, '2')
     output2 = np.genfromtxt(StringIO(output2), delimiter=',')

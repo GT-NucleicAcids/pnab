@@ -24,7 +24,7 @@ requirements:
     - numpy
     - {{ pin_compatible('openbabel', max_pin='x.x') }}
     - {{ pin_compatible('python', max_pin='x.x') }}
-    - ipywidgets
+    - {{ pin_compatible('ipywidgets', max_pin='x.x') }}
     - py3dmol
     - pyyaml
 
