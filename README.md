@@ -6,13 +6,14 @@
 ## Try the Package
 Click on ```launch binder``` to see how the program works.
 
-## Installation Instructions for Linux Operating Systems
+## Installing the Package Using Conda for Mac and Linux
 To install the conda package, first install miniconda/anaconda. Then,
 ```
 conda config --add channels conda-forge
 conda install -c alenaizan pnab
 ```
 
+## Compiling the Package in Linux
 If you prefer to compile the package, install miniconda/anaconda. Then,
 
 ```
