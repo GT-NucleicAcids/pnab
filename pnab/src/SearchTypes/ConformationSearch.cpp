@@ -51,6 +51,11 @@ std::string ConformationSearch::run() {
 
     else if (search.find("monte carlo search") != std::string::npos)
         return ConformationSearch::MonteCarloSearch(false);
+
+    else {
+        cerr << search << " is unrecognized search algorithm" << endl;
+        exit(1);
+    }
 }
 
 

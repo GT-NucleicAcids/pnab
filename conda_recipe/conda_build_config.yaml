@@ -1,13 +1,14 @@
 target_platform:
     - osx-64                           # [osx]
-    - linux-64                         # [linux]
-#CONDA_BUILD_SYSROOT:
-#    - /Users/github/SDKs/MacOSX10.9.sdk  # [osx]
+#    - linux-64                         # [linux]
+CONDA_BUILD_SYSROOT:
+    - /Users/github/SDKs/MacOSX10.9.sdk  # [osx]
 cxx_compiler:
-    - clangxx                          # [osx]
     - gxx                              # [linux]
+    - clangxx                          # [osx]
 cxx_compiler_version:
-    - 7.3.0                            # [linux]
+#    - 7.3.0                            # [linux]
+    - 8.0.0                             # [osx]
 
 openbabel:
     - 2.4.1

@@ -3,7 +3,7 @@ package:
   version: "0.4.0"
 
 source:
-  #path: ../../../pNAB
+  #path: ../
   git_url: https://github.com/alenaizan/pnab.git  # [linux]
   git_url: https://github.com/alenaizan/pnab.git  # [osx]
   git_tag: v0.4
@@ -13,6 +13,7 @@ build:
 
 requirements:
   build:
+    - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
   host:
@@ -20,11 +21,12 @@ requirements:
     - openbabel {{ openbabel }}
     - pybind11
     - python {{ python }}
+    - ipywidgets {{ ipywidgets }}
   run:
     - numpy
     - {{ pin_compatible('openbabel', max_pin='x.x') }}
     - {{ pin_compatible('python', max_pin='x.x') }}
-    - {{ pin_compatible('ipywidgets', max_pin='x.x') }}
+    - {{ pin_compatible('ipywidgets', min_pin='x.x', max_pin='x.x') }}
     - py3dmol
     - pyyaml
 
