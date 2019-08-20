@@ -81,7 +81,13 @@ std::string ConformationSearch::RandomSearch(bool weighted) {
 
     // Setup the rotor list
     OBRotorList rl;
+    OBBitVec fix_bonds(backbone_.getMolecule().NumAtoms());
+    auto base_indices = unit.getBaseIndexRange();
+    for (unsigned i = static_cast<unsigned>(base_indices[0]); i <= base_indices[1]; ++i)
+        fix_bonds.SetBitOn(i);
     rl.Setup(bu_a_mol);
+    rl.SetFixAtoms(fix_bonds);
+    rl.SetRotAtomsByFix(bu_a_mol);
 
     size_t search_size = runtime_params_.num_steps;
 
@@ -184,7 +190,13 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
 
     // Set up the rotor list
     OBRotorList rl;
+    OBBitVec fix_bonds(backbone_.getMolecule().NumAtoms());
+    auto base_indices = unit.getBaseIndexRange();
+    for (unsigned i = static_cast<unsigned>(base_indices[0]); i <= base_indices[1]; ++i)
+        fix_bonds.SetBitOn(i);
     rl.Setup(bu_a_mol);
+    rl.SetFixAtoms(fix_bonds);
+    rl.SetRotAtomsByFix(bu_a_mol);
 
     size_t search_size = runtime_params_.num_steps;
 
@@ -386,7 +398,13 @@ std::string ConformationSearch::SystematicSearch() {
 
     // Setup the rotor list
     OBRotorList rl;
+    OBBitVec fix_bonds(backbone_.getMolecule().NumAtoms());
+    auto base_indices = unit.getBaseIndexRange();
+    for (unsigned i = static_cast<unsigned>(base_indices[0]); i <= base_indices[1]; ++i)
+        fix_bonds.SetBitOn(i);
     rl.Setup(bu_a_mol);
+    rl.SetFixAtoms(fix_bonds);
+    rl.SetRotAtomsByFix(bu_a_mol);
 
     // Determine the step size and the number of steps
     double dihedral_step = runtime_params_.dihedral_step*M_PI/180.0;
