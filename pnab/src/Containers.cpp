@@ -22,10 +22,11 @@ void Backbone::deleteVectorAtom() {
     }
 }
 
-Backbone::Backbone(std::string file_path, std::array<unsigned, 2> interconnects, std::array<unsigned,2> linker) {
+Backbone::Backbone(std::string file_path, std::array<unsigned, 2> interconnects, std::array<unsigned,2> linker, std::vector<std::vector<unsigned>> fixed_bonds) {
     vector_atom_deleted = false;
     this->interconnects = interconnects;
     this->linker = linker;
+    this->fixed_bonds = fixed_bonds;
     OBConversion conv(file_path);
     OBFormat *inFormat = conv.FormatFromExt(file_path);
     if (inFormat) {
@@ -239,6 +240,23 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
 
     backbone.translate(atoms[0]->GetVector() - atoms[3]->GetVector());
 
+    // Get fixed atoms
+    unsigned num_atoms = base.getMolecule().NumAtoms() - 1;
+    for (int i=0; i < backbone.fixed_bonds.size(); i++) {
+        fixed_bonds.push_back({});
+        for (auto j: backbone.fixed_bonds[i]) {
+            if (j == backbone.linker[1])
+                if (base.linker[0] < base.linker[1])
+                    fixed_bonds[i].push_back(base.linker[0]);
+                else
+                    fixed_bonds[i].push_back(base.linker[0]-1);
+            else if (j < backbone.linker[1])
+                fixed_bonds[i].push_back(j + num_atoms);
+            else
+                fixed_bonds[i].push_back(j-1 + num_atoms);
+        }
+    }
+
     // Deleting old atoms that formed the vector
     backbone.deleteVectorAtom();
     base.deleteVectorAtom();
@@ -249,7 +267,7 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
 
     base_bond_indices = {1, mol.NumBonds()};
 
-    unsigned num_atoms = mol.NumAtoms();
+    num_atoms = mol.NumAtoms();
     mol += backbone.getMolecule();
     mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
 

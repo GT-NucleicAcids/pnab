@@ -8,7 +8,7 @@
 namespace PNAB {
     std::string run(RuntimeParameters runtime_params, Backbone py_backbone,
                     std::vector<Base> py_bases, HelicalParameters hp, std::string prefix) {
-        Backbone backbone(py_backbone.file_path, py_backbone.interconnects, py_backbone.linker);
+        Backbone backbone(py_backbone.file_path, py_backbone.interconnects, py_backbone.linker, py_backbone.fixed_bonds);
         Bases bases(py_bases);
 
         ConformationSearch search(runtime_params, backbone, hp,  bases, prefix);
@@ -63,6 +63,7 @@ PYBIND11_MODULE(bind, m) {
         .def_readwrite("file_path", &PNAB::Backbone::file_path)
         .def_readwrite("interconnects", &PNAB::Backbone::interconnects)
         .def_readwrite("linker", &PNAB::Backbone::linker)
+        .def_readwrite("fixed_bonds", &PNAB::Backbone::fixed_bonds)
         ;        
 
     py::class_<PNAB::Base>(m, "Base")

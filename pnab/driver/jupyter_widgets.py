@@ -13,6 +13,24 @@ from pnab import __path__
 
 options = {}
 
+def fixed_bonds(n, num_atoms, param):
+    options['Backbone']['fixed_bonds'] = []
+    out = widgets.Output()
+    display(out)
+    if n == 0:
+        out.clear_output()
+    for i in range(n):
+        try:
+            v1, v2 = param['fixed_bonds']['default'][i][0], param['fixed_bonds']['default'][i][1]
+        except IndexError:
+            v1 = v2 = 1
+        atom1 = widgets.Dropdown(value=v1, options=range(1, num_atoms + 1))
+        atom2 = widgets.Dropdown(value=v2, options=range(1, num_atoms + 1))
+        box = widgets.HBox([widgets.Label(param['fixed_bonds']['glossory'], layout={'width': '400px'}), atom1, atom2])
+        with out:
+            display(box)
+        options['Backbone']['fixed_bonds'].append([atom1, atom2])
+        
 
 def path(file_path, param):
     """Display backbone to Jupyter notebook given a file path"""
@@ -44,6 +62,10 @@ def path(file_path, param):
 
     options['Backbone'] = {'file_path': file_path, 'linker': [linker1, linker2],
                            'interconnects': [interconnects1, interconnects2]}
+
+    display(widgets.interactive(fixed_bonds, n=widgets.BoundedIntText(value=len(param['fixed_bonds']['default']), min=0,
+                                                description="Number of fixed rotatable bonds", style={'description_width': 'initial'}),
+                                param=widgets.fixed(param), num_atoms=widgets.fixed(num_atoms)))
 
 
 
@@ -311,7 +333,11 @@ def extract_options(param):
             if isinstance(val2, str):
                 user_options[k1][k2] = val2
             elif k1 == 'Backbone':
-                if isinstance(val2, list):
+                if k2 == 'fixed_bonds':
+                    user_options[k1][k2] = []
+                    for l in val2:
+                        user_options[k1][k2].append([l[0].value, l[1].value])
+                elif isinstance(val2, list):
                     user_options[k1][k2] = [val2[0].value, val2[1].value]
                 else:
                     user_options[k1][k2] = val2

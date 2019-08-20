@@ -155,6 +155,11 @@ _options_dict['Backbone']['linker'] = {
                                                        'default': None,
                                                        'validation': lambda x: _validate_atom_indices(x),
                                                        }
+_options_dict['Backbone']['fixed_bonds'] = {
+                                                       'glossory': ('Indices of fixed rotatable dihedral bonds'),
+                                                       'default': [],
+                                                       'validation': lambda x: list(x),
+                                                       }
 # Helical Parameters
 _options_dict['HelicalParameters'] = {}
 #_options_dict['HelicalParameters']['tilt'] = {

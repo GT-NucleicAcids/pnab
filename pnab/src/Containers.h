@@ -178,7 +178,7 @@ namespace PNAB {
     class Backbone {
     public:
 
-        Backbone() : backbone{}, file_path{}, interconnects{}, linker{}, vector_atom_deleted{} {}
+        Backbone() : backbone{}, file_path{}, interconnects{}, linker{}, vector_atom_deleted{}, fixed_bonds{} {}
 
         /**
          * \brief Backbone unit
@@ -187,7 +187,7 @@ namespace PNAB {
          * @param linker The atom indices used to align and connect backbone to base in the form
          * {atom to which base is bonded, hydrogen used to define vector for alignment to be deleted}
          */
-        Backbone(std::string file_path, std::array<unsigned, 2> interconnects, std::array<unsigned,2> linker); 
+        Backbone(std::string file_path, std::array<unsigned, 2> interconnects, std::array<unsigned,2> linker, std::vector<std::vector<unsigned>> fixed_bonds); 
             
 
         /**
@@ -269,12 +269,13 @@ namespace PNAB {
         */
         void validate();
 
-        std::array<unsigned , 2> interconnects,   //!< \brief { head, tail }
-                linker,                             //!< \brief { atom index connecting to backbone, hydrogen defining vector }
-                new_interconnects;                  //!< \brief Fixed Bonds
-        OpenBabel::OBMol backbone;                  //!< \brief The molecule for the backbone
+        std::array<unsigned , 2> interconnects,          //!< \brief { head, tail }
+                linker,                                  //!< \brief { atom index connecting to backbone, hydrogen defining vector }
+                new_interconnects;                       //!< \brief
+        std::vector<std::vector<unsigned>> fixed_bonds;  //!< \brief A vector containing fixed rotatable bonds during dihedral search
+        OpenBabel::OBMol backbone;                       //!< \brief The molecule for the backbone
         std::string file_path;
-        bool vector_atom_deleted;                   //!< \brief Whether or not the atom from \code{getVector()} has been deleted
+        bool vector_atom_deleted;                        //!< \brief Whether or not the atom from \code{getVector()} has been deleted
     };
 
     class Base;
@@ -441,7 +442,9 @@ namespace PNAB {
             return base_connect_index;
         }
 
-
+        std::vector<std::vector<unsigned>> getFixedBonds() {
+            return fixed_bonds;
+        }
 
     private:
         OpenBabel::OBMol unit;                                                       //!< \brief Holds molecule containing base with backbone attached
@@ -451,6 +454,7 @@ namespace PNAB {
         std::size_t base_connect_index;                                              //!< \brief Atom index where Backbone connects to Base (the Base atom)
         std::array< std::size_t, 2 > backbone_interconnects;                         //!< \brief Atom indices defining where backbone connects
         std::array< std::size_t, 2 > base_bond_indices;                              //!< \brief Index range corresponding to bonds in the base of the BaseUnit
+        std::vector<std::vector<unsigned>> fixed_bonds;                              //!< \brief Indices of fixed bonds in dihedral search
     };
 
     /**

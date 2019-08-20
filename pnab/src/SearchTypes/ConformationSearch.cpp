@@ -72,6 +72,7 @@ std::string ConformationSearch::RandomSearch(bool weighted) {
     auto bu_a_head_tail = unit.getBackboneLinkers();
     auto head = static_cast<unsigned>(bu_a_head_tail[0]),
          tail = static_cast<unsigned>(bu_a_head_tail[1]);
+    auto fixed_bonds = unit.getFixedBonds();
 
     std::string output_string;
 
@@ -89,7 +90,16 @@ std::string ConformationSearch::RandomSearch(bool weighted) {
     vector<OBRotor*> rotor_vector;
     OBRotor *r = rl.BeginRotor(ri);
     while(r) {
-        rotor_vector.push_back(r);
+        bool save = true;
+        unsigned a1 = r->GetDihedralAtoms()[1];
+        unsigned a2 = r->GetDihedralAtoms()[2];
+        for (auto f: fixed_bonds) {
+            if ((a1 == f[0] && a2 == f[1]) || (a1 == f[1] && a2 == f[0])) {
+                save = false;
+            }
+        }
+        if (save)
+            rotor_vector.push_back(r);
         r = rl.NextRotor(ri);
     }
 
@@ -98,7 +108,7 @@ std::string ConformationSearch::RandomSearch(bool weighted) {
 
     // Get probability distribution
     if (weighted) {
-        dist_vector = weighted_distributions(rl, bu_a_mol);
+        dist_vector = weighted_distributions(rotor_vector, bu_a_mol);
     }
 
     else {
@@ -165,6 +175,7 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
     auto bu_a_head_tail = unit.getBackboneLinkers();
     auto head = static_cast<unsigned>(bu_a_head_tail[0]),
          tail = static_cast<unsigned>(bu_a_head_tail[1]);
+    auto fixed_bonds = unit.getFixedBonds();
 
     std::string output_string;
 
@@ -182,7 +193,16 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
     vector<OBRotor*> rotor_vector;
     OBRotor *r = rl.BeginRotor(ri);
     while(r) {
-        rotor_vector.push_back(r);
+        bool save = true;
+        unsigned a1 = r->GetDihedralAtoms()[1];
+        unsigned a2 = r->GetDihedralAtoms()[2];
+        for (auto f: fixed_bonds) {
+            if ((a1 == f[0] && a2 == f[1]) || (a1 == f[1] && a2 == f[0])) {
+                save = false;
+            }
+        }
+        if (save)
+            rotor_vector.push_back(r);
         r = rl.NextRotor(ri);
     }
 
@@ -191,7 +211,7 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
     vector <std::piecewise_linear_distribution<double>> dist_vector;
 
     if (weighted) {
-        dist_vector = weighted_distributions(rl, bu_a_mol);
+        dist_vector = weighted_distributions(rotor_vector, bu_a_mol);
     }
 
     else {
@@ -204,7 +224,7 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
 
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
         // In Monte Carlo search, we randomly pick one dihedral and rotate it
-        int index = rand()%rl.Size();
+        int index = rand()%rotor_vector.size();
         r = rotor_vector[index];
 
         // Save previous angle, in case the step is not good
@@ -267,7 +287,7 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
 }
 
 
-std::vector <std::piecewise_linear_distribution<double>> ConformationSearch::weighted_distributions(OBRotorList &rl, OBMol &bu_a_mol) {
+std::vector <std::piecewise_linear_distribution<double>> ConformationSearch::weighted_distributions(vector<OBRotor*> &rotor_vector, OBMol &bu_a_mol) {
     // Compute the weighted distributions bases on the energies of the dihedral angles
 
     // A vector to store the weighted distribution for each dihedral
@@ -276,9 +296,7 @@ std::vector <std::piecewise_linear_distribution<double>> ConformationSearch::wei
     double kT = 0.593; // kbT at 298 K in kcal/mol
 
     // Set up rotor
-    OBRotorIterator ri;
-    OBRotor *r = rl.BeginRotor(ri);
-    while(r) {
+    for (auto r: rotor_vector) {
         // For each dihedral angle, determine all atoms that are connected to the middle rotatable bond in the dihedral
         set<int> atoms;
         vector<int> v = r->GetDihedralAtoms();
@@ -341,8 +359,6 @@ std::vector <std::piecewise_linear_distribution<double>> ConformationSearch::wei
         // at the border of the interval
         std::piecewise_linear_distribution<double> dist(intervals.begin(),intervals.end(),weights.begin());
         dist_vector.push_back(dist);
-
-        r = rl.NextRotor(ri);
     }
     return dist_vector;
 }
@@ -361,6 +377,7 @@ std::string ConformationSearch::SystematicSearch() {
     auto bu_a_head_tail = unit.getBackboneLinkers();
     auto head = static_cast<unsigned>(bu_a_head_tail[0]),
          tail = static_cast<unsigned>(bu_a_head_tail[1]);
+    auto fixed_bonds = unit.getFixedBonds();
 
     std::string output_string;
 
@@ -383,15 +400,25 @@ std::string ConformationSearch::SystematicSearch() {
     // Start by setting all angles to zero and set rotor vector
     vector<OBRotor*> rotor_vector;
     while(r) {
-        rotor_vector.push_back(r);
-        r->SetToAngle(coords, 0.0);
+        bool save = true;
+        unsigned a1 = r->GetDihedralAtoms()[1];
+        unsigned a2 = r->GetDihedralAtoms()[2];
+        for (auto f: fixed_bonds) {
+            if ((a1 == f[0] && a2 == f[1]) || (a1 == f[1] && a2 == f[0])) {
+                save = false;
+            }
+        }
+        if (save) {
+            rotor_vector.push_back(r);
+            r->SetToAngle(coords, 0.0);
+        }
         r = rl.NextRotor(ri);
     }
 
     for (size_t search_index = 1; search_index < search_size + 1; ++search_index) {
         // Choose rotor to change
         int rotor_index = 0;
-        for (int i = 1; i < rl.Size(); i++){
+        for (int i = 1; i < rotor_vector.size(); i++){
             size_t d = pow(steps_per_bond, i);
             int accept = search_index%d;
             if (accept==0) {

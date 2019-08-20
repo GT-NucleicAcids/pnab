@@ -31,7 +31,7 @@ public:
     std::string RandomSearch(bool weighted);
     std::string MonteCarloSearch(bool weighted);
     std::string SystematicSearch();
-    std::vector <std::piecewise_linear_distribution<double>> weighted_distributions(OpenBabel::OBRotorList &rl, OpenBabel::OBMol &bu_a_mol);
+    std::vector <std::piecewise_linear_distribution<double>> weighted_distributions(std::vector<OpenBabel::OBRotor*> &rotor_vector, OpenBabel::OBMol &bu_a_mol);
 
 private:
     PNAB::RuntimeParameters runtime_params_;
