@@ -177,18 +177,23 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
     current_mol->SetCoordinates(xyz);
 
     auto n = chain_length_;
-    if (double_stranded_)
+    int subtract = 1;
+    if (double_stranded_) {
         n *= 2;
-    else if (hexad_)
+        subtract = 2;
+    }
+    else if (hexad_) {
         n *= 6;
+        subtract = 6;
+    }
 
     pFF_->Setup(*current_mol);
 
-    if (!(n == 1)) {
+    if (!(n == 1) || !(double_stranded_ && n == 2) || !(hexad_ && n==6)) {
 
         // Get bond energy
         pFF_->SetConstraints(constraintsBond_);
-        conf_data.bondE = pFF_->E_Bond(false) / (n - 1);
+        conf_data.bondE = pFF_->E_Bond(false) / (n - subtract);
         if (!isKCAL_)
             conf_data.bondE *= KJ_TO_KCAL;
 
@@ -200,7 +205,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
 
         // Get angle energy
         pFF_->SetConstraints(constraintsAng_);
-        conf_data.angleE = pFF_->E_Angle(false) / (n - 1);
+        conf_data.angleE = pFF_->E_Angle(false) / (n - subtract);
 
         if (!isKCAL_)
             conf_data.angleE *= KJ_TO_KCAL;
