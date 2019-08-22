@@ -51,10 +51,8 @@ private:
     std::string ff_type_;
     PNAB::Backbone backbone_;
     std::vector<std::vector<unsigned int>> all_torsions_;
-    int number_of_all_torsions=0;
-    std::vector<bool> correct_torsions;
 
-    OpenBabel::OBFFConstraints constraintsAng_, constraintsBond_, constraintsTor_;
+    OpenBabel::OBFFConstraints constraintsAng_, constraintsBond_, constraintsTor_, constraintsTot_;
 
     void fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data, std::vector<double> energy_filter);
     void setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids,
@@ -65,8 +63,6 @@ private:
     void setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters &hp, std::vector<unsigned> &num_bu_atoms,
                            std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
                            std::vector<unsigned> &deleted_atoms_ids, unsigned chain_index);
-
-    void checkTorsions();
 };
 
 
