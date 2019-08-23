@@ -50,9 +50,7 @@ namespace PNAB {
     class HelicalParameters {
 
     public:
-        HelicalParameters() : tilt{0}, roll{0}, twist{0}, shift{0}, slide{0}, rise{0}, buckle{0}, propeller{0},
-                              opening{0}, shear{0}, stretch{0}, stagger{0}, inclination{0}, tip{0}, x_displacement{0},
-                              y_displacement{0} {};
+        HelicalParameters() : h_twist{0}, h_rise{0}, inclination{0}, tip{0}, x_displacement{0}, y_displacement{0} {};
 
         std::array<double, 9> getGlobalRotationMatrix() {
             double eta = inclination * DEG_TO_RAD, theta = tip * DEG_TO_RAD;
@@ -73,26 +71,13 @@ namespace PNAB {
             return OpenBabel::vector3(x_displacement, y_displacement);
         }
 
-        //std::array<double, 9> getBasePairRotationMatrix() {
-        //};
-
-        OpenBabel::vector3 getBasePairTranslationVec() {
-            return OpenBabel::vector3(shear, stretch, stagger);
-        }
-
         std::array<double, 9> getStepRotationMatrix(unsigned n = 0) {
-            double tau = tilt * DEG_TO_RAD, rho = roll * DEG_TO_RAD, Omega = twist * DEG_TO_RAD;
-            double phi = atan(std::isnan(tau / rho) ? 0 : tau / rho), Gamma = sqrt(tau*tau + rho*rho);
-            std::array<double, 3> axis{sin(phi), cos(phi), 0};
-
-            auto m = rodrigues_formula(axis, Gamma);
-
-            std::array<double, 9> z{cos(Omega), -sin(Omega), 0, sin(Omega), cos(Omega), 0, 0, 0, 1};
-
-            auto m_mat = matrix_mult(z, m);
+            double Omega = h_twist * DEG_TO_RAD;
+            std::array<double, 9> m_mat {cos(Omega), -sin(Omega), 0, sin(Omega), cos(Omega), 0, 0, 0, 1};
             std::array<double, 9> r_mat = {1, 0, 0, 0, 1, 0, 0, 0, 1};
             for (int i = 0; i < n; ++i)
                 r_mat = matrix_mult(m_mat, r_mat);
+
             return r_mat;
         };
 
@@ -104,37 +89,20 @@ namespace PNAB {
         }
 
         OpenBabel::vector3 getStepTranslationVec(unsigned n = 0) {
-            //n++;
-            return OpenBabel::vector3(n * shift, n * slide, n * rise);
+            return OpenBabel::vector3(0, 0, n * h_rise);
         }
 
         double getTwist() {
-            return twist;
+            return h_twist;
         }
 
-        //Step parameters (describe rotations and translations between successive base-pairs)
-        double     tilt,                                //!< \brief Symbol: tau; step parameter; rotation in x axis
-                   roll,                                //!< \brief Symbol: rho; step parameter; rotation in y axis
-                   twist,                               //!< \brief Symbol: Omega; step parameter; rotation in z axis
-                   shift,                               //!< \brief Symbol: Dx; step parameter; translation in x
-                   slide,                               //!< \brief Symbol: Dy; step parameter; translation in y
-                   rise;                                //!< \brief Symbol: Dz; step parameter; translation in z
-
-        //Base-pair parameters (describe rotations and translations between two bases
-        double     buckle,                              //!< \brief Symbol: kappa; base-pair parameter; rotation in x axis
-                   propeller,                           //!< \brief Symbol: omega; base-pair parameter; rotation in y axis
-                   opening,                             //!< \brief Symbol: sigma; base-pair parameter; rotation in z axis
-                   shear,                               //!< \brief Symbol: Sx; base-pair parameter; translation in x axis
-                   stretch,                             //!< \brief Symbol: Sy; base-pair parameter; translation in y axis
-                   stagger;                             //!< \brief Symbol: Sz; base-pair parameter; translation in z axis
-
-        //Global parameters (describe rotations and translations of every base-pair)
-        double     inclination,                         //!< \brief Symbol: eta; global parameter; rotation in x axis
-                   tip,                                 //!< \brief Symbol: theta; global parameter; rotation in y axis
-                   // twist_g                           ignored, only shown for completeness
-                   x_displacement,                      //!< \brief Symbol: eta; global parameter; translation in x axis
-                   y_displacement;                      //!< \brief Symbol: eta; global parameter; translation in y axis
-                   // rise_g                            ignored, only shown for completeness
+        //Local helical parameters 
+        double     inclination,                         //!< \brief Inclination
+                   tip,                                 //!< \brief Tip
+                   h_twist,                             //!< \brief Helical twist
+                   x_displacement,                      //!< \brief X-Displacement
+                   y_displacement,                      //!< \brief Y-Displacement
+                   h_rise;                              //!< \brief Helical rise
 
         // Random number generator
         std::mt19937_64 rng;
@@ -472,6 +440,7 @@ namespace PNAB {
                 torsionE,                           //!< \brief Energy of all rotatable torsions divided by number of \code{UnitChain}s
                 VDWE,                               //!< \brief Total van Der Wals Energy
                 total_energy,                       //!< \brief Total energy of the conformation divided by number of \code{UnitChain}s in chain tested
+                fixed_torsionE,                     //!< \brief Energy of all fixed rotatable torsions divided by number of \code{UnitChain}s
                 rmsd;                               //!< \brief Root-mean square distance from lowest energy conformer
         std::size_t index;                          //!< \brief The index of the conformer
         bool chain_coords_present;                  //!< \brief Have the chain coordinates in coord been deleted?

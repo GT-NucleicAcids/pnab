@@ -30,8 +30,8 @@ def test_binder_1():
                 for k, val in runtime_parameters_attr.items()])
 
     helical_parameters = bind.HelicalParameters()
-    helical_parameters_attr = ['twist', 'shift', 'slide', 'rise', 'inclination',
-                               'tip', 'x_displacement', 'y_displacement']
+    helical_parameters_attr = ['h_twist', 'tip', 'inclination',
+                               'h_rise', 'x_displacement', 'y_displacement']
 
     assert all([i in helical_parameters.__dir__() for i in helical_parameters_attr])
     assert all([type(helical_parameters.__getattribute__(i)) is float
@@ -64,10 +64,8 @@ def test_binder_2():
     bases = [base]
 
     hp = bind.HelicalParameters()
-    hp.shift = 0
-    hp.slide = 0
-    hp.twist = 32.39
-    hp.rise = 2.53
+    hp.h_twist = 32.39
+    hp.h_rise = 2.53
     hp.inclination = 22.9
     hp.tip = 0.08
     hp.x_displacement = -4.54

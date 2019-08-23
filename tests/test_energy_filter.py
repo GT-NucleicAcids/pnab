@@ -28,10 +28,8 @@ def test_energy_filter():
     bases = [base]
 
     hp = bind.HelicalParameters()
-    hp.shift = 0
-    hp.slide = 0
-    hp.twist = 32.39
-    hp.rise = 2.53
+    hp.h_twist = 32.39
+    hp.h_rise = 2.53
     hp.inclination = 22.9
     hp.tip = 0.08
     hp.x_displacement = -4.54

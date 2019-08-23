@@ -40,7 +40,7 @@ def draw():
 
     function onSubmit() {
         var drawing = document.JME.molFile();
-        var name = prompt("Please enter the name of the molecule", "mol");
+        var name = prompt("Please enter the name of the molecule. A PDB file with the given name will be generated.", "mol");
         var command = `try: molecules["""` + name + `"""] = """` + drawing + `"""` + `\nexcept: molecules = {"""` + name + `""": """` + drawing + `"""}`; 
         var kernel = IPython.notebook.kernel;
         kernel.execute(command);

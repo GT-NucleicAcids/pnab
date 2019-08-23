@@ -550,7 +550,7 @@ std::string ConformationSearch::print(PNAB::ConformerData conf_data) {
     conf_data.chain_coords_present = false;
     conf_data_vec_.push_back(conf_data);
 
-    output_string << "# Prefix, Conformer Index, Distance (A), Bond Energy, Angle Energy, Torsion Energy, VDW Energy, Total Energy (kcal/mol)";
+    output_string << "# Prefix, Conformer Index, Distance (A), Bond Energy, Angle Energy, Torsion Energy, VDW Energy, Total Energy, Fixed Torsion Energy (kcal/mol)";
     output_string << "RMSD" << endl;
     std::sort(conf_data_vec_.begin(), conf_data_vec_.end());
 
@@ -559,7 +559,7 @@ std::string ConformationSearch::print(PNAB::ConformerData conf_data) {
     for (auto &v : conf_data_vec_) {
         v.rmsd = calcRMSD(ref, v.monomer_coord, monomer_num_coords_);
         output_string << prefix_ << ", " << v.index  << ", " << v.distance << ", " << v.bondE << ", " << v.angleE << ", "
-            << v.torsionE << ", " << v.VDWE << ", " << v.total_energy << ", " << v.rmsd << endl;
+            << v.torsionE << ", " << v.VDWE << ", " << v.total_energy << ", " << v.fixed_torsionE << ", " << v.rmsd << endl;
     }
 
 

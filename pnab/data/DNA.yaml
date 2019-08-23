@@ -11,23 +11,15 @@ HelicalParameters:
   - 2.78 
   - 2.78
   - 1
-  rise:
+  h_rise:
   - 3.37
   - 3.37
-  - 1
-  shift:
-  - 0
-  - 0
-  - 1
-  slide:
-  - 0
-  - 0
   - 1
   tip:
   - 0.01
   - 0.01
   - 1
-  twist:
+  h_twist:
   - 35.77
   - 35.77
   - 1

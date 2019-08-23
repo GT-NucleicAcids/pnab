@@ -56,9 +56,9 @@ Chain::Chain(Bases bases, const Backbone &backbone, vector<string> strand, strin
     unsigned offset = 0;
     for (unsigned i=0; i < n_chains_; i++) {
         setupChain(v_bases[i%2], v_chain_[i], v_new_bond_ids_[i], v_deleted_atoms_ids_[i], v_num_bu_A_mol_atoms_[i], v_bb_start_index_[i],
-                   v_base_coords_vec_[i], i);
+                   v_base_coords_vec_[i], v_fixed_bonds[i], i);
         std::sort(v_deleted_atoms_ids_[i].begin(), v_deleted_atoms_ids_[i].end());
-        setupFFConstraints(v_chain_[i], v_new_bond_ids_[i], offset);
+        setupFFConstraints(v_chain_[i], v_new_bond_ids_[i], v_fixed_bonds[i], offset);
         offset += v_chain_[i].NumAtoms();
         combined_chain_ += v_chain_[i];
     }
@@ -143,10 +143,12 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
 
     // Get torsion energy
     // Add interaction groups for rotatable torsions
-    for (auto torsion: all_torsions_) {
+    for (int i=0; i < all_torsions_.size(); i++) {
+        if (is_fixed_bond[i])
+            continue;
         OBBitVec bit = OBBitVec();
-        for (auto i: torsion) {
-            bit.SetBitOn(i);
+        for (auto j: all_torsions_[i]) {
+            bit.SetBitOn(j);
         }
         pFF_->AddIntraGroup(bit);
     }
@@ -179,6 +181,36 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
         return;
     }
     
+    // Get torsion energy for fixed bonds
+    // Add interaction groups for fixed rotatable torsions
+    // Add an empty OBBitVec in case there are not any fixed bonds
+    OBBitVec bit = OBBitVec();
+    pFF_->AddIntraGroup(bit);
+    for (int i=0; i < all_torsions_.size(); i++) {
+        if (!is_fixed_bond[i])
+            continue;
+        OBBitVec bit = OBBitVec();
+        for (auto j: all_torsions_[i]) {
+            bit.SetBitOn(j);
+        }
+        pFF_->AddIntraGroup(bit);
+    }
+
+    // Do the same trick
+    unsigned a1 = current_mol->GetAtom(1)->GetAtomicNum();
+    current_mol->GetAtom(1)->SetAtomicNum(1);
+    pFF_->Setup(*current_mol, constraintsTor_);
+    current_mol->GetAtom(1)->SetAtomicNum(a1);
+    pFF_->Setup(*current_mol, constraintsTor_);
+
+    pFF_->E_Torsion(false)/n;
+    conf_data.fixed_torsionE = pFF_->E_Torsion(false)/n;
+    // This is still necessary
+    pFF_->ClearGroups();
+
+    if (!isKCAL_)
+       conf_data.fixed_torsionE *= KJ_TO_KCAL;
+
 
     // Get VDW energy
     unsigned a = current_mol->GetAtom(1)->GetAtomicNum();
@@ -214,7 +246,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
 void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids,
                        std::vector<unsigned> &deleted_atoms_ids, std::vector<unsigned> &num_base_unit_atoms,
                        std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
-                       unsigned chain_index) {
+                       std::vector<std::vector<unsigned>> &fixed_bonds_vec, unsigned chain_index) {
 
     auto bases_A = strand;
     unsigned neighbor_id;
@@ -232,6 +264,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
 
     vector<OBMol> bu_A_mol;
     vector<array<size_t, 2>> bu_linkers_vec;
+    vector<vector<vector<unsigned>>> base_fixed_bonds;
     for (auto v : bu_A) {
         // We want a list of linkers for deletion
         bu_linkers_vec.emplace_back(v.getBackboneLinkers());
@@ -249,6 +282,9 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         auto *xyz = new double[num_base_unit_atoms.back() * 3];
         memcpy(xyz,mol.GetCoordinates(),sizeof(double) * num_base_unit_atoms.back() * 3);
         base_coords_vec.emplace_back(xyz);
+
+        // Fixed bonds
+        base_fixed_bonds.push_back(v.getFixedBonds());
     }
 
     auto chain_letter = static_cast<char>('A' + chain_index);
@@ -264,6 +300,23 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         }
         chain += v;
         c++;
+    }
+
+    // Mark fixed bonds
+    int num_atoms = 0, n_fixed = 0;
+    for (int i=0; i < base_fixed_bonds.size(); i++) {
+        for (auto bonds: base_fixed_bonds[i]) {
+            OBAtom* a1 = chain.GetAtom(bonds[0] + num_atoms);
+            OBAtom* a2 = chain.GetAtom(bonds[1] + num_atoms);
+            OBPairData *label1 = new OBPairData();
+            OBPairData *label2 = new OBPairData();
+            label1->SetAttribute(to_string(n_fixed));
+            label2->SetAttribute(to_string(n_fixed));
+            a1->SetData(label1);
+            a2->SetData(label2);
+            n_fixed++;
+        }
+        num_atoms += num_base_unit_atoms[i];
     }
 
     bu_linkers_vec.pop_back();
@@ -314,9 +367,19 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         chain.AddBond(head->GetIdx(), chain.GetAtomById(neighbor_id)->GetIdx(), 1);
     }
 
+
+    for (int i=0; i < n_fixed; i++) {
+        fixed_bonds_vec.push_back({});
+        FOR_ATOMS_OF_MOL(a, chain) {
+            if (a->HasData(to_string(i))) {
+                fixed_bonds_vec[i].push_back(a->GetIdx());
+            }
+        }
+    }
+
 };
 
-void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids, unsigned offset) {
+void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids, std::vector<std::vector<unsigned>> &fixed_bonds_vec, unsigned offset) {
     int nbrIdx;
 
     // Torsional energy, must fix non-torsion atoms
@@ -376,6 +439,16 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
                     (chain.GetAtom(v[2])->GetResidue()->GetNum() == num) &&
                     (nbr2->GetResidue()->GetNum() == num)) {
                     // These are the correct torsional angles that we want to compute energies for
+                    bool fixed = false;
+                    for (auto bond: fixed_bonds_vec) {
+                        if ((find(bond.begin(), bond.end(), v[1]) != bond.end()) && (find(bond.begin(), bond.end(), v[2]) != bond.end())) {
+                            is_fixed_bond.push_back(true);
+                            fixed = true;
+                            break;
+                        }
+                    }
+                    if (!fixed)
+                        is_fixed_bond.push_back(false);
                     all_torsions_.push_back({nbr->GetIdx() + offset, v[1] + offset, v[2] + offset, nbr2->GetIdx() + offset});
                 }
             }

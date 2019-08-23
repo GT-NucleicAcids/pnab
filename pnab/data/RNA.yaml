@@ -11,23 +11,15 @@ HelicalParameters:
   - 22.9 # Initial point in the range
   - 22.9 # Final point in the range
   - 1 # Number of configrations
-  rise:
+  h_rise:
   - 2.53
   - 2.53
-  - 1
-  shift:
-  - 0
-  - 0
-  - 1
-  slide:
-  - 0
-  - 0
   - 1
   tip:
   - 0.08 
   - 0.08 
   - 1
-  twist:
+  h_twist:
   - 32.39
   - 32.39
   - 1
