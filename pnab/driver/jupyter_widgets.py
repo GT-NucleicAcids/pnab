@@ -112,8 +112,7 @@ def helical_parameters(param):
     """Helical parameter widget for use in Jupyter notebook"""
 
     display(widgets.HTML(value='<b>Helical Parameters</b>'))
-    display(widgets.HTML(value='All angles are in degrees and all distances in Angstroms.' + 
-                               '<br> Random configurations over the ranges of each helical parameter will be generated for sampling.' +
+    display(widgets.HTML(value='<br> Random configurations over the ranges of each helical parameter will be generated for sampling.' +
                                '<br> The steps are the number of configurations generated for each helical parameter.'))
 
     param_dict = {}
@@ -122,13 +121,13 @@ def helical_parameters(param):
         param_dict[k] = []
         default = [param[k]['default'][0], param[k]['default'][1], param[k]['default'][2]] # [beginning point, end point, number of steps]
         # Set angles
-        if k in ['inclination', 'tip', 'twist']:
+        if k in ['inclination', 'tip', 'h_twist']:
             param_dict[k].append(widgets.FloatRangeSlider(value=[default[0], default[1]], min=-180, max=180, step=0.01, readout_format='.2f'))
         # Set distances
         else:
             param_dict[k].append(widgets.FloatRangeSlider(value=[default[0], default[1]], min=-10, max=10, step=0.01, readout_format='.3f'))
         param_dict[k].append(widgets.BoundedIntText(value=default[2], min=1, max=1000, step=1, description='Steps'))
-        box = widgets.HBox([widgets.Label(param[k]['glossory'], layout={'width': '100px'}), param_dict[k][0], param_dict[k][1]])
+        box = widgets.HBox([widgets.Label(param[k]['glossory'], layout={'width': '200px'}), param_dict[k][0], param_dict[k][1]])
         display(box)
         options['HelicalParameters'][k] = [param_dict[k][0], param_dict[k][1]]
 
@@ -158,7 +157,6 @@ def runtime_parameters(param):
     """Runtime parameter widget for use in Jupyter notebook"""
 
     display(widgets.HTML(value='<b>Runtime Parameters</b>'))
-    display(widgets.HTML(value='All energies are in kcal/mol and all distances in Angstroms'))
 
     options['RuntimeParameters'] = {}
 

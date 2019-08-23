@@ -127,213 +127,137 @@ def _validate_strand_orientation(strand):
 
     return strand
 
+def _validate_fixed_bonds(x):
+    x = list(x)
+    for i in range(len(x)):
+        x[i] = list(x[i])
+        if len(x[i]) != 2:
+            raise Exception("Specify two atoms for fixed rotatable bonds")
 
+    return x
 
 
 # Set glossory of options, default values and validation methods
-
 _options_dict = {}
 
 # Backbone Parameter
 _options_dict['Backbone'] = {}
 _options_dict['Backbone']['file_path'] = {
-                                                             'glossory': ('Path to the file containing the molecular' +
-                                                                         ' structure of the backbone'),
-                                                             'default': 'backbone.pdb',
-                                                             'validation': lambda x: _validate_input_file(x),
-                                                             }
-
+                                         'glossory': ('Path to the file containing the molecular' +
+                                                     ' structure of the backbone'),
+                                         'default': 'backbone.pdb',
+                                         'validation': lambda x: _validate_input_file(x),
+                                         }
 _options_dict['Backbone']['interconnects'] = {
-                                                        'glossory': 'Two atoms connecting to the two backbones',
-                                                        'default': None,
-                                                        'validation': lambda x: _validate_atom_indices(x),
-                                                        }
-
+                                             'glossory': 'Two atoms connecting to the two backbones',
+                                             'default': None,
+                                             'validation': lambda x: _validate_atom_indices(x),
+                                             }
 _options_dict['Backbone']['linker'] = {
-                                                       'glossory': ('Two atoms forming the vector' + 
-                                                                   ' connecting to base'),
-                                                       'default': None,
-                                                       'validation': lambda x: _validate_atom_indices(x),
-                                                       }
+                                      'glossory': ('Two atoms forming the vector' + 
+                                                  ' connecting to base'),
+                                      'default': None,
+                                      'validation': lambda x: _validate_atom_indices(x),
+                                      }
 _options_dict['Backbone']['fixed_bonds'] = {
-                                                       'glossory': ('Indices of fixed rotatable dihedral bonds'),
-                                                       'default': [],
-                                                       'validation': lambda x: list(x),
-                                                       }
+                                           'glossory': ('Indices of fixed rotatable dihedral bonds'),
+                                           'default': [],
+                                           'validation': lambda x: _validate_fixed_bonds(x),
+                                           }
+
 # Helical Parameters
 _options_dict['HelicalParameters'] = {}
-#_options_dict['HelicalParameters']['tilt'] = {
-#                                              'glossory': 'Tilt',
-#                                              'default': 0.0,
-#                                              'validation': lambda x: _validate_helical_parameters(x),
-#                                              }
-#
-#_options_dict['HelicalParameters']['roll'] = {
-#                                              'glossory': 'Roll',
-#                                              'default': 0.0,
-#                                              'validation': lambda x: _validate_helical_parameters(x),
-#                                              }
-
-_options_dict['HelicalParameters']['twist'] = {
-                                               'glossory': 'Twist',
+_options_dict['HelicalParameters']['h_twist'] = {
+                                               'glossory': 'Helical Twist (degree)',
                                                'default': [0.0, 0.0, 1],
                                                'validation': lambda x: _validate_helical_parameters(x),
                                                }
-
 _options_dict['HelicalParameters']['inclination'] = {
-                                                     'glossory': 'Inclination',
-                                                     'default': [0.0, 0.0, 1],
-                                                     'validation': lambda x: _validate_helical_parameters(x),
-                                                     }
-
+                                                    'glossory': 'Inclination (degree)',
+                                                    'default': [0.0, 0.0, 1],
+                                                    'validation': lambda x: _validate_helical_parameters(x),
+                                                    }
 _options_dict['HelicalParameters']['tip'] = {
-                                             'glossory': 'Tip',
-                                             'default': [0.0, 0.0, 1],
-                                             'validation': lambda x: _validate_helical_parameters(x),
-                                             }
-
-_options_dict['HelicalParameters']['rise'] = {
-                                              'glossory': 'Rise',
-                                              'default': [0.0, 0.0, 1],
-                                              'validation': lambda x: _validate_helical_parameters(x),
-                                              }
-
+                                            'glossory': 'Tip (degree)',
+                                            'default': [0.0, 0.0, 1],
+                                            'validation': lambda x: _validate_helical_parameters(x),
+                                            }
+_options_dict['HelicalParameters']['h_rise'] = {
+                                                'glossory': 'Helical Rise (Angstrom)',
+                                                'default': [0.0, 0.0, 1],
+                                                'validation': lambda x: _validate_helical_parameters(x),
+                                                }
 _options_dict['HelicalParameters']['x_displacement'] = {
-                                                        'glossory': 'X-Displacement',
-                                                        'default': [0.0, 0.0, 1],
-                                                        'validation': lambda x: _validate_helical_parameters(x),
-                                                        }
-
+                                                       'glossory': 'X-Displacement (Angstrom)',
+                                                       'default': [0.0, 0.0, 1],
+                                                       'validation': lambda x: _validate_helical_parameters(x),
+                                                       }
 _options_dict['HelicalParameters']['y_displacement'] = {
-                                                        'glossory': 'Y-Displacement',
-                                                        'default': [0.0, 0.0, 1],
-                                                        'validation': lambda x: _validate_helical_parameters(x),
-                                                        }
-
-
-_options_dict['HelicalParameters']['shift'] = {
-                                               'glossory': 'Shift',
-                                               'default': [0.0, 0.0, 1],
-                                               'validation': lambda x: _validate_helical_parameters(x),
-                                               }
-
-_options_dict['HelicalParameters']['slide'] = {
-                                               'glossory': 'Slide',
-                                               'default': [0.0, 0.0, 1],
-                                               'validation': lambda x: _validate_helical_parameters(x),
-                                               }
-
-#_options_dict['HelicalParameters']['buckle'] = {
-#                                                'glossory': 'Buckle',
-#                                                'default': 0.0,
-#                                                'validation': lambda x: _validate_helical_parameters(x),
-#                                                }
-#
-#_options_dict['HelicalParameters']['propeller'] = {
-#                                                   'glossory': 'Propeller',
-#                                                   'default': 0.0,
-#                                                   'validation': lambda x: _validate_helical_parameters(x),
-#                                                   }
-#
-#_options_dict['HelicalParameters']['opening'] = {
-#                                                 'glossory': 'Opening',
-#                                                 'default': 0.0,
-#                                                 'validation': lambda x: _validate_helical_parameters(x),
-#                                                 }
-#
-#_options_dict['HelicalParameters']['shear'] = {
-#                                               'glossory': 'Shear',
-#                                               'default': 0.0,
-#                                               'validation': lambda x: _validate_helical_parameters(x),
-#                                               }
-#
-#_options_dict['HelicalParameters']['stretch'] = {
-#                                                 'glossory': 'Stretch',
-#                                                 'default': 0.0,
-#                                                 'validation': lambda x: _validate_helical_parameters(x),
-#                                                 }
-#
-#_options_dict['HelicalParameters']['stagger'] = {
-#                                                 'glossory': 'Stagger',
-#                                                 'default': 0.0,
-#                                                 'validation': lambda x: _validate_helical_parameters(x),
-#                                                 }
+                                                       'glossory': 'Y-Displacement (Angstrom)',
+                                                       'default': [0.0, 0.0, 1],
+                                                       'validation': lambda x: _validate_helical_parameters(x),
+                                                       }
 
 # Runtime Parameters
 _options_dict['RuntimeParameters'] = {}
 _options_dict['RuntimeParameters']['search_algorithm'] = {
-                                                   'glossory': 'Search algorithm',
-                                                   'default': 'random search',
-                                                   'validation': lambda x: x.lower(),
-                                                   }
-
-
+                                                         'glossory': 'Search algorithm',
+                                                         'default': 'weighted monte carlo search',
+                                                         'validation': lambda x: x.lower(),
+                                                         }
 _options_dict['RuntimeParameters']['num_steps'] = {
-                                                   'glossory': 'Number of points to search over dihedral angles',
-                                                   'default': 1000000,
-                                                   'validation': lambda x: int(x),
-                                                   }
+                                                  'glossory': 'Number of points to search over dihedral angles',
+                                                  'default': 1000000,
+                                                  'validation': lambda x: int(x),
+                                                  }
 _options_dict['RuntimeParameters']['dihedral_step'] = {
-                                                   'glossory': 'Dihedral step size for systematic search in degrees',
-                                                   'default': 1,
-                                                   'validation': lambda x: float(x),
-                                                   }
-
+                                                  'glossory': 'Dihedral step size for systematic search (degree)',
+                                                  'default': 2,
+                                                  'validation': lambda x: float(x),
+                                                  }
 _options_dict['RuntimeParameters']['type'] = {
-                                              'glossory': 'Force field type',
-                                              'default': 'GAFF',
-                                              'validation': lambda x: str(x).upper(),
-                                              }
-
-# Not used yet.
-#_options_dict['RuntimeParameters']['parameter_file'] = {
-#                                                        'glossory': 'Additional parameter file',
-#                                                        'default': '',
-#                                                        'validation': lambda x: _validate_input_file(x),
-#                                                        }
-
-_options_dict['RuntimeParameters']['energy_filter'] = {
-                                                       'glossory': ('Maximum energy per bond for newly formed bonds in the backbone\n' +
-                                                                    'Maximum energy per agnle for newly formed angles in the backbone\n' +
-                                                                    'Maximum torsional energy per nucleotide for rotatable bonds\n' +
-                                                                    'Maximum van der Waals energy per nucleotide\n' +
-                                                                    'Maximum total energy per nucleotide\n'),
-                                                       'default': (3, 3, 10, 0, 10000000000),
-                                                       'validation': lambda x: _validate_energy_filter(x), 
-                                                      }
-
+                                             'glossory': 'Force field type',
+                                             'default': 'GAFF',
+                                             'validation': lambda x: str(x).upper(),
+                                             }
 _options_dict['RuntimeParameters']['max_distance'] = {
-                                                      'glossory': ('The maximum distance between atom' +
-                                                                   ' linkers in backbone' 
-                                                                   ),
-                                                      'default': 0.05,
-                                                      'validation': lambda x: float(x),
+                                                     'glossory': ('The maximum distance between atom' +
+                                                                  ' linkers in backbone (Angstrom)' 
+                                                                  ),
+                                                     'default': 0.05,
+                                                     'validation': lambda x: float(x),
+                                                     }
+_options_dict['RuntimeParameters']['energy_filter'] = {
+                                                      'glossory': ('Maximum energy for newly formed bonds in the backbone (kcal/mol/bond)\n' +
+                                                                   'Maximum energy for newly formed angles in the backbone (kcal/mol/angle)\n' +
+                                                                   'Maximum torsional energy for rotatable bonds (kcal/mol/nucleotide)\n' +
+                                                                   'Maximum van der Waals energy (kcal/mol/nucleotide)\n' +
+                                                                   'Maximum total energy (kcal/mol/nucleotide)\n'),
+                                                      'default': (3, 3, 10, 0, 10000000000),
+                                                      'validation': lambda x: _validate_energy_filter(x), 
                                                       }
-
 _options_dict['RuntimeParameters']['strand'] = {
-                                                'glossory': 'FASTA string for nucleotide sequence (e.g. GCAT or XYXY) ',
-                                                'default': None,
-                                                'validation': lambda x: _validate_strand(x),
-                                                }
-
+                                               'glossory': 'FASTA string for nucleotide sequence (e.g. GCAT or XYXY) ',
+                                               'default': None,
+                                               'validation': lambda x: _validate_strand(x),
+                                               }
 _options_dict['RuntimeParameters']['is_double_stranded'] = {
-                                                            'glossory': 'Double strands',
-                                                            'default': False,
-                                                            'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
-                                                            }
+                                                           'glossory': 'Double strands',
+                                                           'default': False,
+                                                           'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
+                                                           }
 _options_dict['RuntimeParameters']['pair_A_U'] = {
-                                                  'glossory': 'Pair A with U (Default is A-T pairing)',
-                                                  'default': False,
-                                                  'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
-                                                  }
+                                                 'glossory': 'Pair A with U (Default is A-T pairing)',
+                                                 'default': False,
+                                                 'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
+                                                 }
 _options_dict['RuntimeParameters']['is_hexad'] = {
-                                                  'glossory': 'Hexad strands',
-                                                  'default': False,
-                                                  'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
-                                                  }
+                                                 'glossory': 'Hexad strands',
+                                                 'default': False,
+                                                 'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
+                                                 }
 _options_dict['RuntimeParameters']['strand_orientation'] = {
-                                                  'glossory': 'Orientation of each strand in the hexad (up or down)',
-                                                  'default': [True, True, True, True, True, True],
-                                                  'validation': lambda x: _validate_strand_orientation(x),
-                                                  }
-
+                                                           'glossory': 'Orientation of each strand in the hexad (up or down)',
+                                                           'default': [True, True, True, True, True, True],
+                                                           'validation': lambda x: _validate_strand_orientation(x),
+                                                           }

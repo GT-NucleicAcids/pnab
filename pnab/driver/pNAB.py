@@ -89,7 +89,9 @@ class pNAB(object):
             return
 
         header = results[1] + '\n'
-        header += ('Prefix, Conformer Index, Distance (A), Bond Energy, Angle Energy, Torsion Energy, Van der Waals Energy, Total Energy (kcal/mol), RMSD (A)')
+        header += ('Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol/bond), Angle Energy (kcal/mol/angle), ' +
+                   'Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), ' + 
+                   'Total Energy (kcal/mol/nucleotide), Fixed Torsions Energy (kcal/mol/nucleotide), RMSD (Angstrom)')
 
         with open('results.csv', 'ab') as f:
             np.savetxt(f, results[2], delimiter=',', header=header)
@@ -140,7 +142,9 @@ class pNAB(object):
 
         self.prefix = yaml.load(open('prefix.yaml'), yaml.FullLoader)
 
-        header = ('Prefix, Conformer Index, Distance (A), Bond Energy, Angle Energy, Torsion Energy, Van der Waals Energy, Total Energy (kcal/mol), RMSD (A)')
+        header = ('Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol/bond), Angle Energy (kcal/mol/angle), ' +
+                  'Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), ' + 
+                  'Total Energy (kcal/mol/nucleotide), Fixed Torsions Energy (kcal/mol/nucleotide), RMSD (Angstrom)')
 
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self.results = np.loadtxt('results.csv', delimiter=',')
@@ -165,7 +169,7 @@ class pNAB(object):
             print(int(conformer[1]))
             print(self.prefix['%i' %conformer[0]])
 
-            for i in range(2, len(conformer) - 1):
+            for i in range(2, len(conformer)):
                 print(header.split(', ')[i] + ': ' + str(conformer[i]))
             print('\n')
 
