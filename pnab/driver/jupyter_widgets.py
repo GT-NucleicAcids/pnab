@@ -136,7 +136,7 @@ def algorithm(f, param):
     """Display search parameters based on the chosen algorithm"""
 
     options['RuntimeParameters']['search_algorithm'] = f.lower()
-    if 'random search' in f.lower() or "monte carlo search" in f.lower():
+    if 'random search' in f.lower() or "monte carlo search" in f.lower() or 'genetic algorithm search' in f.lower():
         num_steps = widgets.IntText(value=param['num_steps']['default'],
                                     description=param['num_steps']['glossory'],
                                     style={'description_width': 'initial'},
@@ -164,7 +164,7 @@ def runtime_parameters(param):
 
     # Search algorithm
     dropdown = widgets.Dropdown(value=param['search_algorithm']['default'].title(),
-                                options=['Weighted Monte Carlo Search', 'Monte Carlo Search', 'Weighted Random Search', 'Random Search', 'Systematic Search'],
+                                options=['Weighted Monte Carlo Search', 'Monte Carlo Search', 'Weighted Random Search', 'Random Search', 'Genetic Algorithm Search', 'Systematic Search'],
                                 description=param['search_algorithm']['glossory'],
                                 style={'description_width': 'initial'},
                                 layout={'width': '75%'})
@@ -172,7 +172,7 @@ def runtime_parameters(param):
     display(search_algorithm)
 
     # Force field
-    ff_type = widgets.Dropdown(options=['GAFF', 'MMFF94', 'MMFF94s', 'UFF'],
+    ff_type = widgets.Dropdown(options=['GAFF', 'MMFF94', 'MMFF94s', 'UFF', 'GHEMICAL'],
                                description=param['type']['glossory'],
                                style={'description_width': 'initial'},
                                layout={'width': '75%'})
