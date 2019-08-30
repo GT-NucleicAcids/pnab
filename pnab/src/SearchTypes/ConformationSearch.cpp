@@ -52,12 +52,195 @@ std::string ConformationSearch::run() {
     else if (search.find("monte carlo search") != std::string::npos)
         return ConformationSearch::MonteCarloSearch(false);
 
+    else if (search.find("genetic algorithm search") != std::string::npos)
+        return ConformationSearch::GeneticAlgorithm();
+
     else {
         cerr << search << " is unrecognized search algorithm" << endl;
         exit(1);
     }
 }
 
+
+std::string ConformationSearch::GeneticAlgorithm() {
+
+    // Get a base unit
+    BaseUnit unit(base_a_, backbone_);
+    auto range = unit.getBackboneIndexRange();
+    backbone_range_ = {static_cast<unsigned >(range[0]), static_cast<unsigned >(range[1])};
+    Chain chain(bases_, backbone_, strand_, ff_type_, backbone_range_, is_double_stranded_, is_hexad_, runtime_params_.strand_orientation);
+    test_chain_ = chain.getChain();
+    auto bu_a_mol = unit.getMol();
+    auto bu_a_head_tail = unit.getBackboneLinkers();
+    auto head = static_cast<unsigned>(bu_a_head_tail[0]),
+         tail = static_cast<unsigned>(bu_a_head_tail[1]);
+    auto fixed_bonds = unit.getFixedBonds();
+
+    std::string output_string;
+
+    double* coords = bu_a_mol.GetCoordinates();
+    monomer_num_coords_ = bu_a_mol.NumAtoms() * 3;
+
+    // Setup the rotor list
+    OBRotorList rl;
+    OBBitVec fix_bonds(backbone_.getMolecule().NumAtoms());
+    auto base_indices = unit.getBaseIndexRange();
+    for (unsigned i = static_cast<unsigned>(base_indices[0]); i <= base_indices[1]; ++i)
+        fix_bonds.SetBitOn(i);
+    rl.Setup(bu_a_mol);
+    rl.SetFixAtoms(fix_bonds);
+    rl.SetRotAtomsByFix(bu_a_mol);
+
+    size_t search_size = runtime_params_.num_steps;
+
+    // store all rotors in a vector
+    OBRotorIterator ri;
+    vector<OBRotor*> rotor_vector;
+    OBRotor *r = rl.BeginRotor(ri);
+    while(r) {
+        bool save = true;
+        unsigned a1 = r->GetDihedralAtoms()[1];
+        unsigned a2 = r->GetDihedralAtoms()[2];
+        for (auto f: fixed_bonds) {
+            if ((a1 == f[0] && a2 == f[1]) || (a1 == f[1] && a2 == f[0])) {
+                save = false;
+            }
+        }
+        if (save)
+            rotor_vector.push_back(r);
+        r = rl.NextRotor(ri);
+    }
+
+
+    uniform_real_distribution<double> dist = uniform_real_distribution<double>(0, 2 * M_PI);
+    uniform_real_distribution<double> dist2 = uniform_real_distribution<double>(0, 1);
+
+    // Genetic algorithm parameters
+    int numConformers = 1000; // Population size
+    int elites = 0; // Number of intact survivors 
+    double mutation_rate = 0.75; // Mutation rate; Large because we want to explore more
+    double crossover_rate = 0.75; // Mating rate
+    vector<pair<double, vector<double>>> population; //(fitness (1/distance), vector of torsional angles)
+
+    // Initialize population
+    for (int con=0; con < numConformers; con++ ) {
+        vector<double> state;
+        for (int i=0; i < rotor_vector.size(); i++) {
+            state.push_back(dist(rng_));
+            auto r = rotor_vector[i];
+            r->SetToAngle(coords, state[i]);
+        }
+        // Compute fitness
+        double cur_dist = measureDistance(coords, head, tail);
+        population.push_back(make_pair(1.0/cur_dist, state));
+    }
+
+    size_t save_index = 0; // Different index used to save pdb files
+    vector<int> save_cur_dist; // Save distance to avoid processing identical conformers
+
+    for (size_t search_index=0; search_index < search_size; search_index++) {
+
+        if (search_index % 100 == 0) {
+            printProgress(search_index, search_size);
+        }
+
+        // Sort population by fitness
+        sort(population.begin(), population.end());
+        vector<double> weights;
+        for (int i=0; i < population.size(); i++) {
+            // It seems rank-based weights are better in our case
+            weights.push_back(i + 1); // Weight proportional to the rank
+            //weights.push_back(population[i].first); // Weight proportional to the fitness score
+        }
+
+        // Selection Probability
+        discrete_distribution<> selection_probability (weights.begin(), weights.end()); 
+
+        // Vector to store new generation
+        vector<pair<double, vector<double>>> new_generation;
+
+        // Save some candidates for the next generation
+        for(int i=0; i < elites; i++) {
+            int r = selection_probability(rng_);
+            new_generation.push_back(population[r]); 
+        }
+
+        // Generate offsprings
+        for (int i=0; i < (numConformers-elites)/2; i++) {
+
+            // Select parents
+            int r1 = selection_probability(rng_);
+            int r2 = selection_probability(rng_);
+            vector<double> parent1 = population[r1].second;
+            vector<double> parent2 = population[r2].second;
+
+            vector<vector<double>> offspring = {parent1, parent2};
+
+            // Crossover
+            double v = dist2(rng_);
+            if (v < crossover_rate) {
+                // Exchange one dihedral angle for each offspring
+                int index = rand()%offspring[0].size();
+                offspring[0][index] = parent2[index];
+                offspring[1][index] = parent1[index];
+            }
+
+            // Mutate
+            v = dist2(rng_);
+            if (v < mutation_rate) {
+                // Select a random dihedral angle and change it
+                int index1 = rand()%offspring[0].size();
+                int index2 = rand()%offspring[1].size();
+                offspring[0][index1] = dist(rng_);
+                offspring[1][index2] = dist(rng_);
+            }
+
+            // Compute fitness (inverse distance) and see if new offsprings are good candidates
+            for (int kid=0; kid< 2; kid++) {
+                save_index++;
+                for (int j=0; j < offspring[kid].size(); j++) {
+                    auto r = rotor_vector[j];
+                    r->SetToAngle(coords, offspring[kid][j]);
+                }
+
+                // Compute fitness
+                double cur_dist = measureDistance(coords, head, tail);
+                new_generation.push_back(make_pair(1.0/cur_dist, offspring[kid]));
+
+                // if accept, add to vector of coord_vec_
+                if (cur_dist < runtime_params_.max_distance) {
+                    // Do not process redundant structures
+                    if (find(save_cur_dist.begin(), save_cur_dist.end(), int(cur_dist*1e6)) != save_cur_dist.end())
+                        continue;
+                    save_cur_dist.push_back(int(cur_dist*1e6));
+
+                    // Generate chain and compute energies; check whether energies are less than thresholds
+                    auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
+
+                    if (!data.accepted)
+                        delete[] data.coords;
+
+                    else {
+                        data.monomer_coord = new double[monomer_num_coords_];
+                        data.index = save_index;
+                        data.distance = cur_dist;
+                        memcpy(data.monomer_coord, coords, sizeof(double) * monomer_num_coords_);
+                        output_string = print(data);
+                    }
+                }
+            }
+        }
+
+        population = new_generation;
+
+    }
+        
+    for (auto &v : conf_data_vec_)
+        delete[] v.monomer_coord;
+
+    return output_string;
+
+}
 
 std::string ConformationSearch::RandomSearch(bool weighted) {
     // Random search: weighted or uniform probability distribution
@@ -123,6 +306,10 @@ std::string ConformationSearch::RandomSearch(bool weighted) {
 
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
 
+        if (search_index % 100000 == 0) {
+            printProgress(search_index, search_size);
+        }
+
         // For random search, we rotate all dihedrals at every step 
         for (int i = 0; i < rotor_vector.size(); i++) {
             auto r = rotor_vector[i];
@@ -156,9 +343,6 @@ std::string ConformationSearch::RandomSearch(bool weighted) {
                 memcpy(data.monomer_coord, coords, sizeof(double) * monomer_num_coords_);
                 output_string = print(data);
             }
-        }
-        if (search_index % 100000 == 0) {
-            printProgress(search_index, search_size);
         }
     }
 
@@ -231,27 +415,50 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
     }
 
     uniform_real_distribution<double> one_zero_dist(0, 1);
-    double k_effective = 0.593 / 5.15; // Angstroms^2; 0.593 is kbT at 298 K in kcal/mol
+    double k = 300; // kcal/mol/Angstroms^2; Bond stretching force constant
+                    // P-O5' bond stretching contsant in CHARMM36 for ON2-P bond: 270 kcal/mol/Angstrom^2
+                    // V(bond) = Kb(b-b0)^2
+    double kbT = 0.593; // 0.593 is kbT at 298 K in kcal/mol
+
     double best_dist = std::numeric_limits<double>::infinity();
 
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
-        // In Monte Carlo search, we randomly pick one dihedral and rotate it
-        int index = rand()%rotor_vector.size();
-        r = rotor_vector[index];
 
-        // Save previous angle, in case the step is not good
-        double old_angle = r->CalcTorsion(coords);
+        if (search_index % 10000 == 0) {
+            printProgress(search_index, search_size);
+        }
 
-        // Choose a random angle
-        double angle;
-        if (weighted) {
-            angle = dist_vector[index](rng_);
+        // In Monte Carlo search, we randomly pick one or more dihedral and rotate it
+        int n_rotations = 2;
+        vector<int> indices;
+        for (int i=0; i < rotor_vector.size(); i++)
+           indices.push_back(i); 
+
+        vector<double> old_angles;
+        vector<int> rotated_indices;
+        for (int i=0; i < n_rotations; i++) {
+            // Pick index
+            int ind = rand()%indices.size();
+            int index = indices[ind];
+            indices.erase(indices.begin() + ind);
+            rotated_indices.push_back(index);
+            
+            r = rotor_vector[index];
+
+            // Save previous angle, in case the step is not good
+            double old_angle = r->CalcTorsion(coords);
+            old_angles.push_back(old_angle);
+
+            // Choose a random angle
+            double angle;
+            if (weighted) {
+                angle = dist_vector[index](rng_);
+            }
+            else {
+                angle = dist(rng_);
+            }
+            r->SetToAngle(coords, angle);
         }
-        else {
-            angle = dist(rng_);
-        }
-        r->SetToAngle(coords, angle);
-        
         // measure distance
         double cur_dist = measureDistance(coords, head, tail);
         // Accept step if the new distance is less than the previous distance
@@ -261,13 +468,17 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
 
         // If the new distance is larger than the previous distance,
         // accept step conditionally
-        else if (one_zero_dist(rng_) < exp(-pow(cur_dist, 2) / k_effective)) {
+        else if (one_zero_dist(rng_) < exp(-k*pow((cur_dist-best_dist), 2) / kbT)) {
             best_dist = cur_dist;
         }
 
         // If the step is not accepted, set the dihedral angle back to the previous state
         else {
-            r->SetToAngle(coords, old_angle);
+            for (int i=0; i < n_rotations; i++) {
+                r = rotor_vector[rotated_indices[i]];
+                r->SetToAngle(coords, old_angles[i]);
+            }
+            continue;
         }
 
         // if accept, add to vector of coord_vec_
@@ -276,8 +487,13 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
             // Generate chain and compute energies; check whether energies are less than thresholds
             auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
 
-            if (!data.accepted)
+            if (!data.accepted) {
                 delete[] data.coords;
+                for (int i=0; i < n_rotations; i++) {
+                    r = rotor_vector[rotated_indices[i]];
+                    r->SetToAngle(coords, old_angles[i]);
+                }
+            }
 
             else {
                 data.monomer_coord = new double[monomer_num_coords_];
@@ -286,9 +502,6 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
                 memcpy(data.monomer_coord, coords, sizeof(double) * monomer_num_coords_);
                 output_string = print(data);
             }
-        }
-        if (search_index % 100000 == 0) {
-            printProgress(search_index, search_size);
         }
     }
 
@@ -434,6 +647,11 @@ std::string ConformationSearch::SystematicSearch() {
     }
 
     for (size_t search_index = 1; search_index < search_size + 1; ++search_index) {
+
+        if (search_index % 100000 == 0) {
+            printProgress(search_index, search_size);
+        }
+
         // Choose rotor to change
         int rotor_index = 0;
         for (int i = 1; i < rotor_vector.size(); i++){
@@ -472,9 +690,6 @@ std::string ConformationSearch::SystematicSearch() {
                 memcpy(data.monomer_coord, coords, sizeof(double) * monomer_num_coords_);
                 output_string = print(data);
             }
-        }
-        if (search_index % 100000 == 0) {
-            printProgress(search_index, search_size);
         }
     }
 

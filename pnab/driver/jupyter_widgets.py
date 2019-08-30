@@ -145,10 +145,12 @@ def algorithm(f, param):
         options['RuntimeParameters']['num_steps'] = num_steps
 
     elif f.lower() == 'systematic search':
-        dihedral_step = widgets.IntText(value=param['dihedral_step']['default'],
-                                        description=param['dihedral_step']['glossory'],
-                                        style={'description_width': 'initial'},
-                                        layout={'width': '75%'})
+        dihedral_step = widgets.BoundedFloatText(value=param['dihedral_step']['default'],
+                                                 min=0.0,
+                                                 max=360.0,
+                                                 description=param['dihedral_step']['glossory'],
+                                                 style={'description_width': 'initial'},
+                                                 layout={'width': '75%'})
         display(dihedral_step)
         options['RuntimeParameters']['dihedral_step'] = dihedral_step
 
