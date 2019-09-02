@@ -19,7 +19,6 @@ import numpy as np
 from pnab import __path__
 from pnab import bind
 from pnab.driver import options
-from pnab.driver import draw
 
 
 class pNAB(object):
@@ -137,14 +136,12 @@ class pNAB(object):
         pool.close()
 
 
-    def get_results(self):
-        """Extract the results from the run and report it to the user."""
-
+        #Extract the results from the run and report it to the user
         self.prefix = yaml.load(open('prefix.yaml'), yaml.FullLoader)
 
-        header = ('Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol/bond), Angle Energy (kcal/mol/angle), ' +
-                  'Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), ' + 
-                  'Total Energy (kcal/mol/nucleotide), Fixed Torsions Energy (kcal/mol/nucleotide), RMSD (Angstrom)')
+        self.header = ('Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol/bond), Angle Energy (kcal/mol/angle), ' +
+                       'Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), ' + 
+                       'Total Energy (kcal/mol/nucleotide), Fixed Torsions Energy (kcal/mol/nucleotide), RMSD (Angstrom)')
 
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self.results = np.loadtxt('results.csv', delimiter=',')
@@ -155,22 +152,7 @@ class pNAB(object):
         elif self.results.ndim == 1:
             self.results = self.results.reshape(1, len(self.results))
 
-        summary = self.results[self.results[:, 7].argsort()][:10]
+        self.results = self.results[self.results[:, 7].argsort()]
+        summary = self.results[:10]
 
-        np.savetxt('summary.csv', summary, delimiter=',', header=time + '\n' + header)
-
-        print("There are %i candidates:\n" %len(self.results))
-        print('Showing the best %i candidates ...\n' %len(summary))
-
-        for conformer in summary:
-            import time
-            time.sleep(0.1)
-            print("Prefix: %i" %conformer[0])
-            print(int(conformer[1]))
-            print(self.prefix['%i' %conformer[0]])
-
-            for i in range(2, len(conformer)):
-                print(header.split(', ')[i] + ': ' + str(conformer[i]))
-            print('\n')
-
-            draw.view_py3dmol(str(int(conformer[0])) + '_' + str(int(conformer[1])) + '.pdb')
+        np.savetxt('summary.csv', summary, delimiter=',', header=time + '\n' + self.header)

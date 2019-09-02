@@ -49,6 +49,6 @@ RuntimeParameters:
   - true
   is_double_stranded: false
   max_distance: 0.05 # Maximum distance between atom linkers in backbone
-  num_steps: 1000000 # Number of steps for backbone dihedral search
+  num_steps: 10000000 # Number of steps for backbone dihedral search
   strand: CGAUUUAGCG # Sequence of base names
   type: GAFF # Force field type
