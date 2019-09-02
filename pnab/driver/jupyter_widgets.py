@@ -295,7 +295,10 @@ def run(b):
 
     run = pNAB('options.yaml')
     run.run()
-    show_results(run.results, run.header, run.prefix)
+    if run.results.size == 0:
+        print("No candidate found")
+    else:
+        show_results(run.results, run.header, run.prefix)
 
 
 def display_widgets(param):

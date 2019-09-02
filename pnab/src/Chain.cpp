@@ -206,7 +206,6 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
         current_mol->GetAtom(1)->SetAtomicNum(a1);
         pFF_->Setup(*current_mol, constraintsTor_);
 
-        pFF_->E_Torsion(false)/n;
         conf_data.fixed_torsionE = pFF_->E_Torsion(false)/n;
         // This is still necessary
         pFF_->ClearGroups();
