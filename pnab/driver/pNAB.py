@@ -146,7 +146,6 @@ class pNAB(object):
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self.results = np.loadtxt('results.csv', delimiter=',')
         if self.results.size == 0:
-            print("No candidate found")
             return
 
         elif self.results.ndim == 1:
