@@ -28,7 +28,6 @@ def test_run():
 
     run = pnab.pNAB('RNA.yaml')
     run.run()
-    run.get_results()
 
 
 def test_run_range():
@@ -39,7 +38,6 @@ def test_run_range():
 
     run = pnab.pNAB('RNA2.yaml')
     run.run()
-    run.get_results()
 
     # Confirm the number of tested configurations
     assert len(run.prefix) == 15
@@ -53,7 +51,6 @@ def test_duplex():
 
     run = pnab.pNAB('DNA.yaml')
     run.run()
-    run.get_results()
 
 
 def test_hexad():
@@ -64,4 +61,3 @@ def test_hexad():
 
     run = pnab.pNAB('Hexad.yaml')
     run.run()
-    run.get_results()

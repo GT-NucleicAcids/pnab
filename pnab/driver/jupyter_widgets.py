@@ -136,7 +136,7 @@ def algorithm(f, param):
     """Display search parameters based on the chosen algorithm"""
 
     options['RuntimeParameters']['search_algorithm'] = f.lower()
-    if 'random search' in f.lower() or "monte carlo search" in f.lower():
+    if 'random search' in f.lower() or "monte carlo search" in f.lower() or 'genetic algorithm search' in f.lower():
         num_steps = widgets.IntText(value=param['num_steps']['default'],
                                     description=param['num_steps']['glossory'],
                                     style={'description_width': 'initial'},
@@ -145,10 +145,12 @@ def algorithm(f, param):
         options['RuntimeParameters']['num_steps'] = num_steps
 
     elif f.lower() == 'systematic search':
-        dihedral_step = widgets.IntText(value=param['dihedral_step']['default'],
-                                        description=param['dihedral_step']['glossory'],
-                                        style={'description_width': 'initial'},
-                                        layout={'width': '75%'})
+        dihedral_step = widgets.BoundedFloatText(value=param['dihedral_step']['default'],
+                                                 min=0.0,
+                                                 max=360.0,
+                                                 description=param['dihedral_step']['glossory'],
+                                                 style={'description_width': 'initial'},
+                                                 layout={'width': '75%'})
         display(dihedral_step)
         options['RuntimeParameters']['dihedral_step'] = dihedral_step
 
@@ -162,7 +164,7 @@ def runtime_parameters(param):
 
     # Search algorithm
     dropdown = widgets.Dropdown(value=param['search_algorithm']['default'].title(),
-                                options=['Weighted Monte Carlo Search', 'Monte Carlo Search', 'Weighted Random Search', 'Random Search', 'Systematic Search'],
+                                options=['Weighted Monte Carlo Search', 'Monte Carlo Search', 'Weighted Random Search', 'Random Search', 'Genetic Algorithm Search', 'Systematic Search'],
                                 description=param['search_algorithm']['glossory'],
                                 style={'description_width': 'initial'},
                                 layout={'width': '75%'})
@@ -170,7 +172,7 @@ def runtime_parameters(param):
     display(search_algorithm)
 
     # Force field
-    ff_type = widgets.Dropdown(options=['GAFF', 'MMFF94', 'MMFF94s', 'UFF'],
+    ff_type = widgets.Dropdown(options=['GAFF', 'MMFF94', 'MMFF94s', 'UFF', 'GHEMICAL'],
                                description=param['type']['glossory'],
                                style={'description_width': 'initial'},
                                layout={'width': '75%'})
@@ -293,8 +295,7 @@ def run(b):
 
     run = pNAB('options.yaml')
     run.run()
-    run.get_results()
-
+    show_results(run.results, run.header, run.prefix)
 
 
 def display_widgets(param):
@@ -354,6 +355,26 @@ def extract_options(param):
 
 
 def builder():
-    """Funtion called from the Jupyter notebook"""
+    """Funtion called from the Jupyter notebook to display input"""
 
     display_widgets(_options)
+
+def single_result(result, header, results, prefix):
+    """Interactive function to display a single result"""
+
+    result = results[result]
+    conformer = str(int(result[0])) + '_' + str(int(result[1])) + '.pdb'
+    draw.view_py3dmol(conformer)
+    print(conformer)
+    print(prefix['%i' %result[0]])
+    for i in range(2, len(result)):
+        print(header.split(', ')[i] + ': ' + str(result[i]))
+    
+
+def show_results(results, header, prefix):
+    """Display results"""
+
+    options = [(str(int(conformer[0])) + '_' + str(int(conformer[1])) + '.pdb', i) for i, conformer in enumerate(results)]
+    dropdown = widgets.Dropdown(value=options[0][1], options=options, style={'description_width': 'initial'}, description='Conformer')
+    w = widgets.interactive(single_result, result=dropdown, header=widgets.fixed(header), results=widgets.fixed(results), prefix=widgets.fixed(prefix))
+    display(w)

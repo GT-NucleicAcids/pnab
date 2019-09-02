@@ -80,7 +80,6 @@ ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, 
         num_cooords = v_chain_[0].NumAtoms() * 3;
     auto *xyz = new double[num_cooords];
 
-
     for (unsigned i=0; i < n_chains_; i++) {
         setCoordsForChain(xyz,conf,hp,v_num_bu_A_mol_atoms_[i],v_bb_start_index_[i], v_base_coords_vec_[i],v_deleted_atoms_ids_[i], i);
     }
@@ -143,9 +142,12 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
 
     // Get torsion energy
     // Add interaction groups for rotatable torsions
+    bool is_there_fixed_bond = false;
     for (int i=0; i < all_torsions_.size(); i++) {
-        if (is_fixed_bond[i])
+        if (is_fixed_bond[i]) {
+            is_there_fixed_bond = true;
             continue;
+            }
         OBBitVec bit = OBBitVec();
         for (auto j: all_torsions_[i]) {
             bit.SetBitOn(j);
@@ -181,35 +183,39 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
         return;
     }
     
-    // Get torsion energy for fixed bonds
-    // Add interaction groups for fixed rotatable torsions
-    // Add an empty OBBitVec in case there are not any fixed bonds
-    OBBitVec bit = OBBitVec();
-    pFF_->AddIntraGroup(bit);
-    for (int i=0; i < all_torsions_.size(); i++) {
-        if (!is_fixed_bond[i])
-            continue;
+    if (is_there_fixed_bond) {
+        // Get torsion energy for fixed bonds
+        // Add interaction groups for fixed rotatable torsions
+        // Add an empty OBBitVec in case there are not any fixed bonds
         OBBitVec bit = OBBitVec();
-        for (auto j: all_torsions_[i]) {
-            bit.SetBitOn(j);
-        }
         pFF_->AddIntraGroup(bit);
+        for (int i=0; i < all_torsions_.size(); i++) {
+            if (!is_fixed_bond[i])
+                continue;
+            OBBitVec bit = OBBitVec();
+            for (auto j: all_torsions_[i]) {
+                bit.SetBitOn(j);
+            }
+            pFF_->AddIntraGroup(bit);
+        }
+
+        // Do the same trick
+        unsigned a1 = current_mol->GetAtom(1)->GetAtomicNum();
+        current_mol->GetAtom(1)->SetAtomicNum(1);
+        pFF_->Setup(*current_mol, constraintsTor_);
+        current_mol->GetAtom(1)->SetAtomicNum(a1);
+        pFF_->Setup(*current_mol, constraintsTor_);
+
+        pFF_->E_Torsion(false)/n;
+        conf_data.fixed_torsionE = pFF_->E_Torsion(false)/n;
+        // This is still necessary
+        pFF_->ClearGroups();
+
+        if (!isKCAL_)
+           conf_data.fixed_torsionE *= KJ_TO_KCAL;
     }
-
-    // Do the same trick
-    unsigned a1 = current_mol->GetAtom(1)->GetAtomicNum();
-    current_mol->GetAtom(1)->SetAtomicNum(1);
-    pFF_->Setup(*current_mol, constraintsTor_);
-    current_mol->GetAtom(1)->SetAtomicNum(a1);
-    pFF_->Setup(*current_mol, constraintsTor_);
-
-    pFF_->E_Torsion(false)/n;
-    conf_data.fixed_torsionE = pFF_->E_Torsion(false)/n;
-    // This is still necessary
-    pFF_->ClearGroups();
-
-    if (!isKCAL_)
-       conf_data.fixed_torsionE *= KJ_TO_KCAL;
+    else
+        conf_data.fixed_torsionE = 0.0;
 
 
     // Get VDW energy

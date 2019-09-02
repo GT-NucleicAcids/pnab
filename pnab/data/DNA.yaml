@@ -32,7 +32,7 @@ HelicalParameters:
   - 0
   - 1
 RuntimeParameters:
-  search_algorithm: "weighted monte carlo search"
+  search_algorithm: "genetic algorithm search"
   energy_filter:
   - 3.0
   - 3.0
@@ -49,6 +49,6 @@ RuntimeParameters:
   - true
   is_double_stranded: true
   max_distance: 0.05
-  num_steps: 1000000
+  num_steps: 100000
   strand: CGA
   type: GAFF
