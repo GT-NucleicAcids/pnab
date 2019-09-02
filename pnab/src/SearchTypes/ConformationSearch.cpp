@@ -115,7 +115,7 @@ std::string ConformationSearch::GeneticAlgorithm() {
     uniform_real_distribution<double> dist = uniform_real_distribution<double>(0, 2 * M_PI);
     uniform_real_distribution<double> dist2 = uniform_real_distribution<double>(0, 1);
 
-    // Genetic algorithm parameters
+    // Genetic algorithm parameters; may need to change or be accessible to the user
     int numConformers = 1000; // Population size
     int elites = 0; // Number of intact survivors 
     double mutation_rate = 0.75; // Mutation rate; Large because we want to explore more
@@ -160,10 +160,11 @@ std::string ConformationSearch::GeneticAlgorithm() {
         vector<pair<double, vector<double>>> new_generation;
 
         // Save some candidates for the next generation
-        for(int i=0; i < elites; i++) {
-            int r = selection_probability(rng_);
-            new_generation.push_back(population[r]); 
-        }
+        // Not implemented now
+        //for(int i=0; i < elites; i++) {
+        //    int r = selection_probability(rng_);
+        //    new_generation.push_back(population[r]); 
+        //}
 
         // Generate offsprings
         for (int i=0; i < (numConformers-elites)/2; i++) {

@@ -145,8 +145,8 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
     bool is_there_fixed_bond = false;
     for (int i=0; i < all_torsions_.size(); i++) {
         if (is_fixed_bond[i]) {
-            continue;
             is_there_fixed_bond = true;
+            continue;
             }
         OBBitVec bit = OBBitVec();
         for (auto j: all_torsions_[i]) {
