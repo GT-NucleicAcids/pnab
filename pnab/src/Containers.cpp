@@ -271,6 +271,10 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
     mol += backbone.getMolecule();
     mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
 
+    // Set length of new bond to equilibrium length
+    OBBond* new_bond = mol.GetBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms);
+    new_bond->SetLength(mol.GetAtom(base.getLinker()->GetIdx()), new_bond->GetEquibLength());
+
     // garbage code for debugging
     // TODO delete this code
     //{
@@ -284,6 +288,8 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
     //    mol += base.getMolecule();
     //    mol += backbone.getMolecule();
     //    mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
+    //    OBBond* new_bond = mol.GetBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms);
+    //    new_bond->SetLength(mol.GetAtom(base.getLinker()->GetIdx()), new_bond->GetEquibLength());
     //    conv.Write(&mol);
     //}
 
