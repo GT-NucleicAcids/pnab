@@ -80,17 +80,18 @@ with open("""` + name + `""" + '.pdb', 'w') as f:
     display(HTML(jsme_html))
 
 
-def view_py3dmol(conformer, label=False):
-    """Py3DMol viewer.
+def view_nglviwe(conformer, label=False):
+    """NGLView viewer.
 
-    A function to view molecular geometries using the Py3DMol project.
+    A function to view molecular geometries using the NGLView project.
     """
 
     try:
-        import py3Dmol
+        import nglview
     except ImportError:
         return
 
+    from IPython.display import display
     import openbabel
     import os
     if not os.path.isfile(conformer):
@@ -104,16 +105,12 @@ def view_py3dmol(conformer, label=False):
     num_atoms = mol.NumAtoms()
     mol = conv.WriteString(mol)
 
-    view = py3Dmol.view()
-    view.addModel(mol, 'pdb', {'keepH': True})
-    view.setStyle({'stick':{}})
-    view.zoomTo()
-
+    view = nglview.NGLWidget()
+    view.add_component(mol, ext='pdb', defaultRepresentation=False) 
+    view.add_representation('licorice')
     if label:
-        view.addPropertyLabels("serial", {}, {'fontColor': 'black', 'showBackground': False})
-    else:
-        view.setProjection("orthographic")
-
-    view.show()
+        view.add_representation('label', labelType='serial', backgroundColor='black', showBackground=True)
+    view.center()
+    display(view)
 
     return num_atoms

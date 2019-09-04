@@ -44,8 +44,8 @@ def path(file_path, param):
             param['interconnects']['default'][0] = param['interconnects']['default'][1] = 1
             return
 
-    # Show molecule using py3Dmol with atom numbers
-    num_atoms = draw.view_py3dmol(file_path, label=True)
+    # Show molecule using NGLView with atom numbers
+    num_atoms = draw.view_nglview(file_path, label=True)
 
     # Display widgets for backbone connection to the nucleobase and the other backbone
     linker1 = widgets.Dropdown(value=param['linker']['default'][0], options=range(1, num_atoms + 1))
@@ -367,7 +367,7 @@ def single_result(result, header, results, prefix):
 
     result = results[result]
     conformer = str(int(result[0])) + '_' + str(int(result[1])) + '.pdb'
-    draw.view_py3dmol(conformer)
+    draw.view_nglview(conformer)
     print(conformer)
     print(prefix['%i' %result[0]])
     for i in range(2, len(result)):
