@@ -32,6 +32,8 @@ PYBIND11_MODULE(bind, m) {
         .def_readwrite("search_algorithm", &PNAB::RuntimeParameters::search_algorithm)
         .def_readwrite("num_steps", &PNAB::RuntimeParameters::num_steps)
         .def_readwrite("dihedral_step", &PNAB::RuntimeParameters::dihedral_step)
+        .def_readwrite("weighting_temperature", &PNAB::RuntimeParameters::weighting_temperature)
+        .def_readwrite("monte_carlo_temperature", &PNAB::RuntimeParameters::monte_carlo_temperature)
         .def_readwrite("strand", &PNAB::RuntimeParameters::strand)
         .def_readwrite("is_double_stranded", &PNAB::RuntimeParameters::is_double_stranded)
         .def_readwrite("is_hexad", &PNAB::RuntimeParameters::is_hexad)

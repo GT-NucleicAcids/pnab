@@ -238,7 +238,8 @@ _options_dict['RuntimeParameters']['search_algorithm'] = {
                                                                            '1) Monte Carlo search, 2) Random Search, 3) Genetic Algorithm Search, and 4) Systematic Search\n'
                                                                            'The first three algorithms are not deterministic. Weighted algorithms do not use' + 
                                                                            ' uniform distributions for generating random dihedral angles. Instead, the probability' +
-                                                                           ' distribution for each dihedral angle is weighted by exp(-E/kT) where E is the torsional energy.'
+                                                                           ' distribution for each dihedral angle is weighted by exp(-Ei/kT)/sum(exp(-E/kT) where' + 
+                                                                           ' Ei is the torsional energy at dihedral angle i.'
                                                                           ),
                                                          'default': 'weighted monte carlo search',
                                                          'validation': lambda x: x.lower(),
@@ -253,12 +254,24 @@ _options_dict['RuntimeParameters']['num_steps'] = {
                                                   'validation': lambda x: int(x),
                                                   }
 _options_dict['RuntimeParameters']['dihedral_step'] = {
-                                                  'glossory': 'Dihedral step size for systematic search (degree)',
-                                                  'long_glossory': ('The number of search points for systematic search is given by:'
-                                                                    ' (360/step)^(number of rotatable bonds).'),
-                                                  'default': 2,
-                                                  'validation': lambda x: float(x),
-                                                  }
+                                                      'glossory': 'Dihedral step size for systematic search (degree)',
+                                                      'long_glossory': ('The number of search points for systematic search is given by:'
+                                                                        ' (360/step)^(number of rotatable bonds).'),
+                                                      'default': 2,
+                                                      'validation': lambda x: float(x),
+                                                      }
+_options_dict['RuntimeParameters']['weighting_temperature'] = {
+                                                              'glossory': 'Weighting temperature (K)',
+                                                              'long_glossory': ('Temperature used for weighting the probability of each dihedral angle'),
+                                                              'default': 298.0,
+                                                              'validation': lambda x: float(x),
+                                                              }
+_options_dict['RuntimeParameters']['monte_carlo_temperature'] = {
+                                                                'glossory': 'Temperature used in the Monte Carlo procedure (K)',
+                                                                'long_glossory': ('This temperature controls the acceptance and rejection ratio of the Monte Carlo steps'),
+                                                                'default': 298.0,
+                                                                'validation': lambda x: float(x),
+                                                                }
 _options_dict['RuntimeParameters']['type'] = {
                                              'glossory': 'Force field type',
                                              'long_glossory': 'Force field for computing the energy of the system.', 

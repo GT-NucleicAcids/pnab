@@ -167,7 +167,25 @@ def algorithm(f, param):
         display(widgets.HBox([help_box, dihedral_step]))
         options['RuntimeParameters']['dihedral_step'] = dihedral_step
 
+    if "weighted" in f.lower():
+        weighting_temperature = widgets.FloatText(value=param['weighting_temperature']['default'],
+                                                 description=param['weighting_temperature']['glossory'],
+                                                 style={'description_width': 'initial'},
+                                                 layout={'width': '75%'})
+        help_box = widgets.Button(description='?', tooltip=param['weighting_temperature']['long_glossory'], layout=widgets.Layout(width='3%'))
+        display(widgets.HBox([help_box, weighting_temperature]))
+        options['RuntimeParameters']['weighting_temperature'] = weighting_temperature
 
+    if "monte carlo search" in f.lower():
+        monte_carlo_temperature = widgets.FloatText(value=param['monte_carlo_temperature']['default'],
+                                                    description=param['monte_carlo_temperature']['glossory'],
+                                                    style={'description_width': 'initial'},
+                                                    layout={'width': '75%'})
+        help_box = widgets.Button(description='?', tooltip=param['monte_carlo_temperature']['long_glossory'], layout=widgets.Layout(width='3%'))
+        display(widgets.HBox([help_box, monte_carlo_temperature]))
+        options['RuntimeParameters']['monte_carlo_temperature'] = monte_carlo_temperature
+
+       
 def runtime_parameters(param):
     """Runtime parameter widget for use in Jupyter notebook"""
 

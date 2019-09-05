@@ -10,6 +10,8 @@
 #include "../Chain.h"
 #include <openbabel/rotor.h>
 
+#define BOLTZMANN 0.0019872041 // kcal/(mol.K)
+
 class ConformationSearch {
 
 public:

@@ -50,5 +50,7 @@ RuntimeParameters:
   is_double_stranded: false
   max_distance: 0.05
   num_steps: 1000000
+  weighting_temperature: 298.0
+  monte_carlo_temperature: 298.0
   strand: CGAUUUAGCG
   type: GAFF

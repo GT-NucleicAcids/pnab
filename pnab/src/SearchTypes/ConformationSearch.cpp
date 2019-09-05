@@ -419,7 +419,7 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
     double k = 300; // kcal/mol/Angstroms^2; Bond stretching force constant
                     // P-O5' bond stretching contsant in CHARMM36 for ON2-P bond: 270 kcal/mol/Angstrom^2
                     // V(bond) = Kb(b-b0)^2
-    double kbT = 0.593; // 0.593 is kbT at 298 K in kcal/mol
+    double kT = runtime_params_.monte_carlo_temperature * BOLTZMANN; // kbT in kcal/mol
 
     double best_dist = std::numeric_limits<double>::infinity();
 
@@ -469,7 +469,7 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
 
         // If the new distance is larger than the previous distance,
         // accept step conditionally
-        else if (one_zero_dist(rng_) < exp(-k*pow((cur_dist-best_dist), 2) / kbT)) {
+        else if (one_zero_dist(rng_) < exp(-k*pow((cur_dist-best_dist), 2) / kT)) {
             best_dist = cur_dist;
         }
 
@@ -519,7 +519,7 @@ std::vector <std::piecewise_linear_distribution<double>> ConformationSearch::wei
     // A vector to store the weighted distribution for each dihedral
     vector <std::piecewise_linear_distribution<double>> dist_vector;
 
-    double kT = 0.593; // kbT at 298 K in kcal/mol
+    double kT = runtime_params_.weighting_temperature * BOLTZMANN; // kbT in kcal/mol
 
     // Set up rotor
     for (auto r: rotor_vector) {
