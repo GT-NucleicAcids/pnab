@@ -80,7 +80,7 @@ with open("""` + name + `""" + '.pdb', 'w') as f:
     display(HTML(jsme_html))
 
 
-def view_nglviwe(conformer, label=False):
+def view_nglview(conformer, label=False):
     """NGLView viewer.
 
     A function to view molecular geometries using the NGLView project.

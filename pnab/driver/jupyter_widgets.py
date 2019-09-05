@@ -24,9 +24,10 @@ def fixed_bonds(n, num_atoms, param):
             v1, v2 = param['fixed_bonds']['default'][i][0], param['fixed_bonds']['default'][i][1]
         except IndexError:
             v1 = v2 = 1
-        atom1 = widgets.Dropdown(value=v1, options=range(1, num_atoms + 1))
-        atom2 = widgets.Dropdown(value=v2, options=range(1, num_atoms + 1))
-        box = widgets.HBox([widgets.Label(param['fixed_bonds']['glossory'], layout={'width': '400px'}), atom1, atom2])
+        atom1 = widgets.Dropdown(value=v1, options=range(1, num_atoms + 1), layout=widgets.Layout(width='100px'))
+        atom2 = widgets.Dropdown(value=v2, options=range(1, num_atoms + 1), layout=widgets.Layout(width='100px'))
+        help_box = widgets.Button(description='?', tooltip=param['fixed_bonds']['long_glossory'], layout=widgets.Layout(width='4%'))
+        box = widgets.HBox([help_box, widgets.Label(param['fixed_bonds']['glossory'], layout={'width': '400px'}), atom1, atom2])
         with out:
             display(box)
         options['Backbone']['fixed_bonds'].append([atom1, atom2])
@@ -48,13 +49,16 @@ def path(file_path, param):
     num_atoms = draw.view_nglview(file_path, label=True)
 
     # Display widgets for backbone connection to the nucleobase and the other backbone
-    linker1 = widgets.Dropdown(value=param['linker']['default'][0], options=range(1, num_atoms + 1))
-    linker2 = widgets.Dropdown(value=param['linker']['default'][1], options=range(1, num_atoms + 1))
-    interconnects1 = widgets.Dropdown(value=param['interconnects']['default'][0], options=range(1, num_atoms + 1))
-    interconnects2 = widgets.Dropdown(value=param['interconnects']['default'][1], options=range(1, num_atoms + 1))
+    linker1 = widgets.Dropdown(value=param['linker']['default'][0], options=range(1, num_atoms + 1), layout=widgets.Layout(width='100px'))
+    linker2 = widgets.Dropdown(value=param['linker']['default'][1], options=range(1, num_atoms + 1), layout=widgets.Layout(width='100px'))
+    interconnects1 = widgets.Dropdown(value=param['interconnects']['default'][0], options=range(1, num_atoms + 1), layout=widgets.Layout(width='100px'))
+    interconnects2 = widgets.Dropdown(value=param['interconnects']['default'][1], options=range(1, num_atoms + 1), layout=widgets.Layout(width='100px'))
 
-    box1 = widgets.HBox([widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker1, linker2])
-    box2 = widgets.HBox([widgets.Label(param['interconnects']['glossory'],
+    help_box = widgets.Button(description='?', tooltip=param['linker']['long_glossory'], layout=widgets.Layout(width='4%'))
+    box1 = widgets.HBox([help_box, widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker1, linker2])
+
+    help_box = widgets.Button(description='?', tooltip=param['interconnects']['long_glossory'], layout=widgets.Layout(width='4%'))
+    box2 = widgets.HBox([help_box, widgets.Label(param['interconnects']['glossory'],
                 layout={'width': '400px'}), interconnects1, interconnects2])
 
     display(box1)
@@ -63,9 +67,11 @@ def path(file_path, param):
     options['Backbone'] = {'file_path': file_path, 'linker': [linker1, linker2],
                            'interconnects': [interconnects1, interconnects2]}
 
-    display(widgets.interactive(fixed_bonds, n=widgets.BoundedIntText(value=len(param['fixed_bonds']['default']), min=0,
-                                                description="Number of fixed rotatable bonds", style={'description_width': 'initial'}),
-                                param=widgets.fixed(param), num_atoms=widgets.fixed(num_atoms)))
+    help_box = widgets.Button(description='?', tooltip=('This can be used to fix some of the rotatable bonds at their current values' +
+                              ' to decrease the number of degrees of freedom in the search.'), layout=widgets.Layout(width='4%'))
+    display(widgets.HBox([help_box, widgets.interactive(fixed_bonds, n=widgets.BoundedIntText(value=len(param['fixed_bonds']['default']), min=0,
+                                                        description="Number of fixed rotatable bonds", style={'description_width': 'initial'}),
+                                    param=widgets.fixed(param), num_atoms=widgets.fixed(num_atoms))]))
 
 
 
@@ -82,8 +88,10 @@ def upload_backbone(f, param):
 
         param['file_path']['default'] = input_file
 
-    display(widgets.interactive(path, file_path=widgets.Text(value=param['file_path']['default'], description="Backbone File", style={'description_width': 'initial'}),
-                                param=widgets.fixed(param), upload=widgets.fixed(True)))
+    help_box = widgets.Button(description='?', tooltip=param['file_path']['long_glossory'], layout=widgets.Layout(width='4%'))
+    display(widgets.HBox([help_box, widgets.interactive(path, file_path=widgets.Text(value=param['file_path']['default'],
+                                        description="Backbone File", style={'description_width': 'initial'}),
+                                        param=widgets.fixed(param), upload=widgets.fixed(True))]))
 
 
 def backbone(param):
@@ -91,10 +99,15 @@ def backbone(param):
 
     display(widgets.HTML(value='<b>Backbone</b>'))
 
+    display(widgets.HTML(value='Draw a backbone molecule if you need then click on "done!"'))
+    draw.draw()
+
     w = widgets.interactive(upload_backbone, param=widgets.fixed(param),
                             f=widgets.FileUpload(accept='', multiple=False, 
                             description="Backbone File", style={'description_width': 'initial'}))
-    display(w)
+    help_box = widgets.Button(description='?', tooltip='Upload a backbone file here. The file will be copied to the current folder.',
+                              layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, w]))
 
 
 def bases():
@@ -103,8 +116,7 @@ def bases():
     display(widgets.HTML(value='<b>Bases</b>'))
     display(widgets.HTML(value=('These bases are already defined:' +
                                '<br> Adenine (A), Guanine (G), Cytosine (C), Uracil (U), Thymine (T), ' +
-                               'Cyanuric Acid (X), and Triaminopyrimidine (Y)' + 
-                               '<br> To add other bases, please edit the generated input yaml file and run it directly.')))
+                               'Cyanuric Acid (X), and Triaminopyrimidine (Y)')))
 
 
 
@@ -112,8 +124,6 @@ def helical_parameters(param):
     """Helical parameter widget for use in Jupyter notebook"""
 
     display(widgets.HTML(value='<b>Helical Parameters</b>'))
-    display(widgets.HTML(value='<br> Random configurations over the ranges of each helical parameter will be generated for sampling.' +
-                               '<br> The steps are the number of configurations generated for each helical parameter.'))
 
     param_dict = {}
     options['HelicalParameters'] = {}
@@ -127,7 +137,8 @@ def helical_parameters(param):
         else:
             param_dict[k].append(widgets.FloatRangeSlider(value=[default[0], default[1]], min=-10, max=10, step=0.01, readout_format='.3f'))
         param_dict[k].append(widgets.BoundedIntText(value=default[2], min=1, max=1000, step=1, description='Steps'))
-        box = widgets.HBox([widgets.Label(param[k]['glossory'], layout={'width': '200px'}), param_dict[k][0], param_dict[k][1]])
+        help_box = widgets.Button(description='?', tooltip=param[k]['long_glossory'], layout=widgets.Layout(width='3%'))
+        box = widgets.HBox([help_box, widgets.Label(param[k]['glossory'], layout={'width': '200px'}), param_dict[k][0], param_dict[k][1]])
         display(box)
         options['HelicalParameters'][k] = [param_dict[k][0], param_dict[k][1]]
 
@@ -141,7 +152,8 @@ def algorithm(f, param):
                                     description=param['num_steps']['glossory'],
                                     style={'description_width': 'initial'},
                                     layout={'width': '75%'})
-        display(num_steps)
+        help_box = widgets.Button(description='?', tooltip=param['num_steps']['long_glossory'], layout=widgets.Layout(width='3%'))
+        display(widgets.HBox([help_box, num_steps]))
         options['RuntimeParameters']['num_steps'] = num_steps
 
     elif f.lower() == 'systematic search':
@@ -151,7 +163,8 @@ def algorithm(f, param):
                                                  description=param['dihedral_step']['glossory'],
                                                  style={'description_width': 'initial'},
                                                  layout={'width': '75%'})
-        display(dihedral_step)
+        help_box = widgets.Button(description='?', tooltip=param['dihedral_step']['long_glossory'], layout=widgets.Layout(width='3%'))
+        display(widgets.HBox([help_box, dihedral_step]))
         options['RuntimeParameters']['dihedral_step'] = dihedral_step
 
 
@@ -168,7 +181,9 @@ def runtime_parameters(param):
                                 description=param['search_algorithm']['glossory'],
                                 style={'description_width': 'initial'},
                                 layout={'width': '75%'})
-    search_algorithm = widgets.interactive(algorithm, f=dropdown, param=widgets.fixed(param))
+    search_algorithm = widgets.interactive_output(algorithm, {'f':dropdown, 'param':widgets.fixed(param)})
+    help_box = widgets.Button(description='?', tooltip=param['search_algorithm']['long_glossory'], layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, dropdown]))
     display(search_algorithm)
 
     # Force field
@@ -176,7 +191,8 @@ def runtime_parameters(param):
                                description=param['type']['glossory'],
                                style={'description_width': 'initial'},
                                layout={'width': '75%'})
-    display(ff_type)
+    help_box = widgets.Button(description='?', tooltip=param['type']['long_glossory'], layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, ff_type]))
     options['RuntimeParameters']['type'] = ff_type
 
     # Distance and energy thresholds
@@ -184,7 +200,8 @@ def runtime_parameters(param):
                                      description=param['max_distance']['glossory'],
                                      style={'description_width': 'initial'},
                                      layout={'width': '75%'})
-    display(max_distance)
+    help_box = widgets.Button(description='?', tooltip=param['max_distance']['long_glossory'], layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, max_distance]))
     options['RuntimeParameters']['max_distance'] = max_distance
 
     options['RuntimeParameters']['energy_filter'] = []
@@ -194,7 +211,8 @@ def runtime_parameters(param):
                                           description=label,
                                           style={'description_width': 'initial'},
                                           layout={'width': '75%'})
-        display(energy_filter)
+        help_box = widgets.Button(description='?', tooltip=param['energy_filter']['long_glossory'].split('\n')[i], layout=widgets.Layout(width='3%'))
+        display(widgets.HBox([help_box, energy_filter]))
         options['RuntimeParameters']['energy_filter'].append(energy_filter)
 
     # Base sequence
@@ -202,7 +220,8 @@ def runtime_parameters(param):
                           description=param['strand']['glossory'],
                           style={'description_width': 'initial'},
                           layout={'width': '75%'})
-    display(strand)
+    help_box = widgets.Button(description='?', tooltip=param['strand']['long_glossory'], layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, strand]))
     options['RuntimeParameters']['strand'] = strand
 
     # Is double stranded
@@ -210,7 +229,8 @@ def runtime_parameters(param):
                                           description=param['is_double_stranded']['glossory'],
                                           style={'description_width': 'initial'},
                                           layout={'width': '75%'})
-    display(is_double_stranded)
+    help_box = widgets.Button(description='?', tooltip=param['is_double_stranded']['long_glossory'], layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, is_double_stranded]))
     options['RuntimeParameters']['is_double_stranded'] =  is_double_stranded
 
     # Pair adenine with uracil? Default is A-T base pair
@@ -218,8 +238,8 @@ def runtime_parameters(param):
                                 description=param['pair_A_U']['glossory'],
                                 style={'description_width': 'initial'},
                                 layout={'width': '75%'})
-   
-    display(pair_A_U)
+    help_box = widgets.Button(description='?', tooltip=param['pair_A_U']['long_glossory'], layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, pair_A_U]))
     options['RuntimeParameters']['pair_A_U'] =  pair_A_U
 
     # Is hexad
@@ -227,18 +247,19 @@ def runtime_parameters(param):
                                 description=param['is_hexad']['glossory'],
                                 style={'description_width': 'initial'},
                                 layout={'width': '75%'})
- 
-    display(is_hexad)
+    help_box = widgets.Button(description='?', tooltip=param['is_hexad']['long_glossory'], layout=widgets.Layout(width='3%')) 
+    display(widgets.HBox([help_box, is_hexad]))
     options['RuntimeParameters']['is_hexad'] =  is_hexad
 
     # Orientation of each strand in the hexad
     options['RuntimeParameters']['strand_orientation'] = []
-    box = [widgets.Label(param['strand_orientation']['glossory'])]
+    help_box = widgets.Button(description='?', tooltip=param['strand_orientation']['long_glossory'], layout=widgets.Layout(width='3%'))
+    box = [help_box, widgets.Label(param['strand_orientation']['glossory'])]
     for i in range(6):
         strand_orientation = widgets.Checkbox(value=param['strand_orientation']['default'][i], indent=False, layout={'width': '50px'})
         options['RuntimeParameters']['strand_orientation'].append(strand_orientation)
         box.append(strand_orientation)
-    box = widgets.HBox(box, layout={'width': '75%'})
+    box = widgets.HBox(box, layout={'width':'100%'})
     display(box)
 
 
@@ -257,7 +278,9 @@ def show(param, input_file, uploaded=False):
     """Display all widgets in Jupyter notebook"""
 
     if input_file == "Upload file":
-        display(widgets.interactive(upload_input, param=widgets.fixed(param), f=widgets.FileUpload(accept='', multiple=False, description="Input File")))
+        w = widgets.interactive(upload_input, param=widgets.fixed(param), f=widgets.FileUpload(accept='', multiple=False, description="Input File"))
+        help_box = widgets.Button(description='?', tooltip='Upload your input file here. The file will be copied to the current folder.', layout=widgets.Layout(width='4%'))
+        display(widgets.HBox([help_box, w]))
         return
 
     if not uploaded:
@@ -314,13 +337,17 @@ IPython.OutputArea.prototype._should_scroll = function(lines) {
 }
 """
     display(Javascript(disable_js))
-    draw.draw()
     # Provide three input files as examples
-    display(widgets.interactive(show, param=widgets.fixed(param), uploaded=widgets.fixed(False),
+    w = widgets.interactive(show, param=widgets.fixed(param), uploaded=widgets.fixed(False),
             input_file=widgets.Dropdown(options=['RNA.yaml', 'DNA.yaml', 'Hexad.yaml', 'Upload file'],
-                                        style={'description_width': 'initial'}, description='Input File')))
+                                        style={'description_width': 'initial'}, description='Input File'))
+    help_box = widgets.Button(description='?', tooltip=('There are existing example files for RNA, DNA, and hexad geometries.' +
+                                                        ' You can use these examples as a starting point for customizing your input options.' + 
+                                                        ' Alternatively, you can upload your own input file.'),
+               layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, w]))
     # Run widget
-    button = widgets.Button(description='Run')
+    button = widgets.Button(description='Run', tooltip='Click here to run the program with the provided options. Once the program finishes, the results will be displayed below.')
     button.on_click(run)
     display(button)
 
