@@ -116,10 +116,10 @@ std::string ConformationSearch::GeneticAlgorithm() {
     uniform_real_distribution<double> dist2 = uniform_real_distribution<double>(0, 1);
 
     // Genetic algorithm parameters; may need to change or be accessible to the user
-    int numConformers = 1000; // Population size
+    int numConformers = runtime_params_.population_size; // Population size
     int elites = 0; // Number of intact survivors 
-    double mutation_rate = 0.75; // Mutation rate; Large because we want to explore more
-    double crossover_rate = 0.75; // Mating rate
+    double mutation_rate = runtime_params_.mutation_rate; // Mutation rate; typically large because we want to explore more
+    double crossover_rate = runtime_params_.crossover_rate; // Mating rate
     vector<pair<double, vector<double>>> population; //(fitness (1/distance), vector of torsional angles)
 
     // Initialize population
@@ -140,7 +140,7 @@ std::string ConformationSearch::GeneticAlgorithm() {
 
     for (size_t search_index=0; search_index < search_size; search_index++) {
 
-        if (search_index % 100 == 0) {
+        if (fmod(search_index, search_size/10.0) == 0) {
             printProgress(search_index, search_size);
         }
 
@@ -307,7 +307,7 @@ std::string ConformationSearch::RandomSearch(bool weighted) {
 
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
 
-        if (search_index % 100000 == 0) {
+        if (fmod(search_index, search_size/10.0) == 0) {
             printProgress(search_index, search_size);
         }
 
@@ -425,7 +425,7 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
 
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
 
-        if (search_index % 10000 == 0) {
+        if (fmod(search_index, search_size/10.0) == 0) {
             printProgress(search_index, search_size);
         }
 
@@ -649,7 +649,7 @@ std::string ConformationSearch::SystematicSearch() {
 
     for (size_t search_index = 1; search_index < search_size + 1; ++search_index) {
 
-        if (search_index % 100000 == 0) {
+        if (fmod(search_index, search_size/10.0) == 0) {
             printProgress(search_index, search_size);
         }
 

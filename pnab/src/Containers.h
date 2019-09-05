@@ -22,7 +22,8 @@ namespace PNAB {
          * \brief Empty constructor. Should not generally be used.
          */
         RuntimeParameters() : energy_filter{}, max_distance(), type(),
-                              num_steps(0), weighting_temperature(298.0), monte_carlo_temperature(298.0), strand{}, is_double_stranded(false),
+                              num_steps(0), weighting_temperature(298.0), monte_carlo_temperature(298.0),
+                              mutation_rate(0.75), crossover_rate(0.75), population_size(1000), strand{}, is_double_stranded(false),
                               is_hexad(false), strand_orientation(std::vector<bool> {true, true, true, true, true, true}){};
 
         // Energy parameters
@@ -37,6 +38,9 @@ namespace PNAB {
         double dihedral_step;                   //!< \brief Determines the dihedral step size for systematic search
         double weighting_temperature;           //!< \brief Determines the temperature used to compute the weighted probability
         double monte_carlo_temperature;         //!< \brief Determines the temperature used in the Monte Carlo procedure
+        double mutation_rate;                   //!< \brief Determines the mutation rate in the genetic algorithm search
+        double crossover_rate;                  //!< \brief Determines the crossover rate in the genetic algorithm search
+        int population_size;                    //!< \brief Determines the population size in the genetic algorithm search
 
         //Strand parameters
         std::vector<std::string> strand;        //!< \brief Holds the names of each base used in the strand

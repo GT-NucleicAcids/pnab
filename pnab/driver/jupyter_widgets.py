@@ -148,10 +148,10 @@ def algorithm(f, param):
 
     options['RuntimeParameters']['search_algorithm'] = f.lower()
     if 'random search' in f.lower() or "monte carlo search" in f.lower() or 'genetic algorithm search' in f.lower():
-        num_steps = widgets.IntText(value=param['num_steps']['default'],
-                                    description=param['num_steps']['glossory'],
-                                    style={'description_width': 'initial'},
-                                    layout={'width': '75%'})
+        num_steps = widgets.BoundedIntText(value=param['num_steps']['default'], min=1, max=1e100,
+                                           description=param['num_steps']['glossory'],
+                                           style={'description_width': 'initial'},
+                                           layout={'width': '75%'})
         help_box = widgets.Button(description='?', tooltip=param['num_steps']['long_glossory'], layout=widgets.Layout(width='3%'))
         display(widgets.HBox([help_box, num_steps]))
         options['RuntimeParameters']['num_steps'] = num_steps
@@ -168,24 +168,49 @@ def algorithm(f, param):
         options['RuntimeParameters']['dihedral_step'] = dihedral_step
 
     if "weighted" in f.lower():
-        weighting_temperature = widgets.FloatText(value=param['weighting_temperature']['default'],
-                                                 description=param['weighting_temperature']['glossory'],
-                                                 style={'description_width': 'initial'},
-                                                 layout={'width': '75%'})
+        weighting_temperature = widgets.BoundedFloatText(value=param['weighting_temperature']['default'], min=1, max=1e100,
+                                                         description=param['weighting_temperature']['glossory'],
+                                                         style={'description_width': 'initial'},
+                                                         layout={'width': '75%'})
         help_box = widgets.Button(description='?', tooltip=param['weighting_temperature']['long_glossory'], layout=widgets.Layout(width='3%'))
         display(widgets.HBox([help_box, weighting_temperature]))
         options['RuntimeParameters']['weighting_temperature'] = weighting_temperature
 
     if "monte carlo search" in f.lower():
-        monte_carlo_temperature = widgets.FloatText(value=param['monte_carlo_temperature']['default'],
-                                                    description=param['monte_carlo_temperature']['glossory'],
-                                                    style={'description_width': 'initial'},
-                                                    layout={'width': '75%'})
+        monte_carlo_temperature = widgets.BoundedFloatText(value=param['monte_carlo_temperature']['default'], min=1, max=1e100,
+                                                           description=param['monte_carlo_temperature']['glossory'],
+                                                           style={'description_width': 'initial'},
+                                                           layout={'width': '75%'})
         help_box = widgets.Button(description='?', tooltip=param['monte_carlo_temperature']['long_glossory'], layout=widgets.Layout(width='3%'))
         display(widgets.HBox([help_box, monte_carlo_temperature]))
         options['RuntimeParameters']['monte_carlo_temperature'] = monte_carlo_temperature
 
-       
+    if 'genetic algorithm search' in f.lower():
+        population_size = widgets.BoundedIntText(value=param['population_size']['default'], min=1, max=1e100,
+                                                 description=param['population_size']['glossory'],
+                                                 style={'description_width': 'initial'},
+                                                 layout={'width': '75%'})
+        help_box = widgets.Button(description='?', tooltip=param['population_size']['long_glossory'], layout=widgets.Layout(width='3%'))
+        display(widgets.HBox([help_box, population_size]))
+        options['RuntimeParameters']['population_size'] = population_size
+
+        mutation_rate = widgets.BoundedFloatText(value=param['mutation_rate']['default'], min=0, max=1,
+                                                 description=param['mutation_rate']['glossory'],
+                                                 style={'description_width': 'initial'},
+                                                 layout={'width': '75%'})
+        help_box = widgets.Button(description='?', tooltip=param['mutation_rate']['long_glossory'], layout=widgets.Layout(width='3%'))
+        display(widgets.HBox([help_box, mutation_rate]))
+        options['RuntimeParameters']['mutation_rate'] = mutation_rate
+
+        crossover_rate = widgets.BoundedFloatText(value=param['crossover_rate']['default'], min=0, max=1,
+                                                  description=param['crossover_rate']['glossory'],
+                                                  style={'description_width': 'initial'},
+                                                  layout={'width': '75%'})
+        help_box = widgets.Button(description='?', tooltip=param['crossover_rate']['long_glossory'], layout=widgets.Layout(width='3%'))
+        display(widgets.HBox([help_box, crossover_rate]))
+        options['RuntimeParameters']['crossover_rate'] = crossover_rate
+
+
 def runtime_parameters(param):
     """Runtime parameter widget for use in Jupyter notebook"""
 
@@ -214,10 +239,10 @@ def runtime_parameters(param):
     options['RuntimeParameters']['type'] = ff_type
 
     # Distance and energy thresholds
-    max_distance = widgets.FloatText(value=param['max_distance']['default'],
-                                     description=param['max_distance']['glossory'],
-                                     style={'description_width': 'initial'},
-                                     layout={'width': '75%'})
+    max_distance = widgets.BoundedFloatText(value=param['max_distance']['default'], min=0.0,
+                                            description=param['max_distance']['glossory'],
+                                            style={'description_width': 'initial'},
+                                            layout={'width': '75%'})
     help_box = widgets.Button(description='?', tooltip=param['max_distance']['long_glossory'], layout=widgets.Layout(width='3%'))
     display(widgets.HBox([help_box, max_distance]))
     options['RuntimeParameters']['max_distance'] = max_distance

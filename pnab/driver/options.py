@@ -272,6 +272,26 @@ _options_dict['RuntimeParameters']['monte_carlo_temperature'] = {
                                                                 'default': 298.0,
                                                                 'validation': lambda x: float(x),
                                                                 }
+_options_dict['RuntimeParameters']['population_size'] = {
+                                                        'glossory': 'The size of the population',
+                                                        'long_glossory': ('The size of the population in the genetic algorithm search.'),
+                                                        'default': 1000,
+                                                        'validation': lambda x: int(x),
+                                                        }
+_options_dict['RuntimeParameters']['mutation_rate'] = {
+                                                      'glossory': 'Mutation rate',
+                                                      'long_glossory': ('Mutation rate in the genetic algorithm search. Used to intorduce new values' +
+                                                                        ' for the dihedral angles in the population.'),
+                                                      'default': 0.75,
+                                                      'validation': lambda x: float(x),
+                                                      }
+_options_dict['RuntimeParameters']['crossover_rate'] = {
+                                                       'glossory': 'Crossover rate',
+                                                       'long_glossory': ('Crossover or mating rate in the genetic algorithm search.' +
+                                                                         ' Used to exchange dihedral angles between individuals in the population.'),
+                                                       'default': 0.75,
+                                                       'validation': lambda x: float(x),
+                                                       }
 _options_dict['RuntimeParameters']['type'] = {
                                              'glossory': 'Force field type',
                                              'long_glossory': 'Force field for computing the energy of the system.', 
