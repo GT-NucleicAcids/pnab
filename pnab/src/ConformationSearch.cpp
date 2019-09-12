@@ -1,7 +1,3 @@
-//
-// Created by jbarnett8 on 2/26/18.
-//
-
 #include <iomanip>
 #include "ConformationSearch.h"
 
@@ -13,12 +9,11 @@ ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbo
                                        HelicalParameters &helical_params, Bases bases, string prefix) {
     prefix_ = prefix;
     runtime_params_ = runtime_params;
-    strand_ = runtime_params_.strand;
-    for (auto &v : strand_)
+    for (auto &v : runtime_params_.strand)
         transform(v.begin(), v.end(), v.begin(), ::tolower);
-    auto name = strand_[0];
+    auto name = runtime_params_.strand[0];
     transform(name.begin(), name.end(), name.begin(), ::tolower);
-    base_a_ = bases.getBaseFromName(name);
+    auto base_a = bases.getBaseFromName(name);
     helical_params_ = helical_params;
     backbone_ = backbone;
     step_rot_ = helical_params_.getStepRotationOBMatrix(1);
@@ -27,12 +22,50 @@ ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbo
     glbl_translate_ = helical_params_.getGlobalTranslationVec();
     bases_ = bases;
     rng_.seed(std::random_device()());
-    is_double_stranded_ = runtime_params_.is_double_stranded;
-    is_hexad_ = runtime_params_.is_hexad;
-    ff_type_ = runtime_params_.type;
+
+    // Get a base unit
+    unit = BaseUnit(base_a, backbone_);
+    range = unit.getBackboneIndexRange();
+    backbone_range_ = {static_cast<unsigned >(range[0]), static_cast<unsigned >(range[1])};
+    bu_a_mol = unit.getMol();
+    auto bu_a_head_tail = unit.getBackboneLinkers();
+    head = static_cast<unsigned>(bu_a_head_tail[0]);
+    tail = static_cast<unsigned>(bu_a_head_tail[1]);
+    auto fixed_bonds = unit.getFixedBonds();
+
+    coords = bu_a_mol.GetCoordinates();
+    monomer_num_coords_ = bu_a_mol.NumAtoms() * 3;
+
+    // Setup the rotor list
+    OBBitVec fix_bonds(backbone_.getMolecule().NumAtoms());
+    auto base_indices = unit.getBaseIndexRange();
+    for (unsigned i = static_cast<unsigned>(base_indices[0]); i <= base_indices[1]; ++i)
+        fix_bonds.SetBitOn(i);
+    rl.Setup(bu_a_mol);
+    rl.SetFixAtoms(fix_bonds);
+    rl.SetRotAtomsByFix(bu_a_mol);
+
+    // store all rotors in a vector
+    OBRotorIterator ri;
+    OBRotor *r = rl.BeginRotor(ri);
+    while(r) {
+        bool save = true;
+        unsigned a1 = r->GetDihedralAtoms()[1];
+        unsigned a2 = r->GetDihedralAtoms()[2];
+        for (auto f: fixed_bonds) {
+            if ((a1 == f[0] && a2 == f[1]) || (a1 == f[1] && a2 == f[0])) {
+                save = false;
+            }
+        }
+        if (save)
+            rotor_vector.push_back(r);
+        r = rl.NextRotor(ri);
+    }
+
 }
 
 std::string ConformationSearch::run() {
+
     // Choose search algorithm
     string search = runtime_params_.search_algorithm;
     transform(search.begin(), search.end(), search.begin(), ::tolower);
@@ -53,7 +86,7 @@ std::string ConformationSearch::run() {
         return ConformationSearch::MonteCarloSearch(false);
 
     else if (search.find("genetic algorithm search") != std::string::npos)
-        return ConformationSearch::GeneticAlgorithm();
+        return ConformationSearch::GeneticAlgorithmSearch();
 
     else {
         cerr << search << " is unrecognized search algorithm" << endl;
@@ -62,55 +95,14 @@ std::string ConformationSearch::run() {
 }
 
 
-std::string ConformationSearch::GeneticAlgorithm() {
+std::string ConformationSearch::GeneticAlgorithmSearch() {
+    // Genetic algorithm search
 
-    // Get a base unit
-    BaseUnit unit(base_a_, backbone_);
-    auto range = unit.getBackboneIndexRange();
-    backbone_range_ = {static_cast<unsigned >(range[0]), static_cast<unsigned >(range[1])};
-    Chain chain(bases_, backbone_, strand_, ff_type_, backbone_range_, is_double_stranded_, is_hexad_, runtime_params_.strand_orientation);
+    // Setup chain
+    Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_, runtime_params_.is_double_stranded, runtime_params_.is_hexad, runtime_params_.strand_orientation);
     test_chain_ = chain.getChain();
-    auto bu_a_mol = unit.getMol();
-    auto bu_a_head_tail = unit.getBackboneLinkers();
-    auto head = static_cast<unsigned>(bu_a_head_tail[0]),
-         tail = static_cast<unsigned>(bu_a_head_tail[1]);
-    auto fixed_bonds = unit.getFixedBonds();
-
-    std::string output_string;
-
-    double* coords = bu_a_mol.GetCoordinates();
-    monomer_num_coords_ = bu_a_mol.NumAtoms() * 3;
-
-    // Setup the rotor list
-    OBRotorList rl;
-    OBBitVec fix_bonds(backbone_.getMolecule().NumAtoms());
-    auto base_indices = unit.getBaseIndexRange();
-    for (unsigned i = static_cast<unsigned>(base_indices[0]); i <= base_indices[1]; ++i)
-        fix_bonds.SetBitOn(i);
-    rl.Setup(bu_a_mol);
-    rl.SetFixAtoms(fix_bonds);
-    rl.SetRotAtomsByFix(bu_a_mol);
 
     size_t search_size = runtime_params_.num_steps;
-
-    // store all rotors in a vector
-    OBRotorIterator ri;
-    vector<OBRotor*> rotor_vector;
-    OBRotor *r = rl.BeginRotor(ri);
-    while(r) {
-        bool save = true;
-        unsigned a1 = r->GetDihedralAtoms()[1];
-        unsigned a2 = r->GetDihedralAtoms()[2];
-        for (auto f: fixed_bonds) {
-            if ((a1 == f[0] && a2 == f[1]) || (a1 == f[1] && a2 == f[0])) {
-                save = false;
-            }
-        }
-        if (save)
-            rotor_vector.push_back(r);
-        r = rl.NextRotor(ri);
-    }
-
 
     uniform_real_distribution<double> dist = uniform_real_distribution<double>(0, 2 * M_PI);
     uniform_real_distribution<double> dist2 = uniform_real_distribution<double>(0, 1);
@@ -246,59 +238,18 @@ std::string ConformationSearch::GeneticAlgorithm() {
 std::string ConformationSearch::RandomSearch(bool weighted) {
     // Random search: weighted or uniform probability distribution
 
-    // Get a base unit
-    BaseUnit unit(base_a_, backbone_);
-    auto range = unit.getBackboneIndexRange();
-    backbone_range_ = {static_cast<unsigned >(range[0]), static_cast<unsigned >(range[1])};
-    Chain chain(bases_, backbone_, strand_, ff_type_, backbone_range_, is_double_stranded_, is_hexad_, runtime_params_.strand_orientation);
+    // Setup chain
+    Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_, runtime_params_.is_double_stranded, runtime_params_.is_hexad, runtime_params_.strand_orientation);
     test_chain_ = chain.getChain();
-    auto bu_a_mol = unit.getMol();
-    auto bu_a_head_tail = unit.getBackboneLinkers();
-    auto head = static_cast<unsigned>(bu_a_head_tail[0]),
-         tail = static_cast<unsigned>(bu_a_head_tail[1]);
-    auto fixed_bonds = unit.getFixedBonds();
-
-    std::string output_string;
-
-    double* coords = bu_a_mol.GetCoordinates();
-    monomer_num_coords_ = bu_a_mol.NumAtoms() * 3;
-
-    // Setup the rotor list
-    OBRotorList rl;
-    OBBitVec fix_bonds(backbone_.getMolecule().NumAtoms());
-    auto base_indices = unit.getBaseIndexRange();
-    for (unsigned i = static_cast<unsigned>(base_indices[0]); i <= base_indices[1]; ++i)
-        fix_bonds.SetBitOn(i);
-    rl.Setup(bu_a_mol);
-    rl.SetFixAtoms(fix_bonds);
-    rl.SetRotAtomsByFix(bu_a_mol);
 
     size_t search_size = runtime_params_.num_steps;
-
-    // store all rotors in a vector
-    OBRotorIterator ri;
-    vector<OBRotor*> rotor_vector;
-    OBRotor *r = rl.BeginRotor(ri);
-    while(r) {
-        bool save = true;
-        unsigned a1 = r->GetDihedralAtoms()[1];
-        unsigned a2 = r->GetDihedralAtoms()[2];
-        for (auto f: fixed_bonds) {
-            if ((a1 == f[0] && a2 == f[1]) || (a1 == f[1] && a2 == f[0])) {
-                save = false;
-            }
-        }
-        if (save)
-            rotor_vector.push_back(r);
-        r = rl.NextRotor(ri);
-    }
 
     uniform_real_distribution<double> dist;
     vector <std::piecewise_linear_distribution<double>> dist_vector;
 
     // Get probability distribution
     if (weighted) {
-        dist_vector = weighted_distributions(rotor_vector, bu_a_mol);
+        dist_vector = WeightedDistributions(rotor_vector, bu_a_mol);
     }
 
     else {
@@ -356,59 +307,18 @@ std::string ConformationSearch::RandomSearch(bool weighted) {
 std::string ConformationSearch::MonteCarloSearch(bool weighted) {
     // Monte Carlo search: weighted or uniform probability distribution
 
-    // Get a base unit
-    BaseUnit unit(base_a_, backbone_);
-    auto range = unit.getBackboneIndexRange();
-    backbone_range_ = {static_cast<unsigned >(range[0]), static_cast<unsigned >(range[1])};
-    Chain chain(bases_, backbone_, strand_, ff_type_, backbone_range_, is_double_stranded_, is_hexad_, runtime_params_.strand_orientation);
+    // Setup chain
+    Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_, runtime_params_.is_double_stranded, runtime_params_.is_hexad, runtime_params_.strand_orientation);
     test_chain_ = chain.getChain();
-    auto bu_a_mol = unit.getMol();
-    auto bu_a_head_tail = unit.getBackboneLinkers();
-    auto head = static_cast<unsigned>(bu_a_head_tail[0]),
-         tail = static_cast<unsigned>(bu_a_head_tail[1]);
-    auto fixed_bonds = unit.getFixedBonds();
-
-    std::string output_string;
-
-    double* coords = bu_a_mol.GetCoordinates();
-    monomer_num_coords_ = bu_a_mol.NumAtoms() * 3;
-
-    // Set up the rotor list
-    OBRotorList rl;
-    OBBitVec fix_bonds(backbone_.getMolecule().NumAtoms());
-    auto base_indices = unit.getBaseIndexRange();
-    for (unsigned i = static_cast<unsigned>(base_indices[0]); i <= base_indices[1]; ++i)
-        fix_bonds.SetBitOn(i);
-    rl.Setup(bu_a_mol);
-    rl.SetFixAtoms(fix_bonds);
-    rl.SetRotAtomsByFix(bu_a_mol);
 
     size_t search_size = runtime_params_.num_steps;
-
-    // store all rotors in a vector
-    OBRotorIterator ri;
-    vector<OBRotor*> rotor_vector;
-    OBRotor *r = rl.BeginRotor(ri);
-    while(r) {
-        bool save = true;
-        unsigned a1 = r->GetDihedralAtoms()[1];
-        unsigned a2 = r->GetDihedralAtoms()[2];
-        for (auto f: fixed_bonds) {
-            if ((a1 == f[0] && a2 == f[1]) || (a1 == f[1] && a2 == f[0])) {
-                save = false;
-            }
-        }
-        if (save)
-            rotor_vector.push_back(r);
-        r = rl.NextRotor(ri);
-    }
 
     // Get probability distribution
     uniform_real_distribution<double> dist;
     vector <std::piecewise_linear_distribution<double>> dist_vector;
 
     if (weighted) {
-        dist_vector = weighted_distributions(rotor_vector, bu_a_mol);
+        dist_vector = WeightedDistributions(rotor_vector, bu_a_mol);
     }
 
     else {
@@ -444,7 +354,7 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
             indices.erase(indices.begin() + ind);
             rotated_indices.push_back(index);
             
-            r = rotor_vector[index];
+            auto r = rotor_vector[index];
 
             // Save previous angle, in case the step is not good
             double old_angle = r->CalcTorsion(coords);
@@ -476,7 +386,7 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
         // If the step is not accepted, set the dihedral angle back to the previous state
         else {
             for (int i=0; i < n_rotations; i++) {
-                r = rotor_vector[rotated_indices[i]];
+                auto r = rotor_vector[rotated_indices[i]];
                 r->SetToAngle(coords, old_angles[i]);
             }
             continue;
@@ -491,7 +401,7 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
             if (!data.accepted) {
                 delete[] data.coords;
                 for (int i=0; i < n_rotations; i++) {
-                    r = rotor_vector[rotated_indices[i]];
+                    auto r = rotor_vector[rotated_indices[i]];
                     r->SetToAngle(coords, old_angles[i]);
                 }
             }
@@ -513,7 +423,7 @@ std::string ConformationSearch::MonteCarloSearch(bool weighted) {
 }
 
 
-std::vector <std::piecewise_linear_distribution<double>> ConformationSearch::weighted_distributions(vector<OBRotor*> &rotor_vector, OBMol &bu_a_mol) {
+std::vector <std::piecewise_linear_distribution<double>> ConformationSearch::WeightedDistributions(vector<OBRotor*> &rotor_vector, OBMol &bu_a_mol) {
     // Compute the weighted distributions bases on the energies of the dihedral angles
 
     // A vector to store the weighted distribution for each dihedral
@@ -546,7 +456,11 @@ std::vector <std::piecewise_linear_distribution<double>> ConformationSearch::wei
             if (!(atoms.find(a->GetIdx()) != atoms.end()))
                 constraints.AddIgnore(a->GetIdx());
         }
-        OBForceField *pFF = OBForceField::FindForceField(ff_type_);
+        OBForceField *pFF = OBForceField::FindForceField(runtime_params_.ff_type);
+        if (!pFF) {
+            cerr << "Cannot find force field. Exiting" << endl;
+            exit(1);
+        }
         bool isKCAL_ = pFF->GetUnit().find("kcal") != string::npos;
 
         // Scan the energy of the dihedral angle at 1 degrees step size.
@@ -593,59 +507,18 @@ std::vector <std::piecewise_linear_distribution<double>> ConformationSearch::wei
 std::string ConformationSearch::SystematicSearch() {
     // Systematic search: Rotate each one of the dihedral angles at a given step size
 
-    // Get a base unit
-    BaseUnit unit(base_a_, backbone_);
-    auto range = unit.getBackboneIndexRange();
-    backbone_range_ = {static_cast<unsigned >(range[0]), static_cast<unsigned >(range[1])};
-    Chain chain(bases_, backbone_, strand_, ff_type_, backbone_range_, is_double_stranded_, is_hexad_, runtime_params_.strand_orientation);
+    // Setup chain
+    Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_, runtime_params_.is_double_stranded, runtime_params_.is_hexad, runtime_params_.strand_orientation);
     test_chain_ = chain.getChain();
-    auto bu_a_mol = unit.getMol();
-    auto bu_a_head_tail = unit.getBackboneLinkers();
-    auto head = static_cast<unsigned>(bu_a_head_tail[0]),
-         tail = static_cast<unsigned>(bu_a_head_tail[1]);
-    auto fixed_bonds = unit.getFixedBonds();
-
-    std::string output_string;
-
-    double* coords = bu_a_mol.GetCoordinates();
-    monomer_num_coords_ = bu_a_mol.NumAtoms() * 3;
-
-    // Setup the rotor list
-    OBRotorList rl;
-    OBBitVec fix_bonds(backbone_.getMolecule().NumAtoms());
-    auto base_indices = unit.getBaseIndexRange();
-    for (unsigned i = static_cast<unsigned>(base_indices[0]); i <= base_indices[1]; ++i)
-        fix_bonds.SetBitOn(i);
-    rl.Setup(bu_a_mol);
-    rl.SetFixAtoms(fix_bonds);
-    rl.SetRotAtomsByFix(bu_a_mol);
 
     // Determine the step size and the number of steps
     double dihedral_step = runtime_params_.dihedral_step*M_PI/180.0;
     size_t steps_per_bond = (size_t) round(2*M_PI/dihedral_step);
-    size_t search_size = (size_t) pow(steps_per_bond, rl.Size());
+    size_t search_size = (size_t) pow(steps_per_bond, rotor_vector.size());
 
-    OBRotorIterator ri;
-
-    OBRotor *r = rl.BeginRotor(ri);
-
-    // Start by setting all angles to zero and set rotor vector
-    vector<OBRotor*> rotor_vector;
-    while(r) {
-        bool save = true;
-        unsigned a1 = r->GetDihedralAtoms()[1];
-        unsigned a2 = r->GetDihedralAtoms()[2];
-        for (auto f: fixed_bonds) {
-            if ((a1 == f[0] && a2 == f[1]) || (a1 == f[1] && a2 == f[0])) {
-                save = false;
-            }
-        }
-        if (save) {
-            rotor_vector.push_back(r);
-            r->SetToAngle(coords, 0.0);
-        }
-        r = rl.NextRotor(ri);
-    }
+    // Set all rotors to zero to start
+    for (auto r: rotor_vector)
+        r->SetToAngle(coords, 0.0);
 
     for (size_t search_index = 1; search_index < search_size + 1; ++search_index) {
 
@@ -665,12 +538,12 @@ std::string ConformationSearch::SystematicSearch() {
 
         // Set lower rotors to zero and start rotating
         for (int i=0; i < rotor_index; i++) {
-            r = rotor_vector[i];
+            auto r = rotor_vector[i];
             r->SetToAngle(coords, 0.0);
         }
 
         // Set dihedral angle
-        r = rotor_vector[rotor_index];
+        auto r = rotor_vector[rotor_index];
         double angle = r->CalcTorsion(coords) + dihedral_step;
         r->SetToAngle(coords, angle);
 
