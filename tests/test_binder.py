@@ -22,7 +22,7 @@ def test_binder_1():
                 for k, val in base_attr.items()])
 
     runtime_parameters = bind.RuntimeParameters()
-    runtime_parameters_attr = {'energy_filter': list, 'max_distance': float, 'type': str,
+    runtime_parameters_attr = {'energy_filter': list, 'max_distance': float, 'ff_type': str,
                                'search_algorithm': str, 'num_steps': int, 'dihedral_step': float,
                                'strand': list, 'is_double_stranded': bool} 
     assert all([i in runtime_parameters.__dir__() for i in runtime_parameters_attr])
@@ -74,7 +74,7 @@ def test_binder_2():
     rp = bind.RuntimeParameters()
     rp.search_algorithm = 'weighted random search'
     rp.num_steps = 1000000
-    rp.type = 'GAFF'
+    rp.ff_type = 'GAFF'
     rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0]
     rp.max_distance = 0.05
     rp.strand = ['Adenine']*5

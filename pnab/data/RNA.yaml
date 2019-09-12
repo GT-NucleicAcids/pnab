@@ -53,4 +53,4 @@ RuntimeParameters:
   monte_carlo_temperature: 298.0 # Temperature used in the Monte Carlo procedure
   num_steps: 10000000 # Number of steps for backbone dihedral search
   strand: CGAUUUAGCG # Sequence of base names
-  type: GAFF # Force field type
+  ff_type: GAFF # Force field type

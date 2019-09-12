@@ -15,12 +15,12 @@ def test_energy_filter():
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
     backbone = bind.Backbone()
-    backbone.file_path = 'files/rna_bb.pdb'
+    backbone.file_path = os.path.join('files', 'rna_bb.pdb')
     backbone.interconnects = [10, 1]
     backbone.linker = [13, 14]
 
     base = bind.Base()
-    base.file_path = 'files/adenine.pdb'
+    base.file_path = os.path.join('files', 'adenine.pdb')
     base.code = 'ADA'
     base.linker = [5, 11]
     base.name = 'Adenine'
@@ -38,7 +38,7 @@ def test_energy_filter():
     rp = bind.RuntimeParameters()
     rp.search_algorithm = 'weighted monte carlo search'
     rp.num_steps = 1
-    rp.type = 'GAFF'
+    rp.ff_type = 'GAFF'
     rp.energy_filter = [1e100]*5
     rp.max_distance = 1e100
     rp.strand = ['Adenine']*5

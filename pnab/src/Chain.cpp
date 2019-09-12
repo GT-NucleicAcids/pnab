@@ -9,8 +9,8 @@ using namespace std;
 using namespace PNAB;
 using namespace OpenBabel;
 
-Chain::Chain(Bases bases, const Backbone &backbone, vector<string> strand, string ff_type,
-             std::array<unsigned, 2> &range, bool double_stranded, bool hexad, vector<bool> strand_orientation) {
+Chain::Chain(Bases bases, const Backbone &backbone, std::vector<std::string> strand, std::string ff_type,
+             std::array<unsigned, 2> &range, bool double_stranded, bool hexad, std::vector<bool> strand_orientation) {
 
     strand_orientation_ = strand_orientation;
     hexad_ = hexad;

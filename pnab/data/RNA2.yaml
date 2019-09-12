@@ -53,4 +53,4 @@ RuntimeParameters:
   weighting_temperature: 298.0
   monte_carlo_temperature: 298.0
   strand: CGAUUUAGCG
-  type: GAFF
+  ff_type: GAFF

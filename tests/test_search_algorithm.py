@@ -37,7 +37,7 @@ def test_binder_2():
     rp = bind.RuntimeParameters()
     rp.num_steps = 1000000
     rp.dihedral_step = 4
-    rp.type = 'GAFF'
+    rp.ff_type = 'GAFF'
     rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0]
     rp.max_distance = 0.05
     rp.strand = ['Adenine']*3

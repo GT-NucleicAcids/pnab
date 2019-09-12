@@ -54,4 +54,4 @@ RuntimeParameters:
   mutation_rate: 0.75
   crossover_rate: 0.75
   strand: CGA
-  type: GAFF
+  ff_type: GAFF

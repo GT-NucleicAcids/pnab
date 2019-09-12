@@ -1,13 +1,12 @@
-"""options
-file for preparing and validation options
+"""!@brief A file for preparing, explaining and validating options
 
-This is an option file that defines a dictionary containing all the available options for the builder code.
-options_dict has at least four keys: Backbone, Base, HelicalParameters, and RuntimeParameters.
-Note that there might be more than one Base keys that are numbered to account for
-the presence of multiple bases. Each base has its own associated options.
-Each of these contains a dictionary of available options in each category. Each dictionary contains a glossory
-that describe the option, a default value, a validation scheme, a new value, and validation
-confirmation.
+This option file defines a dictionary containing all the available options for the builder code.
+@a options._options_dict has three keys: Backbone, HelicalParameters, and RuntimeParameters.
+Each of these contains a dictionary of available options in each category. Each dictionary contains
+a short glossory that describe the option, a long glossory giving hints on how to
+use this option, a default value, and a validation scheme.
+
+This file also contains additional functions to help in the validation.
 """
 
 from __future__ import division, absolute_import, print_function
@@ -17,23 +16,38 @@ import os
 from pnab import __path__
 
 
-def _validate_all_options(options):
-    """A method to validate all options.
+def validate_all_options(options):
+    """!@brief A method to validate all options.
 
-    Used when the user provides an input file
+    It loops over all available builder options and validates the user input. For options
+    that have not been specified by the user, a default value is provided.
+
+    @param options (dict) A dictionary containing all the user-defined options
+
+    @return None; @a options is modified in place
+
+    @sa pNAB.pNAB.__init__
+    @sa _options_dict
     """
 
+    # Loop over all available options
     for k1 in _options_dict:
         if k1 not in options:
             options['k1'] = {}
         for k2 in _options_dict[k1]:
             if k2 not in options[k1]:
+                # Add a default value for options not specified by the user
                 options[k1][k2] = _options_dict[k1][k2]['default']
             options[k1][k2] = _options_dict[k1][k2]['validation'](options[k1][k2])
 
-    if options['RuntimeParameters']['is_double_stranded'] and ("X" in options['RuntimeParameters']['strand'] or "Y" in options['RuntimeParameters']['strand']):
+    # Validate whether some options are mutually exclusive
+    # Cannot build double strands for noncanonical nucleobases
+    if (options['RuntimeParameters']['is_double_stranded'] and
+       ("X" in options['RuntimeParameters']['strand'] or
+       "Y" in options['RuntimeParameters']['strand'])):
         raise Exception("Cannot build double strands for triaminopyrimidine or cyanuric acid")
 
+    # Cannot build hexad strands for canonical nucleobases
     elif options['RuntimeParameters']['is_hexad']:
         for i in ['A', 'G', 'C', 'U', 'T']:
             if i in options['RuntimeParameters']['strand']:
@@ -41,78 +55,146 @@ def _validate_all_options(options):
 
 
 def _validate_input_file(file_name):
-    """Method to validate provided path to a geomerty file. Check whether the file exists or not."""
+    """!@brief Method to validate that the given file exists.
+
+    Check whether the file exists or not. If it does not exist as it is, the function checks
+    whether the file is in the "pnab/data" directory. 
+
+    @param file_name (str) Path to a file
+
+    @return file_name after validation
+
+    @sa validate_all_options
+    @sa _options_dict
+    """
 
     file_name = str(file_name)
     if not os.path.isfile(file_name):
-        file_name = os.path.join(__path__[0], 'data', file_name)
-        if not os.path.isfile(file_name):
+        # Check if the file exists in the "pnab/data" directory
+        file_name2 = os.path.join(__path__[0], 'data', file_name)
+        if not os.path.isfile(file_name2):
             raise Exception("Cannot find file: %s" %file_name)
+        file_name = file_name2
 
     return file_name
 
 
-def _validate_atom_indices(x):
-    """Method to validate provided tuple of atom indices."""
+def _validate_atom_indices(indices):
+    """!@brief Method to validate provided lists of atom indices.
 
-    x = list(eval(x)) if isinstance(x, str) else list(x)
-    if len(x) != 2:
+    Check whether the list has two atom indices
+
+    @param indices (str|list) atom indices
+
+    @return indices after validation
+
+    @sa validate_all_options
+    @sa _options_dict
+    """
+
+    indices = list(eval(indices)) if isinstance(indices, str) else list(indices)
+    if len(indices) != 2:
         raise Exception("Incorrect number of atoms. Must provide two indices.")
 
-    for i in x:
-        if i == 0:
+    for i in range(len(indices)):
+        indices[i] = int(indices[i])
+        if indices[i] == 0:
             raise Exception("Use 1-based index")
 
-    return x
+    return indices
 
 
-def _validate_helical_parameters(x):
-    """Method to validate provided helical parameters."""
+def _validate_helical_parameters(hp_i):
+    """!@brief Method to validate provided helical parameters for each parameter.
 
-    if isinstance(x, str):
-        x = eval(x)
+    Check whether the list has correct helical parameter specifications.
+    The correct specifications are [initial value in a range, final value in a range, number of steps].
+    If a single value is provided, then we assume it is the only value in a range.
+    if two values are provided, then we assume it is a range with one configuration.
 
-    if isinstance(x, (float, int)):
-        x = [x, x, 1]
+    This specification is for internal use in the driver for generating multiple configurations
+    and running them in parallel. The C++ code accepts a single value for each helical parameter.
+
+    @param  hp_i (str|float|list) Specifications for helical parameter i
+
+    @return hp_i after validation
+
+    @sa validate_all_options
+    @sa _options_dict
+    @sa pNAB.pNAB.run
+    """
+
+    if isinstance(hp_i, str):
+        hp_i = eval(hp_i)
+
+    # If it is a single int or float value
+    if isinstance(hp_i, (float, int)):
+        hp_i = [hp_i, hp_i, 1]
+    # if it is a list
     else:
-        x = list(x)
+        hp_i = list(hp_i)
 
-    if len(x) == 1:
-        x = [x[0], x[0], 1]
-    elif len(x) == 2:
-        # Default of 5 values tested for a range
-        x.append(5)
-    elif len(x) > 3:
+    # If a list has one value, then we assume it is a single value for the helical parameters
+    if len(hp_i) == 1:
+        hp_i = [hp_i[0], hp_i[0], 1]
+    # If the list has two values, then we assume it is a range with one generated helical configuration
+    elif len(hp_i) == 2:
+        # Default of 1 value tested for a range
+        hp_i.append(1)
+    elif len(hp_i) > 3:
         raise Exception("Helical parameters must have at most three values")
 
-    return x
+    return hp_i
 
 
-def _validate_energy_filter(x):
-    """Method to validate provided energy filter."""
+def _validate_energy_filter(energy_filter):
+    """!@brief Method to validate provided energy filter.
 
-    if isinstance(x, str):
-        x = eval(x)
+    Energy filter has five thresholds [bond, angle, torsion, van der Waals, total]
 
-    x = list(x)
-    if len(x) != 5:
+    @param energy_filter (str|list) A list of five energy thresholds
+
+    @return energy_filter after validation
+
+    @sa validate_all_options
+    @sa _options_dict
+    """
+
+    if isinstance(energy_filter, str):
+        energy_filter = eval(energy_filter)
+
+    energy_filter = list(energy_filter)
+    if len(energy_filter) != 5:
         raise Exception("Five values must be provided for the energy filter")
 
-    for i in x:
+    for i in energy_filter:
         if not isinstance(i, (float, int)):
             raise Exception("Provide valid numbers")
 
-    return x
-   
-def _validate_base_name(name):
-    name = str(name)
-    if len(name) > 1:
-        raise Exception("Base name must be one letter") 
-
-    return name
+    return energy_filter
 
 def _validate_strand(strand):
+    """!@brief Method to validate provided strand sequence.
+
+    We use FASTA strings to specify the sequence in the strand.
+    This is for use in the driver. The C++ code accepts base
+    names with more than one letter. However, writing a FASTA
+    sequence is easier.
+
+    The names of the bases are converted to upper case letters
+
+    @param strand (str|list) FASTA sequence of the strand
+
+    @return strand list after validation
+
+    @sa validate_all_options
+    @sa _options_dict
+    """
+
     strand = list(strand)
+    for i in range(len(strand)):
+        strand[i] = strand[i].upper()
+    # Check if both canonical and noncanonical bases are in the sequence
     if "X" in strand or "Y" in strand:
         for i in ["A", "G", "C", "T", "U"]:
             if i in strand:
@@ -120,24 +202,39 @@ def _validate_strand(strand):
 
     return strand
 
-def _validate_strand_orientation(strand):
-    strand = list(strand)
-    for i, val in enumerate(strand):
-        strand[i] = bool(eval(val.title())) if isinstance(val, str) else bool(val)
+def _validate_strand_orientation(orientation):
+    """!@brief Method to validate provided strand orientation for hexads
 
-    return strand
+    Strand orientation is a list of boolean values indicating whether the strand is
+    going up or down in the hexad.
 
-def _validate_fixed_bonds(x):
-    x = list(x)
-    for i in range(len(x)):
-        x[i] = list(x[i])
-        if len(x[i]) != 2:
-            raise Exception("Specify two atoms for fixed rotatable bonds")
+    @param orientation (list) Orientation of each strand in the hexad
 
-    return x
+    @return orientation after validation
+
+    @sa validate_all_options
+    @sa _options_dict
+    """
+
+    orientation = list(orientation)
+    for i, val in enumerate(orientation):
+        orientation[i] = bool(eval(val.title())) if isinstance(val, str) else bool(val)
+
+    return orientation
 
 
 # Set glossory of options, default values and validation methods
+
+## @brief Nucleic acid builder options used in the driver.
+#
+# This is an internal options dictionary to be used for listing, explaining
+# and validating the options used in the code. All options here have corresponding
+# options in the C++ code, except @a options._options_dict['RuntimeParameters']['pair_a_u'],
+# which is used in the driver to override the default adenine-thymine pairing.
+# @sa jupyter_widgets.builder()
+# @sa PNAB::Backbone
+# @sa PNAB::HelicalParameters
+# @sa PNAB::RuntimeParameters
 _options_dict = {}
 
 # Backbone Parameter
@@ -176,7 +273,7 @@ _options_dict['Backbone']['fixed_bonds'] = {
                                            'long_glossory': ('Select the indices of the two atoms that are at the center' + 
                                                              ' of the rotatable dihedral angle.'),
                                            'default': [],
-                                           'validation': lambda x: _validate_fixed_bonds(x),
+                                           'validation': lambda x: [_validate_atom_indices(i) for i in list(x)],
                                            }
 
 # Helical Parameters
@@ -292,12 +389,12 @@ _options_dict['RuntimeParameters']['crossover_rate'] = {
                                                        'default': 0.75,
                                                        'validation': lambda x: float(x),
                                                        }
-_options_dict['RuntimeParameters']['type'] = {
-                                             'glossory': 'Force field type',
-                                             'long_glossory': 'Force field for computing the energy of the system.', 
-                                             'default': 'GAFF',
-                                             'validation': lambda x: str(x).upper(),
-                                             }
+_options_dict['RuntimeParameters']['ff_type'] = {
+                                                'glossory': 'Force field type',
+                                                'long_glossory': 'Force field for computing the energy of the system.', 
+                                                'default': 'GAFF',
+                                                'validation': lambda x: str(x).upper(),
+                                                }
 _options_dict['RuntimeParameters']['max_distance'] = {
                                                      'glossory': ('The maximum distance between atom' +
                                                                   ' linkers in backbone (Angstrom)' 

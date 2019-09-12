@@ -52,4 +52,4 @@ RuntimeParameters:
   monte_carlo_temperature: 298.0
   num_steps: 10000000
   strand: XYX
-  type: GAFF
+  ff_type: GAFF
