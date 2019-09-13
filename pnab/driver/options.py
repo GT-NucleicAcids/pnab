@@ -409,8 +409,8 @@ _options_dict['RuntimeParameters']['max_distance'] = {
                                                      'validation': lambda x: float(x),
                                                      }
 _options_dict['RuntimeParameters']['energy_filter'] = {
-                                                      'glossory': ('Maximum energy for newly formed bonds in the backbone (kcal/mol/bond)\n' +
-                                                                   'Maximum energy for newly formed angles in the backbone (kcal/mol/angle)\n' +
+                                                      'glossory': ('Maximum energy for newly formed bonds in the backbone (kcal/mol/(nucleotide-1))\n' +
+                                                                   'Maximum energy for newly formed angles in the backbone (kcal/mol/(nucleotide-1))\n' +
                                                                    'Maximum torsional energy for rotatable bonds (kcal/mol/nucleotide)\n' +
                                                                    'Maximum van der Waals energy (kcal/mol/nucleotide)\n' +
                                                                    'Maximum total energy (kcal/mol/nucleotide)\n'),

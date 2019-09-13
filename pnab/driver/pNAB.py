@@ -98,7 +98,7 @@ class pNAB(object):
         self.options.update(bases_lib)
 
         ##@brief A string comma-separated header for the results used in the generated CSV files
-        self.header = ('Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol/bond), Angle Energy (kcal/mol/angle), ' +
+        self.header = ('Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol/(nucleotide-1)), Angle Energy (kcal/mol/(nucleotide-1)), ' +
                        'Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), ' + 
                        'Total Energy (kcal/mol/nucleotide), Fixed Torsions Energy (kcal/mol/nucleotide), ' + 
                        'RMSD relative to lowest energy conformer (Angstrom)')

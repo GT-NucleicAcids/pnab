@@ -114,7 +114,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
 
         // Get bond energy
         pFF_->Setup(*current_mol, constraintsBond_);
-        conf_data.bondE = pFF_->E_Bond(false) / (n - subtract);
+        conf_data.bondE = pFF_->E_Bond(false);
 
         if (!isKCAL_)
             conf_data.bondE *= KJ_TO_KCAL;
@@ -123,9 +123,32 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
             conf_data.accepted = false;
             return;
         }
+
         // Get angle energy
+        for (auto i: all_angles_) {
+            OBBitVec bit = OBBitVec();
+            for (auto j: i)
+                bit.SetBitOn(j);
+            pFF_->AddIntraGroup(bit);
+        }
+
+        // We need to trick openbabel to do a new setup for the force field
+        // We change the atomic number of one element and then we change it back
+        // This triggers a new force field setup
+        // This is necessary because for some reason we cannot set interaction
+        // groups and then delete them. If no new setup was performed, openbabel
+        // would not compute energy terms for terms not included within the interaction group.
+        // Maybe there is a better solution
+        unsigned a0 = current_mol->GetAtom(1)->GetAtomicNum();
+        current_mol->GetAtom(1)->SetAtomicNum(1);
         pFF_->Setup(*current_mol, constraintsAng_);
-        conf_data.angleE = pFF_->E_Angle(false) / (n - subtract);
+        current_mol->GetAtom(1)->SetAtomicNum(a0);
+        pFF_->Setup(*current_mol, constraintsAng_);
+
+        conf_data.angleE = pFF_->E_Angle(false);
+
+        // This is still necessary
+        pFF_->ClearGroups();
 
         if (!isKCAL_)
             conf_data.angleE *= KJ_TO_KCAL;
@@ -155,16 +178,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
         pFF_->AddIntraGroup(bit);
     }
 
-    // We need to trick openbabel to do a new setup for the force field
-    // We change the atomic number of one element and then we change it back
-    // This triggers a new force field setup
-    // This is necessary because for some reason we cannot set interaction
-    // groups and then delete them. If no new setup was performed, openbabel
-    // would not compute van der Waals or total energy terms for terms not
-    // included within the interaction group.
-    // We need to keep the torsional computation before van der Waals
-    // because it is less expensive. We check for energy thresholds sequentially.
-    // Maybe there is a better solution
+    // Do the same trick
     unsigned a0 = current_mol->GetAtom(1)->GetAtomicNum();
     current_mol->GetAtom(1)->SetAtomicNum(1);
     pFF_->Setup(*current_mol, constraintsTor_);
@@ -182,7 +196,9 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
         conf_data.accepted = false;
         return;
     }
-    
+
+    pFF_->SetLogLevel(0);
+
     if (is_there_fixed_bond) {
         // Get torsion energy for fixed bonds
         // Add interaction groups for fixed rotatable torsions
@@ -385,40 +401,33 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
 };
 
 void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids, std::vector<std::vector<unsigned>> &fixed_bonds_vec, unsigned offset) {
-    int nbrIdx;
 
-    // Torsional energy, must fix non-torsion atoms
-    vector<int> torsionAtoms;
-    for (auto v : new_bond_ids) {
-        FOR_NBORS_OF_ATOM(nbr, chain.GetAtomById(v))
-            torsionAtoms.emplace_back(nbr->GetIdx());
+    vector<int> bond_atoms;
+
+    if (offset == 0) {
+        OBAtom* atom1 = chain.GetAtomById(new_bond_ids[0]);
+        OBAtom* atom2 = chain.GetAtomById(new_bond_ids[1]);
+        bond_atoms.push_back(atom1->GetIdx());
+        bond_atoms.push_back(atom2->GetIdx());
+
+        FOR_NBORS_OF_ATOM(nbr, atom2) {
+            if (nbr->GetIdx() != atom1->GetIdx())
+                all_angles_.push_back({atom1->GetIdx() + offset, atom2->GetIdx() + offset, nbr->GetIdx() + offset});
+        }
+        FOR_NBORS_OF_ATOM(nbr, atom1) {
+            if (nbr->GetIdx() != atom2->GetIdx())
+            all_angles_.push_back({atom2->GetIdx() + offset, atom1->GetIdx() + offset, nbr->GetIdx() + offset});
+        }
+
+        FOR_ATOMS_OF_MOL(a, chain) {
+            if (!(find(bond_atoms.begin(), bond_atoms.end(), a->GetIdx()) != bond_atoms.end()))
+                constraintsBond_.AddIgnore(a->GetIdx() + offset);
+        }
     }
-    FOR_ATOMS_OF_MOL(a, chain) {
-        if(std::find(torsionAtoms.begin(), torsionAtoms.end(), a->GetIdx()) == torsionAtoms.end()) {
-            constraintsAng_.AddIgnore(a->GetIdx() + offset);
+
+    else {
+        FOR_ATOMS_OF_MOL(a, chain)
             constraintsBond_.AddIgnore(a->GetIdx() + offset);
-        }
-    }
-
-    // Angle energy, must fix non-angle atoms
-    for (int i = 1; i < new_bond_ids.size(); i+=2) {
-        FOR_NBORS_OF_ATOM(nbr, chain.GetAtomById(new_bond_ids.at(i))) {
-            nbrIdx = nbr->GetIdx();
-            if (nbrIdx != chain.GetAtomById(new_bond_ids.at(i - 1))->GetIdx()) {
-                constraintsAng_.AddIgnore(nbrIdx + offset);
-                constraintsBond_.AddIgnore(nbrIdx + offset);
-            }
-        }
-    }
-
-    // Bond energy, must fix non-bond atoms
-    for (int i = 0; i < new_bond_ids.size(); i+=2) {
-        FOR_NBORS_OF_ATOM(nbr, chain.GetAtomById(new_bond_ids.at(i))) {
-            nbrIdx = nbr->GetIdx();
-            if (nbrIdx != chain.GetAtomById(new_bond_ids.at(i + 1))->GetIdx()) {
-                constraintsBond_.AddIgnore(nbrIdx + offset);
-            }
-        }
     }
 
     // Determine torsion atoms
@@ -439,7 +448,7 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
                     continue;
                 unsigned num = nbr->GetResidue()->GetNum();
                 // Exclude dihedral angles in two different residues as these bonds are not
-                // rotated in the conformtation search 
+                // rotated in the conformation search 
                 if ((chain.GetAtom(v[1])->GetResidue()->GetNum() == num) &&
                     (chain.GetAtom(v[2])->GetResidue()->GetNum() == num) &&
                     (nbr2->GetResidue()->GetNum() == num)) {

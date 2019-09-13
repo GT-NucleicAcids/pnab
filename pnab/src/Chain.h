@@ -102,7 +102,7 @@ namespace PNAB {
         std::vector<std::vector<unsigned>> v_bb_start_index_ = std::vector<std::vector<unsigned>>(6);
         std::string ff_type_;
         PNAB::Backbone backbone_;
-        std::vector<std::vector<unsigned int>> all_torsions_;
+        std::vector<std::vector<unsigned int>> all_angles_, all_torsions_;
         std::vector<bool> is_fixed_bond;
     
         OpenBabel::OBFFConstraints constraintsAng_, constraintsBond_, constraintsTor_, constraintsTot_;
@@ -118,7 +118,7 @@ namespace PNAB {
         * @param strand The list of bases in the strand
         * @param chain An empty openbabel molecule to be populated with the topology of the strand
         * @param new_bond_ids An empty vector to be populated with the indices of the atoms forming bonds between the nucleotides
-        * @param deleted_atom_ids An empty vector to be populated with the indices of the atoms deleted because of the bonding between the nucleotides
+        * @param deleted_atoms_ids An empty vector to be populated with the indices of the atoms deleted because of the bonding between the nucleotides
         * @param num_base_unit_atoms An empty vector to be populated with the number of atoms in each BaseUnit
         * @param bb_start_index An empty vector to be populated with the starting index of the backbone atoms in the BaseUnit
         * @param base_coords_vec An empty vector to be populated with the coordinates of each one of the nucleotides
