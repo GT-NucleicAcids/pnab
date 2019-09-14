@@ -14,8 +14,8 @@ namespace PNAB {
     *
     * The runtime parameters are used for building the strands and during the conformational search.
     *
-    * @sa PNAB::Chain
-    * @sa PNAB::ConformationSearch
+    * @sa Chain
+    * @sa ConformationSearch
     */
     class RuntimeParameters {
 
@@ -39,8 +39,8 @@ namespace PNAB {
                                                 * - Maximum accepted van der Waals energy (kcal/mol/nucleotide)
                                                 * - Maximum accepted total energy (kcal/mol/nucleotide)
                                                 *
-                                                * @sa PNAB::Chain::generateConformerData
-                                                * @sa PNAB::Chain::fillConformerEnergyData
+                                                * @sa Chain::generateConformerData
+                                                * @sa Chain::fillConformerEnergyData
                                                 */
 
         double max_distance;                    /*!< @brief Maximum accepted distance (Angstrom) between head and tail of successive nucleotides
@@ -51,13 +51,13 @@ namespace PNAB {
                                                 * This distance is recommended to be less than 0.1 Angstroms. The extra terminal atom
                                                 * in the adjacent nucleotide is then removed.
                                                 *
-                                                * @sa PNAB::ConformationSearch
+                                                * @sa ConformationSearch::measureDistance
                                                 */
 
         // Force Field Parameter
         std::string ff_type;                    /*!< @brief The type of the forcefield such as "GAFF" or "MMFF94"; available through Openbabel
                                                 *
-                                                * @sa PNAB::Chain::Chain
+                                                * @sa Chain::Chain
                                                 */
 
         // Algorithm parameters
@@ -71,68 +71,68 @@ namespace PNAB {
                                                 * - Weighted random search
                                                 * - Genetic algorithm search
                                                 *
-                                                *   @sa PNAB::ConformationSearch
+                                                *   @sa ConformationSearch
                                                 */
 
         std::size_t num_steps;                  /*!< @brief The number of points sampled in Monte Carlo and random searches
                                                 * and the number of generations in the genetic algorithm search
                                                 *
-                                                * @sa PNAB::ConformationSearch::MonteCarloSearch
-                                                * @sa PNAB::ConformationSearch::RandomSearch
-                                                * @sa PNAB::ConformationSearch::GeneticAlgorithmSearch
+                                                * @sa ConformationSearch::MonteCarloSearch
+                                                * @sa ConformationSearch::RandomSearch
+                                                * @sa ConformationSearch::GeneticAlgorithmSearch
                                                 */
 
         double dihedral_step;                   /*!< @brief The dihedral step size for systematic search (degrees)
                                                 *
                                                 * The number of steps will be \f$(\frac{360.0}{\textrm{dihedral step}})^{\textrm{number of rotatable dihedrals}}\f$.
                                                 *
-                                                * @sa PNAB::ConformationSearch::SystematicSearch
+                                                * @sa ConformationSearch::SystematicSearch
                                                 */
 
         double weighting_temperature;           /*!< @brief The temperature used to compute the weighted probability for weighted
                                                 * Monte Carlo and weighted random searches
                                                 *
-                                                * @sa PNAB::ConformationSearch::WeightedDistributions
+                                                * @sa ConformationSearch::WeightedDistributions
                                                 */
 
         double monte_carlo_temperature;         /*!< @brief The temperature used in the Monte Carlo acceptance and rejection procedure
                                                 *
-                                                * @sa PNAB::ConformationSearch::MonteCarloSearch
+                                                * @sa ConformationSearch::MonteCarloSearch
                                                 */
 
         double mutation_rate;                   /*!< @brief The mutation rate in the genetic algorithm search
                                                 *
-                                                * @sa PNAB::ConformationSearch::GeneticAlgorithmSearch
+                                                * @sa ConformationSearch::GeneticAlgorithmSearch
                                                 */
 
         double crossover_rate;                  /*!< @brief The crossover rate in the genetic algorithm search
                                                 *
-                                                * @sa PNAB::ConformationSearch::GeneticAlgorithmSearch
+                                                * @sa ConformationSearch::GeneticAlgorithmSearch
                                                 */
 
         int population_size;                    /*!< @brief The population size in the genetic algorithm search
                                                 *
-                                                * @sa PNAB::ConformationSearch::GeneticAlgorithmSearch
+                                                * @sa ConformationSearch::GeneticAlgorithmSearch
                                                 */
 
         //Strand parameters
         std::vector<std::string> strand;        //!< @brief The names of each base used in the strand
         bool is_double_stranded;                /*!< @brief Defines if the program tests double stranded molecules
                                                 *
-                                                * @sa PNAB::Chain::Chain
-                                                * @sa PNAB::Chain::setCoordsForChain
-                                                * @sa PNAB::Chain::setupChain
+                                                * @sa Chain::Chain
+                                                * @sa Chain::setCoordsForChain
+                                                * @sa Chain::setupChain
                                                 */
         bool is_hexad;                          /*!< @brief Defines if the program tests hexad molecules
                                                 *
-                                                * @sa PNAB::Chain::Chain
-                                                * @sa PNAB::Chain::setCoordsForChain
-                                                * @sa PNAB::Chain::setupChain
+                                                * @sa Chain::Chain
+                                                * @sa Chain::setCoordsForChain
+                                                * @sa Chain::setupChain
                                                 */
         std::vector<bool> strand_orientation;   /*!< @brief Defines strand orientation for each strand in the hexad
                                                 *
-                                                * @sa PNAB::Chain::setCoordsForChain
-                                                * @sa PNAB::Chain::setCoordsForChain
+                                                * @sa Chain::setCoordsForChain
+                                                * @sa Chain::setCoordsForChain
                                                 */
 
     };
@@ -143,8 +143,8 @@ namespace PNAB {
     * The helical parameters are used for generating the geometries of the nucleobases in the strands.
     * This class holds the value for six helical parameters and functions to generate the geometries.
     *
-    * @sa PNAB::Chain::setCoordsForChain
-    * @sa PNAB::ConformationSearch::measureDistance
+    * @sa Chain::setCoordsForChain
+    * @sa ConformationSearch::measureDistance
     */
     class HelicalParameters {
 
@@ -302,8 +302,8 @@ namespace PNAB {
     * on the molecular structure of the backbone and the bonds that the backbone form with the
     * nucleobases and the adjacent backbones. This class also has functions to manipulate the backbone.
     *
-    * @sa PNAB::BaseUnit
-    * @sa PNAB::ConformationSearch
+    * @sa BaseUnit
+    * @sa ConformationSearch
     */
     class Backbone {
     public:
@@ -540,7 +540,7 @@ namespace PNAB {
         * @brief Basic constructor for the Bases.
         *
         * The given bases are processed to create a vector of the defined bases and a vector of the complimentary bases.
-        * This calls PNAB::Base to make sure the given bases have Openbabel molecules
+        * This calls Base to make sure the given bases have Openbabel molecules
         *
         * @param input_bases The vector containing the information about the bases needed
         */
@@ -552,7 +552,7 @@ namespace PNAB {
         Bases() {};
 
         /**
-        * @brief Returns the PNAB::Base instance given the name of the base.
+        * @brief Returns the Base instance given the name of the base.
         *
         * @param name name of the base
         *
@@ -569,24 +569,24 @@ namespace PNAB {
         }
 
         /**
-        * @brief Returns the vector of the instances of PNAB::Base given the names of the bases in the strand.
+        * @brief Returns the vector of the instances of Base given the names of the bases in the strand.
         *
         * @param strand vector of base names in the strand
         *
         * @returns vector of bases in the strand
         *
-        * @sa PNAB::Chain::Chain
+        * @sa Chain::Chain
         */
         std::vector<Base> getBasesFromStrand(std::vector<std::string> strand);
 
         /**
-        * @brief Returns the complimentary vector of the instances of PNAB::Base given the names of the bases in the strand.
+        * @brief Returns the complimentary vector of the instances of Base given the names of the bases in the strand.
         *
         * @param strand vector of base names in the strand
         *
         * @returns vector of bases in the complimentary strand
         *
-        * @sa PNAB::Chain::Chain
+        * @sa Chain::Chain
         */
         std::vector<Base> getComplimentBasesFromStrand(std::vector<std::string> strand);
 
@@ -599,10 +599,10 @@ namespace PNAB {
     /**
     * @brief Class to hold bases with backbones attached (nucleotides), along with associated necessary information
     *
-    * @sa PNAB::Base
-    * @sa PNAB::Backbone
-    * @sa PNAB::Chain::setupChain
-    * @sa PNAB::ConformationSearch
+    * @sa Base
+    * @sa Backbone
+    * @sa Chain::setupChain
+    * @sa ConformationSearch
     */
     class BaseUnit {
     public:
@@ -690,10 +690,10 @@ namespace PNAB {
      * of the RMSD relative to the best candidate. If the conformer satisfies
      * the distance and energy thresholds, then it is saved.
      *
-     * @sa PNAB::Chain::generateConformerData
-     * @sa PNAB::ConformationSearch::print
-     * @sa PNAB::RuntimeParameters::energy_filter
-     * @sa PNAB::RuntimeParameters::max_distance
+     * @sa Chain::generateConformerData
+     * @sa ConformationSearch::reportData
+     * @sa RuntimeParameters::energy_filter
+     * @sa RuntimeParameters::max_distance
      */
     struct ConformerData {
         double *coords,                             //!< @brief Pointer to array containing coordinates of all atoms in molecule chain

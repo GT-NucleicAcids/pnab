@@ -7,8 +7,19 @@
 namespace py = pybind11;
 
 namespace PNAB {
-    std::string run(RuntimeParameters runtime_params, Backbone py_backbone,
-                    std::vector<Base> py_bases, HelicalParameters hp, std::string prefix) {
+    /**
+     * @brief A wrapper function to run the search algorithm code from python
+     *
+     * @param runtime_params The runtime parameters defined in the python script
+     * @param py_backbone The backbone defined in the python script
+     * @param py_bases A vector of the bases defined in the python script
+     * @param hp The helical parameters defined in the python script
+     * @param prefix A string the prepends the names of the output PDB files
+     *
+     * @returns A CSV string containing the properties of the accepted candidates
+     */ 
+    std::string run(PNAB::RuntimeParameters runtime_params, PNAB::Backbone py_backbone,
+                    std::vector<PNAB::Base> py_bases, PNAB::HelicalParameters hp, std::string prefix) {
         Backbone backbone(py_backbone.file_path, py_backbone.interconnects, py_backbone.linker, py_backbone.fixed_bonds);
         Bases bases(py_bases);
 
@@ -19,6 +30,18 @@ namespace PNAB {
 
     }
 
+    /**
+     * @brief Exports certain classes to python to allow the user to run the code from python
+     * 
+     * This pybind11 scheme exports only the input runtime, helical, base, and backbone parameters.
+     * It exports a single run funtion that can be called from python to run the code.
+     *
+     * @sa RuntimeParameters
+     * @sa HelicalParameters
+     * @sa Base
+     * @sa Backbone
+     * @sa run
+     */ 
     PYBIND11_MODULE(bind, m) {
         m.doc() = "Nucleic Acid Builder";
 

@@ -89,7 +89,7 @@ namespace PNAB {
         */
         PNAB::ConformerData generateConformerData(double *xyz, PNAB::HelicalParameters &hp, std::vector<double> energy_filter);
 
-        /*!
+        /**
          * @brief Returns the openbabel molecule containing the structure of the system
          *
          * @returns The openbabel molecule containing the structure of the system
