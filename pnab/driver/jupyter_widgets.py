@@ -717,14 +717,15 @@ def single_result(result, header, results, prefix):
 
     # Get the name of the PDB file containing the conformer
     conformer = str(int(result[0])) + '_' + str(int(result[1])) + '.pdb'
-    # Display the molecule
-    draw.view_nglview(conformer)
 
-    # Print other information
+    # Print information
     print(conformer)
     print(prefix['%i' %result[0]])
     for i in range(2, len(result)):
         print(header.split(', ')[i] + ': %.3f' %result[i])
+
+    # Display the molecule
+    draw.view_nglview(conformer)
     
 
 def show_results(results, header, prefix):
