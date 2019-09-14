@@ -118,8 +118,6 @@ def view_nglview(molecule, label=False):
     if not os.path.isfile(molecule):
         return 0
 
-    view = nglview.NGLWidget()
-
     # If a label is requested, then this is a backbone molecule
     if label:
         # Read the backbone molecule and convert it to a pdb format
@@ -134,10 +132,11 @@ def view_nglview(molecule, label=False):
         mol = conv.WriteString(mol)
 
         # Display the backbone molecule
-        view.add_component(mol, ext='pdb', defaultRepresentation=False) 
+        struct = nglview.TextStructure(mol)
+        view = nglview.NGLWidget(struct, defaultRepresentation=False)
         view.add_representation('licorice')
-        view.center()
         view.add_representation('label', labelType='serial', backgroundColor='black', showBackground=True)
+        view.center()
         display(view)
 
         # Return the number of atoms to be used for the backbone widgets
@@ -145,8 +144,8 @@ def view_nglview(molecule, label=False):
 
     # Show accepted candidates
     else:
-        # The C++ code always generates PDB files
-        view.add_component(molecule, ext='pdb', defaultRepresentation=False)
+        struct = nglview.FileStructure(molecule)
+        view = nglview.NGLWidget(struct, defaultRepresentation=False)
         view.add_representation('licorice')
         view.center()
         display(view)
