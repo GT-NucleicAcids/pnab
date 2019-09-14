@@ -156,20 +156,13 @@ namespace PNAB {
         */
         HelicalParameters() : h_twist{0}, h_rise{0}, inclination{0}, tip{0}, x_displacement{0}, y_displacement{0} {};
 
-        /**
-        * @brief Get the global rotation matrix using the HelicalParameters::tip and HelicalParameters::inclination
-        *
-        * @returns The global rotation matrix
-        *
-        * @sa rodrigues_formula
-        */
-        std::array<double, 9> getGlobalRotationMatrix() {
-            double eta = inclination * DEG_TO_RAD, theta = tip * DEG_TO_RAD;
-            double phi_pp = atan(std::isnan(eta / theta) ? 0 : eta / theta), Lambda = sqrt(eta*eta + theta*theta);
-            std::array<double, 3> axis{sin(phi_pp), cos(phi_pp), 0};
-
-            return rodrigues_formula(axis, Lambda);
-        }
+        //Helical parameters
+        double     inclination,                         //!< @brief Inclination
+                   tip,                                 //!< @brief Tip
+                   h_twist,                             //!< @brief Helical twist
+                   x_displacement,                      //!< @brief X-Displacement
+                   y_displacement,                      //!< @brief Y-Displacement
+                   h_rise;                              //!< @brief Helical rise
 
         /**
         * @brief Get the global rotation matrix in the OpenBabel::matrix3x3 format
@@ -193,25 +186,6 @@ namespace PNAB {
         OpenBabel::vector3 getGlobalTranslationVec() {
             return OpenBabel::vector3(x_displacement, y_displacement);
         }
-
-        /**
-        * @brief Get the step rotation matrix using the HelicalParameters::h_twist
-        *
-        * @param n The sequence of the nucleobase in the strand
-        *
-        * @returns The step rotation matrix
-        *
-        * @sa matrix_mult
-        */
-        std::array<double, 9> getStepRotationMatrix(unsigned n = 0) {
-            double Omega = h_twist * DEG_TO_RAD;
-            std::array<double, 9> m_mat {cos(Omega), -sin(Omega), 0, sin(Omega), cos(Omega), 0, 0, 0, 1};
-            std::array<double, 9> r_mat = {1, 0, 0, 0, 1, 0, 0, 0, 1};
-            for (int i = 0; i < n; ++i)
-                r_mat = matrix_mult(m_mat, r_mat);
-
-            return r_mat;
-        };
 
         /**
         * @brief Get the step rotation matrix in the OpenBabel::matrix3x3 format
@@ -240,13 +214,41 @@ namespace PNAB {
             return OpenBabel::vector3(0, 0, n * h_rise);
         }
 
-        //Helical parameters
-        double     inclination,                         //!< @brief Inclination
-                   tip,                                 //!< @brief Tip
-                   h_twist,                             //!< @brief Helical twist
-                   x_displacement,                      //!< @brief X-Displacement
-                   y_displacement,                      //!< @brief Y-Displacement
-                   h_rise;                              //!< @brief Helical rise
+    private:
+        /**
+        * @brief Get the global rotation matrix using the HelicalParameters::tip and HelicalParameters::inclination
+        *
+        * @returns The global rotation matrix
+        *
+        * @sa rodrigues_formula
+        */
+        std::array<double, 9> getGlobalRotationMatrix() {
+            double eta = inclination * DEG_TO_RAD, theta = tip * DEG_TO_RAD;
+            double phi_pp = atan(std::isnan(eta / theta) ? 0 : eta / theta), Lambda = sqrt(eta*eta + theta*theta);
+            std::array<double, 3> axis{sin(phi_pp), cos(phi_pp), 0};
+
+            return rodrigues_formula(axis, Lambda);
+        }
+
+        /**
+        * @brief Get the step rotation matrix using the HelicalParameters::h_twist
+        *
+        * @param n The sequence of the nucleobase in the strand
+        *
+        * @returns The step rotation matrix
+        *
+        * @sa matrix_mult
+        */
+        std::array<double, 9> getStepRotationMatrix(unsigned n = 0) {
+            double Omega = h_twist * DEG_TO_RAD;
+            std::array<double, 9> m_mat {cos(Omega), -sin(Omega), 0, sin(Omega), cos(Omega), 0, 0, 0, 1};
+            std::array<double, 9> r_mat = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+            for (int i = 0; i < n; ++i)
+                r_mat = matrix_mult(m_mat, r_mat);
+
+            return r_mat;
+        };
+
 
         /**
         * @brief Rodrigues rotation formula for rotating a vector in space
@@ -323,7 +325,6 @@ namespace PNAB {
         */
         Backbone(std::string file_path, std::array<unsigned, 2> interconnects, std::array<unsigned,2> linker, std::vector<std::vector<unsigned>> fixed_bonds = {});
 
-
         /**
         * @brief Gives the pointer to an atom that is the head from Backbone::interconnects{head, tail}
         * @return The atom pointer from the backbone OBMol object
@@ -397,17 +398,19 @@ namespace PNAB {
         */
         void deleteVectorAtom();
 
+        std::array<unsigned , 2> interconnects,          //!< @brief The atom indices that define the periodic conditions between backbones { head, tail }
+                                 linker;                 //!< @brief The atom indices used to align and connect backbone to base in the nucleotide
+        std::vector<std::vector<unsigned>> fixed_bonds;  //!< @brief A vector containing pairs of indices defining fixed rotatable bonds during dihedral search
+        OpenBabel::OBMol backbone;                       //!< @brief The molecule for the backbone
+        std::string file_path;                           //!< @brief The path to the file containing the molecule
+
+    private:
        /**
        * @brief Does some basic sanity checks (such as whether or not the indices of the atom are within the range
        * of the molecule)
        */
         void validate();
 
-        std::array<unsigned , 2> interconnects,          //!< @brief The atom indices that define the periodic conditions between backbones { head, tail }
-                                 linker;                 //!< @brief The atom indices used to align and connect backbone to base in the nucleotide
-        std::vector<std::vector<unsigned>> fixed_bonds;  //!< @brief A vector containing pairs of indices defining fixed rotatable bonds during dihedral search
-        OpenBabel::OBMol backbone;                       //!< @brief The molecule for the backbone
-        std::string file_path;                           //!< @brief The path to the file containing the molecule
         bool vector_atom_deleted;                        //!< @brief Whether or not the atom from getVector() has been deleted
     };
 
@@ -508,18 +511,20 @@ namespace PNAB {
             return pair_name;
         }
 
-        /**
-         * @brief Does some basic sanity checks (such as whether or not the indices of the atom are within the range
-         * of the molecule).
-         */
-        void validate();
-
         std::string name,                               //!< @brief Full name of base (i.e. "Adenine" or just "A")
                     code,                               //!< @brief Three character code to define base ("Adenine": "ADE")
                     pair_name,                          //!< @brief Name of the pair base
                     file_path;                          //!< @brief Path to a file containing the base
         OpenBabel::OBMol base;                          //!< @brief The OBMol defining the base
         std::array<std::size_t, 2 > linker;             //!< @brief Holds indices for atoms forming a vector to connect to backbone {linker, hydrogen}
+
+    private:
+        /**
+        * @brief Does some basic sanity checks (such as whether or not the indices of the atom are within the range
+        * of the molecule).
+        */
+        void validate();
+
         bool vector_atom_deleted;                       //!< @brief Whether or not the getVector() atom was deleted
     };
 
