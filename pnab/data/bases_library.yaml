@@ -43,7 +43,7 @@ Base X:
   file_path: cyanuric_acid.pdb
   linker:
   - 5
-  - 8
+  - 12
   name: X
   pair_name: Y
 Base Y:

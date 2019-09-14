@@ -1,23 +1,28 @@
-"""visualization support
-Provides visualization utilities.
+"""!@brief A file containing helper scripts for drawing and visualizing molecules
 
-This is a file that contains visualization utilities used with the Jupyter notebook driver.
-The visualization utilities are two: 1) JSME for drawing
-molecules. 2) Py3DMol for visualizing results.
+The visualization utilities used with the Jupyter notebook driver are:
+
+1) JSME for drawing molecules\n
+2) NGLView for visualizing results.
 """
 
 from __future__ import division, absolute_import, print_function
 
 def draw():
-    """JSME molecule editor.
+    """!@brief Display the JSME molecule editor (https://peter-ertl.com/jsme/).
     
-    HTML script for JSME. This has to be displayed from inside the 
-    Jupyter notebook in order for the program to get the molecules
-    drawn by the user. Jupyter implements security measures that prevents
-    the communication of user input to the python driver unless this script
-    is called from within the Jupyter notebook. After the user draws a molecule
-    and presses 'done!', a prompt asks for the name of the molecule, which becomes
-    the variable that holds the mol representation of the geometry. 
+    HTML script for displaying the JSME molecule editor in the Jupyter notebook.
+    After the user draws a molecule and presses 'done!', a prompt asks for the
+    name of the molecule. The drawn molecule is processed by OpenBabel to make
+    a 3D geometry of the moleucle. The geometry of the molecule is optimized by
+    performing 500 steepest descent steps, followed by weighted rotor search,
+    followed by 500 conjugate gradient steps. The MMFF94 force field is used
+    for the optimization. After the optimization, a PDB file with the user-provided
+    name and containing the optimized geometry is written.
+
+    @attention The JSME editor may not be displayed in some browsers.
+
+    @sa jupyter_widgets.backbone
     """
 
     from IPython.display import HTML, display
@@ -80,40 +85,68 @@ with open("""` + name + `""" + '.pdb', 'w') as f:
     display(HTML(jsme_html))
 
 
-def view_py3dmol(conformer, label=False):
-    """Py3DMol viewer.
+def view_nglview(molecule, label=False):
+    """!@brief Display molecules using the NGLView viewer.
 
-    A function to view molecular geometries using the Py3DMol project.
+    A function to view molecules using the NGLView project (https://github.com/arose/nglview).
+    It is used to display the geometry of the backbone with atom index labels. It is
+    also used to display accepted nucleic acid candidates generated after
+    the search. For backbone molecules, the number of atoms in the backbone
+    is computed here and returned to be used for bounding the displayed atomic
+    indices in backbone widgets.
+
+
+    @param molecule (str) Path to a file containing the 3D structure of the molecule
+    @param label (bool) Whether to display atom index labels
+
+    @return number of atoms in @a molecule if @a label is True, else None
+
+    @attention If the molecules are not displayed correctly, you may need to execute
+        @code{.sh} jupyter-nbextension enable nglview --py --sys-prefix @endcode
+
+    @sa jupyter_widgets.path
+    @sa jupyter_widgets.single_result
     """
 
-    try:
-        import py3Dmol
-    except ImportError:
-        return
+    import os
+    from IPython.display import display
 
     import openbabel
-    import os
-    if not os.path.isfile(conformer):
+    import nglview
+
+    # Check if the file exists
+    if not os.path.isfile(molecule):
         return 0
 
-    mol = openbabel.OBMol()
-    conv = openbabel.OBConversion()
-    fmt = conv.FormatFromExt(conformer)
-    conv.SetInAndOutFormats(fmt.GetID(), 'pdb')
-    conv.ReadFile(mol, conformer)
-    num_atoms = mol.NumAtoms()
-    mol = conv.WriteString(mol)
+    view = nglview.NGLWidget()
 
-    view = py3Dmol.view()
-    view.addModel(mol, 'pdb', {'keepH': True})
-    view.setStyle({'stick':{}})
-    view.zoomTo()
-
+    # If a label is requested, then this is a backbone molecule
     if label:
-        view.addPropertyLabels("serial", {}, {'fontColor': 'black', 'showBackground': False})
+        # Read the backbone molecule and convert it to a pdb format
+        mol = openbabel.OBMol()
+        conv = openbabel.OBConversion()
+        fmt = conv.FormatFromExt(molecule)
+        conv.SetInAndOutFormats(fmt.GetID(), 'pdb')
+        conv.ReadFile(mol, molecule)
+
+        # Extract the number of atoms
+        num_atoms = mol.NumAtoms()
+        mol = conv.WriteString(mol)
+
+        # Display the backbone molecule
+        view.add_component(mol, ext='pdb', defaultRepresentation=False) 
+        view.add_representation('licorice')
+        view.center()
+        view.add_representation('label', labelType='serial', backgroundColor='black', showBackground=True)
+        display(view)
+
+        # Return the number of atoms to be used for the backbone widgets
+        return num_atoms
+
+    # Show accepted candidates
     else:
-        view.setProjection("orthographic")
-
-    view.show()
-
-    return num_atoms
+        # The C++ code always generates PDB files
+        view.add_component(molecule, ext='pdb', defaultRepresentation=False)
+        view.add_representation('licorice')
+        view.center()
+        display(view)

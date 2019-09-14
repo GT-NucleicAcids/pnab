@@ -28,7 +28,7 @@ include_directories(${SOURCE_DIR})
 set(SOURCE_FILES 
         ${SOURCE_DIR}/Containers.cpp
         ${SOURCE_DIR}/Chain.cpp
-        ${SOURCE_DIR}/SearchTypes/ConformationSearch.cpp
+        ${SOURCE_DIR}/ConformationSearch.cpp
         )
 
 # pybind11

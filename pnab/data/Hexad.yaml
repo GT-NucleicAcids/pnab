@@ -49,6 +49,7 @@ RuntimeParameters:
   - true
   is_double_stranded: false
   max_distance: 0.05
+  monte_carlo_temperature: 298.0
   num_steps: 10000000
   strand: XYX
-  type: GAFF
+  ff_type: GAFF

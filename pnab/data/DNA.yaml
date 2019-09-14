@@ -50,5 +50,8 @@ RuntimeParameters:
   is_double_stranded: true
   max_distance: 0.05
   num_steps: 100000
+  population_size: 1000
+  mutation_rate: 0.75
+  crossover_rate: 0.75
   strand: CGA
-  type: GAFF
+  ff_type: GAFF

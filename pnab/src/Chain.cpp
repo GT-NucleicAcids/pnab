@@ -1,46 +1,39 @@
-//
-// Created by jbarnett8 on 2/10/18.
-//
-
-#include <openbabel/obconversion.h>
 #include "Chain.h"
 
 using namespace std;
 using namespace PNAB;
 using namespace OpenBabel;
 
-Chain::Chain(Bases bases, const Backbone &backbone, vector<string> strand, string ff_type,
-             std::array<unsigned, 2> &range, bool double_stranded, bool hexad, vector<bool> strand_orientation) {
+Chain::Chain(Bases bases, const Backbone &backbone, std::vector<std::string> strand, std::string ff_type,
+             std::array<unsigned, 2> &range, bool double_stranded, bool hexad, std::vector<bool> strand_orientation) {
 
+    // Set some variables
     strand_orientation_ = strand_orientation;
     hexad_ = hexad;
     double_stranded_ = double_stranded;
+    if (double_stranded) {
+        strand_orientation_[0] = true;
+        strand_orientation_[1] = false;
+    }
     ff_type_ = ff_type;
     monomer_bb_index_range_ = range;
-    backbone_ = backbone;
     chain_length_ = static_cast<unsigned>(strand.size());
+
+    // Get the openbabel force field
     pFF_ = OBForceField::FindForceField(ff_type_);
+    // Make sure we have a valid pointer
     if (!pFF_) {
         cerr << "Cannot find force field. Exiting" << endl;
         exit(1);
     }
+    // Check whether the force field uses kcal/mol or kJ/mol
     isKCAL_ = pFF_->GetUnit().find("kcal") != string::npos;
 
+    // Get the bases for the strand and the complimentary strand for duplexed and hexads
     auto bases_A = bases.getBasesFromStrand(strand);
     auto bases_B = bases.getComplimentBasesFromStrand(strand);
 
-    canonical_nucleobase_ = false;
-    for (auto v: bases_A) {
-        if (canonical_nucleobase_)
-            break;
-        for (auto i: std::vector<string> {"a", "g", "c", "t", "u"}) {
-            if (v.getName() == i) {
-                canonical_nucleobase_ = true;
-                break;
-            }
-        }
-    }
-
+    // Check we have complimentary bases
     std::vector<std::vector<Base>> v_bases{bases_A, bases_B};
     if (bases_B.empty() && (double_stranded_ || hexad_)) {
         cerr << "User requested double stranded or hexad chain, however not all bases have a valid compliment. Please check"
@@ -48,15 +41,18 @@ Chain::Chain(Bases bases, const Backbone &backbone, vector<string> strand, strin
         throw 1;
     }
 
+    // Determine the number of chains
     n_chains_ = 1;
     if (double_stranded_)
         n_chains_ = 2;
     else if (hexad_)
         n_chains_ = 6;
     unsigned offset = 0;
+
+    // Setup all chains
     for (unsigned i=0; i < n_chains_; i++) {
         setupChain(v_bases[i%2], v_chain_[i], v_new_bond_ids_[i], v_deleted_atoms_ids_[i], v_num_bu_A_mol_atoms_[i], v_bb_start_index_[i],
-                   v_base_coords_vec_[i], v_fixed_bonds[i], i);
+                   v_base_coords_vec_[i], v_fixed_bonds[i], backbone, i);
         std::sort(v_deleted_atoms_ids_[i].begin(), v_deleted_atoms_ids_[i].end());
         setupFFConstraints(v_chain_[i], v_new_bond_ids_[i], v_fixed_bonds[i], offset);
         offset += v_chain_[i].NumAtoms();
@@ -66,11 +62,14 @@ Chain::Chain(Bases bases, const Backbone &backbone, vector<string> strand, strin
 
 
 ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, vector<double> energy_filter) {
+
+    // Check if the chain has atoms
     if (v_chain_[0].NumAtoms() <= 0) {
         cout << "There are no atoms in the chain_. Exiting..." << endl;
         exit(0);
     }
 
+    // Set the correct number of coordinates
     unsigned num_cooords;
     if (double_stranded_)
         num_cooords = (v_chain_[0].NumAtoms() + v_chain_[1].NumAtoms()) * 3;
@@ -80,62 +79,94 @@ ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, 
         num_cooords = v_chain_[0].NumAtoms() * 3;
     auto *xyz = new double[num_cooords];
 
+    // Set the coordinates
     for (unsigned i=0; i < n_chains_; i++) {
         setCoordsForChain(xyz,conf,hp,v_num_bu_A_mol_atoms_[i],v_bb_start_index_[i], v_base_coords_vec_[i],v_deleted_atoms_ids_[i], i);
     }
 
+    // Fill in the energy data
     ConformerData data;
     data.coords = xyz;
     data.chain_coords_present = true;
     fillConformerEnergyData(xyz, data, energy_filter);
+
     return data;
 }
 
 void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data, vector<double> energy_filter) {
 
+    // Set the molecule
     OBMol *current_mol;
-
     current_mol = &combined_chain_;
-
     current_mol->SetCoordinates(xyz);
 
+    // Determine the number of nucleotides in the system
     auto n = chain_length_;
-    int subtract = 1;
-    if (double_stranded_) {
+    if (double_stranded_)
         n *= 2;
-        subtract = 2;
-    }
-    else if (hexad_) {
-        n *= 6;
-        subtract = 6;
-    }
 
+    else if (hexad_)
+        n *= 6;
+
+    // Compute bond and angle energies only if we have more than one nucleotide per strand
     if (!(n == 1) && !(double_stranded_ && n == 2) && !(hexad_ && n==6)) {
 
-        // Get bond energy
+        // Get bond energy. We set the constraint to ignore all bonds except the 
+        // one bond between the first and second nucleotides in the first strand
+        // The other bonds will have the same energy
         pFF_->Setup(*current_mol, constraintsBond_);
-        conf_data.bondE = pFF_->E_Bond(false) / (n - subtract);
+        conf_data.bondE = pFF_->E_Bond(false);
 
         if (!isKCAL_)
             conf_data.bondE *= KJ_TO_KCAL;
 
+        // if not accepted, return
         if (energy_filter[0] < conf_data.bondE) {
             conf_data.accepted = false;
             return;
         }
-        // Get angle energy
+
+        // Get angle energy. We compute the energy only between the first and 
+        // second nucleotides in the first strand. The other angles will have the same energy
+
+        // We use energy groups here
+        // Set the energy groups for the required angles
+        for (auto i: all_angles_) {
+            OBBitVec bit = OBBitVec();
+            for (auto j: i)
+                bit.SetBitOn(j);
+            pFF_->AddIntraGroup(bit);
+        }
+
+        // We need to trick openbabel to do a new setup for the force field
+        // We change the atomic number of one element and then we change it back
+        // This triggers a new force field setup
+        // This is necessary because for some reason we cannot set interaction
+        // groups and then delete them. If no new setup was performed, openbabel
+        // would not compute energy terms for terms not included within the interaction group.
+        // Maybe there is a better solution
+        unsigned a0 = current_mol->GetAtom(1)->GetAtomicNum();
+        current_mol->GetAtom(1)->SetAtomicNum(1);
         pFF_->Setup(*current_mol, constraintsAng_);
-        conf_data.angleE = pFF_->E_Angle(false) / (n - subtract);
+        current_mol->GetAtom(1)->SetAtomicNum(a0);
+        pFF_->Setup(*current_mol, constraintsAng_); // empty constraint
+
+        conf_data.angleE = pFF_->E_Angle(false);
+
+        // This is still necessary
+        pFF_->ClearGroups();
 
         if (!isKCAL_)
             conf_data.angleE *= KJ_TO_KCAL;
 
+        // if not accepted, return
         if (energy_filter[1] < conf_data.angleE) {
             conf_data.accepted = false;
             return;
         }
     }
 
+    // If we have only one nucleotide per strand, set energy to zero
     else {
         conf_data.bondE = conf_data.angleE = 0.0;
     }
@@ -144,6 +175,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
     // Add interaction groups for rotatable torsions
     bool is_there_fixed_bond = false;
     for (int i=0; i < all_torsions_.size(); i++) {
+        // Determine whether we have fixed bonds
         if (is_fixed_bond[i]) {
             is_there_fixed_bond = true;
             continue;
@@ -155,40 +187,30 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
         pFF_->AddIntraGroup(bit);
     }
 
-    // We need to trick openbabel to do a new setup for the force field
-    // We change the atomic number of one element and then we change it back
-    // This triggers a new force field setup
-    // This is necessary because for some reason we cannot set interaction
-    // groups and then delete them. If no new setup was performed, openbabel
-    // would not compute van der Waals or total energy terms for terms not
-    // included within the interaction group.
-    // We need to keep the torsional computation before van der Waals
-    // because it is less expensive. We check for energy thresholds sequentially.
-    // Maybe there is a better solution
+    // Do the same trick
     unsigned a0 = current_mol->GetAtom(1)->GetAtomicNum();
     current_mol->GetAtom(1)->SetAtomicNum(1);
     pFF_->Setup(*current_mol, constraintsTor_);
     current_mol->GetAtom(1)->SetAtomicNum(a0);
     pFF_->Setup(*current_mol, constraintsTor_);
 
-    conf_data.torsionE = pFF_->E_Torsion(false)/n;
+    conf_data.torsionE = pFF_->E_Torsion(false)/n; // Divide by the number of nucleotides
     // This is still necessary
     pFF_->ClearGroups();
 
     if (!isKCAL_)
         conf_data.torsionE *= KJ_TO_KCAL;
 
+    // if not accepted, return
     if (energy_filter[2] < conf_data.torsionE) {
         conf_data.accepted = false;
         return;
     }
-    
+
+    // Get torsion energy for fixed bonds
     if (is_there_fixed_bond) {
-        // Get torsion energy for fixed bonds
         // Add interaction groups for fixed rotatable torsions
-        // Add an empty OBBitVec in case there are not any fixed bonds
         OBBitVec bit = OBBitVec();
-        pFF_->AddIntraGroup(bit);
         for (int i=0; i < all_torsions_.size(); i++) {
             if (!is_fixed_bond[i])
                 continue;
@@ -204,15 +226,16 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
         current_mol->GetAtom(1)->SetAtomicNum(1);
         pFF_->Setup(*current_mol, constraintsTor_);
         current_mol->GetAtom(1)->SetAtomicNum(a1);
-        pFF_->Setup(*current_mol, constraintsTor_);
+        pFF_->Setup(*current_mol, constraintsTor_); // empty constraint
 
-        conf_data.fixed_torsionE = pFF_->E_Torsion(false)/n;
+        conf_data.fixed_torsionE = pFF_->E_Torsion(false)/n; // Divide by the number of nucleotides
         // This is still necessary
         pFF_->ClearGroups();
 
         if (!isKCAL_)
            conf_data.fixed_torsionE *= KJ_TO_KCAL;
     }
+    // If we do not have fixed bond, set energy to zero
     else
         conf_data.fixed_torsionE = 0.0;
 
@@ -222,13 +245,14 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
     current_mol->GetAtom(1)->SetAtomicNum(1);
     pFF_->Setup(*current_mol, constraintsTot_);
     current_mol->GetAtom(1)->SetAtomicNum(a);
-    pFF_->Setup(*current_mol, constraintsTot_);
+    pFF_->Setup(*current_mol, constraintsTot_); //empty constraint
 
-    conf_data.VDWE = pFF_->E_VDW(false) / n;
+    conf_data.VDWE = pFF_->E_VDW(false) / n; // Divide by the number of nucleotides
 
     if (!isKCAL_)
         conf_data.VDWE *= KJ_TO_KCAL;
 
+    // if not accepted, return
     if (energy_filter[3] < conf_data.VDWE) {
         conf_data.accepted = false;
         return;
@@ -245,24 +269,27 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
         return;
     }
 
+    // If it passes all energy thresholds, accept backbone candidate
     conf_data.accepted = true;
 }
 
 void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids,
                        std::vector<unsigned> &deleted_atoms_ids, std::vector<unsigned> &num_base_unit_atoms,
                        std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
-                       std::vector<std::vector<unsigned>> &fixed_bonds_vec, unsigned chain_index) {
+                       std::vector<std::vector<unsigned>> &fixed_bonds_vec, const Backbone &backbone, unsigned chain_index) {
 
+    // Set some variables
     auto bases_A = strand;
     unsigned neighbor_id;
     vector<unsigned> head_ids, tail_ids;
     OBAtom *head, *tail;
 
+    // Get base units
     vector<BaseUnit> bu_A;
     vector<string> base_codes;
     vector<string> base_names;
     for (auto v : bases_A) {
-        bu_A.emplace_back(BaseUnit(v, backbone_));
+        bu_A.emplace_back(BaseUnit(v, backbone));
         base_codes.emplace_back(v.getCode());
         base_names.emplace_back(v.getName());
     }
@@ -274,8 +301,6 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         // We want a list of linkers for deletion
         bu_linkers_vec.emplace_back(v.getBackboneLinkers());
 
-        // Place where
-        //base_connect_index.emplace_back(v.getBaseConnectIndex());
         // We need to know when the backbone starts in the BaseUnit
         auto bb_r = v.getBackboneIndexRange();
         bb_start_index.emplace_back(static_cast<unsigned>(bb_r[0]));
@@ -292,6 +317,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         base_fixed_bonds.push_back(v.getFixedBonds());
     }
 
+    // Create chain by adding all the nucleotides
     auto chain_letter = static_cast<char>('A' + chain_index);
     unsigned c = 0;
     for (auto v : bu_A_mol) {
@@ -307,7 +333,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         c++;
     }
 
-    // Mark fixed bonds
+    // Mark fixed bonds; we want to extract them later
     int num_atoms = 0, n_fixed = 0;
     for (int i=0; i < base_fixed_bonds.size(); i++) {
         for (auto bonds: base_fixed_bonds[i]) {
@@ -328,7 +354,9 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
 
     std::vector<long int> center_ids;
     unsigned count = 0, index = 0;
-    if ((canonical_nucleobase_ && chain_index == 0) || (!canonical_nucleobase_ && strand_orientation_[chain_index])) {
+
+    // Determine the connection based on the strand orientation
+    if (strand_orientation_[chain_index]) {
         for (unsigned i = 0; i < bu_linkers_vec.size(); ++i) {
             head_ids.push_back(static_cast<int>(chain.GetAtom(count + bu_linkers_vec[i][0])->GetId()));
             count += num_base_unit_atoms[index++];
@@ -344,6 +372,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         }
     }
 
+    // Delete extra atoms that remain after connecting the nucleotides
     for (unsigned i = 0; i < head_ids.size(); i++) {
         head = chain.GetAtomById(head_ids[i]);
         tail = chain.GetAtomById(tail_ids[i]);
@@ -373,6 +402,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
     }
 
 
+    // Get the indices of the fixed bonds after deletion of other atoms
     for (int i=0; i < n_fixed; i++) {
         fixed_bonds_vec.push_back({});
         FOR_ATOMS_OF_MOL(a, chain) {
@@ -385,43 +415,42 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
 };
 
 void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids, std::vector<std::vector<unsigned>> &fixed_bonds_vec, unsigned offset) {
-    int nbrIdx;
 
-    // Torsional energy, must fix non-torsion atoms
-    vector<int> torsionAtoms;
-    for (auto v : new_bond_ids) {
-        FOR_NBORS_OF_ATOM(nbr, chain.GetAtomById(v))
-            torsionAtoms.emplace_back(nbr->GetIdx());
+    vector<int> bond_atoms;
+
+    // Determine the bond and angle atoms only for the first strand
+    if (offset == 0) {
+
+        // The bond and angle terms are computed only between the first and second nucleotides
+        OBAtom* atom1 = chain.GetAtomById(new_bond_ids[0]);
+        OBAtom* atom2 = chain.GetAtomById(new_bond_ids[1]);
+        bond_atoms.push_back(atom1->GetIdx());
+        bond_atoms.push_back(atom2->GetIdx());
+
+        // The angle atoms are between all triples involving the two linkers and the neighboring atoms
+        FOR_NBORS_OF_ATOM(nbr, atom2) {
+            if (nbr->GetIdx() != atom1->GetIdx())
+                all_angles_.push_back({atom1->GetIdx() + offset, atom2->GetIdx() + offset, nbr->GetIdx() + offset});
+        }
+        FOR_NBORS_OF_ATOM(nbr, atom1) {
+            if (nbr->GetIdx() != atom2->GetIdx())
+            all_angles_.push_back({atom2->GetIdx() + offset, atom1->GetIdx() + offset, nbr->GetIdx() + offset});
+        }
+
+        // Ignore all other atoms in the bond calculation
+        FOR_ATOMS_OF_MOL(a, chain) {
+            if (!(find(bond_atoms.begin(), bond_atoms.end(), a->GetIdx()) != bond_atoms.end()))
+                constraintsBond_.AddIgnore(a->GetIdx() + offset);
+        }
     }
-    FOR_ATOMS_OF_MOL(a, chain) {
-        if(std::find(torsionAtoms.begin(), torsionAtoms.end(), a->GetIdx()) == torsionAtoms.end()) {
-            constraintsAng_.AddIgnore(a->GetIdx() + offset);
+
+    // ignore all atoms in the bond calculation for the other strands
+    else {
+        FOR_ATOMS_OF_MOL(a, chain)
             constraintsBond_.AddIgnore(a->GetIdx() + offset);
-        }
     }
 
-    // Angle energy, must fix non-angle atoms
-    for (int i = 1; i < new_bond_ids.size(); i+=2) {
-        FOR_NBORS_OF_ATOM(nbr, chain.GetAtomById(new_bond_ids.at(i))) {
-            nbrIdx = nbr->GetIdx();
-            if (nbrIdx != chain.GetAtomById(new_bond_ids.at(i - 1))->GetIdx()) {
-                constraintsAng_.AddIgnore(nbrIdx + offset);
-                constraintsBond_.AddIgnore(nbrIdx + offset);
-            }
-        }
-    }
-
-    // Bond energy, must fix non-bond atoms
-    for (int i = 0; i < new_bond_ids.size(); i+=2) {
-        FOR_NBORS_OF_ATOM(nbr, chain.GetAtomById(new_bond_ids.at(i))) {
-            nbrIdx = nbr->GetIdx();
-            if (nbrIdx != chain.GetAtomById(new_bond_ids.at(i + 1))->GetIdx()) {
-                constraintsBond_.AddIgnore(nbrIdx + offset);
-            }
-        }
-    }
-
-    // Determine torsion atoms
+    // Determine torsion atoms in the strand
     OBRotorList rl;
     OBBitVec fix_bonds(chain.NumAtoms());
     rl.Setup(chain);
@@ -439,12 +468,13 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
                     continue;
                 unsigned num = nbr->GetResidue()->GetNum();
                 // Exclude dihedral angles in two different residues as these bonds are not
-                // rotated in the conformtation search 
+                // rotated in the conformation search
                 if ((chain.GetAtom(v[1])->GetResidue()->GetNum() == num) &&
                     (chain.GetAtom(v[2])->GetResidue()->GetNum() == num) &&
                     (nbr2->GetResidue()->GetNum() == num)) {
                     // These are the correct torsional angles that we want to compute energies for
                     bool fixed = false;
+                    // Determine whether this angle is fixed
                     for (auto bond: fixed_bonds_vec) {
                         if ((find(bond.begin(), bond.end(), v[1]) != bond.end()) && (find(bond.begin(), bond.end(), v[2]) != bond.end())) {
                             is_fixed_bond.push_back(true);
@@ -468,28 +498,38 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                               std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
                               std::vector<unsigned> &deleted_atoms_ids, unsigned chain_index) {
 
-    matrix3x3 change_sign, z_rot;
-    matrix3x3 change_sign2 = {{-1, 0, 0},{0, 1, 0}, {0, 0, -1}};
+    // Rotation for hexad
+    double twist = chain_index * 60.0 * DEG_TO_RAD;
+    matrix3x3 z_rot = {{cos(twist), -sin(twist), 0},{sin(twist), cos(twist), 0}, {0, 0, 1}};
+
+    // Reflection for both the duplex and the hexad
+    matrix3x3 change_sign = {{1, 0, 0},{0, -1, 0}, {0, 0, -1}};
+
+    // Reflection that we can apply if we want the same orientation as that of 3DNA
+    //matrix3x3 change_sign2 = {{-1, 0, 0},{0, 1, 0}, {0, 0, -1}};
+
+    // Get the global rotation and translations
     auto g_rot = hp.getGlobalRotationOBMatrix();
     auto g_trans = hp.getGlobalTranslationVec();
     unsigned xyzI = 0, local_offset = 0, deleted_atom_index = 0;
+
+    // Get the correct beginning index for the duplex and the hexad
     if (double_stranded_ && chain_index == 1) {
         xyzI = 3 * v_chain_[0].NumAtoms();
-        change_sign = {{1, 0, 0},{0, -1, 0}, {0, 0, -1}};
     }
-    else if (!canonical_nucleobase_) {
-        if (hexad_)
-            xyzI = 3 * v_chain_[0].NumAtoms() * ((chain_index + 1) / 2) + 3 * v_chain_[1].NumAtoms() * (chain_index / 2); 
-        change_sign = {{1, 0, 0},{0, -1, 0}, {0, 0, -1}};
-        double twist = chain_index * 60.0 * DEG_TO_RAD;
-        z_rot = {{cos(twist), -sin(twist), 0},{sin(twist), cos(twist), 0}, {0, 0, 1}};
+    else if (hexad_) {
+        xyzI = 3 * v_chain_[0].NumAtoms() * ((chain_index + 1) / 2) + 3 * v_chain_[1].NumAtoms() * (chain_index / 2);
     }
 
+    // Setup the coordinates for each nucleotide
     for (unsigned i = 0; i < chain_length_; ++i) {
         auto n = num_bu_atoms[i];
         auto r = bb_start_index[i];
+        // Get the step translation and rotation 
         auto s_trans = hp.getStepTranslationVec(i);
         auto s_rot   = hp.getStepRotationOBMatrix(i);
+
+        // Set the coordinates for the nucleobases
         double *base_coords = base_coords_vec[i];
         for (unsigned baseI = 0; baseI < r - 1; ++baseI) {
             vector3 v3;
@@ -497,15 +537,10 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
 
             v3 += g_trans; v3 *= g_rot;
 
-            if (double_stranded_ && chain_index == 1)
+            if (!strand_orientation_[chain_index])
                 v3 *= change_sign;
-
-            else if (!canonical_nucleobase_) {
-                if (!strand_orientation_[chain_index])
-                    v3 *= change_sign;
+            if (hexad_)
                 v3 *= z_rot;
-            }
-
 
             v3 += s_trans; v3 *= s_rot;
 
@@ -515,6 +550,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
             v3.Get(xyz + xyzI);
             xyzI += 3;
         }
+
+        // Set the coordinates for backbone
         unsigned monomer_index = monomer_bb_index_range_[0] - 1;
         for (unsigned bbI = r - 1; bbI < n; bbI++) {
             if (deleted_atoms_ids.empty() || bbI + local_offset + 1 != deleted_atoms_ids[deleted_atom_index] + 1) {
@@ -523,15 +560,11 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
 
                 v3 += g_trans; v3 *= g_rot;
 
-                if (double_stranded_ && chain_index == 1)
-                    v3 *= change_sign;
-
-                else if (!canonical_nucleobase_) {
-                    if (!strand_orientation_[chain_index])
-                        v3 *= change_sign;
+                if (!strand_orientation_[chain_index])
+                     v3 *= change_sign;
+                if (hexad_)
                     v3 *= z_rot;
-                }
-               
+
                 v3 += s_trans; v3 *= s_rot;
 
                 // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
