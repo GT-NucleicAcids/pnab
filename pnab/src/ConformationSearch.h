@@ -294,7 +294,7 @@ namespace PNAB {
             for (int i = 0; i < size; i++) {
                 rmsd += pow(*(ref + i) - *(conf + i),2);
             }
-            return sqrt(rmsd/size);
+            return sqrt(rmsd/(size/3));
         }
 
         /**

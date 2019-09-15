@@ -661,7 +661,7 @@ void ConformationSearch::SystematicSearch() {
 void ConformationSearch::printProgress(std::size_t search_index, std::size_t search_size) {
     // Print progress
     auto prgrs = conf_data_vec_.size(); // Number of accepted candidates
-    cout << setw(8);
+    cout << prefix_ << ": ";
     cout << 100 * static_cast<double>(search_index) / search_size;
     cout << "%\tAccepted: " << setw(8) << prgrs;
     // Print the name of the accepted candidate and its energy and distance
@@ -736,7 +736,7 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
     std::string header = "# Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol/(nucleotide-1)), Angle Energy (kcal/mol/(nucleotide-1)), "
                          "Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), "
                          "Total Energy (kcal/mol/nucleotide), Fixed Torsions Energy (kcal/mol/nucleotide), "
-                         "RMSD relative to lowest energy conformer (Angstrom)";
+                         "Nucleotide RMSD relative to lowest energy conformer (Angstrom)";
     output_stringstream << header << endl;
 
     // Sort candidates by lowest energy

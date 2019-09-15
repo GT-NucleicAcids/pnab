@@ -640,9 +640,17 @@ def run(button):
         f.write('# ' + time + '\n')
         f.write(yaml.dump(run_options))
 
-    # Run the code
-    run = pNAB('options.yaml')
-    run.run()
+    # Capture progress report
+    out = widgets.Output()
+    display(out)
+
+    with out:
+        # Run the code
+        run = pNAB('options.yaml')
+        run.run()
+
+    # Delete progree report
+    out.clear_output()    
 
     # If no results are found, print and return
     if run.results.size == 0:
