@@ -5,6 +5,6 @@ var searchData=
   ['display_5foptions_5fwidgets',['display_options_widgets',['../namespacejupyter__widgets.html#a2445fdaea155fb5a76f5770fc9b9ec17',1,'jupyter_widgets']]],
   ['distance',['distance',['../structPNAB_1_1ConformerData.html#a79c37ab99ca7608086416e6acc4a18ae',1,'PNAB::ConformerData']]],
   ['double_5fstranded_5f',['double_stranded_',['../classPNAB_1_1Chain.html#a517b75ecf7a43e3dcbd1d5a37c02540c',1,'PNAB::Chain']]],
-  ['draw',['draw',['../namespacedraw.html',1,'draw'],['../namespacedraw.html#aca59e347fa441fcfb8b91685e2c9ce94',1,'draw.draw()']]],
+  ['draw',['draw',['../namespacedraw.html',1,'']]],
   ['draw_2epy',['draw.py',['../draw_8py.html',1,'']]]
 ];

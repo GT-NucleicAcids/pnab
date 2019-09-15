@@ -22,6 +22,7 @@ pnab.builder()
 
 import os
 import datetime
+from zipfile import ZipFile
 
 import yaml
 import ipywidgets as widgets
@@ -202,15 +203,10 @@ def backbone(param):
 
     @sa upload_backbone
     @sa options._options_dict
-    @sa draw.draw
     @sa display_options_widgets
     """
 
     display(widgets.HTML(value='<b>Backbone</b>'))
-    display(widgets.HTML(value='Draw a backbone molecule if you need then click on "done!"'))
-
-    # Display the JSME molecule editor
-    draw.draw()
 
     # Display a widget for uploading backbone files
     w = widgets.interactive(upload_backbone, param=widgets.fixed(param),
@@ -260,7 +256,10 @@ def helical_parameters(param):
 
     # Display an image showing the helical parameters for DNA and RNA
     from IPython.display import Image
-    display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.jpeg'), retina=True))
+    out = widgets.Output(layout={'width': '600px'})
+    display(out)
+    with out:
+        display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.jpeg')))
 
     param_dict = {}
     # Add widget to the widgets dictionary
@@ -578,6 +577,9 @@ def display_options_widgets(param, input_file, uploaded=False):
     button.on_click(run)
     display(button)
 
+    display(results_widget)
+
+
 
 def user_input_file(param):
     """!@brief Display input file options
@@ -603,8 +605,9 @@ def user_input_file(param):
                layout=widgets.Layout(width='3%'))
     display(widgets.HBox([help_box, w]))
 
+results_widget = widgets.Output()
 
-
+@results_widget.capture(clear_output=True)
 def run(button):
     """!@brief Function to run the code when the user finishes specifying all options
 
@@ -644,12 +647,16 @@ def run(button):
     run = pNAB('options.yaml')
     run.run()
 
+    # Clear progress report
+    results_widget.clear_output()
+
     # If no results are found, print and return
     if run.results.size == 0:
         print("No candidate found")
     # else display conformers and their properties
     else:
         show_results(run.results, run.header, run.prefix)
+
 
 
 def extract_options():
@@ -745,6 +752,16 @@ def show_results(results, header, prefix):
 
     # Set a list of conformer names and their indices in the results
     options = [(str(int(conformer[0])) + '_' + str(int(conformer[1])) + '.pdb', i) for i, conformer in enumerate(results)]
+
+    time = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    with ZipFile('output' + time + '.zip', 'w') as z:
+        for f in ['options.yaml', 'results.csv', 'summary.csv', 'prefix.yaml']:
+            z.write(f)
+        for i in range(len(options)):
+            z.write(options[i][0])
+
+    display(widgets.HTML("""<a href="output""" + time + """.zip" target="_blank">Download Output</a>"""))
+    #display(widgets.HTML("""<form method="get" action="output.zip"><button type="submit">Download Output</button></form>"""))
 
     # Show a dropdown widget of all the accepted conformers
     dropdown = widgets.Dropdown(value=options[0][1], options=options, style={'description_width': 'initial'}, description='Conformer')

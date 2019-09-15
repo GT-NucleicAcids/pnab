@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/stl_bind.h>
+#include <pybind11/iostream.h>
 
 #include "ConformationSearch.h"
 
@@ -91,6 +92,6 @@ namespace PNAB {
             .def_readwrite("linker", &PNAB::Base::linker)
             ;        
 
-        m.def("run", &PNAB::run, "run");
+        m.def("run", &PNAB::run, "run", py::call_guard<py::scoped_ostream_redirect, py::scoped_estream_redirect>());
     }
 }
