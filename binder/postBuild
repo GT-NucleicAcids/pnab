@@ -1,3 +1,3 @@
 jupyter-nbextension enable nglview --py --sys-prefix
 jupyter serverextension enable voila --sys-prefix
-voila --VoilaConfiguration.file_whitelist="['output.*zip']"
+voila --no-browser --VoilaConfiguration.file_whitelist="['output.*zip']"
