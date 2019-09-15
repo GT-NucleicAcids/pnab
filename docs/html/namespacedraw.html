@@ -88,44 +88,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>A file containing helper scripts for drawing and visualizing molecules.  
+<p>A file containing helper scripts for visualizing molecules.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aca59e347fa441fcfb8b91685e2c9ce94"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedraw.html#aca59e347fa441fcfb8b91685e2c9ce94">draw</a></td></tr>
-<tr class="memdesc:aca59e347fa441fcfb8b91685e2c9ce94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display the JSME molecule editor (<a href="https://peter-ertl.com/jsme/">https://peter-ertl.com/jsme/</a>).  <a href="#aca59e347fa441fcfb8b91685e2c9ce94">More...</a><br/></td></tr>
-<tr class="separator:aca59e347fa441fcfb8b91685e2c9ce94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27e4eec1b6ad3717619aff26be182812"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedraw.html#a27e4eec1b6ad3717619aff26be182812">view_nglview</a></td></tr>
 <tr class="memdesc:a27e4eec1b6ad3717619aff26be182812"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display molecules using the NGLView viewer.  <a href="#a27e4eec1b6ad3717619aff26be182812">More...</a><br/></td></tr>
 <tr class="separator:a27e4eec1b6ad3717619aff26be182812"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A file containing helper scripts for drawing and visualizing molecules. </p>
-<p>The visualization utilities used with the Jupyter notebook driver are:</p>
-<p>1) JSME for drawing molecules<br/>
-2) NGLView for visualizing results. </p>
+<div class="textblock"><p>A file containing helper scripts for visualizing molecules. </p>
+<p>The visualization utilities used with the Jupyter notebook driver is:</p>
+<p>1) NGLView for visualizing results. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="aca59e347fa441fcfb8b91685e2c9ce94"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def draw.draw </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Display the JSME molecule editor (<a href="https://peter-ertl.com/jsme/">https://peter-ertl.com/jsme/</a>). </p>
-<p>HTML script for displaying the JSME molecule editor in the Jupyter notebook. After the user draws a molecule and presses 'done!', a prompt asks for the name of the molecule. The drawn molecule is processed by OpenBabel to make a 3D geometry of the moleucle. The geometry of the molecule is optimized by performing 500 steepest descent steps, followed by weighted rotor search, followed by 500 conjugate gradient steps. The MMFF94 force field is used for the optimization. After the optimization, a PDB file with the user-provided name and containing the optimized geometry is written.</p>
-<dl class="section attention"><dt>Attention</dt><dd>The JSME editor may not be displayed in some browsers.</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="namespacejupyter__widgets.html#a1d06b03910456be048e701c4a434bed8" title="Main backbone widget for use in Jupyter notebook. ">jupyter_widgets.backbone</a> </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a27e4eec1b6ad3717619aff26be182812"></a>
 <div class="memitem">
 <div class="memproto">
