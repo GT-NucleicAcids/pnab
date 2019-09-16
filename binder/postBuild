@@ -1,4 +1,2 @@
+#!/bin/bash
 jupyter-nbextension enable nglview --py --sys-prefix
-jupyter serverextension enable voila --sys-prefix
-mkdir `jupyter --config-dir`
-echo "c.VoilaConfiguration.file_whitelist=['output.*zip']" > `jupyter --config-dir`/jupyter_notebook_config.py
