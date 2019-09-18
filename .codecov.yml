@@ -5,6 +5,8 @@ coverage:
   ignore:
     - "tests/.*"
     - "pnab/driver/jupyter_widgets.py"
+    - "pnab/extras.py"
+    - "pnab/__init__.py"
   status:
     project:
       default:
