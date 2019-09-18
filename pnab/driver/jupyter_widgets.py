@@ -26,7 +26,7 @@ from zipfile import ZipFile
 
 import yaml
 import ipywidgets as widgets
-from IPython.display import display, Javascript
+from IPython.display import display, Javascript, Image
 
 from pnab.driver.pNAB import pNAB
 from pnab.driver import draw
@@ -255,11 +255,7 @@ def helical_parameters(param):
     display(widgets.HTML(value='<H3>Helical Parameters</H3>'))
 
     # Display an image showing the helical parameters for DNA and RNA
-    from IPython.display import Image
-    out = widgets.Output(layout={'width': '600px'})
-    display(out)
-    with out:
-        display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.jpeg')))
+    display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.jpeg'), retina=True))
 
     param_dict = {}
     # Add widget to the widgets dictionary
@@ -590,9 +586,6 @@ def display_options_widgets(param, input_file, uploaded=False):
     button.on_click(run)
     display(button)
 
-    display(results_widget)
-
-
 
 def user_input_file(param):
     """!@brief Display input file options
@@ -618,9 +611,7 @@ def user_input_file(param):
                layout=widgets.Layout(width='3%'))
     display(widgets.HBox([help_box, w]))
 
-results_widget = widgets.Output()
 
-@results_widget.capture(clear_output=True)
 def run(button):
     """!@brief Function to run the code when the user finishes specifying all options
 
@@ -656,12 +647,17 @@ def run(button):
         f.write('# ' + time + '\n')
         f.write(yaml.dump(run_options))
 
-    # Run the code
-    run = pNAB('options.yaml')
-    run.run()
+    # Capture progress report 
+    out = widgets.Output()
+    display(out)
 
-    # Clear progress report
-    results_widget.clear_output()
+    with out:
+        # Run the code
+        run = pNAB('options.yaml')
+        run.run()
+
+    # Delete progress report
+    out.clear_output()
 
     # If no results are found, print and return
     if run.results.size == 0:
