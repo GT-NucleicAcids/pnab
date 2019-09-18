@@ -354,7 +354,7 @@ _options_dict['RuntimeParameters']['seed'] = {
                                              'glossory': 'The seed for the random number generator',
                                              'long_glossory': 'Use the same value for the seed to get reproducible results.',
                                              'default': 0,
-                                             'validation': lambda x: int(x),
+                                             'validation': lambda x: int(abs(x)),
                                              }
 _options_dict['RuntimeParameters']['dihedral_step'] = {
                                                       'glossory': 'Dihedral step size for systematic search (degree)',

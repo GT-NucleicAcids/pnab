@@ -330,10 +330,10 @@ def algorithm(chosen_algorithm, param):
 
     # The other five algorithms require specifying the number of steps or generation and the random generator seed
     else:
-        seed = widgets.IntText(value=param['seed']['default'],
-                               description=param['seed']['glossory'],
-                               style={'description_width': 'initial'},
-                               layout={'width': '75%'})
+        seed = widgets.BoundedIntText(value=param['seed']['default'], min=0, max=2**32-1,
+                                      description=param['seed']['glossory'],
+                                      style={'description_width': 'initial'},
+                                      layout={'width': '75%'})
         help_box = widgets.Button(description='?', tooltip=param['seed']['long_glossory'], layout=widgets.Layout(width='3%'))
         display(widgets.HBox([help_box, seed]))
         input_options['RuntimeParameters']['seed'] = seed

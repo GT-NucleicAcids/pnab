@@ -81,7 +81,7 @@ namespace PNAB {
                                                 * @sa ConformationSearch::RandomSearch
                                                 * @sa ConformationSearch::GeneticAlgorithmSearch
                                                 */
-        std::size_t seed;                       /*< @brief The seed for the random number generator. Use the same value to get reproducible
+        unsigned int seed;                      /*< @brief The seed for the random number generator. Use the same value to get reproducible
                                                 * results.
                                                 *
                                                 *  @sa ConformationSearch::MonteCarloSearch
