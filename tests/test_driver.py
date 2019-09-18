@@ -46,9 +46,14 @@ def test_run_range():
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
     run = pnab.pNAB('RNA2.yaml')
+    
     run.run()
 
     ref_output = np.genfromtxt(os.path.join('files','RNA2.csv'), delimiter=',')
+
+    print(run.options)
+    print(run.prefix)
+    print(run.results)
 
     assert len(run.prefix) == 15
     assert np.allclose(run.results, ref_output)

@@ -68,7 +68,7 @@ namespace PNAB {
          * @param bases List of defined bases that serves of as the library used for building the strand
          * @param prefix A string to prepend the name of the accepted backbone candidates
          */
-        ConformationSearch(PNAB::RuntimeParameters &runtime_params, const PNAB::Backbone &backbone,
+        ConformationSearch(PNAB::RuntimeParameters &runtime_params, PNAB::Backbone &backbone,
                            PNAB::HelicalParameters &helical_params, PNAB::Bases bases,
                            std::string prefix = "test");
 

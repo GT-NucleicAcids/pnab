@@ -19,7 +19,7 @@ namespace PNAB {
      *
      * @returns A CSV string containing the properties of the accepted candidates
      */ 
-    std::string run(PNAB::RuntimeParameters runtime_params, const PNAB::Backbone &py_backbone,
+    std::string run(PNAB::RuntimeParameters runtime_params, PNAB::Backbone &py_backbone,
                     std::vector<PNAB::Base> py_bases, PNAB::HelicalParameters hp, std::string prefix) {
         Backbone backbone(py_backbone.file_path, py_backbone.interconnects, py_backbone.linker, py_backbone.fixed_bonds);
         Bases bases(py_bases);

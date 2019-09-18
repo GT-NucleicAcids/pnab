@@ -5,7 +5,7 @@ using namespace PNAB;
 using namespace std;
 using namespace OpenBabel;
 
-ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, const Backbone &backbone,
+ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbone &backbone,
                                        HelicalParameters &helical_params, Bases bases, string prefix) {
 
     // Set parameters
