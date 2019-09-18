@@ -279,8 +279,8 @@ class pNAB(object):
             self.results = self.results.reshape(1, len(self.results))
 
         # Sort by total energy
-        self.results = self.results[self.results[:, 7].argsort()]
+        results = self.results[self.results[:, 7].argsort()]
 
         # Save the 10 best candidates
-        summary = self.results[:10]
+        summary = results[:10]
         np.savetxt('summary.csv', summary, delimiter=',', header=time + '\n' + self.header)

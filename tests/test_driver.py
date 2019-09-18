@@ -1,5 +1,7 @@
 from __future__ import division, absolute_import, print_function
 
+import os
+import numpy as np
 
 def test_options():
     """
@@ -29,6 +31,9 @@ def test_run():
     run = pnab.pNAB('RNA.yaml')
     run.run()
 
+    ref_output = np.genfromtxt(os.path.join('files','RNA.csv'), delimiter=',')
+    assert np.allclose(run.results, ref_output)
+
 
 def test_run_range():
     """
@@ -39,8 +44,10 @@ def test_run_range():
     run = pnab.pNAB('RNA2.yaml')
     run.run()
 
-    # Confirm the number of tested configurations
+    ref_output = np.genfromtxt(os.path.join('files','RNA2.csv'), delimiter=',')
+
     assert len(run.prefix) == 15
+    assert np.allclose(run.results, ref_output)
 
 
 def test_duplex():
@@ -52,6 +59,9 @@ def test_duplex():
     run = pnab.pNAB('DNA.yaml')
     run.run()
 
+    ref_output = np.genfromtxt(os.path.join('files','DNA.csv'), delimiter=',')
+    assert np.allclose(run.results, ref_output)
+
 
 def test_hexad():
     """
@@ -61,3 +71,6 @@ def test_hexad():
 
     run = pnab.pNAB('Hexad.yaml')
     run.run()
+
+    ref_output = np.genfromtxt(os.path.join('files','Hexad.csv'), delimiter=',')
+    assert np.allclose(run.results, ref_output)

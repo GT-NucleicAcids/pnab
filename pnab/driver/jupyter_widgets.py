@@ -664,6 +664,8 @@ def run(button):
         print("No candidate found")
     # else display conformers and their properties
     else:
+        # Sort by total energy
+        run.results = run.results[run.results[:, 7].argsort()]
         show_results(run.results, run.header, run.prefix)
 
 
