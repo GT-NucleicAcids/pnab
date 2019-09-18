@@ -211,6 +211,7 @@ class pNAB(object):
         """
 
         # Extract configurations
+        np.random.seed(self.options['RuntimeParameters']['seed'])
         config = itertools.product(*[np.random.uniform(val[0], val[1], val[2])
                                        for val in self.options['HelicalParameters'].values()])
         num_config = np.prod([val[2] for val in self.options['HelicalParameters'].values()])
