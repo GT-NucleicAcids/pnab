@@ -53,6 +53,7 @@ namespace PNAB {
             .def_readwrite("ff_type", &PNAB::RuntimeParameters::ff_type)
             .def_readwrite("search_algorithm", &PNAB::RuntimeParameters::search_algorithm)
             .def_readwrite("num_steps", &PNAB::RuntimeParameters::num_steps)
+            .def_readwrite("seed", &PNAB::RuntimeParameters::seed)
             .def_readwrite("dihedral_step", &PNAB::RuntimeParameters::dihedral_step)
             .def_readwrite("weighting_temperature", &PNAB::RuntimeParameters::weighting_temperature)
             .def_readwrite("monte_carlo_temperature", &PNAB::RuntimeParameters::monte_carlo_temperature)
