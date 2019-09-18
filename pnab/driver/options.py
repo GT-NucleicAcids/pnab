@@ -342,7 +342,7 @@ _options_dict['RuntimeParameters']['search_algorithm'] = {
                                                          'validation': lambda x: x.lower(),
                                                          }
 _options_dict['RuntimeParameters']['num_steps'] = {
-                                                  'glossory': 'Number of points to search over dihedral angles',
+                                                  'glossory': 'Number of iterations to search over dihedral angles',
                                                   'long_glossory': ('Number of iterations (or generations in genetic algorithm) for' +
                                                                     ' searching over dihedral angles. This should be chosen such that it samples' +
                                                                     ' the dihedral angles enough while keeping the time of the search reasonbly short.' +
@@ -350,6 +350,12 @@ _options_dict['RuntimeParameters']['num_steps'] = {
                                                   'default': 1000000,
                                                   'validation': lambda x: int(x),
                                                   }
+_options_dict['RuntimeParameters']['seed'] = {
+                                             'glossory': 'The seed for the random number generator',
+                                             'long_glossory': 'Use the same value for the seed to get reproducible results.',
+                                             'default': 0,
+                                             'validation': lambda x: int(x),
+                                             }
 _options_dict['RuntimeParameters']['dihedral_step'] = {
                                                       'glossory': 'Dihedral step size for systematic search (degree)',
                                                       'long_glossory': ('The number of search points for systematic search is given by:'

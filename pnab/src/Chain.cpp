@@ -421,20 +421,22 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
     // Determine the bond and angle atoms only for the first strand
     if (offset == 0) {
 
-        // The bond and angle terms are computed only between the first and second nucleotides
-        OBAtom* atom1 = chain.GetAtomById(new_bond_ids[0]);
-        OBAtom* atom2 = chain.GetAtomById(new_bond_ids[1]);
-        bond_atoms.push_back(atom1->GetIdx());
-        bond_atoms.push_back(atom2->GetIdx());
+        if (chain_length_ != 1) {
+            // The bond and angle terms are computed only between the first and second nucleotides
+            OBAtom* atom1 = chain.GetAtomById(new_bond_ids[0]);
+            OBAtom* atom2 = chain.GetAtomById(new_bond_ids[1]);
+            bond_atoms.push_back(atom1->GetIdx());
+            bond_atoms.push_back(atom2->GetIdx());
 
-        // The angle atoms are between all triples involving the two linkers and the neighboring atoms
-        FOR_NBORS_OF_ATOM(nbr, atom2) {
-            if (nbr->GetIdx() != atom1->GetIdx())
-                all_angles_.push_back({atom1->GetIdx() + offset, atom2->GetIdx() + offset, nbr->GetIdx() + offset});
-        }
-        FOR_NBORS_OF_ATOM(nbr, atom1) {
-            if (nbr->GetIdx() != atom2->GetIdx())
-            all_angles_.push_back({atom2->GetIdx() + offset, atom1->GetIdx() + offset, nbr->GetIdx() + offset});
+            // The angle atoms are between all triples involving the two linkers and the neighboring atoms
+            FOR_NBORS_OF_ATOM(nbr, atom2) {
+                if (nbr->GetIdx() != atom1->GetIdx())
+                    all_angles_.push_back({atom1->GetIdx() + offset, atom2->GetIdx() + offset, nbr->GetIdx() + offset});
+            }
+            FOR_NBORS_OF_ATOM(nbr, atom1) {
+                if (nbr->GetIdx() != atom2->GetIdx())
+                all_angles_.push_back({atom2->GetIdx() + offset, atom1->GetIdx() + offset, nbr->GetIdx() + offset});
+            }
         }
 
         // Ignore all other atoms in the bond calculation

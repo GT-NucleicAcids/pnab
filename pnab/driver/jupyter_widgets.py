@@ -206,7 +206,7 @@ def backbone(param):
     @sa display_options_widgets
     """
 
-    display(widgets.HTML(value='<b>Backbone</b>'))
+    display(widgets.HTML(value='<H3>Backbone</H3>'))
 
     # Display a widget for uploading backbone files
     w = widgets.interactive(upload_backbone, param=widgets.fixed(param),
@@ -230,7 +230,7 @@ def bases():
     @sa display_options_widgets
     """
 
-    display(widgets.HTML(value='<b>Bases</b>'))
+    display(widgets.HTML(value='<H3>Bases</H3>'))
     display(widgets.HTML(value=('These bases are already defined:' +
                                '<br> Adenine (A), Guanine (G), Cytosine (C), Uracil (U), Thymine (T), ' +
                                'Cyanuric Acid (X), and Triaminopyrimidine (Y)')))
@@ -252,7 +252,7 @@ def helical_parameters(param):
     @sa options._options_dict
     """
 
-    display(widgets.HTML(value='<b>Helical Parameters</b>'))
+    display(widgets.HTML(value='<H3>Helical Parameters</H3>'))
 
     # Display an image showing the helical parameters for DNA and RNA
     from IPython.display import Image
@@ -328,8 +328,16 @@ def algorithm(chosen_algorithm, param):
         display(widgets.HBox([help_box, dihedral_step]))
         input_options['RuntimeParameters']['dihedral_step'] = dihedral_step
 
-    # The other five algorithms require specifying the number of steps or generation
+    # The other five algorithms require specifying the number of steps or generation and the random generator seed
     else:
+        seed = widgets.IntText(value=param['seed']['default'],
+                               description=param['seed']['glossory'],
+                               style={'description_width': 'initial'},
+                               layout={'width': '75%'})
+        help_box = widgets.Button(description='?', tooltip=param['seed']['long_glossory'], layout=widgets.Layout(width='3%'))
+        display(widgets.HBox([help_box, seed]))
+        input_options['RuntimeParameters']['seed'] = seed
+
         num_steps = widgets.BoundedIntText(value=param['num_steps']['default'], min=1, max=1e100,
                                            description=param['num_steps']['glossory'],
                                            style={'description_width': 'initial'},
@@ -401,11 +409,12 @@ def runtime_parameters(param):
     @sa options._options_dict
     """
 
-    display(widgets.HTML(value='<b>Runtime Parameters</b>'))
+    display(widgets.HTML(value='<H3>Runtime Parameters</H3>'))
 
     input_options['RuntimeParameters'] = {}
 
     # Search algorithm
+    display(widgets.HTML(value='<H4>Search Algorithm</H4>'))
     dropdown = widgets.Dropdown(value=param['search_algorithm']['default'].title(),
                                 options=['Weighted Monte Carlo Search', 'Monte Carlo Search', 'Weighted Random Search', 'Random Search', 'Genetic Algorithm Search', 'Systematic Search'],
                                 description=param['search_algorithm']['glossory'],
@@ -416,14 +425,7 @@ def runtime_parameters(param):
     display(widgets.HBox([help_box, dropdown]))
     display(search_algorithm)
 
-    # Force field
-    ff_type = widgets.Dropdown(options=['GAFF', 'MMFF94', 'MMFF94s', 'UFF', 'GHEMICAL'],
-                               description=param['ff_type']['glossory'],
-                               style={'description_width': 'initial'},
-                               layout={'width': '75%'})
-    help_box = widgets.Button(description='?', tooltip=param['ff_type']['long_glossory'], layout=widgets.Layout(width='3%'))
-    display(widgets.HBox([help_box, ff_type]))
-    input_options['RuntimeParameters']['ff_type'] = ff_type
+    display(widgets.HTML(value='<H4>Distance and Energy Thresholds</H4>'))
 
     # Distance and energy thresholds
     max_distance = widgets.BoundedFloatText(value=param['max_distance']['default'], min=0.0,
@@ -433,6 +435,15 @@ def runtime_parameters(param):
     help_box = widgets.Button(description='?', tooltip=param['max_distance']['long_glossory'], layout=widgets.Layout(width='3%'))
     display(widgets.HBox([help_box, max_distance]))
     input_options['RuntimeParameters']['max_distance'] = max_distance
+
+    # Force field
+    ff_type = widgets.Dropdown(options=['GAFF', 'MMFF94', 'MMFF94s', 'UFF', 'GHEMICAL'],
+                               description=param['ff_type']['glossory'],
+                               style={'description_width': 'initial'},
+                               layout={'width': '75%'})
+    help_box = widgets.Button(description='?', tooltip=param['ff_type']['long_glossory'], layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, ff_type]))
+    input_options['RuntimeParameters']['ff_type'] = ff_type
 
     # Energy filters
     input_options['RuntimeParameters']['energy_filter'] = []
@@ -446,6 +457,8 @@ def runtime_parameters(param):
         display(widgets.HBox([help_box, energy_filter]))
         input_options['RuntimeParameters']['energy_filter'].append(energy_filter)
 
+
+    display(widgets.HTML(value='<H4>Structural Parameters</H4>'))
     # Base sequence
     strand = widgets.Text(value=''.join(param['strand']['default']),
                           description=param['strand']['glossory'],
@@ -728,6 +741,12 @@ def single_result(result, header, results, prefix):
     # Print information
     print(conformer)
     print(prefix['%i' %result[0]])
+
+    # Display a color based on energy terms
+    cost = sum([result[i] for i in range(3, 7)])
+    color = 'green' if cost < 2 else 'yellow' if cost < 5 else 'red'
+    display(widgets.ColorPicker(concise=True, value=color, disabled=True))
+
     for i in range(2, len(result)):
         print(header.split(', ')[i] + ': %.3f' %result[i])
 
@@ -761,7 +780,6 @@ def show_results(results, header, prefix):
             z.write(options[i][0])
 
     display(widgets.HTML("""<a href="output""" + time + """.zip" target="_blank">Download Output</a>"""))
-    #display(widgets.HTML("""<form method="get" action="output.zip"><button type="submit">Download Output</button></form>"""))
 
     # Show a dropdown widget of all the accepted conformers
     dropdown = widgets.Dropdown(value=options[0][1], options=options, style={'description_width': 'initial'}, description='Conformer')

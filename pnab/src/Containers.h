@@ -26,7 +26,7 @@ namespace PNAB {
         * This empty constructor can be used. After that, values for the member variables should be specified.
         */
         RuntimeParameters() : energy_filter{}, max_distance(), ff_type(),
-                              num_steps(0), weighting_temperature(298.0), monte_carlo_temperature(298.0),
+                              num_steps(0), seed(0), weighting_temperature(298.0), monte_carlo_temperature(298.0),
                               mutation_rate(0.75), crossover_rate(0.75), population_size(1000), strand{}, is_double_stranded(false),
                               is_hexad(false), strand_orientation(std::vector<bool> {true, true, true, true, true, true}){};
 
@@ -80,6 +80,13 @@ namespace PNAB {
                                                 * @sa ConformationSearch::MonteCarloSearch
                                                 * @sa ConformationSearch::RandomSearch
                                                 * @sa ConformationSearch::GeneticAlgorithmSearch
+                                                */
+        std::size_t seed;                       /*< @brief The seed for the random number generator. Use the same value to get reproducible
+                                                * results.
+                                                *
+                                                *  @sa ConformationSearch::MonteCarloSearch
+                                                *  @sa ConformationSearch::RandomSearch
+                                                *  @sa ConformationSearch::GeneticAlgorithmSearch
                                                 */
 
         double dihedral_step;                   /*!< @brief The dihedral step size for systematic search (degrees)

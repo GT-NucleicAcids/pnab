@@ -263,7 +263,9 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
         backbone.rotate(invert);
     }
 
-    backbone.translate(atoms[0]->GetVector() - atoms[3]->GetVector());
+    // The bond between the base and the backbone is determined by the
+    // distance between the two base linkers
+    backbone.translate(atoms[1]->GetVector() - atoms[2]->GetVector());
 
     // Get indices of fixed atoms
     unsigned num_atoms = base.getMolecule().NumAtoms() - 1;
@@ -299,14 +301,6 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
 
     // Form a bond between base and backbone
     mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
-
-    // This might not be necessary
-    //
-    // Set length of new bond to equilibrium length (the sum of the van der Waals radii)
-    // This applies only to the first nucleotide in the system, as the bond length for
-    // the other nucleotides is determined by the periodic condition of the nucleobase
-    //OBBond* new_bond = mol.GetBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms);
-    //new_bond->SetLength(mol.GetAtom(base.getLinker()->GetIdx()), new_bond->GetEquibLength());
 
     // garbage code for debugging
     // TODO delete this code

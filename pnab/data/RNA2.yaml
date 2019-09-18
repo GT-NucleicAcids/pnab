@@ -33,6 +33,7 @@ HelicalParameters:
   - 1
 RuntimeParameters:
   search_algorithm: "weighted monte carlo search"
+  seed: 0
   energy_filter:
   - 3.0
   - 3.0
