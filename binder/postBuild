@@ -1,2 +1,2 @@
+#!/bin/bash
 jupyter-nbextension enable nglview --py --sys-prefix
-voila --VoilaConfiguration.file_whitelist="['output.*zip']"
