@@ -211,6 +211,7 @@ class pNAB(object):
         """
 
         # Extract configurations
+        np.random.seed(self.options['RuntimeParameters']['seed'])
         config = itertools.product(*[np.random.uniform(val[0], val[1], val[2])
                                        for val in self.options['HelicalParameters'].values()])
         num_config = np.prod([val[2] for val in self.options['HelicalParameters'].values()])
@@ -221,7 +222,13 @@ class pNAB(object):
         def init_worker():
             signal.signal(signal.SIGINT, signal.SIG_IGN)
 
-        pool = mp.Pool(mp.cpu_count(), init_worker)
+        # Note: For reasons I do not understand, using the default
+        # maxtaskperchild leads to different results for parallel jobs
+        # when using different numbers of processors. What I found is
+        # that the random numbers produced become different even though
+        # we were using the same seed. Setting maxtasksperchild to one
+        # fixes the issue apparently
+        pool = mp.Pool(mp.cpu_count(), init_worker, maxtasksperchild=1)
 
         # Rename files that have the same name
         for f in ['results.csv', 'prefix.yaml', 'summary.csv']:
@@ -278,8 +285,8 @@ class pNAB(object):
             self.results = self.results.reshape(1, len(self.results))
 
         # Sort by total energy
-        self.results = self.results[self.results[:, 7].argsort()]
+        results = self.results[self.results[:, 7].argsort()]
 
         # Save the 10 best candidates
-        summary = self.results[:10]
+        summary = results[:10]
         np.savetxt('summary.csv', summary, delimiter=',', header=time + '\n' + self.header)

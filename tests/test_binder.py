@@ -22,7 +22,7 @@ def test_binder_1():
                 for k, val in base_attr.items()])
 
     runtime_parameters = bind.RuntimeParameters()
-    runtime_parameters_attr = {'energy_filter': list, 'max_distance': float, 'ff_type': str,
+    runtime_parameters_attr = {'energy_filter': list, 'max_distance': float, 'ff_type': str, 'seed': int,
                                'search_algorithm': str, 'num_steps': int, 'dihedral_step': float,
                                'strand': list, 'is_double_stranded': bool} 
     assert all([i in runtime_parameters.__dir__() for i in runtime_parameters_attr])

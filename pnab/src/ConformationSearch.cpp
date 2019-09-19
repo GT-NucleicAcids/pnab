@@ -5,7 +5,7 @@ using namespace PNAB;
 using namespace std;
 using namespace OpenBabel;
 
-ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbone backbone,
+ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbone &backbone,
                                        HelicalParameters &helical_params, Bases bases, string prefix) {
 
     // Set parameters
@@ -24,7 +24,7 @@ ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbo
     auto base_a = bases.getBaseFromName(name);
 
     // Random number seed
-    rng_.seed(std::random_device()());
+    rng_.seed(runtime_params.seed);
 
     // Get the required translations and rotations
     step_rot_ = helical_params_.getStepRotationOBMatrix(1);

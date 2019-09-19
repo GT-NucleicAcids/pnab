@@ -5,6 +5,8 @@ coverage:
   ignore:
     - "tests/.*"
     - "pnab/driver/jupyter_widgets.py"
+    - "pnab/extras.py"
+    - "pnab/__init__.py"
   status:
     project:
       default:
@@ -12,3 +14,5 @@ coverage:
     patch:
       default:
         threshold: 50%
+codecov:
+  token: aeae5652-faed-4a41-986d-69006b8a3a6b

@@ -19,7 +19,7 @@ namespace PNAB {
      *
      * @returns A CSV string containing the properties of the accepted candidates
      */ 
-    std::string run(PNAB::RuntimeParameters runtime_params, PNAB::Backbone py_backbone,
+    std::string run(PNAB::RuntimeParameters runtime_params, PNAB::Backbone &py_backbone,
                     std::vector<PNAB::Base> py_bases, PNAB::HelicalParameters hp, std::string prefix) {
         Backbone backbone(py_backbone.file_path, py_backbone.interconnects, py_backbone.linker, py_backbone.fixed_bonds);
         Bases bases(py_bases);
@@ -53,6 +53,7 @@ namespace PNAB {
             .def_readwrite("ff_type", &PNAB::RuntimeParameters::ff_type)
             .def_readwrite("search_algorithm", &PNAB::RuntimeParameters::search_algorithm)
             .def_readwrite("num_steps", &PNAB::RuntimeParameters::num_steps)
+            .def_readwrite("seed", &PNAB::RuntimeParameters::seed)
             .def_readwrite("dihedral_step", &PNAB::RuntimeParameters::dihedral_step)
             .def_readwrite("weighting_temperature", &PNAB::RuntimeParameters::weighting_temperature)
             .def_readwrite("monte_carlo_temperature", &PNAB::RuntimeParameters::monte_carlo_temperature)
