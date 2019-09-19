@@ -222,7 +222,13 @@ class pNAB(object):
         def init_worker():
             signal.signal(signal.SIGINT, signal.SIG_IGN)
 
-        pool = mp.Pool(mp.cpu_count(), init_worker)
+        # Note: For reasons I do not understand, using the default
+        # maxtaskperchild leads to different results for parallel jobs
+        # when using different numbers of processors. What I found is
+        # that the random numbers produced become different even though
+        # we were using the same seed. Setting maxtasksperchild to one
+        # fixes the issue apparently
+        pool = mp.Pool(mp.cpu_count(), init_worker, maxtasksperchild=1)
 
         # Rename files that have the same name
         for f in ['results.csv', 'prefix.yaml', 'summary.csv']:
