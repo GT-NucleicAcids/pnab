@@ -35,8 +35,8 @@ def test_run():
     run.run()
 
     ref_output = np.genfromtxt(os.path.join('files','RNA.csv'), delimiter=',')
-    #if 'linux' in sys.platform:
-    assert np.allclose(run.results, ref_output)
+    if 'linux' in sys.platform:
+        assert np.allclose(run.results, ref_output)
 
 def test_systematic_search():
     """
@@ -68,8 +68,8 @@ def test_run_range():
     ref_output = np.genfromtxt(os.path.join('files','RNA2.csv'), delimiter=',')
 
     assert len(run.prefix) == 15
-    #if 'linux' in sys.platform:
-    assert np.allclose(run.results, ref_output)
+    if 'linux' in sys.platform:
+        assert np.allclose(run.results, ref_output)
 
 
 def test_duplex():
@@ -84,8 +84,8 @@ def test_duplex():
     run.run()
 
     ref_output = np.genfromtxt(os.path.join('files','DNA.csv'), delimiter=',')
-    #if 'linux' in sys.platform:
-    assert np.allclose(run.results, ref_output)
+    if 'linux' in sys.platform:
+        assert np.allclose(run.results, ref_output)
 
 
 def test_hexad():
@@ -100,5 +100,5 @@ def test_hexad():
     run.run()
 
     ref_output = np.genfromtxt(os.path.join('files','Hexad.csv'), delimiter=',')
-    #if 'linux' in sys.platform:
-    assert np.allclose(run.results, ref_output)
+    if 'linux' in sys.platform:
+        assert np.allclose(run.results, ref_output)
