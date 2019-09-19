@@ -1,3 +1,7 @@
+/**@file
+ * @brief A file for declaring a class for building and evaluating nucleic acid strands
+ */
+
 #ifndef PNAB_CHAIN_H
 #define PNAB_CHAIN_H
 

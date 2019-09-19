@@ -1,3 +1,7 @@
+/**@file
+ * @brief A file for defining various methods for defining options
+ */
+
 #include "Containers.h"
 #include <openbabel/math/align.h>
 

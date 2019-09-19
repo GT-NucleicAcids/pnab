@@ -1,3 +1,7 @@
+/**@file
+ * @brief A file for exporting classes and functions to python using pybind11
+ */
+
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/stl_bind.h>
@@ -15,16 +19,17 @@ namespace PNAB {
      * @param py_backbone The backbone defined in the python script
      * @param py_bases A vector of the bases defined in the python script
      * @param hp The helical parameters defined in the python script
-     * @param prefix A string the prepends the names of the output PDB files
+     * @param prefix A string the prepends the names of the output PDB files, default to "run"
+     * @param verbose Whether to print progress report to screen, default to true
      *
      * @returns A CSV string containing the properties of the accepted candidates
      */ 
     std::string run(PNAB::RuntimeParameters runtime_params, PNAB::Backbone &py_backbone,
-                    std::vector<PNAB::Base> py_bases, PNAB::HelicalParameters hp, std::string prefix) {
+                    std::vector<PNAB::Base> py_bases, PNAB::HelicalParameters hp, std::string prefix="run", bool verbose=true) {
         Backbone backbone(py_backbone.file_path, py_backbone.interconnects, py_backbone.linker, py_backbone.fixed_bonds);
         Bases bases(py_bases);
 
-        ConformationSearch search(runtime_params, backbone, hp,  bases, prefix);
+        ConformationSearch search(runtime_params, backbone, hp,  bases, prefix, verbose);
         std::string output = search.run();
 
         return output;
@@ -93,6 +98,8 @@ namespace PNAB {
             .def_readwrite("linker", &PNAB::Base::linker)
             ;        
 
-        m.def("run", &PNAB::run, "run", py::call_guard<py::scoped_ostream_redirect, py::scoped_estream_redirect>());
+        m.def("run", &PNAB::run, py::arg("runtime_params"), py::arg("backbone"), py::arg("bases"),
+                                 py::arg("helical_params"), py::arg("prefix") = "run", py::arg("verbose") = true,
+                                 py::call_guard<py::scoped_ostream_redirect, py::scoped_estream_redirect>());
     }
 }

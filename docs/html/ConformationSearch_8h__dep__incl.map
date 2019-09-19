@@ -1,4 +1,4 @@
 <map id="ConformationSearch.h" name="ConformationSearch.h">
-<area shape="rect" id="node2" href="$binder_8cpp.html" title="binder.cpp" alt="" coords="5,80,88,107"/>
-<area shape="rect" id="node3" href="$ConformationSearch_8cpp.html" title="ConformationSearch.cpp" alt="" coords="113,80,279,107"/>
+<area shape="rect" id="node2" href="$binder_8cpp.html" title="A file for exporting classes and functions to python using pybind11. " alt="" coords="5,80,88,107"/>
+<area shape="rect" id="node3" href="$ConformationSearch_8cpp.html" title="A file for defining various search algorithm functions. " alt="" coords="113,80,279,107"/>
 </map>

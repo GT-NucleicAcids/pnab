@@ -5,7 +5,7 @@
 from __future__ import division, absolute_import, print_function
 
 from . import bind
-from .driver.pNAB import pNAB
+from .driver.driver import pNAB
 try:
     from .driver.jupyter_widgets import builder
 except ImportError:

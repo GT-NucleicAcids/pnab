@@ -1,7 +1,7 @@
 var searchData=
 [
   ['backbone',['Backbone',['../classPNAB_1_1Backbone.html',1,'PNAB']]],
-  ['backbone',['Backbone',['../classPNAB_1_1Backbone.html#a92fa14698f3ba334cb5add14f6bb5a3f',1,'PNAB::Backbone::Backbone()'],['../classPNAB_1_1Backbone.html#a0fed37a05a009eeec3396734dc6efb87',1,'PNAB::Backbone::Backbone(std::string file_path, std::array&lt; unsigned, 2 &gt; interconnects, std::array&lt; unsigned, 2 &gt; linker, std::vector&lt; std::vector&lt; unsigned &gt;&gt; fixed_bonds={})'],['../classPNAB_1_1Backbone.html#a0d213e1fc4bf64766f7442b647194407',1,'PNAB::Backbone::backbone()'],['../namespacejupyter__widgets.html#a1d06b03910456be048e701c4a434bed8',1,'jupyter_widgets.backbone()']]],
+  ['backbone',['backbone',['../classPNAB_1_1Backbone.html#a0d213e1fc4bf64766f7442b647194407',1,'PNAB::Backbone::backbone()'],['../classPNAB_1_1Backbone.html#a92fa14698f3ba334cb5add14f6bb5a3f',1,'PNAB::Backbone::Backbone()'],['../classPNAB_1_1Backbone.html#a0fed37a05a009eeec3396734dc6efb87',1,'PNAB::Backbone::Backbone(std::string file_path, std::array&lt; unsigned, 2 &gt; interconnects, std::array&lt; unsigned, 2 &gt; linker, std::vector&lt; std::vector&lt; unsigned &gt;&gt; fixed_bonds={})'],['../namespacejupyter__widgets.html#a1d06b03910456be048e701c4a434bed8',1,'jupyter_widgets.backbone()']]],
   ['backbone_5f',['backbone_',['../classPNAB_1_1ConformationSearch.html#a32701f699583ed2dc2e61c1bfdacc35e',1,'PNAB::ConformationSearch']]],
   ['backbone_5findex_5frange',['backbone_index_range',['../classPNAB_1_1BaseUnit.html#a9d0ebccc652fcedb08291e72992fd598',1,'PNAB::BaseUnit']]],
   ['backbone_5finterconnects',['backbone_interconnects',['../classPNAB_1_1BaseUnit.html#a1d1b455cdd0004eccd776c1d1ee51037',1,'PNAB::BaseUnit']]],

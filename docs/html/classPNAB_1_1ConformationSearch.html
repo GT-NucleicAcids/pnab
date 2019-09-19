@@ -111,9 +111,9 @@ Collaboration diagram for PNAB::ConformationSearch:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:accd1b7ad6a6f9fb3241d5e84eaac9234"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#accd1b7ad6a6f9fb3241d5e84eaac9234">ConformationSearch</a> (<a class="el" href="classPNAB_1_1RuntimeParameters.html">PNAB::RuntimeParameters</a> &amp;runtime_params, <a class="el" href="classPNAB_1_1Backbone.html">PNAB::Backbone</a> &amp;backbone, <a class="el" href="classPNAB_1_1HelicalParameters.html">PNAB::HelicalParameters</a> &amp;helical_params, <a class="el" href="classPNAB_1_1Bases.html">PNAB::Bases</a> bases, std::string prefix=&quot;test&quot;)</td></tr>
-<tr class="memdesc:accd1b7ad6a6f9fb3241d5e84eaac9234"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the conformation search class.  <a href="#accd1b7ad6a6f9fb3241d5e84eaac9234">More...</a><br/></td></tr>
-<tr class="separator:accd1b7ad6a6f9fb3241d5e84eaac9234"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8fb93aba77a04fa41bdb648667b6118"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#aa8fb93aba77a04fa41bdb648667b6118">ConformationSearch</a> (<a class="el" href="classPNAB_1_1RuntimeParameters.html">PNAB::RuntimeParameters</a> &amp;runtime_params, <a class="el" href="classPNAB_1_1Backbone.html">PNAB::Backbone</a> &amp;backbone, <a class="el" href="classPNAB_1_1HelicalParameters.html">PNAB::HelicalParameters</a> &amp;helical_params, <a class="el" href="classPNAB_1_1Bases.html">PNAB::Bases</a> bases, std::string prefix=&quot;test&quot;, bool verbose=true)</td></tr>
+<tr class="memdesc:aa8fb93aba77a04fa41bdb648667b6118"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the conformation search class.  <a href="#aa8fb93aba77a04fa41bdb648667b6118">More...</a><br/></td></tr>
+<tr class="separator:aa8fb93aba77a04fa41bdb648667b6118"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75ab7fa537fc2e65664a8840edfdf83b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#a75ab7fa537fc2e65664a8840edfdf83b">run</a> ()</td></tr>
 <tr class="memdesc:a75ab7fa537fc2e65664a8840edfdf83b"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function to call the appropriate search algorithm using the provided <a class="el" href="classPNAB_1_1RuntimeParameters.html#a47eaa10da717a345f3e4b84f1d1175ab" title="The search algorithm. ">RuntimeParameters::search_algorithm</a>.  <a href="#a75ab7fa537fc2e65664a8840edfdf83b">More...</a><br/></td></tr>
 <tr class="separator:a75ab7fa537fc2e65664a8840edfdf83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,6 +152,9 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
+<tr class="memitem:ac2a7fa4d5b361f7a60816e424132738b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#ac2a7fa4d5b361f7a60816e424132738b">verbose_</a></td></tr>
+<tr class="memdesc:ac2a7fa4d5b361f7a60816e424132738b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether to print progress report to screen.  <a href="#ac2a7fa4d5b361f7a60816e424132738b">More...</a><br/></td></tr>
+<tr class="separator:ac2a7fa4d5b361f7a60816e424132738b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05385f7642d0c027a3740a0427b3c952"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classPNAB_1_1RuntimeParameters.html">PNAB::RuntimeParameters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#a05385f7642d0c027a3740a0427b3c952">runtime_params_</a></td></tr>
 <tr class="memdesc:a05385f7642d0c027a3740a0427b3c952"><td class="mdescLeft">&#160;</td><td class="mdescRight">The runtime parameters instance, <a class="el" href="classPNAB_1_1RuntimeParameters.html" title="A class for holding necessary and optional runtime parameters for conformational searches. ">RuntimeParameters</a>.  <a href="#a05385f7642d0c027a3740a0427b3c952">More...</a><br/></td></tr>
 <tr class="separator:a05385f7642d0c027a3740a0427b3c952"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -274,7 +277,7 @@ Private Attributes</h2></td></tr>
 <dd>
 <a class="el" href="classPNAB_1_1Chain.html" title="A class for building nucleic acid strands and evaluating their energies. ">Chain</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="accd1b7ad6a6f9fb3241d5e84eaac9234"></a>
+<a class="anchor" id="aa8fb93aba77a04fa41bdb648667b6118"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -306,7 +309,13 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>prefix</em> = <code>&quot;test&quot;</code>&#160;</td>
+          <td class="paramname"><em>prefix</em> = <code>&quot;test&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>verbose</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -325,6 +334,7 @@ Private Attributes</h2></td></tr>
     <tr><td class="paramname">helical_params</td><td>The geometric parameters constraining the possible conformations of the backbone </td></tr>
     <tr><td class="paramname">bases</td><td>List of defined bases that serves of as the library used for building the strand </td></tr>
     <tr><td class="paramname">prefix</td><td>A string to prepend the name of the accepted backbone candidates </td></tr>
+    <tr><td class="paramname">verbose</td><td>Whether to print progress report to screen </td></tr>
   </table>
   </dd>
 </dl>
@@ -1240,6 +1250,28 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The nucleotide unit for the first nucleotide in the strand. Used for searching for conformations. </p>
+
+</div>
+</div>
+<a class="anchor" id="ac2a7fa4d5b361f7a60816e424132738b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PNAB::ConformationSearch::verbose_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether to print progress report to screen. </p>
 
 </div>
 </div>

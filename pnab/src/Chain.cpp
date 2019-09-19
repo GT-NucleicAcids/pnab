@@ -1,3 +1,7 @@
+/**@file
+ * @brief A file for defining various methods for building and evaluating nucleic acid strands
+ */
+
 #include "Chain.h"
 
 using namespace std;

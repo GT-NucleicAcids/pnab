@@ -1,4 +1,8 @@
-"""!@brief A file for displaying widgets in the Jupyter notebook
+"""!@file
+A file for displaying widgets in the Jupyter notebook
+
+@namespace jupyter_widgets
+@brief A file for displaying widgets in the Jupyter notebook
 
 This file containts widgets for sepecifying options in the Jupyter
 notebook using the ipywidgets library (https://github.com/jupyter-widgets/ipywidgets).
@@ -11,6 +15,7 @@ or on the clouds using Binder (https://mybinder.org/v2/gh/alenaizan/pnab/master?
 The widgets have four main components: Backbone, Bases, Helical Parameters,
 and Runtime Parameters. The Bases section does not require the user input
 but displays some information about the available nucleobases in the library.
+The NGLView library is used for visualization
 
 To run the widgets from a Jupyter notebook, simply execute the following:
 
@@ -29,7 +34,6 @@ import ipywidgets as widgets
 from IPython.display import display, Javascript, Image
 
 from pnab.driver.pNAB import pNAB
-from pnab.driver import draw
 from pnab.driver.options import _options_dict
 from pnab import __path__
 
@@ -44,6 +48,56 @@ from pnab import __path__
 # @sa extract_options
 
 input_options = {}
+
+def view_nglview(molecule, label=False):
+    """!@brief Display molecules using the NGLView viewer.
+
+    A function to view molecules using the NGLView project (https://github.com/arose/nglview).
+    It is used to display the geometry of the backbone with atom index labels. It is
+    also used to display accepted nucleic acid candidates generated after
+    the search. For backbone molecules, the number of atoms in the backbone
+    is computed here and returned to be used for bounding the displayed atomic
+    indices in backbone widgets.
+
+
+    @param molecule (str) Path to a file containing the 3D structure of the molecule
+    @param label (bool) Whether to display atom index labels
+
+    @return number of atoms in @a molecule if @a label is True, else None
+
+    @attention If the molecules are not displayed correctly, you may need to execute
+        @code{.sh} jupyter-nbextension enable nglview --py --sys-prefix @endcode
+
+    @sa jupyter_widgets.path
+    @sa jupyter_widgets.single_result
+    """
+
+    import os
+
+    import openbabel
+    import nglview
+
+    # Check if the file exists
+    if not os.path.isfile(molecule):
+        return 0
+
+    # If a label is requested, then this is a backbone molecule
+    if label:
+        # Read the backbone molecule and convert it to a pdb format
+        mol = openbabel.OBMol()
+        conv = openbabel.OBConversion()
+        fmt = conv.FormatFromExt(molecule)
+        conv.SetInAndOutFormats(fmt.GetID(), 'pdb')
+        conv.ReadFile(mol, molecule)
+
+        # Extract the number of atoms
+        num_atoms = mol.NumAtoms()
+        mol = conv.WriteString(mol)
+
+        # Display the backbone molecule
+        struct = nglview.TextStructure(mol)
+        view = nglview.NGLWidget(struct, defaultRepresentation=False)
+        view.camera = 'orthographic'
 
 def fixed_bonds(num_bonds, num_atoms, param):
     """!@brief Display widgets for determining indices of fixed bonds
@@ -107,7 +161,7 @@ def path(file_path, param):
     @sa upload_backbone
     @sa input_options
     @sa options._options_dict
-    @sa draw.view_nglview
+    @sa view_nglview
     """
 
     if not os.path.isfile(file_path):
@@ -120,7 +174,7 @@ def path(file_path, param):
             return
 
     # Show molecule using NGLView with atom numbers
-    num_atoms = draw.view_nglview(file_path, label=True)
+    num_atoms = view_nglview(file_path, label=True)
 
     # Display widgets for backbone connection to the nucleobase and the other backbone
     linker1 = widgets.Dropdown(value=param['linker']['default'][0], options=range(1, num_atoms + 1), layout=widgets.Layout(width='100px'))
@@ -194,8 +248,7 @@ def upload_backbone(f, param):
 def backbone(param):
     """!@brief Main backbone widget for use in Jupyter notebook
 
-    This function displays the backbone widgets. It also display the JSME
-    molecule editor for drawing backbone candidates. 
+    This function displays the backbone widgets.
 
     @param param (dict) @a options._options_dict['Backbone']
 
@@ -749,7 +802,7 @@ def single_result(result, header, results, prefix):
         print(header.split(', ')[i] + ': %.3f' %result[i])
 
     # Display the molecule
-    draw.view_nglview(conformer)
+    view_nglview(conformer)
     
 
 def show_results(results, header, prefix):
