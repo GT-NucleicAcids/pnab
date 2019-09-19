@@ -777,7 +777,7 @@ def show_results(results, header, prefix):
         for i in range(len(options)):
             z.write(options[i][0])
 
-    display(widgets.HTML("""<a href="output""" + time + """.zip" target="_blank">Download Output</a>"""))
+    display(Javascript("""var url="output%s.zip"\nwindow.open(url, 'download')""" %time))
 
     # Show a dropdown widget of all the accepted conformers
     dropdown = widgets.Dropdown(value=options[0][1], options=options, style={'description_width': 'initial'}, description='Conformer')
