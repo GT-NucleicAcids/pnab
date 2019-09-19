@@ -1,3 +1,7 @@
+/**@file
+ * @brief A file for exporting classes and functions to python using pybind11
+ */
+
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/stl_bind.h>

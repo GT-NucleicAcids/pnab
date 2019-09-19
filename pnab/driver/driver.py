@@ -1,7 +1,10 @@
-"""!@brief proto-Nucleic Acid Builder
+"""!@file
+This is the main file for the pnab driver
 
-This is the main file for the pnab driver. This file contains the class for calling
-the pNAB C++ library. 
+@namespace driver
+@brief This is the main file for the pnab driver
+
+This file contains the pNAB class for calling the C++ library. 
 """
 
 from __future__ import division, absolute_import, print_function
@@ -22,7 +25,7 @@ from pnab.driver import options
 
 
 class pNAB(object):
-    """!@brief The proto-Nucleic Acid Builder main class
+    """!@brief The proto-Nucleic Acid Builder main python class
 
     A class that contains methods to create a pNAB run. It validates input,
     runs it, and save results.
@@ -207,7 +210,7 @@ class pNAB(object):
         and "summary.csv". It renames any existing files with these names by prepending
         enough "_".
 
-        @param number_of_cpus Number of CPUs to use for parallel computations, defaults to all cores
+        @param number_of_cpus Number of CPUs to use for parallel computations of different helical configurations, defaults to all cores
         @param verbose Whether to print progress report to the screen, default to True
 
         @returns None; output files are written

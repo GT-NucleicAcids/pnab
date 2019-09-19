@@ -1,3 +1,7 @@
+/**@file
+ * @brief A file for declaring the search algorithm class
+ */
+
 #ifndef PNAB_CONFORMATIONSEARCH_H
 #define PNAB_CONFORMATIONSEARCH_H
 

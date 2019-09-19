@@ -94,6 +94,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a2aea27eac720f21bb7b3d7204024099d"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejupyter__widgets.html#a2aea27eac720f21bb7b3d7204024099d">view_nglview</a></td></tr>
+<tr class="memdesc:a2aea27eac720f21bb7b3d7204024099d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display molecules using the NGLView viewer.  <a href="#a2aea27eac720f21bb7b3d7204024099d">More...</a><br/></td></tr>
+<tr class="separator:a2aea27eac720f21bb7b3d7204024099d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad19007c85b009bbd9215e31acf0a974c"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejupyter__widgets.html#ad19007c85b009bbd9215e31acf0a974c">fixed_bonds</a></td></tr>
 <tr class="memdesc:ad19007c85b009bbd9215e31acf0a974c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display widgets for determining indices of fixed bonds.  <a href="#ad19007c85b009bbd9215e31acf0a974c">More...</a><br/></td></tr>
 <tr class="separator:ad19007c85b009bbd9215e31acf0a974c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,9 +155,9 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A file for displaying widgets in the Jupyter notebook. </p>
 <p>This file containts widgets for sepecifying options in the Jupyter notebook using the ipywidgets library (<a href="https://github.com/jupyter-widgets/ipywidgets">https://github.com/jupyter-widgets/ipywidgets</a>). Using Jupyter notebook is not necessary for using the program, as the program can be run in as a python script. However, the widgets provide a graphical user interface for making input files, running the code, and displaying the results. The Jupyter notebook can be run locally or on the clouds using Binder (<a href="https://mybinder.org/v2/gh/alenaizan/pnab/master?filepath=binder">https://mybinder.org/v2/gh/alenaizan/pnab/master?filepath=binder</a>).</p>
-<p>The widgets have four main components: Backbone, Bases, Helical Parameters, and Runtime Parameters. The Bases section does not require the user input but displays some information about the available nucleobases in the library.</p>
+<p>The widgets have four main components: Backbone, Bases, Helical Parameters, and Runtime Parameters. The Bases section does not require the user input but displays some information about the available nucleobases in the library. The NGLView library is used for visualization</p>
 <p>To run the widgets from a Jupyter notebook, simply execute the following:</p>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;import pnab</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> pnab</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;pnab.builder()</div>
 </div><!-- fragment --> </div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a2f06d55f653e83b30dc19bc2ad4be487"></a>
@@ -222,7 +225,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Main backbone widget for use in Jupyter notebook. </p>
-<p>This function displays the backbone widgets. It also display the JSME molecule editor for drawing backbone candidates.</p>
+<p>This function displays the backbone widgets.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">param</td><td>(dict) <em><a class="el" href="namespaceoptions.html#ac713404e5973898909787d2f50f5e42e" title="Nucleic acid builder options used in the driver. ">options._options_dict</a></em>['Backbone']</td></tr>
@@ -482,7 +485,7 @@ Variables</h2></td></tr>
 <dd>
 <a class="el" href="namespaceoptions.html#ac713404e5973898909787d2f50f5e42e" title="Nucleic acid builder options used in the driver. ">options._options_dict</a> </dd>
 <dd>
-<a class="el" href="namespacedraw.html#a27e4eec1b6ad3717619aff26be182812" title="Display molecules using the NGLView viewer. ">draw.view_nglview</a> </dd></dl>
+<a class="el" href="namespacejupyter__widgets.html#a2aea27eac720f21bb7b3d7204024099d" title="Display molecules using the NGLView viewer. ">view_nglview</a> </dd></dl>
 
 </div>
 </div>
@@ -501,7 +504,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Function to run the code when the user finishes specifying all options. </p>
-<p>It extracts the user-defined options and creates a <em><a class="el" href="classpNAB_1_1pNAB.html" title="The proto-Nucleic Acid Builder main class. ">pNAB.pNAB</a></em> instance. Then, it run the code and display the results.</p>
+<p>It extracts the user-defined options and creates a <em>pNAB.pNAB</em> instance. Then, it run the code and display the results.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">button</td><td>(variable) variable for using the widgets.Button.on_click method</td></tr>
@@ -510,7 +513,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="namespacejupyter__widgets.html#a2445fdaea155fb5a76f5770fc9b9ec17" title="Display all widgets in Jupyter notebook given an input file. ">display_options_widgets</a> </dd>
 <dd>
-<a class="el" href="classpNAB_1_1pNAB.html" title="The proto-Nucleic Acid Builder main class. ">pNAB.pNAB</a> </dd>
+pNAB.pNAB </dd>
 <dd>
 <a class="el" href="namespacejupyter__widgets.html#ac3b6999493d360d377ddd4997149e4d2" title="Display results. ">show_results</a> </dd></dl>
 
@@ -750,6 +753,48 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>None</dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="namespacejupyter__widgets.html#a2445fdaea155fb5a76f5770fc9b9ec17" title="Display all widgets in Jupyter notebook given an input file. ">display_options_widgets</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2aea27eac720f21bb7b3d7204024099d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def jupyter_widgets.view_nglview </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>molecule</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>label</em> = <code>False</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Display molecules using the NGLView viewer. </p>
+<p>A function to view molecules using the NGLView project (<a href="https://github.com/arose/nglview">https://github.com/arose/nglview</a>). It is used to display the geometry of the backbone with atom index labels. It is also used to display accepted nucleic acid candidates generated after the search. For backbone molecules, the number of atoms in the backbone is computed here and returned to be used for bounding the displayed atomic indices in backbone widgets.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">molecule</td><td>(str) Path to a file containing the 3D structure of the molecule </td></tr>
+    <tr><td class="paramname">label</td><td>(bool) Whether to display atom index labels</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>number of atoms in <em>molecule</em> if <em>label</em> is True, else None</dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>If the molecules are not displayed correctly, you may need to execute <div class="fragment"><div class="line">jupyter-nbextension enable nglview --py --sys-prefix </div>
+</div><!-- fragment --></dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="namespacejupyter__widgets.html#aa3a19a2f72b5557240535b8ebdaefe1d" title="Display backbone to Jupyter notebook given a file path. ">jupyter_widgets.path</a> </dd>
+<dd>
+<a class="el" href="namespacejupyter__widgets.html#a35a0dd667e7d55db6f27b3e51a5e37b0" title="Interactive function to display a single result. ">jupyter_widgets.single_result</a> </dd></dl>
 
 </div>
 </div>

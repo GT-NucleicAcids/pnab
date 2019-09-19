@@ -1,3 +1,7 @@
+/**@file
+ * @brief A file for defining various search algorithm functions
+ */
+
 #include <iomanip>
 #include "ConformationSearch.h"
 

@@ -12,7 +12,7 @@ var searchData=
   ['combined_5fchain_5f',['combined_chain_',['../classPNAB_1_1Chain.html#a10c066182c6b386c6b9f2be83d98858b',1,'PNAB::Chain']]],
   ['conf_5fdata_5fvec_5f',['conf_data_vec_',['../classPNAB_1_1ConformationSearch.html#a6dec4b181176eaf389e37106dd27fae0',1,'PNAB::ConformationSearch']]],
   ['conformationsearch',['ConformationSearch',['../classPNAB_1_1ConformationSearch.html',1,'PNAB']]],
-  ['conformationsearch',['ConformationSearch',['../classPNAB_1_1ConformationSearch.html#accd1b7ad6a6f9fb3241d5e84eaac9234',1,'PNAB::ConformationSearch']]],
+  ['conformationsearch',['ConformationSearch',['../classPNAB_1_1ConformationSearch.html#aa8fb93aba77a04fa41bdb648667b6118',1,'PNAB::ConformationSearch']]],
   ['conformationsearch_2ecpp',['ConformationSearch.cpp',['../ConformationSearch_8cpp.html',1,'']]],
   ['conformationsearch_2eh',['ConformationSearch.h',['../ConformationSearch_8h.html',1,'']]],
   ['conformerdata',['ConformerData',['../structPNAB_1_1ConformerData.html',1,'PNAB']]],

@@ -1,4 +1,8 @@
-"""!@brief A file for preparing, explaining and validating options
+"""!@file
+A file for preparing, explaining and validating options
+
+@namespace options
+@brief A file for preparing, explaining and validating options
 
 This option file defines a dictionary containing all the available options for the builder code.
 @a options._options_dict has three keys: Backbone, HelicalParameters, and RuntimeParameters.

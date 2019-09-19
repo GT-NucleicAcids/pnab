@@ -11,5 +11,6 @@ var searchData=
   ['validate_5fall_5foptions',['validate_all_options',['../namespaceoptions.html#a6dd0b4ffb1b6e70bc4eeb5d1b4be64d9',1,'options']]],
   ['vdwe',['VDWE',['../structPNAB_1_1ConformerData.html#a4a97e77918c517a45bc9c3aad779c1d9',1,'PNAB::ConformerData']]],
   ['vector_5fatom_5fdeleted',['vector_atom_deleted',['../classPNAB_1_1Backbone.html#a77c14d86ad99aa2bb4f16f7cc3c61514',1,'PNAB::Backbone::vector_atom_deleted()'],['../classPNAB_1_1Base.html#a6646285384f2e327e84d2609bbbf43bc',1,'PNAB::Base::vector_atom_deleted()']]],
-  ['view_5fnglview',['view_nglview',['../namespacedraw.html#a27e4eec1b6ad3717619aff26be182812',1,'draw']]]
+  ['verbose_5f',['verbose_',['../classPNAB_1_1ConformationSearch.html#ac2a7fa4d5b361f7a60816e424132738b',1,'PNAB::ConformationSearch']]],
+  ['view_5fnglview',['view_nglview',['../namespacejupyter__widgets.html#a2aea27eac720f21bb7b3d7204024099d',1,'jupyter_widgets']]]
 ];

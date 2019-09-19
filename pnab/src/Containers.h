@@ -1,3 +1,7 @@
+/**@file
+ * @brief A file for declaring various classes for defining options
+ */
+
 #ifndef PNAB_CONTAINERS_H
 #define PNAB_CONTAINERS_H
 

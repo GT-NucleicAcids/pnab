@@ -8,5 +8,6 @@ var searchData=
   ['v_5fnew_5fbond_5fids_5f',['v_new_bond_ids_',['../classPNAB_1_1Chain.html#aa5ca69498dccdf40890ba2f0931982a4',1,'PNAB::Chain']]],
   ['v_5fnum_5fbu_5fa_5fmol_5fatoms_5f',['v_num_bu_A_mol_atoms_',['../classPNAB_1_1Chain.html#a18d3cfb1466428d3ad1cf3edee33a92d',1,'PNAB::Chain']]],
   ['vdwe',['VDWE',['../structPNAB_1_1ConformerData.html#a4a97e77918c517a45bc9c3aad779c1d9',1,'PNAB::ConformerData']]],
-  ['vector_5fatom_5fdeleted',['vector_atom_deleted',['../classPNAB_1_1Backbone.html#a77c14d86ad99aa2bb4f16f7cc3c61514',1,'PNAB::Backbone::vector_atom_deleted()'],['../classPNAB_1_1Base.html#a6646285384f2e327e84d2609bbbf43bc',1,'PNAB::Base::vector_atom_deleted()']]]
+  ['vector_5fatom_5fdeleted',['vector_atom_deleted',['../classPNAB_1_1Backbone.html#a77c14d86ad99aa2bb4f16f7cc3c61514',1,'PNAB::Backbone::vector_atom_deleted()'],['../classPNAB_1_1Base.html#a6646285384f2e327e84d2609bbbf43bc',1,'PNAB::Base::vector_atom_deleted()']]],
+  ['verbose_5f',['verbose_',['../classPNAB_1_1ConformationSearch.html#ac2a7fa4d5b361f7a60816e424132738b',1,'PNAB::ConformationSearch']]]
 ];

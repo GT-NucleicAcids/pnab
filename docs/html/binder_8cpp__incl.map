@@ -1,5 +1,5 @@
 <map id="binder.cpp" name="binder.cpp">
-<area shape="rect" id="node6" href="$ConformationSearch_8h.html" title="ConformationSearch.h" alt="" coords="620,80,772,107"/>
-<area shape="rect" id="node7" href="$Chain_8h.html" title="Chain.h" alt="" coords="663,155,729,181"/>
-<area shape="rect" id="node10" href="$Containers_8h.html" title="Containers.h" alt="" coords="781,229,877,256"/>
+<area shape="rect" id="node6" href="$ConformationSearch_8h.html" title="A file for declaring the search algorithm class. " alt="" coords="620,80,772,107"/>
+<area shape="rect" id="node7" href="$Chain_8h.html" title="A file for declaring a class for building and evaluating nucleic acid strands. " alt="" coords="663,155,729,181"/>
+<area shape="rect" id="node10" href="$Containers_8h.html" title="A file for declaring various classes for defining options. " alt="" coords="781,229,877,256"/>
 </map>
