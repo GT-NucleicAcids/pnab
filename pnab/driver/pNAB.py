@@ -141,7 +141,7 @@ class pNAB(object):
         [helical_parameters.__setattr__(k, val) for k, val in zip(self.options['HelicalParameters'], config)]
 
         # Run code
-        result = bind.run(runtime_parameters, backbone, bases, helical_parameters, prefix)
+        result = bind.run(runtime_parameters, backbone, bases, helical_parameters, prefix, self._verbose)
 
         # Get results from the comma-separated output string
         result = np.genfromtxt(StringIO(result), delimiter=',')
@@ -194,7 +194,7 @@ class pNAB(object):
             np.savetxt(f, results[2], delimiter=',', header=header)
 
 
-    def run(self):
+    def run(self, number_of_cpus=None, verbose=True):
         """!@brief Prepare helical configurations and run them in parallel.
 
         If a single value is given for a helical parameter (e.g. helical twist),
@@ -207,8 +207,14 @@ class pNAB(object):
         and "summary.csv". It renames any existing files with these names by prepending
         enough "_".
 
+        @param number_of_cpus Number of CPUs to use for parallel computations, defaults to all cores
+        @param verbose Whether to print progress report to the screen, default to True
+
         @returns None; output files are written
         """
+
+        ##@brief Whether to print progress report to the screen
+        self._verbose = verbose
 
         # Extract configurations
         np.random.seed(self.options['RuntimeParameters']['seed'])
@@ -228,7 +234,8 @@ class pNAB(object):
         # that the random numbers produced become different even though
         # we were using the same seed. Setting maxtasksperchild to one
         # fixes the issue apparently
-        pool = mp.Pool(mp.cpu_count(), init_worker, maxtasksperchild=1)
+        number_of_cpus = mp.cpu_count() if number_of_cpus is None else number_of_cpus
+        pool = mp.Pool(number_of_cpus, init_worker, maxtasksperchild=1)
 
         # Rename files that have the same name
         for f in ['results.csv', 'prefix.yaml', 'summary.csv']:

@@ -6,7 +6,7 @@ using namespace std;
 using namespace OpenBabel;
 
 ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbone &backbone,
-                                       HelicalParameters &helical_params, Bases bases, string prefix) {
+                                       HelicalParameters &helical_params, Bases bases, string prefix, bool verbose) {
 
     // Set parameters
     runtime_params_ = runtime_params;
@@ -14,6 +14,7 @@ ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbo
     helical_params_ = helical_params;
     bases_ = bases;
     prefix_ = prefix;
+    verbose_ = verbose;
 
     // Update the names of the bases in the strand
     for (auto &v : runtime_params_.strand)
@@ -124,6 +125,7 @@ void ConformationSearch::GeneticAlgorithmSearch() {
     uniform_real_distribution<double> dist = uniform_real_distribution<double>(0, 2 * M_PI);
     // Use uniform probability between 0 and 1 for the use in the crossover and mutation 
     uniform_real_distribution<double> dist2 = uniform_real_distribution<double>(0, 1);
+    uniform_int_distribution<int> selection(0, rotor_vector.size() - 1);
 
     // Genetic algorithm parameters
     int numConformers = runtime_params_.population_size; // Population size
@@ -153,7 +155,7 @@ void ConformationSearch::GeneticAlgorithmSearch() {
     for (size_t search_index=0; search_index < search_size; search_index++) {
 
         // print progress roughly every 10%
-        if (fmod(search_index, search_size/10.0) == 0) {
+        if (fmod(search_index, search_size/10.0) == 0 && verbose_) {
             printProgress(search_index, search_size);
         }
 
@@ -198,7 +200,7 @@ void ConformationSearch::GeneticAlgorithmSearch() {
             if (v < crossover_rate) {
                 // Exchange one dihedral angle for each offspring
                 // Maybe a different choice for the mating procedure is preferred
-                int index = rand()%offspring[0].size();
+                int index = selection(rng_)%offspring[0].size();
                 offspring[0][index] = parent2[index];
                 offspring[1][index] = parent1[index];
             }
@@ -209,8 +211,8 @@ void ConformationSearch::GeneticAlgorithmSearch() {
             if (v < mutation_rate) {
                 // Select a random dihedral angle and change it
                 // Maybe a different choice for the mutation procedure is preferred 
-                int index1 = rand()%offspring[0].size();
-                int index2 = rand()%offspring[1].size();
+                int index1 = selection(rng_)%offspring[0].size();
+                int index2 = selection(rng_)%offspring[1].size();
                 offspring[0][index1] = dist(rng_);
                 offspring[1][index2] = dist(rng_);
             }
@@ -299,7 +301,7 @@ void ConformationSearch::RandomSearch(bool weighted) {
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
 
         // print progress roughly every 10%
-        if (fmod(search_index, search_size/10.0) == 0) {
+        if (fmod(search_index, search_size/10.0) == 0 && verbose_) {
             printProgress(search_index, search_size);
         }
 
@@ -378,6 +380,8 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
 
     // Set a uniform random distribution for the acceptance and rejection step
     uniform_real_distribution<double> one_zero_dist(0, 1);
+    uniform_int_distribution<int> selection(0, rotor_vector.size() - 1);
+    
 
     double k = 300; // kcal/mol/Angstroms^2; Bond stretching force constant
                     // P-O5' bond stretching contsant in CHARMM36 for ON2-P bond: 270 kcal/mol/Angstrom^2
@@ -392,27 +396,19 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
 
         // print progress roughly every 10%
-        if (fmod(search_index, search_size/10.0) == 0) {
+        if (fmod(search_index, search_size/10.0) == 0 && verbose_) {
             printProgress(search_index, search_size);
         }
 
         // In Monte Carlo search, we randomly pick two dihedrals and rotate them
         int n_rotations = 2;
-        // Store the indices of the rotors
-        vector<int> indices;
-        for (int i=0; i < rotor_vector.size(); i++)
-           indices.push_back(i); 
 
         // Save the old angles and the rotated indices
         vector<double> old_angles;
         vector<int> rotated_indices;
         for (int i=0; i < n_rotations; i++) {
             // Pick a random index
-            int ind = rand()%indices.size();
-            int index = indices[ind];
-            // Remove the rotated dihedral from the indices
-            // We do not want to rotate the same dihedral twice
-            indices.erase(indices.begin() + ind);
+            int index = selection(rng_);
             // Save the index of the rotated angle
             rotated_indices.push_back(index);
             
@@ -604,7 +600,7 @@ void ConformationSearch::SystematicSearch() {
     for (size_t search_index = 1; search_index < search_size + 1; ++search_index) {
 
         // print progress roughly every 10%
-        if (fmod(search_index, search_size/10.0) == 0) {
+        if (fmod(search_index, search_size/10.0) == 0 && verbose_) {
             printProgress(search_index, search_size);
         }
 

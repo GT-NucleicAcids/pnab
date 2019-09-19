@@ -67,10 +67,11 @@ namespace PNAB {
          * @param helical_params The geometric parameters constraining the possible conformations of the backbone
          * @param bases List of defined bases that serves of as the library used for building the strand
          * @param prefix A string to prepend the name of the accepted backbone candidates
+         * @param verbose Whether to print progress report to screen
          */
         ConformationSearch(PNAB::RuntimeParameters &runtime_params, PNAB::Backbone &backbone,
                            PNAB::HelicalParameters &helical_params, PNAB::Bases bases,
-                           std::string prefix = "test");
+                           std::string prefix = "test", bool verbose = true);
 
         /**
          * @brief A function to call the appropriate search algorithm using the provided RuntimeParameters::search_algorithm
@@ -86,6 +87,7 @@ namespace PNAB {
         std::string run();
 
     private:
+        bool verbose_; //!< @brief Whether to print progress report to screen
         PNAB::RuntimeParameters runtime_params_; //!< @brief The runtime parameters instance, RuntimeParameters
         std::array<unsigned, 2> backbone_range_; //!< @brief The Backbone index range for the first nucleotide
         PNAB::Backbone backbone_; //!< @brief The backbone molecule
