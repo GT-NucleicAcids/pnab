@@ -1,12 +1,12 @@
 package:
   name: pnab
-  version: "0.5.0"
+  version: "0.7"
 
 source:
   #path: ../
   git_url: https://github.com/alenaizan/pnab.git  # [linux]
   git_url: https://github.com/alenaizan/pnab.git  # [osx]
-  git_tag: v0.5
+  git_tag: v0.7
 
 build:
   number: 1

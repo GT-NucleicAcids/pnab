@@ -352,7 +352,7 @@ _options_dict['RuntimeParameters']['num_steps'] = {
                                                   }
 _options_dict['RuntimeParameters']['seed'] = {
                                              'glossory': 'The seed for the random number generator',
-                                             'long_glossory': 'Use the same value for the seed to get reproducible results.',
+                                             'long_glossory': 'Use the same value for the seed to get reproducible results in the same computer platform.',
                                              'default': 0,
                                              'validation': lambda x: int(abs(x)),
                                              }

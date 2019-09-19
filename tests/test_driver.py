@@ -1,6 +1,7 @@
 from __future__ import division, absolute_import, print_function
 
 import os
+import sys
 import numpy as np
 
 def test_options():
@@ -34,6 +35,22 @@ def test_run():
     run.run()
 
     ref_output = np.genfromtxt(os.path.join('files','RNA.csv'), delimiter=',')
+    if 'linux' in sys.platform:
+        assert np.allclose(run.results, ref_output)
+
+def test_systematic_search():
+    """
+    test reproducibility of the systematic search
+    """
+    import pnab
+
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+    run = pnab.pNAB('RNA.yaml')
+    run.options['RuntimeParameters']['search_algorithm'] = 'systematic search'
+    run.options['RuntimeParameters']['dihedral_step'] = 3
+    run.run()
+
+    ref_output = np.genfromtxt(os.path.join('files','RNA_systematic.csv'), delimiter=',')
     assert np.allclose(run.results, ref_output)
 
 
@@ -51,7 +68,8 @@ def test_run_range():
     ref_output = np.genfromtxt(os.path.join('files','RNA2.csv'), delimiter=',')
 
     assert len(run.prefix) == 15
-    assert np.allclose(run.results, ref_output)
+    if 'linux' in sys.platform:
+        assert np.allclose(run.results, ref_output)
 
 
 def test_duplex():
@@ -66,7 +84,8 @@ def test_duplex():
     run.run()
 
     ref_output = np.genfromtxt(os.path.join('files','DNA.csv'), delimiter=',')
-    assert np.allclose(run.results, ref_output)
+    if 'linux' in sys.platform:
+        assert np.allclose(run.results, ref_output)
 
 
 def test_hexad():
@@ -81,4 +100,5 @@ def test_hexad():
     run.run()
 
     ref_output = np.genfromtxt(os.path.join('files','Hexad.csv'), delimiter=',')
-    assert np.allclose(run.results, ref_output)
+    if 'linux' in sys.platform:
+        assert np.allclose(run.results, ref_output)

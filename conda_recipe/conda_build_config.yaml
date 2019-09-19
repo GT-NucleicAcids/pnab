@@ -1,13 +1,13 @@
 target_platform:
     - osx-64                           # [osx]
-#    - linux-64                         # [linux]
+    - linux-64                         # [linux]
 CONDA_BUILD_SYSROOT:
     - /Users/github/SDKs/MacOSX10.9.sdk  # [osx]
 cxx_compiler:
     - gxx                              # [linux]
     - clangxx                          # [osx]
 cxx_compiler_version:
-#    - 7.3.0                            # [linux]
+    - 7.3.0                            # [linux]
     - 8.0.0                             # [osx]
 
 openbabel:
@@ -15,7 +15,7 @@ openbabel:
 pybind11:
     - 2.2.3
 ipywidgets:
-    - 7.5.0
+    - 7.5.1
 python:
     - 3.7
     - 3.6
