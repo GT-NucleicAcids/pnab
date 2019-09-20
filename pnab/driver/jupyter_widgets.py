@@ -72,8 +72,6 @@ def view_nglview(molecule, label=False):
     @sa jupyter_widgets.single_result
     """
 
-    import os
-
     import openbabel
     import nglview
 
@@ -98,6 +96,23 @@ def view_nglview(molecule, label=False):
         struct = nglview.TextStructure(mol)
         view = nglview.NGLWidget(struct, defaultRepresentation=False)
         view.camera = 'orthographic'
+        view.add_representation('licorice')
+        view.add_representation('label', labelType='serial', backgroundColor='black', showBackground=True)
+        view.center()
+        display(view)
+
+        # Return the number of atoms to be used for the backbone widgets
+        return num_atoms
+
+    # Show accepted candidates
+    else:
+        struct = nglview.FileStructure(molecule)
+        view = nglview.NGLWidget(struct, defaultRepresentation=False)
+        view.camera = 'orthographic'
+        view.add_representation('licorice')
+        view.center()
+        display(view)
+
 
 def fixed_bonds(num_bonds, num_atoms, param):
     """!@brief Display widgets for determining indices of fixed bonds

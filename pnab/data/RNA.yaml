@@ -33,7 +33,7 @@ HelicalParameters:
   - 1
 RuntimeParameters:
   search_algorithm: "weighted monte carlo search" # Search algorithm
-  seed: 1 # Seed for the random number generator
+  seed: 0 # Seed for the random number generator
   energy_filter:
   - 3.0 # Angle energy involving newly formed backbone bonds
   - 3.0 # Bond energy involving newly formed backbone bonds

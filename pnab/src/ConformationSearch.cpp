@@ -384,7 +384,6 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
 
     // Set a uniform random distribution for the acceptance and rejection step
     uniform_real_distribution<double> one_zero_dist(0, 1);
-    uniform_int_distribution<int> selection(0, rotor_vector.size() - 1);
     
 
     double k = 300; // kcal/mol/Angstroms^2; Bond stretching force constant
@@ -406,15 +405,20 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
 
         // In Monte Carlo search, we randomly pick two dihedrals and rotate them
         int n_rotations = 2;
+        // Store the indices of the rotors
+        vector<int> indices;
+        for (int i=0; i < rotor_vector.size(); i++)
+            indices.push_back(i); 
+
+        // Randomly choose two indices
+        shuffle(indices.begin(), indices.end(), rng_);
+        vector<int> rotated_indices = {indices[0], indices[1]};
 
         // Save the old angles and the rotated indices
         vector<double> old_angles;
-        vector<int> rotated_indices;
         for (int i=0; i < n_rotations; i++) {
-            // Pick a random index
-            int index = selection(rng_);
-            // Save the index of the rotated angle
-            rotated_indices.push_back(index);
+            // Pick the index
+            int index = rotated_indices[i];
             
             // Get the rotor
             auto r = rotor_vector[index];
