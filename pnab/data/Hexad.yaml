@@ -33,7 +33,7 @@ HelicalParameters:
   - 1
 RuntimeParameters:
   search_algorithm: "monte carlo search"
-  seed: 2
+  seed: 1
   energy_filter:
   - 3.0
   - 3.0
@@ -51,6 +51,6 @@ RuntimeParameters:
   is_double_stranded: false
   max_distance: 0.05
   monte_carlo_temperature: 298.0
-  num_steps: 100000000
+  num_steps: 10000000
   strand: XYX
   ff_type: GAFF
