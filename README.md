@@ -15,7 +15,7 @@ conda install -c alenaizan pnab
 ```
 
 ## Compiling the Package in Linux
-If you prefer to compile the package, install miniconda/anaconda. Then,
+If you prefer to compile the package, install miniconda or anaconda. Then,
 
 ```
 git clone https://github.com/alenaizan/pnab.git
