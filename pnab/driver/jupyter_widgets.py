@@ -33,7 +33,7 @@ import yaml
 import ipywidgets as widgets
 from IPython.display import display, Javascript, Image
 
-from pnab.driver.pNAB import pNAB
+from pnab.driver.driver import pNAB
 from pnab.driver.options import _options_dict
 from pnab import __path__
 
