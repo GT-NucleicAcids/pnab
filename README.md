@@ -1,4 +1,4 @@
-# proto-Nucleic Acid Builder
+# proto-Nucleic Acid Builder (pNAB)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder/driver.ipynb)
 [![docs latest](https://img.shields.io/badge/docs-latest-5077AB.svg?logo=read%20the%20docs)](https://alenaizan.github.io/pnab/html/index.html)
 [![Build Status](https://travis-ci.com/alenaizan/pnab.svg?branch=master)](https://travis-ci.com/alenaizan/pnab)
@@ -15,7 +15,7 @@ conda install -c alenaizan pnab
 ```
 
 ## Compiling the Package in Linux
-If you prefer to compile the package, install miniconda/anaconda. Then,
+If you prefer to compile the package, install miniconda or anaconda. Then,
 
 ```
 git clone https://github.com/alenaizan/pnab.git
