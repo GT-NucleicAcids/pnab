@@ -331,7 +331,10 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
             r->SetChainNum(chain_index);
             r->SetChain(chain_letter);
             r->SetTitle(base_names[c].c_str());
-            r->SetNum(c + 1);
+            if (strand_orientation_[chain_index])
+                r->SetNum(c + 1);
+            else
+                r->SetNum(chain_length_ - c);
         }
         chain += v;
         c++;
