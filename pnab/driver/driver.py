@@ -255,6 +255,7 @@ class pNAB(object):
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         with open('results.csv', 'w') as f: f.write('# ' + time + '\n')
         with open('prefix.yaml', 'w') as f: f.write('# ' + time + '\n')
+        with open('summary.csv', 'w') as f: f.write('# ' + time + '\n')
 
         try:
             # Run the different helical configurations in parallel and process results
@@ -277,9 +278,6 @@ class pNAB(object):
         # and the helical parameters.
         self.prefix = yaml.load(open('prefix.yaml'), yaml.FullLoader)
 
-        # Write time stamp
-        time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
         ##@brief A numpy array containing the results of all the candidates
         #
         # The columns in the array correspond to the entries in @a pNAB.pNAB.header
@@ -287,11 +285,11 @@ class pNAB(object):
         self.results = np.loadtxt('results.csv', delimiter=',')
 
         if self.results.size == 0:
-            # No results found; do not write summary file
+            # No results found; do not write anything to the summary file
             return
 
         elif self.results.ndim == 1:
-            # Reshape results.
+            # Only one candidate found. Reshape results.
             self.results = self.results.reshape(1, len(self.results))
 
         # Sort by total energy
@@ -299,4 +297,5 @@ class pNAB(object):
 
         # Save the 10 best candidates
         summary = results[:10]
-        np.savetxt('summary.csv', summary, delimiter=',', header=time + '\n' + self.header)
+        with open('summary.csv', 'ab') as f:
+            np.savetxt(f, summary, delimiter=',', header=self.header)

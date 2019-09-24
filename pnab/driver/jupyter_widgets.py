@@ -727,6 +727,19 @@ def run(button):
     # Delete progress report
     out.clear_output()
 
+    # Get output files
+    files = [str(int(conformer[0])) + '_' + str(int(conformer[1])) + '.pdb' for conformer in run.results]
+
+    time = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    with ZipFile('output' + time + '.zip', 'w') as z:
+        for f in ['options.yaml', 'results.csv', 'summary.csv', 'prefix.yaml']:
+            z.write(f)
+        for f in files:
+            z.write(f)
+
+    display(widgets.HTML("""<a href="output""" + time + """.zip" target="_blank">Download Output</a>"""))
+    display(Javascript("""var url="output%s.zip"\nwindow.open(url, 'download')""" %time))
+
     # If no results are found, print and return
     if run.results.size == 0:
         print("No candidate found")
@@ -837,15 +850,6 @@ def show_results(results, header, prefix):
 
     # Set a list of conformer names and their indices in the results
     options = [(str(int(conformer[0])) + '_' + str(int(conformer[1])) + '.pdb', i) for i, conformer in enumerate(results)]
-
-    time = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-    with ZipFile('output' + time + '.zip', 'w') as z:
-        for f in ['options.yaml', 'results.csv', 'summary.csv', 'prefix.yaml']:
-            z.write(f)
-        for i in range(len(options)):
-            z.write(options[i][0])
-
-    display(Javascript("""var url="output%s.zip"\nwindow.open(url, 'download')""" %time))
 
     # Show a dropdown widget of all the accepted conformers
     dropdown = widgets.Dropdown(value=options[0][1], options=options, style={'description_width': 'initial'}, description='Conformer')
