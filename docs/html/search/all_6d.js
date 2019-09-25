@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['main_2emd',['main.md',['../main_8md.html',1,'']]],
+  ['mainpage_2edox',['mainpage.dox',['../mainpage_8dox.html',1,'']]],
   ['matrix_5fmult',['matrix_mult',['../classPNAB_1_1HelicalParameters.html#adfe3987b1f24c6cf952e2866f1472431',1,'PNAB::HelicalParameters']]],
   ['max_5fdistance',['max_distance',['../classPNAB_1_1RuntimeParameters.html#a4895122ad2dfa91f25a04c1dffb4be98',1,'PNAB::RuntimeParameters']]],
   ['measuredistance',['measureDistance',['../classPNAB_1_1ConformationSearch.html#a1b7bbc60c2acc830297c1f97249f20da',1,'PNAB::ConformationSearch']]],
