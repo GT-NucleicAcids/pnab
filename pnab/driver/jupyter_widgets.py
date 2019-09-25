@@ -392,16 +392,8 @@ def algorithm(chosen_algorithm, param):
         display(widgets.HBox([help_box, dihedral_step]))
         input_options['RuntimeParameters']['dihedral_step'] = dihedral_step
 
-    # The other five algorithms require specifying the number of steps or generation and the random generator seed
+    # The other five algorithms require specifying the number of steps or generation
     else:
-        seed = widgets.BoundedIntText(value=param['seed']['default'], min=0, max=2**32-1,
-                                      description=param['seed']['glossory'],
-                                      style={'description_width': 'initial'},
-                                      layout={'width': '75%'})
-        help_box = widgets.Button(description='?', tooltip=param['seed']['long_glossory'], layout=widgets.Layout(width='3%'))
-        display(widgets.HBox([help_box, seed]))
-        input_options['RuntimeParameters']['seed'] = seed
-
         num_steps = widgets.BoundedIntText(value=param['num_steps']['default'], min=1, max=1e100,
                                            description=param['num_steps']['glossory'],
                                            style={'description_width': 'initial'},
@@ -476,6 +468,16 @@ def runtime_parameters(param):
     display(widgets.HTML(value='<H3>Runtime Parameters</H3>'))
 
     input_options['RuntimeParameters'] = {}
+
+    # Random number generator seed
+    seed = widgets.BoundedIntText(value=param['seed']['default'], min=0, max=2**32-1,
+                                  description=param['seed']['glossory'],
+                                  style={'description_width': 'initial'},
+                                  layout={'width': '75%'})
+    help_box = widgets.Button(description='?', tooltip=param['seed']['long_glossory'], layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, seed]))
+    input_options['RuntimeParameters']['seed'] = seed
+
 
     # Search algorithm
     display(widgets.HTML(value='<H4>Search Algorithm</H4>'))
