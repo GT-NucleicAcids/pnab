@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>The Proto-Nucleic-Acid Builder (pNAB): Related Pages</title>
+<title>The Proto-Nucleic-Acid Builder (pNAB): Installing and Running the Program</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,7 +59,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -74,16 +73,66 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
+</div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">Related Pages</div>  </div>
+<div class="title">Installing and Running the Program </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all related documentation pages:</div><div class="directory">
-<table class="directory">
-</table>
-</div><!-- directory -->
-</div><!-- contents -->
+<div class="textblock"><h1><a class="anchor" id="running"></a>
+Running the Program</h1>
+<h2><a class="anchor" id="why"></a>
+Do I need to Install?</h2>
+<p>You can try the proto-Nucleic acid sotware online <a href="https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder/driver.ipynb">here</a>.</p>
+<h2><a class="anchor" id="easiest"></a>
+Easiest Installation</h2>
+<p>Download the appropriate installer for your platform (i.e. Mac or Linux) from the following links:</p>
+<ul>
+<li>Linux installer:</li>
+<li>Mac installer:</li>
+<li>Windows installer:</li>
+</ul>
+<p>Open the installer and follow the displayed instructions.</p>
+<h2><a class="anchor" id="easy"></a>
+Easy Installation</h2>
+<p>The pNAB program is available as a conda package. Download the light-weight <a href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a> or the more fully featured <a href="https://www.anaconda.com/distribution/">Anaconda</a>. Open the conda terminal and type: </p>
+<div class="fragment"><div class="line">conda install -c conda-forge -c alenaizan pnab</div>
+</div><!-- fragment --><p> You may also need to activate the NGLView library to visualize molecules: </p>
+<div class="fragment"><div class="line">jupyter-nbextension enable nglview --py --sys-prefix</div>
+</div><!-- fragment --><h1><a class="anchor" id="running"></a>
+Running the Program</h1>
+<p>The program can be used through a graphical user interface or a simple python script.</p>
+<h2><a class="anchor" id="GUI"></a>
+Using the Graphical User Interface</h2>
+<p>From the conda command-line, run: </p>
+<div class="fragment"><div class="line">jupyter notebook</div>
+</div><!-- fragment --><p>Alternatively, open <em>Anaconda</em> <em>Navigator</em> (<a href="https://docs.anaconda.com/anaconda/navigator/getting-started/">details</a>):  <style>div.image img[src="navigator.png"]{width:800px;}</style>  <div class="image">
+<img src="navigator.png" alt="navigator.png"/>
+<div class="caption">
+Anaconda Navigator</div></div>
+<p>In the Jupyter Notebook tab, click on <em>Launch</em>. If a browser does not open automatically, you may need to open it this way:  <style>div.image img[src="navigator2.png"]{width:600px;}</style>  <div class="image">
+<img src="navigator2.png" alt="navigator2.png"/>
+<div class="caption">
+Launching Jupyter Notebook</div></div>
+<p> When a browser opens with the Jupyter page, it displays the folders in your computer. navigate to an appropriate folder or create a new folder if needed, then click on <em>New</em> &gt; <em>python</em> <em>3</em>  <style>div.image img[src="jupyter.png"]{width:1000px;}</style>  <div class="image">
+<img src="jupyter.png" alt="jupyter.png"/>
+<div class="caption">
+Creating a New Jupyter Notebook</div></div>
+<p> This opens an empty notebook. Type the the following two lines in the first cell and run it. This should show the graphical user interface of the program. </p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;import pnab</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;pnab.builder()</div>
+</div><!-- fragment --> <style>div.image img[src="notebook.png"]{width:1000px;}</style>  <div class="image">
+<img src="notebook.png" alt="notebook.png"/>
+<div class="caption">
+Running the Graphical User Interface</div></div>
+ <h2><a class="anchor" id="script"></a>
+Using a Python Script</h2>
+<p>The following python script would run the program to generate an RNA structure. The file <em>RNA.yaml</em> is an example file. </p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> pnab</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;run = pnab.pNAB(<span class="stringliteral">&quot;RNA.yaml&quot;</span>)</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;run.run()</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

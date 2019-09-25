@@ -1,0 +1,82 @@
+/*!@page advanced Advanced Manual
+
+@section compiling Compiling and Testing the Package
+Clone the GitHub repository at https://github.com/alenaizan/pnab. And compile the package. All the dependcies can
+be satisfied through conda.
+@code{.sh}
+conda install -c conda-forge python numpy cmake openbabel eigen pybind11 pyyaml nglview
+@endcode
+The C++ compiler in linux can also be installed using Conda.
+@code{.sh}
+conda install -c conda-forge gcc_linux-64 gxx_linux-64
+@endcode
+The code has been tested using the gcc 7.3 compiler in Linux and the clang 8.0 compiler in Mac.
+
+The code uses the pytest package for testing. To test that the code works, first install pytest:
+@code{.sh}
+conda install pytest
+@endcode
+
+Then, execute:
+@code{.sh}
+python -c "import pnab; pnab.test()"
+@endcode
+
+@section pybind11 Accessing the C++ Classes through Python
+All the code for manipulating the molecule and computing the energies is written in C++. The main C++ classes
+that are used for defining the options can be accessed in python. For most cases, it is sufficient to write
+an input file and call the program using this syntax:
+@code{.py}
+import pnab
+
+run = pnab.pNAB('RNA.yaml')
+run.run()
+@endcode
+
+The advantage of this approach is that it performs basic validation of the user defined options. Additionally,
+for runs with multiple helical configurations, the independent configurations can be run in parallel using
+the @a multiprocessing library. This is managed internally by the python program. However, if the user wants
+to access the C++ classes directly through python, then this can be performed as follows:
+
+@code{.py}
+from pnab import bind
+
+backbone = bind.Backbone()
+backbone.file_path = 'rna_bb.pdb'
+backbone.interconnects = [10, 1]
+backbone.linker = [13, 14]
+
+base = bind.Base()
+base.file_path = 'adenine.pdb'
+base.code = 'ADA'
+base.linker = [5, 11]
+base.name = 'Adenine'
+base.pair_name = 'Uracil'
+bases = [base]
+
+hp = bind.HelicalParameters()
+hp.h_twist = 32.39
+hp.h_rise = 2.53
+hp.inclination = 22.9
+hp.tip = 0.08
+hp.x_displacement = -4.54
+hp.y_displacement = -0.02
+
+rp = bind.RuntimeParameters()
+rp.search_algorithm = 'weighted random search'
+rp.num_steps = 1000000
+rp.ff_type = 'GAFF'
+rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0]
+rp.max_distance = 0.05
+rp.strand = ['Adenine']*5
+rp.is_double_stranded = False
+
+output = bind.run(rp, backbone, bases, hp, 'test')
+print(output)
+@endcode
+
+The output from the run is a string containing the data in CSV format.
+
+The C++ classes exposed to python are only for defining options and running the program. The other classes can be
+accessed through the C++ API.
+*/

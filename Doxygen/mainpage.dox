@@ -1,0 +1,345 @@
+/*! @mainpage
+The proto-Nucleic Acid Builder is a software tool for predicting the structure and stability of
+proto-nucleic acid systems.
+
+This manual is divided in the following sections:
+- @subpage trying_and_installing
+- @subpage examples
+- @subpage advanced
+
+@page trying_and_installing Trying Online or Installing 
+
+@section trying Trying the Program Online
+You can explore the program online by clicking [here](https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder/driver.ipynb).
+This link takes you to the graphical user interface of the program. There, you can try various available examples for building DNA, RNA, and 
+other alternative nucleic acids. You can also explore how the structure and energy of nucleic acids change as you play with the different options
+of the program. Additionally, you can upload a three-dimensional structure of an alternative nucleic acid backbone and explore whether it can
+form a stable structure.
+
+After running the program, it will download different output files. The output will contain PDB files of the structure of the nucleic
+acid candidates, if there are any. It will also contain files summarizing the energies and various properties of the accepted candidate.
+Additionally, it will contain a file specifying all the input options used for running the program. This options file can be uploaded
+again to the program to run the same simulation, or it can be used as a starting point for customizating the input.
+
+This online version is useful for testing the program. The online version uses free cloud computing resources provided by
+[Binder](https://mybinder.readthedocs.io/en/latest/index.html), and this comes with several limitations. If your session remains inactive
+for 10-20 minutes, your session will be terminated. Moreover, the cloud computers limit how long you can remain in a session and how much
+RAM memory can be used. To prevent the loss of data when the session terminates because of inactivity, the program automatically download the output files
+after it finishes running. You may need to adjust the settings of the browser to allow pop-up windows to open for downloading.
+
+If you need a more permanent version of the program, you can install it in your computer.
+
+@section installation Installation
+
+@subsection easiest Easiest Installation
+Download the appropriate installer for your platform (i.e. Mac or Linux) from the following links:
+- Linux installer:
+- Mac installer:
+- Windows installer:
+
+Open the installer and follow the displayed instructions.
+
+@subsection easy Easy Installation
+The pNAB program is available as a conda package. Download the light-weight [miniconda](https://docs.conda.io/en/latest/miniconda.html)
+or the more fully featured [Anaconda](https://www.anaconda.com/distribution/). Open the conda terminal and type:
+@code{.sh}
+conda install -c conda-forge -c alenaizan pnab
+@endcode
+You may also need to activate the NGLView library to visualize molecules:
+@code{.sh}
+jupyter-nbextension enable nglview --py --sys-prefix
+@endcode
+
+@section running Running the Program
+
+The program can be used through a graphical user interface or a simple python script.
+
+@subsection GUI Using the Graphical User Interface
+From the conda command-line, run:
+@code{.sh}
+jupyter notebook
+@endcode
+
+Alternatively, open @a Anaconda @a Navigator ([details](https://docs.anaconda.com/anaconda/navigator/getting-started/)):
+@htmlonly <style>div.image img[src="navigator.png"]{width:800px;}</style> @endhtmlonly 
+@image html navigator.png "Anaconda Navigator"
+In the Jupyter Notebook tab, click on @a Launch.
+If a browser does not open automatically, you may need to open it this way:
+@htmlonly <style>div.image img[src="navigator2.png"]{width:600px;}</style> @endhtmlonly
+@image html navigator2.png "Launching Jupyter Notebook"
+
+When a browser opens with the Jupyter page, it displays the folders in your computer. navigate to an appropriate folder
+or create a new folder if needed, then click on @a New > @a python @a 3
+@htmlonly <style>div.image img[src="jupyter.png"]{width:1000px;}</style> @endhtmlonly
+@image html jupyter.png "Creating a New Jupyter Notebook"
+
+This opens an empty notebook. Type the the following two lines in the first cell and run it. This should show
+the graphical user interface of the program.
+@code{.py}
+import pnab
+pnab.builder()
+@endcode
+
+@htmlonly <style>div.image img[src="notebook.png"]{width:1000px;}</style> @endhtmlonly
+@image html notebook.png "Running the Graphical User Interface"
+
+@subsection script Using a Python Script
+The following python script would run the program to generate an RNA structure.
+The file @a RNA.yaml is an example file available in the program.
+@code{.py}
+import pnab
+
+run = pnab.pNAB("RNA.yaml")
+run.run()
+@endcode
+
+To create your own input files, you can use the downloaded grahpical user interface or the online version.
+Alternatively, you can write an input file using a text editor and run it.
+
+@page examples Examples
+@section GUI The Graphical User Interface
+The graphical user interface ([here](https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder/driver.ipynb)) contains three examples for RNA, DNA, and the hexad systems.
+You can switch between these three examples using the @a Input @a File option. You can run these
+examples as they are or you can use them as starting points for customizing your options.
+Bring the mouse pointer to the question marks @a ? in front of each option to get some explanation of
+the option.
+
+After clicking on Run, the program will use the specified options for running. The time required to complete the run depends on the algorithm.
+After it finishes, the program will display all the accepted candidates and their properties.
+
+@htmlonly <style>div.image img[src="output.png"]{width:1000px;}</style> @endhtmlonly
+@image html output.png "Example Results"
+
+The results are automatically downloaded as a zip file. Additionally, the output can be downloaded manually by clicking on
+@a Download @a Output. Note that downloading the output is only useful when the program is run in the cloud. When it is run locally
+the output files are written in the folder where the Jupyter notebook was started.
+
+The dropdown list contains all the accepted candidates ordered by the the total energy. The output data are
+the distance between between one terminal atom of the backbone and the periodic image of the other terminal atom in the adjacent backbone,
+the energy of the new bond and the new angles formed between two nucleotides, the energy of all rotatable bonds in the backbone, the van
+der Waals energy, and the total energy. Note that these six terms are correspond to distance and energy thresholds defined in the input options.
+Additionally, the output data include the energy of fixed rotatable bonds (zero if none is specified) and the root mean-squared displacement (RMSD)
+between the backbone atoms of the different conformers. The RMSD is between a given conformer and the lowest energy conformer of the same helical
+configuration.
+
+The green mark indicates that the sum of the bond, angle, torsion, and van der Waals energies is less than 2 kcal/mol, thus indicating that there
+is a low energetic penalty from adopting the backbone conformation. If the sum of the energies between 2 and 5 kcal/mol, a yellow mark is displayed.
+Otherwise, a red mark is shown.
+
+@section more Additional Examples
+The graphical user interface is essentially a tool for specifying the input options and visualizing the results.
+However, the functionalities of the program can also be accessed through python scripts.
+
+@subsection input Basic Structue of the Input File
+Here, we show the content of an example options file, which can be written by a text editor to specify the options.
+Input files can also be generated using the graphical user interface.
+
+@verbatim
+Backbone:
+  file_path: rna_bb.pdb
+  interconnects: # Backbone to backbone connection
+  - 10
+  - 1 
+  linker: # Backbone to base connection
+  - 13
+  - 14
+@endverbatim
+
+This section specifies the backbone structure. It gives a path to the file containing the three-dimensional structure of the backbone.
+By default, the program first looks for a file in the current working directory. If it does not find it, it will look for it in the program
+library. If it does not find it there, it will raise an error.
+The section also gives the indices of the atoms that connect the backbone to the nucleobase as well as the indices of the atoms that connect backbones
+together.
+
+An optional entry in this section is specifying fixed rotatable bonds. This can be specified as:
+@verbatim
+  fixed_bonds:
+  - - 1
+    - 2
+  - - 4
+    - 10
+@endverbatim
+This specifies that the dihedral angle specified by atom indices 1 and 2 and the dihedral angle specified by atom indices 4 and 10 will be fixed during the conformation search.
+
+@verbatim
+HelicalParameters:
+  inclination:
+  - 22.9 # Initial point in the range
+  - 22.9 # Final point in the range
+  - 1 # Number of configrations
+  h_rise:
+  - 2.53
+  - 2.53
+  - 1 
+  tip:
+  - 0.08 
+  - 0.08 
+  - 1 
+  h_twist:
+  - 32.39
+  - 32.39
+  - 1 
+  x_displacement:
+  - -4.54
+  - -4.54
+  - 1 
+  y_displacement:
+  - -0.02
+  - -0.02
+  - 1 
+@endverbatim
+This section specifies the helical parameters. The first value is the beginning of the range, the second value is the end of the range, and the third
+value is the number of configurations in the range. If you want a specific single value, simply specify the same value for both the beginning and the end
+of the interval.
+
+Note that for hexad geometries, only the rise and the twist are defined. Therefore, the ranges for other entries must be set to zero or removed altogether from the input file.
+
+@verbatim
+RuntimeParameters:
+  seed: 0 # Seed for the random number generator
+  search_algorithm: "weighted monte carlo search" # Search algorithm
+  num_steps: 10000000 # Number of steps for backbone dihedral search
+  weighting_temperature: 298.0 # Temperature used in the weighting procedure for dihedral angles
+  monte_carlo_temperature: 298.0 # Temperature used in the Monte Carlo procedure
+  max_distance: 0.05 # Maximum distance between atom linkers in backbone
+  ff_type: GAFF # Force field type
+  energy_filter:
+  - 3.0 # Angle energy involving newly formed backbone bonds
+  - 3.0 # Bond energy involving newly formed backbone bonds
+  - 10.0 # Total torsional energy of rotatable bonds
+  - 0.0 # Total van der Waals energy
+  - 10000000000.0 # Total Energy of the system
+  is_double_stranded: false # Whether to generate a duplex
+  strand: CGAUUUAGCG # Sequence of base names
+@endverbatim
+
+This section specifies the runtime parameters for the program. Other search algorithms can be specified as follows:
+@verbatim
+  search_algorithm: "systematic search"
+  dihedral_step: 2
+@endverbatim
+
+@verbatim
+  search_algorithm: "monte carlo search"
+  num_steps: 10000000
+  monte_carlo_temperature: 298.0
+@endverbatim
+
+@verbatim
+  search_algorithm: "random search"
+  num_steps: 10000000
+@endverbatim
+
+@verbatim
+  search_algorithm: "weighted random search"
+  num_steps: 10000000
+  weighting_temperature: 298.0
+@endverbatim
+
+@verbatim
+  search_algorithm: "genetic algorithm search"
+  num_steps: 1000
+  population_size: 1000
+  mutation_rate: 0.75
+  crossover_rate: 0.75
+@endverbatim
+
+The example above shows how to build single-stranded RNA. To build a duplex, write:
+@verbatim
+  is_double_stranded: true
+@endverbatim
+
+To build a hexad,
+@verbatim
+  is_hexad: true
+  strand_orientation:
+  - true
+  - true
+  - true
+  - true
+  - true
+  - true
+@endverbatim
+The @a strand_orientation option allows you to build any cobmination of parallel and anti-parallel strands by setting
+the values to @a true or @a false
+
+@subsection bases Adding Bases Not Defined in The Library
+The program can build structures with arbitrary nucleobases. However, as this is an advanded feature, it is not
+accessible through the graphical user interface. The key problem with defining a new nucleobase is making sure that
+the provided geometry of the nucleobase is in the correct standard frame of reference. Otherwise, the helical parameters
+will be ill-defined.
+
+The program has a library of predefined nueleobases. They include adenine, guanine, cytosine, thymine, and uracil. Additionally,
+there are two proto-nucleobases that are used for building the hexads, namely triaminopyrimidine and cyanuric acid. To define
+other nucleobases, add the following entries to the input file:
+@verbatim
+Base modified_adenine:
+  code: AD2 # Three letter PDB code
+  file_path: modified_adenine.pdb # Path to the 3D structure of the nucleobase
+  linker: # Indices of the vector forming the bond between the nucleobase and the backbone
+  - 5 
+  - 11
+  name: Q # One-letter name of the base
+  pair_name: T # One-letter name of the pairing base
+@endverbatim
+
+These lines will add the nucleobase @a modified_adenine to the library of available nucleobases. For the name of the base, you
+must not use any of the names already used in the library. Otherwise, your new base might be overwritten. The reserved names are the following:
+@a A, @a G, @a C, @a T, @a U, @a X, and @a Y. These names are case-insensitive.
+
+Now that you defined a new nucleobase, you can use its name when you specify the strand:
+@verbatim
+  strand: CGCQUQTGQG
+@endverbatim
+
+You can define additional nucleobases in the same way.
+
+@subsection script Python Script
+The minimal input to run the program as a python script is this:
+@code{.py}
+import pnab
+
+run = pnab.pNAB('RNA.yaml')
+run.run()
+@endcode
+
+By default, the program first looks for the file @a RNA.yaml in the current working directory. If it does not find it, it will look for it in the program
+library. If it does not find it there, it will raise an error. This creates an instance of the driver.pNAB class, given the options specified in the
+input file, and runs the program.
+
+To access the options programmatically, you can use the @a options attribute:
+@code{.py}
+print(run.options)
+run.options['RuntimeParameters']['search_algorithm'] = 'monte carlo search'
+@endcode
+This attribute is a dictionary of all the defined options, and it can be changed in the script.
+
+After running the program, the instance stores all the results in the @a results attribute.
+@code{.py}
+print(run.results)
+print(run.header)
+print(run.prefix)
+@endcode
+This is a numpy array containing the information about the accepted nucleic acid candidates, that is the candidates that satisfied the distance
+and energy criteria. The columns in the array are defined accroding to the corresponding entry in the @a header attribute.
+The first column in the results contain the prefix value. This is an integer that indicates the sequence of the helical configuration. This parameter
+is useful when you run a range of values for the helical parameters, where each helical configuration would have a different prefix.
+The @a prefix attribute is a dictionary whose keys are strings of the sequence of integers and whose values are strings specifying the corresponding helical
+configurations.
+@code{.py}
+print(run.prefix['1'])
+@endcode
+
+When multiple helical configurations are defined, e.g. by giving a range of values for the twist angle and asking for 5 configurations, the program
+runs these different helical configurations in parallel. The number of calculations that can be run in parallel depends on the available processors
+in the computer. By default, the program uses all available CPUs for parallel calculations. To use a different number, you can pass a keyword
+argumen to the @a run function:
+@code{.py}
+run.run(number_of_cpus=1)
+@endcode
+
+Additionally, the program prints a progress report to the screen by default. If you do not want the progress report, type:
+@code{.py}
+run.run(verbose=False)
+@endcode
+*/
