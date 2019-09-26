@@ -1,6 +1,7 @@
 var searchData=
 [
   ['accepted',['accepted',['../structPNAB_1_1ConformerData.html#a7e134cdfc7817d78ec2b4b4675e14a85',1,'PNAB::ConformerData']]],
+  ['add_5fbase',['add_base',['../namespacejupyter__widgets.html#a880c162d57319fb87a85afebc833694a',1,'jupyter_widgets']]],
   ['advanced_20manual',['Advanced Manual',['../advanced.html',1,'index']]],
   ['advanced_2edox',['advanced.dox',['../advanced_8dox.html',1,'']]],
   ['algorithm',['algorithm',['../namespacejupyter__widgets.html#a2f06d55f653e83b30dc19bc2ad4be487',1,'jupyter_widgets']]],

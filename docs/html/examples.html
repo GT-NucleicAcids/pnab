@@ -83,7 +83,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Examples </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="GUI"></a>
+<div class="textblock"><h1><a class="anchor" id="GUI_examples"></a>
 The Graphical User Interface</h1>
 <p>The graphical user interface (<a href="https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder/driver.ipynb">here</a>) contains three examples for RNA, DNA, and the hexad systems. You can switch between these three examples using the <em>Input</em> <em>File</em> option. You can run these examples as they are or you can use them as starting points for customizing your options. Bring the mouse pointer to the question marks <em></em>? in front of each option to get some explanation of the option.</p>
 <p>After clicking on Run, the program will use the specified options for running. The time required to complete the run depends on the algorithm. After it finishes, the program will display all the accepted candidates and their properties.</p>
@@ -189,7 +189,7 @@ Basic Structue of the Input File</h2>
 </pre><p> The <em>strand_orientation</em> option allows you to build any cobmination of parallel and anti-parallel strands by setting the values to <em>true</em> or <em>false</em> </p>
 <h2><a class="anchor" id="bases"></a>
 Adding Bases Not Defined in The Library</h2>
-<p>The program can build structures with arbitrary nucleobases. However, as this is an advanded feature, it is not accessible through the graphical user interface. The key problem with defining a new nucleobase is making sure that the provided geometry of the nucleobase is in the correct standard frame of reference. Otherwise, the helical parameters will be ill-defined.</p>
+<p>The program can build structures with arbitrary nucleobases. The key problem with defining a new nucleobase is making sure that the provided geometry of the nucleobase is in the correct standard frame of reference. Otherwise, the helical parameters will be ill-defined. The additional bases can be defined in the graphical user interface or by editing the input file.</p>
 <p>The program has a library of predefined nueleobases. They include adenine, guanine, cytosine, thymine, and uracil. Additionally, there are two proto-nucleobases that are used for building the hexads, namely triaminopyrimidine and cyanuric acid. To define other nucleobases, add the following entries to the input file: </p>
 <pre class="fragment">Base modified_adenine:
   code: AD2 # Three letter PDB code
@@ -203,7 +203,10 @@ Adding Bases Not Defined in The Library</h2>
 <p>Now that you defined a new nucleobase, you can use its name when you specify the strand: </p>
 <pre class="fragment">  strand: CGCQUQTGQG
 </pre><p>You can define additional nucleobases in the same way.</p>
-<h2><a class="anchor" id="script"></a>
+<h2><a class="anchor" id="lib"></a>
+Adding Files to the Library</h2>
+<p>The library of the program is in the folder <em>data</em> in the package folder. The library contains three example files and the coordinates for the defined bases and backbones. You can add additional files there to make them accessible wherever you run your Jupyter notebook or python script. To add other nucleobases to the library, edit the <em>bases_library.yaml</em> files.</p>
+<h2><a class="anchor" id="script_example"></a>
 Python Script</h2>
 <p>The minimal input to run the program as a python script is this: </p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> pnab</div>
