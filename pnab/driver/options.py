@@ -37,12 +37,22 @@ def validate_all_options(options):
     # Loop over all available options
     for k1 in _options_dict:
         if k1 not in options:
-            options['k1'] = {}
+            if k1 == 'Base': continue
+            options[k1] = {}
         for k2 in _options_dict[k1]:
             if k2 not in options[k1]:
                 # Add a default value for options not specified by the user
                 options[k1][k2] = _options_dict[k1][k2]['default']
             options[k1][k2] = _options_dict[k1][k2]['validation'](options[k1][k2])
+
+    # Validate base options if additional bases are specified
+    for k1 in options:
+        if 'Base' in k1:
+            for k2 in _options_dict['Base']:
+                if k2 not in options[k1]:
+                     # Add a default value for options not specified by the user
+                      options[k1][k2] = _options_dict['Base'][k2]['default']
+                options[k1][k2] = _options_dict['Base'][k2]['validation'](options[k1][k2])
 
     # Validate whether some options are mutually exclusive
     # Cannot build double strands for noncanonical nucleobases
@@ -279,6 +289,46 @@ _options_dict['Backbone']['fixed_bonds'] = {
                                            'default': [],
                                            'validation': lambda x: [_validate_atom_indices(i) for i in list(x)],
                                            }
+
+# Base Parameters
+_options_dict['Base'] = {}
+
+_options_dict['Base']['file_path'] = {
+                                       'glossory': 'Path to file containing the molecular structure of the base',
+                                       'long_glossory': ('Path to the file containing the three-dimensional' +
+                                                        ' molecular structure of the nucleobase (e.g. PDB file).' +
+                                                        ' The base must contain hydrogen atoms and not contain' +
+                                                        ' atoms from the backbone. The base must be in the correct standard frame of reference.'),
+                                       'default': '',
+                                       'validation': lambda x: _validate_input_file(x),
+                                       }
+_options_dict['Base']['linker'] = {
+                                    'glossory': 'Two atoms forming a vector connecting to backbone',
+                                    'long_glossory': ('Select two atoms that form the vector connecting the nucleobase molecule to' +
+                                                      ' the backbone. The terminal atom will be deleted as the bond with the nucleobase' +
+                                                      ' is formed.'),
+                                    'default': [0, 0],
+                                    'validation': lambda x: _validate_atom_indices(x),
+                                    }
+_options_dict['Base']['code'] = {
+                                  'glossory': 'Three-letter code',
+                                  'long_glossory': 'This code is used as the residue name in the output PDB files.',
+                                  'default': 'RES',
+                                  'validation': lambda x: str(x),
+                                  }
+_options_dict['Base']['name'] = {
+                                  'glossory': 'One-letter base name',
+                                  'long_glossory': ('This name is used when specifying the strand sequence. It must not be one of the' +
+                                                    ' names defined in the program library (A, G, C, T, U, X, Y).'),
+                                  'default': '',
+                                  'validation': lambda x: str(x),
+                                  }
+_options_dict['Base']['pair_name'] = {
+                                       'glossory': 'Name of the pairing base',
+                                       'long_glossory': 'The one-letter name of the pairing base.',
+                                       'default': '',
+                                       'validation': lambda x: str(x),
+                                       }
 
 # Helical Parameters
 _options_dict['HelicalParameters'] = {}

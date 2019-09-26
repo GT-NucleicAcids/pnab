@@ -97,7 +97,7 @@ To create your own input files, you can use the downloaded grahpical user interf
 Alternatively, you can write an input file using a text editor and run it.
 
 @page examples Examples
-@section GUI The Graphical User Interface
+@section GUI_examples The Graphical User Interface
 The graphical user interface ([here](https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder/driver.ipynb)) contains three examples for RNA, DNA, and the hexad systems.
 You can switch between these three examples using the @a Input @a File option. You can run these
 examples as they are or you can use them as starting points for customizing your options.
@@ -264,10 +264,9 @@ The @a strand_orientation option allows you to build any cobmination of parallel
 the values to @a true or @a false
 
 @subsection bases Adding Bases Not Defined in The Library
-The program can build structures with arbitrary nucleobases. However, as this is an advanded feature, it is not
-accessible through the graphical user interface. The key problem with defining a new nucleobase is making sure that
+The program can build structures with arbitrary nucleobases. The key problem with defining a new nucleobase is making sure that
 the provided geometry of the nucleobase is in the correct standard frame of reference. Otherwise, the helical parameters
-will be ill-defined.
+will be ill-defined. The additional bases can be defined in the graphical user interface or by editing the input file.
 
 The program has a library of predefined nueleobases. They include adenine, guanine, cytosine, thymine, and uracil. Additionally,
 there are two proto-nucleobases that are used for building the hexads, namely triaminopyrimidine and cyanuric acid. To define
@@ -294,7 +293,12 @@ Now that you defined a new nucleobase, you can use its name when you specify the
 
 You can define additional nucleobases in the same way.
 
-@subsection script Python Script
+@subsection lib Adding Files to the Library
+The library of the program is in the folder @a data in the package folder. The library contains three example files and the coordinates for the
+defined bases and backbones. You can add additional files there to make them accessible wherever you run your Jupyter notebook or python script.
+To add other nucleobases to the library, edit the @a bases_library.yaml files.
+
+@subsection script_example Python Script
 The minimal input to run the program as a python script is this:
 @code{.py}
 import pnab

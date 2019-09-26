@@ -26,6 +26,7 @@ pnab.builder()
 """
 
 import os
+import copy
 import datetime
 from zipfile import ZipFile
 
@@ -287,7 +288,137 @@ def backbone(param):
     display(widgets.HBox([help_box, w]))
 
 
-def bases():
+def base_path(file_path, param, base_number):
+    """!@brief Display base to Jupyter notebook given a file path
+
+    This function displays the options for the base. If the @a file_path does
+    not exist, this function displays nothing.
+    @param file_path (str) Path to a file containing the 3D structure of the base molecule
+    @param param (dict) @a options._options_dict['Base']
+    @param base_number The number of the new base
+
+    @returns None; @a jupyter_widgets.input_options is modified in place
+
+    @sa upload_base
+    @sa input_options
+    @sa options._options_dict
+    @sa view_nglview
+    """
+
+    if not os.path.isfile(file_path):
+        # Check if the requested file is in the "pnab/data" directory
+        file_path = os.path.join(__path__[0], 'data', file_path)
+        if not os.path.isfile(file_path):
+            # Unset the values for backbone parameters and return
+            param['linker']['default'][0] = param['linker']['default'][1] = 1
+            return
+
+    # Show molecule using NGLView with atom numbers
+    num_atoms = view_nglview(file_path, label=True)
+
+    # Display widgets for base-to-backbone connection
+    linker1 = widgets.Dropdown(value=param['linker']['default'][0], options=range(1, num_atoms + 1), layout=widgets.Layout(width='100px'))
+    linker2 = widgets.Dropdown(value=param['linker']['default'][1], options=range(1, num_atoms + 1), layout=widgets.Layout(width='100px'))
+
+    # Add help box
+    help_box = widgets.Button(description='?', tooltip=param['linker']['long_glossory'], layout=widgets.Layout(width='4%'))
+    box = widgets.HBox([help_box, widgets.Label(param['linker']['glossory'], layout={'width': '400px'}), linker1, linker2])
+
+    # Display
+    display(box)
+
+    # Code
+    code = widgets.Text(value=param['code']['default'], description=param['code']['glossory'], style={'description_width': 'initial'}, layout={'width': '75%'})
+    help_box = widgets.Button(description='?', tooltip=param['code']['long_glossory'], layout=widgets.Layout(width='4%'))
+    box = widgets.HBox([help_box, code])
+    display(box)
+
+    # Name
+    name = widgets.Text(value=param['name']['default'], description=param['name']['glossory'], style={'description_width': 'initial'}, layout={'width': '75%'})
+    help_box = widgets.Button(description='?', tooltip=param['name']['long_glossory'], layout=widgets.Layout(width='4%'))
+    box = widgets.HBox([help_box, name])
+    display(box)
+
+    # Pair name
+    pair_name = widgets.Text(value=param['pair_name']['default'], description=param['pair_name']['glossory'], style={'description_width': 'initial'}, layout={'width': '75%'})
+    help_box = widgets.Button(description='?', tooltip=param['pair_name']['long_glossory'], layout=widgets.Layout(width='4%'))
+    box = widgets.HBox([help_box, pair_name])
+    display(box)
+
+    # Add widgets to the widgets dictionary
+    input_options['Base %i' %base_number] = {'file_path': file_path, 'linker': [linker1, linker2], 'code': code, 'name': name, 'pair_name': pair_name}
+
+
+
+def upload_base(f, param, base_number):
+    """!@brief Upload a base file to Jupyter notebook
+
+    This function is used to upload a base file and write it. If a file is
+    already specified, then the base is displayed. If a file is uploaded, this
+    function writes the file to the current working directory. Then, the function
+    calls the @a jupyter_widgets.base_path function interactively with the base file path. 
+
+    @param f (ipywidgets.FileUpload) File upload widget
+    @param param (dict) @a options._options_dict['Base'] for the appropriate base number
+
+    @returns None
+
+    @sa base_path
+    @sa add_base
+    """
+    if f:
+        # This is to unset previous values if a new file is provided
+        param['linker']['default'][0] = param['linker']['default'][1] = 1
+
+        # Get the content of the file in binary format and write it to desk
+        input_file = list(f.keys())[0]
+        with open(input_file, 'wb') as w:
+            w.write(list(f.values())[0]['content'])
+
+        param['file_path']['default'] = input_file
+
+    # Add help box
+    help_box = widgets.Button(description='?', tooltip=param['file_path']['long_glossory'], layout=widgets.Layout(width='4%'))
+
+    # Use the base file to display the backbone options
+    display(widgets.HBox([help_box, widgets.interactive(base_path, file_path=widgets.Text(value=param['file_path']['default'],
+                                         description="Base File", style={'description_width': 'initial'}),
+                                         param=widgets.fixed(param), upload=widgets.fixed(True), base_number=widgets.fixed(base_number))]))
+
+
+def add_base(number_of_bases, param):
+    """!@brief Display widgets to upload the requested number of bases
+
+    @param number_of_bases (int) The number of additional bases to define
+    @param param (dict) @a options._options_dict['Base'] and dictionaries for the other defined bases
+
+    @sa bases
+    @sa upload_base
+    @sa options._options_dict
+    @sa view_nglview
+    """
+    # Capture output. This is used to delete widget when no additional bases are requested
+    out = widgets.Output()
+    display(out)
+    if number_of_bases == 0:
+        out.clear_output()
+
+    for i in range(number_of_bases):
+        if "Base %i" %(i+1) not in param:
+            param["Base %i" %(i+1)] = copy.deepcopy(param['Base'])
+        # Display a widget for uploading base files
+        w = widgets.interactive(upload_base, param=widgets.fixed(param["Base %i" %(i+1)]), base_number=widgets.fixed(i + 1),
+                                f=widgets.FileUpload(accept='', multiple=False, 
+                                description="Base File", style={'description_width': 'initial'}))
+
+        # Add a help box
+        help_box = widgets.Button(description='?', tooltip='Upload base file here. The file will be copied to the current folder.',
+                                  layout=widgets.Layout(width='3%'))
+        display(widgets.HBox([help_box, w]))
+
+
+
+def bases(param):
     """!@brief Bases widget for use in Jupyter notebook
 
     This function displays information on the available nucleobases that are defined in the program.
@@ -302,12 +433,18 @@ def bases():
     display(widgets.HTML(value=('These bases are already defined:' +
                                '<br> Adenine (A), Guanine (G), Cytosine (C), Uracil (U), Thymine (T), ' +
                                'Cyanuric Acid (X), and Triaminopyrimidine (Y)')))
+    display(widgets.HTML(value='Additional bases can also be defined. Make sure the base coordinates are in the correct reference frame.'))
 
+    num_defined_bases = len([k for k in param if 'Base' in k]) - 1 # Subtract the item from the main options
+    w = widgets.interactive(add_base, param=widgets.fixed(param), number_of_bases=widgets.BoundedIntText(value=num_defined_bases, min=0,
+                                                        description="Number of additional bases", style={'description_width': 'initial'}))
+
+    help_box = widgets.Button(description='?', tooltip=('The number of additional bases to define'), layout=widgets.Layout(width='4%'))
+    display(widgets.HBox([help_box, w]))
 
 
 def helical_parameters(param):
-    """!@brief Helical parameter widget for use in Jupyter notebook
-
+    """
     Display widgets for specifying helical parameters. It also displays an image illustrating
     the used helical parameters.
 
@@ -640,14 +777,24 @@ def display_options_widgets(param, input_file, uploaded=False):
 
     options = yaml.load(open(input_file, 'r'), yaml.FullLoader)
 
+    # Clean dictionary from additional bases if they are not defined in the options
+    # This is necessary when the user switches from an input file that has additional bases to one that does not
+    num_defined_bases = len([k for k in param if 'Base' in k]) - 1 # Subtract the item from the main options
+    for i in range(1, num_defined_bases + 1):
+        param.pop('Base %i' %i)
+        input_options.pop('Base %i' %i)
+
     # Update the default options to display those provided by the user
     for k1, v1 in options.items():
+        if 'Base' in k1:
+            param[k1] = copy.deepcopy(param['Base'])
         for k2, v2 in options[k1].items():
             param[k1][k2]['default'] = options[k1][k2]
 
     # Display all options widgets
     backbone(param['Backbone'])
-    bases()
+    bases_param = {k:val for k, val in param.items() if 'Base' in k}
+    bases(bases_param)
     helical_parameters(param['HelicalParameters'])
     runtime_parameters(param['RuntimeParameters'])
 
@@ -774,15 +921,17 @@ def extract_options():
         for k2, val2 in val1.items():
             if isinstance(val2, str):
                 user_options[k1][k2] = val2
-            elif k1 == 'Backbone':
+            elif k1 == 'Backbone' or 'Base' in k1:
                 if k2 == 'fixed_bonds':
                     user_options[k1][k2] = []
                     for l in val2:
                         user_options[k1][k2].append([l[0].value, l[1].value])
                 elif isinstance(val2, list):
                     user_options[k1][k2] = [val2[0].value, val2[1].value]
-                else:
+                elif isinstance(val2, str):
                     user_options[k1][k2] = val2
+                else:
+                    user_options[k1][k2] = val2.value
 
             elif k1 == 'HelicalParameters':
                 user_options[k1][k2] = [val2[0].value[0], val2[0].value[1], val2[1].value]
