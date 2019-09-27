@@ -118,9 +118,8 @@ The dropdown list contains all the accepted candidates ordered by the the total 
 the distance between between one terminal atom of the backbone and the periodic image of the other terminal atom in the adjacent backbone,
 the energy of the new bond and the new angles formed between two nucleotides, the energy of all rotatable bonds in the backbone, the van
 der Waals energy, and the total energy. Note that these six terms are correspond to distance and energy thresholds defined in the input options.
-Additionally, the output data include the energy of fixed rotatable bonds (zero if none is specified) and the root mean-squared displacement (RMSD)
-between the backbone atoms of the different conformers. The RMSD is between a given conformer and the lowest energy conformer of the same helical
-configuration.
+Additionally, the output data include the root mean-squared displacement (RMSD) between the backbone atoms of the different conformers.
+The RMSD is between a given conformer and the lowest energy conformer of the same helical configuration.
 
 The green mark indicates that the sum of the bond, angle, torsion, and van der Waals energies is less than 2 kcal/mol, thus indicating that there
 is a low energetic penalty from adopting the backbone conformation. If the sum of the energies between 2 and 5 kcal/mol, a yellow mark is displayed.
