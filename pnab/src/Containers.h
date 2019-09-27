@@ -715,7 +715,6 @@ namespace PNAB {
                 torsionE,                           //!< @brief Energy of all rotatable torsions divided by the length of the strand
                 VDWE,                               //!< @brief Total van Der Wals Energy divided by the length of the strand
                 total_energy,                       //!< @brief Total energy of the conformation divided by divided by the length of the strand
-                fixed_torsionE,                     //!< @brief Energy of all fixed rotatable torsions divided by the length of the strand
                 rmsd;                               //!< @brief Root-mean square distance relative to lowest energy conformer
         std::size_t index;                          //!< @brief The index of the conformer
         bool chain_coords_present;                  //!< @brief Have the chain coordinates in coord been deleted?

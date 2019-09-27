@@ -142,22 +142,10 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
             pFF_->AddIntraGroup(bit);
         }
 
-        // We need to trick openbabel to do a new setup for the force field
-        // We change the atomic number of one element and then we change it back
-        // This triggers a new force field setup
-        // This is necessary because for some reason we cannot set interaction
-        // groups and then delete them. If no new setup was performed, openbabel
-        // would not compute energy terms for terms not included within the interaction group.
-        // Maybe there is a better solution
-        unsigned a0 = current_mol->GetAtom(1)->GetAtomicNum();
-        current_mol->GetAtom(1)->SetAtomicNum(1);
-        pFF_->Setup(*current_mol, constraintsAng_);
-        current_mol->GetAtom(1)->SetAtomicNum(a0);
-        pFF_->Setup(*current_mol, constraintsAng_); // empty constraint
 
+        pFF_->Setup(*current_mol, constraintsAng_); // empty constraint
         conf_data.angleE = pFF_->E_Angle(false);
 
-        // This is still necessary
         pFF_->ClearGroups();
 
         if (!isKCAL_)
@@ -191,15 +179,11 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
         pFF_->AddIntraGroup(bit);
     }
 
-    // Do the same trick
-    unsigned a0 = current_mol->GetAtom(1)->GetAtomicNum();
-    current_mol->GetAtom(1)->SetAtomicNum(1);
-    pFF_->Setup(*current_mol, constraintsTor_);
-    current_mol->GetAtom(1)->SetAtomicNum(a0);
+    constraintsTor_.AddIgnore(0); // A trick to trigger a setup with the new interaction groups
     pFF_->Setup(*current_mol, constraintsTor_);
 
     conf_data.torsionE = pFF_->E_Torsion(false)/n; // Divide by the number of nucleotides
-    // This is still necessary
+
     pFF_->ClearGroups();
 
     if (!isKCAL_)
@@ -211,44 +195,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
         return;
     }
 
-    // Get torsion energy for fixed bonds
-    if (is_there_fixed_bond) {
-        // Add interaction groups for fixed rotatable torsions
-        OBBitVec bit = OBBitVec();
-        for (int i=0; i < all_torsions_.size(); i++) {
-            if (!is_fixed_bond[i])
-                continue;
-            OBBitVec bit = OBBitVec();
-            for (auto j: all_torsions_[i]) {
-                bit.SetBitOn(j);
-            }
-            pFF_->AddIntraGroup(bit);
-        }
-
-        // Do the same trick
-        unsigned a1 = current_mol->GetAtom(1)->GetAtomicNum();
-        current_mol->GetAtom(1)->SetAtomicNum(1);
-        pFF_->Setup(*current_mol, constraintsTor_);
-        current_mol->GetAtom(1)->SetAtomicNum(a1);
-        pFF_->Setup(*current_mol, constraintsTor_); // empty constraint
-
-        conf_data.fixed_torsionE = pFF_->E_Torsion(false)/n; // Divide by the number of nucleotides
-        // This is still necessary
-        pFF_->ClearGroups();
-
-        if (!isKCAL_)
-           conf_data.fixed_torsionE *= KJ_TO_KCAL;
-    }
-    // If we do not have fixed bond, set energy to zero
-    else
-        conf_data.fixed_torsionE = 0.0;
-
-
     // Get VDW energy
-    unsigned a = current_mol->GetAtom(1)->GetAtomicNum();
-    current_mol->GetAtom(1)->SetAtomicNum(1);
-    pFF_->Setup(*current_mol, constraintsTot_);
-    current_mol->GetAtom(1)->SetAtomicNum(a);
     pFF_->Setup(*current_mol, constraintsTot_); //empty constraint
 
     conf_data.VDWE = pFF_->E_VDW(false) / n; // Divide by the number of nucleotides

@@ -739,8 +739,7 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
     // Write header
     std::string header = "# Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol/(nucleotide-1)), Angle Energy (kcal/mol/(nucleotide-1)), "
                          "Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), "
-                         "Total Energy (kcal/mol/nucleotide), Fixed Torsions Energy (kcal/mol/nucleotide), "
-                         "Nucleotide RMSD relative to lowest energy conformer (Angstrom)";
+                         "Total Energy (kcal/mol/nucleotide), Nucleotide RMSD relative to lowest energy conformer (Angstrom)";
     output_stringstream << header << endl;
 
     // Sort candidates by lowest energy
@@ -752,7 +751,7 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
         v.rmsd = calcRMSD(ref, v.monomer_coord, monomer_num_coords_);
         // write properties to the output stringstring
         output_stringstream << prefix_ << ", " << v.index  << ", " << v.distance << ", " << v.bondE << ", " << v.angleE << ", "
-            << v.torsionE << ", " << v.VDWE << ", " << v.total_energy << ", " << v.fixed_torsionE << ", " << v.rmsd << endl;
+            << v.torsionE << ", " << v.VDWE << ", " << v.total_energy << ", " << v.rmsd << endl;
     }
 
     // Update the output string
