@@ -20,5 +20,7 @@ var searchData=
   ['boltzmann',['BOLTZMANN',['../ConformationSearch_8h.html#aa1487dae81baa2e0a5643e7b571633a0',1,'ConformationSearch.h']]],
   ['bonde',['bondE',['../structPNAB_1_1ConformerData.html#a0d539a82d3d07fbf7f2aaabf00f6e393',1,'PNAB::ConformerData']]],
   ['bu_5fa_5fmol',['bu_a_mol',['../classPNAB_1_1ConformationSearch.html#abc14e84f2cab4d6fd7abdbedb3e656b6',1,'PNAB::ConformationSearch']]],
+  ['build_5fstrand',['build_strand',['../classPNAB_1_1RuntimeParameters.html#a755a1bcd73b84ccbbd2d9822fb0ede1e',1,'PNAB::RuntimeParameters']]],
+  ['build_5fstrand_5f',['build_strand_',['../classPNAB_1_1Chain.html#ab4a9d6aba108de4ebf77278c8c55a466',1,'PNAB::Chain']]],
   ['builder',['builder',['../namespacejupyter__widgets.html#ad4cad181b2ac47243b9da68f1f583d36',1,'jupyter_widgets']]]
 ];

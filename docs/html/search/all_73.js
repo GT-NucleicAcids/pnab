@@ -10,7 +10,7 @@ var searchData=
   ['step_5frot_5f',['step_rot_',['../classPNAB_1_1ConformationSearch.html#a126f3544b6103177a47481f499272c79',1,'PNAB::ConformationSearch']]],
   ['step_5ftranslate_5f',['step_translate_',['../classPNAB_1_1ConformationSearch.html#abfc0ede7734ce5b8481d2c93bccd1db1',1,'PNAB::ConformationSearch']]],
   ['strand',['strand',['../classPNAB_1_1RuntimeParameters.html#aafb7029e648b888202195393aaa5179a',1,'PNAB::RuntimeParameters']]],
-  ['strand_5forientation',['strand_orientation',['../classPNAB_1_1RuntimeParameters.html#aa5ffe42dbad68706b2ba1361fdd547f6',1,'PNAB::RuntimeParameters']]],
+  ['strand_5forientation',['strand_orientation',['../classPNAB_1_1RuntimeParameters.html#aa5ffe42dbad68706b2ba1361fdd547f6',1,'PNAB::RuntimeParameters::strand_orientation()'],['../classPNAB_1_1RuntimeParameters.html#abc671f34370d8604694daa09d370fa40',1,'PNAB::RuntimeParameters::strand_orientation(std::vector&lt; bool &gt;{true, true, true, true, true, true})']]],
   ['strand_5forientation_5f',['strand_orientation_',['../classPNAB_1_1Chain.html#acf64d4319751b80acc3a2048a5f8c5ac',1,'PNAB::Chain']]],
   ['systematicsearch',['SystematicSearch',['../classPNAB_1_1ConformationSearch.html#aff736ed299af34e42e6a87db109e336b',1,'PNAB::ConformationSearch']]]
 ];

@@ -92,7 +92,7 @@ The Graphical User Interface</h1>
 <div class="caption">
 Example Results</div></div>
 <p> The results are automatically downloaded as a zip file. Additionally, the output can be downloaded manually by clicking on <em>Download</em> <em>Output</em>. Note that downloading the output is only useful when the program is run in the cloud. When it is run locally the output files are written in the folder where the Jupyter notebook was started.</p>
-<p>The dropdown list contains all the accepted candidates ordered by the the total energy. The output data are the distance between between one terminal atom of the backbone and the periodic image of the other terminal atom in the adjacent backbone, the energy of the new bond and the new angles formed between two nucleotides, the energy of all rotatable bonds in the backbone, the van der Waals energy, and the total energy. Note that these six terms are correspond to distance and energy thresholds defined in the input options. Additionally, the output data include the energy of fixed rotatable bonds (zero if none is specified) and the root mean-squared displacement (RMSD) between the backbone atoms of the different conformers. The RMSD is between a given conformer and the lowest energy conformer of the same helical configuration.</p>
+<p>The dropdown list contains all the accepted candidates ordered by the the total energy. The output data are the distance between between one terminal atom of the backbone and the periodic image of the other terminal atom in the adjacent backbone, the energy of the new bond and the new angles formed between two nucleotides, the energy of all rotatable bonds in the backbone, the van der Waals energy, and the total energy. Note that these six terms are correspond to distance and energy thresholds defined in the input options. Additionally, the output data include the root mean-squared displacement (RMSD) between the backbone atoms of the different conformers. The RMSD is between a given conformer and the lowest energy conformer of the same helical configuration.</p>
 <p>The green mark indicates that the sum of the bond, angle, torsion, and van der Waals energies is less than 2 kcal/mol, thus indicating that there is a low energetic penalty from adopting the backbone conformation. If the sum of the energies between 2 and 5 kcal/mol, a yellow mark is displayed. Otherwise, a red mark is shown.</p>
 <h1><a class="anchor" id="more"></a>
 Additional Examples</h1>
@@ -157,8 +157,14 @@ Basic Structue of the Input File</h2>
   - 10.0 # Total torsional energy of rotatable bonds
   - 0.0 # Total van der Waals energy
   - 10000000000.0 # Total Energy of the system
-  is_double_stranded: false # Whether to generate a duplex
   strand: CGAUUUAGCG # Sequence of base names
+  build_strand: # What strands to build
+  - true
+  - false
+  - false
+  - false
+  - false
+  - false
 </pre><p>This section specifies the runtime parameters for the program. Other search algorithms can be specified as follows: </p>
 <pre class="fragment">  search_algorithm: "systematic search"
   dihedral_step: 2
@@ -175,10 +181,31 @@ Basic Structue of the Input File</h2>
   population_size: 1000
   mutation_rate: 0.75
   crossover_rate: 0.75
-</pre><p>The example above shows how to build single-stranded RNA. To build a duplex, write: </p>
-<pre class="fragment">  is_double_stranded: true
-</pre><p>To build a hexad, </p>
+</pre><p>The example above shows how to build single-stranded RNA by using the keyword <em>build_strand</em> and setting the first value to true and the rest to false. To build a duplex, write: </p>
+<pre class="fragment">  build_strand:
+  - true
+  - true
+  - false
+  - false
+  - false
+  - false
+  strand_orientation:
+  - true
+  - false
+  - false
+  - false
+  - false
+  - false
+</pre><p> For DNA and RNA, the strands are anti-parallel. The <em>strand_orientation</em> option specifies this by setting the first strand to true and the second to false.</p>
+<p>To build a hexad, </p>
 <pre class="fragment">  is_hexad: true
+  build_strand:
+  - true
+  - true
+  - true
+  - true
+  - true
+  - true
   strand_orientation:
   - true
   - true
@@ -186,7 +213,7 @@ Basic Structue of the Input File</h2>
   - true
   - true
   - true
-</pre><p> The <em>strand_orientation</em> option allows you to build any cobmination of parallel and anti-parallel strands by setting the values to <em>true</em> or <em>false</em> </p>
+</pre><p> The <em>is_hexad</em> keyword tells the program that we want to use the hexad geometry. The program, therefore, will perform 60 degrees rotation when appropriate to generate the strands. To build all the six strands in the hexad, set all entries in <em>build_strand</em> to true. The <em>strand_orientation</em> option allows you to build any cobmination of parallel and anti-parallel strands by setting the values to <em>true</em> or <em>false</em> </p>
 <h2><a class="anchor" id="bases"></a>
 Adding Bases Not Defined in The Library</h2>
 <p>The program can build structures with arbitrary nucleobases. The key problem with defining a new nucleobase is making sure that the provided geometry of the nucleobase is in the correct standard frame of reference. Otherwise, the helical parameters will be ill-defined. The additional bases can be defined in the graphical user interface or by editing the input file.</p>
