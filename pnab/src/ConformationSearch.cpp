@@ -119,7 +119,7 @@ void ConformationSearch::GeneticAlgorithmSearch() {
 
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
-                runtime_params_.is_double_stranded, runtime_params_.is_hexad, runtime_params_.strand_orientation);
+                runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
     test_chain_ = chain.getChain();
 
     // Set the search size; the number of generations in the genetic algorithm search
@@ -279,7 +279,7 @@ void ConformationSearch::RandomSearch(bool weighted) {
 
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
-                runtime_params_.is_double_stranded, runtime_params_.is_hexad, runtime_params_.strand_orientation);
+                runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
     test_chain_ = chain.getChain();
 
     // Set the search size;
@@ -360,7 +360,7 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
 
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
-                runtime_params_.is_double_stranded, runtime_params_.is_hexad, runtime_params_.strand_orientation);
+                runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
     test_chain_ = chain.getChain();
 
     // Set the search size;
@@ -591,7 +591,7 @@ void ConformationSearch::SystematicSearch() {
 
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
-                runtime_params_.is_double_stranded, runtime_params_.is_hexad, runtime_params_.strand_orientation);
+                runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
     test_chain_ = chain.getChain();
 
     // Determine the step size and the number of steps

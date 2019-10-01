@@ -106,10 +106,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a896f5a24ccc61552db246c593bdd09a7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#a896f5a24ccc61552db246c593bdd09a7">RuntimeParameters</a> ()</td></tr>
 <tr class="memdesc:a896f5a24ccc61552db246c593bdd09a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empty constructor.  <a href="#a896f5a24ccc61552db246c593bdd09a7">More...</a><br/></td></tr>
 <tr class="separator:a896f5a24ccc61552db246c593bdd09a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc671f34370d8604694daa09d370fa40"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#abc671f34370d8604694daa09d370fa40">strand_orientation</a> (std::vector&lt; bool &gt;{true, true, true, true, true, true})</td></tr>
+<tr class="separator:abc671f34370d8604694daa09d370fa40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a5446a6022b09a0f71903f259b5b176f3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#a5446a6022b09a0f71903f259b5b176f3">energy_filter</a> {}</td></tr>
+<tr class="memitem:a5446a6022b09a0f71903f259b5b176f3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#a5446a6022b09a0f71903f259b5b176f3">energy_filter</a></td></tr>
 <tr class="memdesc:a5446a6022b09a0f71903f259b5b176f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">[max bond E, max angle E, max torsion E, max VDW E, max total E]  <a href="#a5446a6022b09a0f71903f259b5b176f3">More...</a><br/></td></tr>
 <tr class="separator:a5446a6022b09a0f71903f259b5b176f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4895122ad2dfa91f25a04c1dffb4be98"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#a4895122ad2dfa91f25a04c1dffb4be98">max_distance</a></td></tr>
@@ -147,15 +149,15 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aafb7029e648b888202195393aaa5179a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#aafb7029e648b888202195393aaa5179a">strand</a></td></tr>
 <tr class="memdesc:aafb7029e648b888202195393aaa5179a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The names of each base used in the strand.  <a href="#aafb7029e648b888202195393aaa5179a">More...</a><br/></td></tr>
 <tr class="separator:aafb7029e648b888202195393aaa5179a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a618f1692fbce1e51aee550b9b604669e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#a618f1692fbce1e51aee550b9b604669e">is_double_stranded</a></td></tr>
-<tr class="memdesc:a618f1692fbce1e51aee550b9b604669e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines if the program tests double stranded molecules.  <a href="#a618f1692fbce1e51aee550b9b604669e">More...</a><br/></td></tr>
-<tr class="separator:a618f1692fbce1e51aee550b9b604669e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabae2cf8ab4a60cc40bdfb5173910867"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#aabae2cf8ab4a60cc40bdfb5173910867">is_hexad</a></td></tr>
-<tr class="memdesc:aabae2cf8ab4a60cc40bdfb5173910867"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines if the program tests hexad molecules.  <a href="#aabae2cf8ab4a60cc40bdfb5173910867">More...</a><br/></td></tr>
-<tr class="separator:aabae2cf8ab4a60cc40bdfb5173910867"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a755a1bcd73b84ccbbd2d9822fb0ede1e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#a755a1bcd73b84ccbbd2d9822fb0ede1e">build_strand</a></td></tr>
+<tr class="memdesc:a755a1bcd73b84ccbbd2d9822fb0ede1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines whether to build a given strand.  <a href="#a755a1bcd73b84ccbbd2d9822fb0ede1e">More...</a><br/></td></tr>
+<tr class="separator:a755a1bcd73b84ccbbd2d9822fb0ede1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5ffe42dbad68706b2ba1361fdd547f6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#aa5ffe42dbad68706b2ba1361fdd547f6">strand_orientation</a></td></tr>
 <tr class="memdesc:aa5ffe42dbad68706b2ba1361fdd547f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines strand orientation for each strand in the hexad.  <a href="#aa5ffe42dbad68706b2ba1361fdd547f6">More...</a><br/></td></tr>
 <tr class="separator:aa5ffe42dbad68706b2ba1361fdd547f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabae2cf8ab4a60cc40bdfb5173910867"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#aabae2cf8ab4a60cc40bdfb5173910867">is_hexad</a></td></tr>
+<tr class="memdesc:aabae2cf8ab4a60cc40bdfb5173910867"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines whether the 60 degrees rotation for hexads is performed.  <a href="#aabae2cf8ab4a60cc40bdfb5173910867">More...</a><br/></td></tr>
+<tr class="separator:aabae2cf8ab4a60cc40bdfb5173910867"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class for holding necessary and optional runtime parameters for conformational searches. </p>
@@ -190,7 +192,47 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="abc671f34370d8604694daa09d370fa40"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PNAB::RuntimeParameters::strand_orientation </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; bool &gt;{true, true, true, true, true, true}&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a755a1bcd73b84ccbbd2d9822fb0ede1e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;bool&gt; PNAB::RuntimeParameters::build_strand</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines whether to build a given strand. </p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classPNAB_1_1Chain.html#a92005d97cb2043fca705c6c88345d518" title="Constructor for the chain class. ">Chain::Chain</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="afba9c7b7013290f173faca84df845dce"></a>
 <div class="memitem">
 <div class="memproto">
@@ -227,7 +269,7 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;double&gt; PNAB::RuntimeParameters::energy_filter {}</td>
+          <td class="memname">std::vector&lt;double&gt; PNAB::RuntimeParameters::energy_filter</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -257,26 +299,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The type of the forcefield such as "GAFF" or "MMFF94"; available through Openbabel. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classPNAB_1_1Chain.html#a64c64333f8965f218bf48e4de48482b4" title="Constructor for the chain class. ">Chain::Chain</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a618f1692fbce1e51aee550b9b604669e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool PNAB::RuntimeParameters::is_double_stranded</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Defines if the program tests double stranded molecules. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classPNAB_1_1Chain.html#a64c64333f8965f218bf48e4de48482b4" title="Constructor for the chain class. ">Chain::Chain</a> </dd>
-<dd>
-<a class="el" href="classPNAB_1_1Chain.html#a441ef4ae7dc91a981c97c37383e0b012" title="Set the coordinates for each strand in the system. ">Chain::setCoordsForChain</a> </dd>
-<dd>
-<a class="el" href="classPNAB_1_1Chain.html#a07c0d2802edfc258047e85be262f48e1" title="Creates the molecule for each strand in the system. ">Chain::setupChain</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classPNAB_1_1Chain.html#a92005d97cb2043fca705c6c88345d518" title="Constructor for the chain class. ">Chain::Chain</a> </dd></dl>
 
 </div>
 </div>
@@ -290,12 +313,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Defines if the program tests hexad molecules. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classPNAB_1_1Chain.html#a64c64333f8965f218bf48e4de48482b4" title="Constructor for the chain class. ">Chain::Chain</a> </dd>
-<dd>
-<a class="el" href="classPNAB_1_1Chain.html#a441ef4ae7dc91a981c97c37383e0b012" title="Set the coordinates for each strand in the system. ">Chain::setCoordsForChain</a> </dd>
-<dd>
-<a class="el" href="classPNAB_1_1Chain.html#a07c0d2802edfc258047e85be262f48e1" title="Creates the molecule for each strand in the system. ">Chain::setupChain</a> </dd></dl>
+<p>Defines whether the 60 degrees rotation for hexads is performed. </p>
 
 </div>
 </div>

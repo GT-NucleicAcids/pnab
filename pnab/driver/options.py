@@ -55,14 +55,8 @@ def validate_all_options(options):
                 options[k1][k2] = _options_dict['Base'][k2]['validation'](options[k1][k2])
 
     # Validate whether some options are mutually exclusive
-    # Cannot build double strands for noncanonical nucleobases
-    if (options['RuntimeParameters']['is_double_stranded'] and
-       ("X" in options['RuntimeParameters']['strand'] or
-       "Y" in options['RuntimeParameters']['strand'])):
-        raise Exception("Cannot build double strands for triaminopyrimidine or cyanuric acid")
-
     # Cannot build hexad strands for canonical nucleobases
-    elif options['RuntimeParameters']['is_hexad']:
+    if options['RuntimeParameters']['is_hexad']:
         for i in ['A', 'G', 'C', 'U', 'T']:
             if i in options['RuntimeParameters']['strand']:
                 raise Exception("Cannot build hexads for canonical nucleobases")
@@ -216,25 +210,22 @@ def _validate_strand(strand):
 
     return strand
 
-def _validate_strand_orientation(orientation):
-    """!@brief Method to validate provided strand orientation for hexads
+def _validate_bool_list(x):
+    """!@brief Method to validate a list of bools
 
-    Strand orientation is a list of boolean values indicating whether the strand is
-    going up or down in the hexad.
+    @param x (list) list of bools
 
-    @param orientation (list) Orientation of each strand in the hexad
-
-    @return orientation after validation
+    @return validated list of bools
 
     @sa validate_all_options
     @sa _options_dict
     """
 
-    orientation = list(orientation)
-    for i, val in enumerate(orientation):
-        orientation[i] = bool(eval(val.title())) if isinstance(val, str) else bool(val)
+    x = list(x)
+    for i, val in enumerate(x):
+        x[i] = bool(eval(val.title())) if isinstance(val, str) else bool(val)
 
-    return orientation
+    return x
 
 
 # Set glossory of options, default values and validation methods
@@ -494,12 +485,6 @@ _options_dict['RuntimeParameters']['strand'] = {
                                                'default': None,
                                                'validation': lambda x: _validate_strand(x),
                                                }
-_options_dict['RuntimeParameters']['is_double_stranded'] = {
-                                                           'glossory': 'Double strands',
-                                                           'long_glossory': 'Check box if you want to build double strands for the canonical nucleobases.', 
-                                                           'default': False,
-                                                           'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
-                                                           }
 _options_dict['RuntimeParameters']['pair_A_U'] = {
                                                  'glossory': 'Pair A with U (Default is A-T pairing)',
                                                  'long_glossory': 'Check box if you want to pair adenine with uracil instead of thymine.',
@@ -508,14 +493,24 @@ _options_dict['RuntimeParameters']['pair_A_U'] = {
                                                  }
 _options_dict['RuntimeParameters']['is_hexad'] = {
                                                  'glossory': 'Hexad strands',
-                                                 'long_glossory': 'Check box if you want to build hexad strands for the noncanonical nucleobases.',
+                                                 'long_glossory': 'Check box if you want to apply the 60 degrees rotation for the hexad strands.',
                                                  'default': False,
                                                  'validation': lambda x: bool(eval(x.title())) if isinstance(x, str) else bool(x),
                                                  }
+_options_dict['RuntimeParameters']['build_strand'] = {
+                                                     'glossory': 'Build the strand',
+                                                     'long_glossory': ('Check the first box only if you want to build a single strand.' + 
+                                                                       ' Check the first two boxes if you want to build a duplex.' + 
+                                                                       ' Check all boxes if you want to build a hexad. Canonical nucleobases' + 
+                                                                       ' can only build a single strand or a duplex.'),
+                                                     'default': [True, False, False, False, False, False],
+                                                     'validation': lambda x: _validate_bool_list(x),
+                                                     }
 _options_dict['RuntimeParameters']['strand_orientation'] = {
-                                                           'glossory': 'Orientation of each strand in the hexad (up or down)',
-                                                           'long_glossory': ('Orientation of the strands in the hexad. This can be used to build' +
-                                                                            '  parallel or antiparallel configurations.'),
+                                                           'glossory': 'Orientation of each strand (up or down)',
+                                                           'long_glossory': ('Orientation of each strand. For DNA and RNA, check the first box' +
+                                                                             ' and uncheck the second box to build anti-parallel duplex. For hexads' + 
+                                                                             ' Check the boxes to build any combination of parallel and anti-parallel strands.'),
                                                            'default': [True, True, True, True, True, True],
-                                                           'validation': lambda x: _validate_strand_orientation(x),
+                                                           'validation': lambda x: _validate_bool_list(x),
                                                            }

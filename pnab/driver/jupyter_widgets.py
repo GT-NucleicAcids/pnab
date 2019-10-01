@@ -360,6 +360,7 @@ def upload_base(f, param, base_number):
 
     @param f (ipywidgets.FileUpload) File upload widget
     @param param (dict) @a options._options_dict['Base'] for the appropriate base number
+    @param base_number (int) The number of the additional base
 
     @returns None
 
@@ -671,15 +672,6 @@ def runtime_parameters(param):
     display(widgets.HBox([help_box, strand]))
     input_options['RuntimeParameters']['strand'] = strand
 
-    # Is double stranded
-    is_double_stranded = widgets.Checkbox(value=param['is_double_stranded']['default'], indent=False,
-                                          description=param['is_double_stranded']['glossory'],
-                                          style={'description_width': 'initial'},
-                                          layout={'width': '75%'})
-    help_box = widgets.Button(description='?', tooltip=param['is_double_stranded']['long_glossory'], layout=widgets.Layout(width='3%'))
-    display(widgets.HBox([help_box, is_double_stranded]))
-    input_options['RuntimeParameters']['is_double_stranded'] =  is_double_stranded
-
     # Pair adenine with uracil? Default is A-T base pair
     pair_A_U = widgets.Checkbox(value=param['pair_A_U']['default'], indent=False,
                                 description=param['pair_A_U']['glossory'],
@@ -697,6 +689,17 @@ def runtime_parameters(param):
     help_box = widgets.Button(description='?', tooltip=param['is_hexad']['long_glossory'], layout=widgets.Layout(width='3%')) 
     display(widgets.HBox([help_box, is_hexad]))
     input_options['RuntimeParameters']['is_hexad'] =  is_hexad
+
+    # Build strand
+    input_options['RuntimeParameters']['build_strand'] = []
+    help_box = widgets.Button(description='?', tooltip=param['build_strand']['long_glossory'], layout=widgets.Layout(width='3%'))
+    box = [help_box, widgets.Label(param['build_strand']['glossory'])]
+    for i in range(6):
+        build_strand = widgets.Checkbox(value=param['build_strand']['default'][i], indent=False, layout={'width': '50px'})
+        input_options['RuntimeParameters']['build_strand'].append(build_strand)
+        box.append(build_strand)
+    box = widgets.HBox(box, layout={'width':'100%'})
+    display(box)
 
     # Orientation of each strand in the hexad
     input_options['RuntimeParameters']['strand_orientation'] = []
@@ -937,7 +940,7 @@ def extract_options():
                 user_options[k1][k2] = [val2[0].value[0], val2[0].value[1], val2[1].value]
 
             else:
-                if k2 == 'energy_filter' or k2 == 'strand_orientation':
+                if k2 == 'energy_filter' or k2 == 'strand_orientation' or k2 == 'build_strand':
                     user_options[k1][k2] = [i.value for i in val2]
 
                 else:

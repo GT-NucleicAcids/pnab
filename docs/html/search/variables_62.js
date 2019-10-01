@@ -11,5 +11,7 @@ var searchData=
   ['bases',['bases',['../classPNAB_1_1Bases.html#aab117f7ce23bd67f7fce03646013d064',1,'PNAB::Bases']]],
   ['bases_5f',['bases_',['../classPNAB_1_1ConformationSearch.html#a2c863ecfd419da9d099ef8b14ce2779e',1,'PNAB::ConformationSearch']]],
   ['bonde',['bondE',['../structPNAB_1_1ConformerData.html#a0d539a82d3d07fbf7f2aaabf00f6e393',1,'PNAB::ConformerData']]],
-  ['bu_5fa_5fmol',['bu_a_mol',['../classPNAB_1_1ConformationSearch.html#abc14e84f2cab4d6fd7abdbedb3e656b6',1,'PNAB::ConformationSearch']]]
+  ['bu_5fa_5fmol',['bu_a_mol',['../classPNAB_1_1ConformationSearch.html#abc14e84f2cab4d6fd7abdbedb3e656b6',1,'PNAB::ConformationSearch']]],
+  ['build_5fstrand',['build_strand',['../classPNAB_1_1RuntimeParameters.html#a755a1bcd73b84ccbbd2d9822fb0ede1e',1,'PNAB::RuntimeParameters']]],
+  ['build_5fstrand_5f',['build_strand_',['../classPNAB_1_1Chain.html#ab4a9d6aba108de4ebf77278c8c55a466',1,'PNAB::Chain']]]
 ];

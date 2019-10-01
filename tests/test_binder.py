@@ -24,7 +24,9 @@ def test_binder_1():
     runtime_parameters = bind.RuntimeParameters()
     runtime_parameters_attr = {'energy_filter': list, 'max_distance': float, 'ff_type': str, 'seed': int,
                                'search_algorithm': str, 'num_steps': int, 'dihedral_step': float,
-                               'strand': list, 'is_double_stranded': bool} 
+                               'strand': list, 'is_hexad': bool, 'build_strand': list, 'strand_orientation': list,
+                               'weighting_temperature': float, 'monte_carlo_temperature': float, 'mutation_rate': float,
+                               'crossover_rate': float, 'population_size': int} 
     assert all([i in runtime_parameters.__dir__() for i in runtime_parameters_attr])
     assert all([type(runtime_parameters.__getattribute__(k)) is val
                 for k, val in runtime_parameters_attr.items()])
@@ -78,7 +80,6 @@ def test_binder_2():
     rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0]
     rp.max_distance = 0.05
     rp.strand = ['Adenine']*5
-    rp.is_double_stranded = False
 
     output = bind.run(rp, backbone, bases, hp, 'test')
     print(output)

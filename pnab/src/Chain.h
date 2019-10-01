@@ -47,15 +47,16 @@ namespace PNAB {
         * @param strand A vector of the names of all bases in the strand, RuntimeParameters::strand
         * @param ff_type The force field type, RuntimeParameters::ff_type
         * @param range Backbone index range for the first nucleotide
-        * @param double_stranded Build double stranded system? RuntimeParameters::is_double_stranded
-        * @param hexad Build hexad system? RuntimeParameters::is_hexad
+        * @param hexad Defines whether the 60 degrees rotation for hexads is performed, RuntimeParameters::is_hexad
+        * @param build_strand Defines whether to build a given strand, RuntimeParameters::build_strand
         * @param strand_orientation The orientation of each strand in the hexad, RuntimeParameters::strand_orientation
         *
         * @sa setupChain
         * @sa setupFFConstraints
         */
         Chain(PNAB::Bases bases, const PNAB::Backbone &backbone, std::vector<std::string> strand,
-              std::string ff_type, std::array<unsigned, 2> &range, bool double_stranded = false, bool hexad = false,
+              std::string ff_type, std::array<unsigned, 2> &range, bool hexad,
+              std::vector<bool> build_strand = {true, false, false, false, false, false},
               std::vector<bool> strand_orientation = {true, true, true, true, true, true});
 
         /**
@@ -99,10 +100,7 @@ namespace PNAB {
          * @returns The openbabel molecule containing the structure of the system
          */
         OpenBabel::OBMol getChain() {
-            if (double_stranded_ || hexad_)
-                return combined_chain_;
-            else
-                return v_chain_[0];
+            return combined_chain_;
         }
 
     private:
@@ -126,7 +124,6 @@ namespace PNAB {
         unsigned chain_length_, //!< @brief The number of nucleotides in the strand
                  n_chains_; //!< @brief The number of strands in the system
         bool isKCAL_, //!< @brief Whether the energy computed by openbabel is in kcal/mol
-             double_stranded_, //!< @brief Whether we are building a duplex, RuntimeParameters::is_double_stranded
              hexad_; //!< @brief Whether we are building a hexad, RuntimeParameters::is_hexad
         std::vector<bool> strand_orientation_; //!< @brief A vector containing the orientation of each strand in the hexad, RuntimeParameters::strand_orientation
         OpenBabel::OBForceField *pFF_; //!< @brief The openbabel force field. Used to compute the energy of the system
@@ -138,6 +135,7 @@ namespace PNAB {
         std::vector<std::vector<unsigned int>> all_angles_, //!< @brief A vector of the vector of atom indices forming all the angles for which we need to compute the energy
                                                all_torsions_; //!< @brief A vector of the vector of atom indices forming all the torsions for which we need to compute the energy
         std::vector<bool> is_fixed_bond; //!< @brief A vector containing whether the torsional energy term is for a fixed rotatable bond or not
+        std::vector<bool> build_strand_; //!< @brief A vector containing whether a given strand should be built
 
         OpenBabel::OBFFConstraints constraintsBond_, //!< @brief Setting all atoms not forming the new bond between the first two nucleotides to be ignored during bond energy computation
                                    constraintsAng_, //!< @brief An empty constraint object for angles; Energy groups are used for the angle terms

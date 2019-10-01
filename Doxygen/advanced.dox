@@ -69,7 +69,6 @@ rp.ff_type = 'GAFF'
 rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0]
 rp.max_distance = 0.05
 rp.strand = ['Adenine']*5
-rp.is_double_stranded = False
 
 output = bind.run(rp, backbone, bases, hp, 'test')
 print(output)

@@ -31,8 +31,9 @@ namespace PNAB {
         */
         RuntimeParameters() : energy_filter{}, max_distance(), ff_type(),
                               num_steps(0), seed(0), weighting_temperature(298.0), monte_carlo_temperature(298.0),
-                              mutation_rate(0.75), crossover_rate(0.75), population_size(1000), strand{}, is_double_stranded(false),
-                              is_hexad(false), strand_orientation(std::vector<bool> {true, true, true, true, true, true}){};
+                              mutation_rate(0.75), crossover_rate(0.75), population_size(1000), strand{}, is_hexad(false),
+                              build_strand(std::vector<bool> {true, false, false, false, false, false}),
+                              strand_orientation(std::vector<bool> {true, true, true, true, true, true}){};
 
         // Thresholds
         std::vector<double> energy_filter;      /*!< @brief [max bond E, max angle E, max torsion E, max VDW E, max total E]
@@ -128,24 +129,16 @@ namespace PNAB {
 
         //Strand parameters
         std::vector<std::string> strand;        //!< @brief The names of each base used in the strand
-        bool is_double_stranded;                /*!< @brief Defines if the program tests double stranded molecules
+        std::vector<bool> build_strand;         /*!< @brief Defines whether to build a given strand
                                                 *
                                                 * @sa Chain::Chain
-                                                * @sa Chain::setCoordsForChain
-                                                * @sa Chain::setupChain
-                                                */
-        bool is_hexad;                          /*!< @brief Defines if the program tests hexad molecules
-                                                *
-                                                * @sa Chain::Chain
-                                                * @sa Chain::setCoordsForChain
-                                                * @sa Chain::setupChain
                                                 */
         std::vector<bool> strand_orientation;   /*!< @brief Defines strand orientation for each strand in the hexad
                                                 *
                                                 * @sa Chain::setCoordsForChain
                                                 * @sa Chain::setCoordsForChain
                                                 */
-
+        bool is_hexad;                          //!< @brief Defines whether the 60 degrees rotation for hexads is performed
     };
 
     /**

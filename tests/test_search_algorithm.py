@@ -41,7 +41,6 @@ def test_binder_2():
     rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0]
     rp.max_distance = 0.05
     rp.strand = ['Adenine']*3
-    rp.is_double_stranded = False
 
     for s in ['weighted monte carlo search', 'monte carlo search', 'weighted random search', 'random search', 'systematic search']:
         print(s)
