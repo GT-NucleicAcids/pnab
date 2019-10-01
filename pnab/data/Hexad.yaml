@@ -41,6 +41,13 @@ RuntimeParameters:
   - 20.0
   - 10000000000.0
   is_hexad: true
+  build_strand:
+  - true
+  - true
+  - true
+  - true
+  - true
+  - true
   strand_orientation:
   - true
   - true
@@ -48,7 +55,6 @@ RuntimeParameters:
   - true
   - true
   - true
-  is_double_stranded: false
   max_distance: 0.05
   monte_carlo_temperature: 298.0
   num_steps: 10000000

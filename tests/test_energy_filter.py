@@ -42,7 +42,6 @@ def test_energy_filter():
     rp.energy_filter = [1e100]*5
     rp.max_distance = 1e100
     rp.strand = ['Adenine']*5
-    rp.is_double_stranded = False
 
     output1 = bind.run(rp, backbone, bases, hp, '1')
     output1 = np.genfromtxt(StringIO(output1), delimiter=',')

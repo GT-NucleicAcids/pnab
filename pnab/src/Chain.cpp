@@ -9,16 +9,12 @@ using namespace PNAB;
 using namespace OpenBabel;
 
 Chain::Chain(Bases bases, const Backbone &backbone, std::vector<std::string> strand, std::string ff_type,
-             std::array<unsigned, 2> &range, bool double_stranded, bool hexad, std::vector<bool> strand_orientation) {
+             std::array<unsigned, 2> &range, bool hexad, std::vector<bool> build_strand, std::vector<bool> strand_orientation) {
 
     // Set some variables
+    build_strand_ = build_strand;
     strand_orientation_ = strand_orientation;
     hexad_ = hexad;
-    double_stranded_ = double_stranded;
-    if (double_stranded) {
-        strand_orientation_[0] = true;
-        strand_orientation_[1] = false;
-    }
     ff_type_ = ff_type;
     monomer_bb_index_range_ = range;
     chain_length_ = static_cast<unsigned>(strand.size());
@@ -36,56 +32,46 @@ Chain::Chain(Bases bases, const Backbone &backbone, std::vector<std::string> str
     // Get the bases for the strand and the complimentary strand for duplexed and hexads
     auto bases_A = bases.getBasesFromStrand(strand);
     auto bases_B = bases.getComplimentBasesFromStrand(strand);
-
-    // Check we have complimentary bases
     std::vector<std::vector<Base>> v_bases{bases_A, bases_B};
-    if (bases_B.empty() && (double_stranded_ || hexad_)) {
-        cerr << "User requested double stranded or hexad chain, however not all bases have a valid compliment. Please check"
-             << " input file. Exiting..." << endl;
-        throw 1;
+
+    n_chains_ = 0;
+    for (auto i: build_strand_) {
+        if (i)
+            n_chains_ += 1;
     }
 
-    // Determine the number of chains
-    n_chains_ = 1;
-    if (double_stranded_)
-        n_chains_ = 2;
-    else if (hexad_)
-        n_chains_ = 6;
+//    // Determine the number of chains
     unsigned offset = 0;
 
     // Setup all chains
-    for (unsigned i=0; i < n_chains_; i++) {
-        setupChain(v_bases[i%2], v_chain_[i], v_new_bond_ids_[i], v_deleted_atoms_ids_[i], v_num_bu_A_mol_atoms_[i], v_bb_start_index_[i],
-                   v_base_coords_vec_[i], v_fixed_bonds[i], backbone, i);
-        std::sort(v_deleted_atoms_ids_[i].begin(), v_deleted_atoms_ids_[i].end());
-        setupFFConstraints(v_chain_[i], v_new_bond_ids_[i], v_fixed_bonds[i], offset);
-        offset += v_chain_[i].NumAtoms();
-        combined_chain_ += v_chain_[i];
+    for (unsigned i=0; i < 6; i++) {
+        if (build_strand_[i]) {
+            setupChain(v_bases[i%2], v_chain_[i], v_new_bond_ids_[i], v_deleted_atoms_ids_[i], v_num_bu_A_mol_atoms_[i], v_bb_start_index_[i],
+                       v_base_coords_vec_[i], v_fixed_bonds[i], backbone, i);
+            std::sort(v_deleted_atoms_ids_[i].begin(), v_deleted_atoms_ids_[i].end());
+            setupFFConstraints(v_chain_[i], v_new_bond_ids_[i], v_fixed_bonds[i], offset);
+            offset += v_chain_[i].NumAtoms();
+            combined_chain_ += v_chain_[i];
+        }
     }
 }
 
 
 ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, vector<double> energy_filter) {
 
-    // Check if the chain has atoms
-    if (v_chain_[0].NumAtoms() <= 0) {
-        cout << "There are no atoms in the chain_. Exiting..." << endl;
-        exit(0);
-    }
-
     // Set the correct number of coordinates
     unsigned num_cooords;
-    if (double_stranded_)
-        num_cooords = (v_chain_[0].NumAtoms() + v_chain_[1].NumAtoms()) * 3;
-    else if (hexad_)
-        num_cooords = (v_chain_[0].NumAtoms() * 3 + v_chain_[1].NumAtoms() * 3) * 3;
-    else
-        num_cooords = v_chain_[0].NumAtoms() * 3;
+    for (int i=0; i<6; i++) {
+        if (build_strand_[i])
+            num_cooords += v_chain_[i].NumAtoms() * 3;
+    }
+
     auto *xyz = new double[num_cooords];
 
     // Set the coordinates
-    for (unsigned i=0; i < n_chains_; i++) {
-        setCoordsForChain(xyz,conf,hp,v_num_bu_A_mol_atoms_[i],v_bb_start_index_[i], v_base_coords_vec_[i],v_deleted_atoms_ids_[i], i);
+    for (unsigned i=0; i < 6; i++) {
+        if (build_strand_[i])
+            setCoordsForChain(xyz,conf,hp,v_num_bu_A_mol_atoms_[i],v_bb_start_index_[i], v_base_coords_vec_[i],v_deleted_atoms_ids_[i], i);
     }
 
     // Fill in the energy data
@@ -105,62 +91,52 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
     current_mol->SetCoordinates(xyz);
 
     // Determine the number of nucleotides in the system
-    auto n = chain_length_;
-    if (double_stranded_)
-        n *= 2;
-
-    else if (hexad_)
-        n *= 6;
-
-    // Compute bond and angle energies only if we have more than one nucleotide per strand
-    if (!(n == 1) && !(double_stranded_ && n == 2) && !(hexad_ && n==6)) {
-
-        // Get bond energy. We set the constraint to ignore all bonds except the 
-        // one bond between the first and second nucleotides in the first strand
-        // The other bonds will have the same energy
-        pFF_->Setup(*current_mol, constraintsBond_);
-        conf_data.bondE = pFF_->E_Bond(false);
-
-        if (!isKCAL_)
-            conf_data.bondE *= KJ_TO_KCAL;
-
-        // if not accepted, return
-        if (energy_filter[0] < conf_data.bondE) {
-            conf_data.accepted = false;
-            return;
-        }
-
-        // Get angle energy. We compute the energy only between the first and 
-        // second nucleotides in the first strand. The other angles will have the same energy
-
-        // We use energy groups here
-        // Set the energy groups for the required angles
-        for (auto i: all_angles_) {
-            OBBitVec bit = OBBitVec();
-            for (auto j: i)
-                bit.SetBitOn(j);
-            pFF_->AddIntraGroup(bit);
-        }
-
-
-        pFF_->Setup(*current_mol, constraintsAng_); // empty constraint
-        conf_data.angleE = pFF_->E_Angle(false);
-
-        pFF_->ClearGroups();
-
-        if (!isKCAL_)
-            conf_data.angleE *= KJ_TO_KCAL;
-
-        // if not accepted, return
-        if (energy_filter[1] < conf_data.angleE) {
-            conf_data.accepted = false;
-            return;
-        }
+    unsigned n = 0;
+    for (auto i: build_strand_) {
+        if(i)
+            n += chain_length_; 
     }
 
-    // If we have only one nucleotide per strand, set energy to zero
-    else {
-        conf_data.bondE = conf_data.angleE = 0.0;
+    // Get bond energy. We set the constraint to ignore all bonds except the 
+    // one bond between the first and second nucleotides in the first strand
+    // The other bonds will have the same energy
+    pFF_->Setup(*current_mol, constraintsBond_);
+    conf_data.bondE = pFF_->E_Bond(false);
+
+    if (!isKCAL_)
+        conf_data.bondE *= KJ_TO_KCAL;
+
+    // if not accepted, return
+    if (energy_filter[0] < conf_data.bondE) {
+        conf_data.accepted = false;
+        return;
+    }
+
+    // Get angle energy. We compute the energy only between the first and 
+    // second nucleotides in the first strand. The other angles will have the same energy
+
+    // We use energy groups here
+    // Set the energy groups for the required angles
+    for (auto i: all_angles_) {
+        OBBitVec bit = OBBitVec();
+        for (auto j: i)
+            bit.SetBitOn(j);
+        pFF_->AddIntraGroup(bit);
+    }
+
+
+    pFF_->Setup(*current_mol, constraintsAng_); // empty constraint
+    conf_data.angleE = pFF_->E_Angle(false);
+
+    pFF_->ClearGroups();
+
+    if (!isKCAL_)
+        conf_data.angleE *= KJ_TO_KCAL;
+
+    // if not accepted, return
+    if (energy_filter[1] < conf_data.angleE) {
+        conf_data.accepted = false;
+        return;
     }
 
     // Get torsion energy
@@ -470,11 +446,9 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
     unsigned xyzI = 0, local_offset = 0, deleted_atom_index = 0;
 
     // Get the correct beginning index for the duplex and the hexad
-    if (double_stranded_ && chain_index == 1) {
-        xyzI = 3 * v_chain_[0].NumAtoms();
-    }
-    else if (hexad_) {
-        xyzI = 3 * v_chain_[0].NumAtoms() * ((chain_index + 1) / 2) + 3 * v_chain_[1].NumAtoms() * (chain_index / 2);
+    for (int i=0; i<chain_index; i++) {
+        if (build_strand_[i])
+            xyzI += 3 * v_chain_[i].NumAtoms();
     }
 
     // Setup the coordinates for each nucleotide

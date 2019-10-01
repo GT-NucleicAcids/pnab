@@ -66,9 +66,9 @@ namespace PNAB {
             .def_readwrite("mutation_rate", &PNAB::RuntimeParameters::mutation_rate)
             .def_readwrite("crossover_rate", &PNAB::RuntimeParameters::crossover_rate)
             .def_readwrite("strand", &PNAB::RuntimeParameters::strand)
-            .def_readwrite("is_double_stranded", &PNAB::RuntimeParameters::is_double_stranded)
-            .def_readwrite("is_hexad", &PNAB::RuntimeParameters::is_hexad)
+            .def_readwrite("build_strand", &PNAB::RuntimeParameters::build_strand)
             .def_readwrite("strand_orientation", &PNAB::RuntimeParameters::strand_orientation)
+            .def_readwrite("is_hexad", &PNAB::RuntimeParameters::is_hexad)
             ;
 
         py::class_<PNAB::HelicalParameters>(m, "HelicalParameters")
