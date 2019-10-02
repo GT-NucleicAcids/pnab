@@ -60,7 +60,7 @@ Chain::Chain(Bases bases, const Backbone &backbone, std::vector<std::string> str
 ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, vector<double> energy_filter) {
 
     // Set the correct number of coordinates
-    unsigned num_cooords;
+    unsigned num_cooords = 0;
     for (int i=0; i<6; i++) {
         if (build_strand_[i])
             num_cooords += v_chain_[i].NumAtoms() * 3;
