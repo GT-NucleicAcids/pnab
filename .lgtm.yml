@@ -13,7 +13,7 @@ extraction:
         - conda config --set ssl_verify no
         - conda update -q conda
         - PYTHON_VER='3.7'
-        - conda create -n pnab -c conda-forge python=$PYTHON_VER cmake gcc_linux-64 gxx_linux-64 openbabel eigen pybind11
+        - conda create -n pnab -c conda-forge python=$PYTHON_VER cmake pkg-config gcc_linux-64 gxx_linux-64 openbabel eigen pybind11
         - source activate pnab
         - cmake -Bbuild -DCMAKE_BUILD_TYPE=Release        
     index:
