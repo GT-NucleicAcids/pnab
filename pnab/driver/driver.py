@@ -23,6 +23,10 @@ from pnab import __path__
 from pnab import bind
 from pnab.driver import options
 
+# Catch interruption; does not work properly for windows
+import signal
+def init_worker():
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
 
 class pNAB(object):
     """!@brief The proto-Nucleic Acid Builder main python class
@@ -224,11 +228,6 @@ class pNAB(object):
                                        for val in self.options['HelicalParameters'].values()])
         num_config = np.prod([val[2] for val in self.options['HelicalParameters'].values()])
         prefix = (str(i) for i in range(1, num_config + 1))
-
-        # Catch interruption
-        import signal
-        def init_worker():
-            signal.signal(signal.SIGINT, signal.SIG_IGN)
 
         # Note: For reasons I do not understand, using the default
         # maxtaskperchild leads to different results for parallel jobs

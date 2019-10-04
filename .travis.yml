@@ -20,7 +20,7 @@ install:
 
   - conda info -a
 
-  - conda create -n pnab -c conda-forge python=$PYTHON_VER numpy cmake
+  - conda create -n pnab -c conda-forge python=$PYTHON_VER numpy cmake pkg-config
         gcc_linux-64 gxx_linux-64 openbabel eigen pybind11 pyyaml
         pytest pytest-cov codecov
         
