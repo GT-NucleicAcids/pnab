@@ -23,7 +23,7 @@ install:
                  pyyaml
                  pytest
   - conda clean --all
-  - activate %CONDA_ENV%
+  - conda activate %CONDA_ENV%
   - conda list
 
 before_build:
