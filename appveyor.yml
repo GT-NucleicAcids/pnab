@@ -1,0 +1,58 @@
+platform:
+  - x64
+
+image:
+  - Visual Studio 2015
+
+configuration:
+  - Release
+
+install:
+  - set CONDA_ENV=build
+  - C:\Miniconda3-x64\Scripts\activate base
+  - conda config --set always_yes yes
+  - conda create --channel conda-forge
+                 --name %CONDA_ENV%
+                 python=3.7
+                 numpy
+                 cmake
+                 pkg-config
+                 openbabel
+                 eigen
+                 pybind11
+                 pyyaml
+                 pytest
+  - conda clean --all
+  - activate %CONDA_ENV%
+  - conda list
+
+before_build:
+  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+  - set SOURCE_FOLDER=%APPVEYOR_BUILD_FOLDER%
+  - set BUILD_FOLDER=%SOURCE_FOLDER%\build
+  - cmake -G "NMake Makefiles"
+          -B%BUILD_FOLDER%
+          -DCMAKE_BUILD_TYPE=%CONFIGURATION%
+
+build_script:
+  - cmake -G "NMake Makefiles" -B%BUILD_FOLDER% -DCMAKE_BUILD_TYPE=%CONFIGURATION%
+  - cd build
+  - nmake
+
+after_build:
+  - XCOPY /Y bind* ..\pnab
+  - cd ..
+
+before_test:
+  - set BABEL_DATADIR="%CONDA_PREFIX%\share\openbabel"
+  - cd tests
+
+test_script:
+  - pytest -s
+
+cache:
+  - C:\Miniconda3-x64\pkgs
+
+branches:
+  only:
+    - master
