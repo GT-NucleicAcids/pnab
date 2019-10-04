@@ -1,6 +1,9 @@
-    
 language: python
 sudo: false
+os:
+  - linux
+  - osx
+
 matrix:
   include:
 
@@ -9,9 +12,15 @@ matrix:
 
   - env:
     - PYTHON_VER='3.7'
+  - os: linux
+    conda_platform: Linux
+    compilers: gcc_linux-64 gxx_linux-64
+  - os: osx
+    conda_platform: MacOSX
+    compilers: clang_osx-64 clangxx_osx-64
 
 install:
-  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-$conda_platform-x86_64.sh -O miniconda.sh;
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
@@ -21,7 +30,7 @@ install:
   - conda info -a
 
   - conda create -n pnab -c conda-forge python=$PYTHON_VER numpy cmake pkg-config
-        gcc_linux-64 gxx_linux-64 openbabel eigen pybind11 pyyaml
+        ${compilers} openbabel eigen pybind11 pyyaml
         pytest pytest-cov codecov
         
   - source activate pnab
