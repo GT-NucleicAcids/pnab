@@ -3,6 +3,7 @@
 [![docs latest](https://img.shields.io/badge/docs-latest-5077AB.svg?logo=read%20the%20docs)](https://alenaizan.github.io/pnab/html/index.html)
 
 [![Build Status](https://travis-ci.com/alenaizan/pnab.svg?branch=master)](https://travis-ci.com/alenaizan/pnab)
+[![Build status](https://ci.appveyor.com/api/projects/status/9uew76hr6ftlwso4/branch/master?svg=true)](https://ci.appveyor.com/project/alenaizan/pnab/branch/master)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/alenaizan/pnab.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/alenaizan/pnab/context:cpp)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/alenaizan/pnab.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/alenaizan/pnab/context:python)
 
