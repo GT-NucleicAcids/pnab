@@ -41,7 +41,6 @@ after_build:
   - cd ..
 
 before_test:
-  - set BABEL_DATADIR="%CONDA_PREFIX%\share\openbabel\"
   - set SP_DIR="%CONDA_PREFIX%\Lib\site-packages"
   - XCOPY /E /I /Y pnab "%SP_DIR%\pnab"
   - XCOPY /E /I /Y tests "%SP_DIR%\pnab\tests"
@@ -49,6 +48,8 @@ before_test:
   - cd tests
 
 test_script:
+  - dir "%CONDA_PREFIX%\share\openbabel"
+  - set BABEL_DATADIR="%CONDA_PREFIX%\share\openbabel"
   - pytest -s
 
 cache:
