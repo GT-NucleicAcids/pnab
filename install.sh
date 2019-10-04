@@ -1,6 +1,6 @@
 #!/bin/bash
 
-conda create -n pnab -c conda-forge python numpy cmake openbabel eigen \
+conda create -n pnab -c conda-forge python numpy cmake pkg-config openbabel eigen \
     pybind11 pyyaml nglview gcc_linux-64 gxx_linux-64 pytest graphviz
 
 source activate pnab
