@@ -42,6 +42,7 @@ after_build:
 
 before_test:
   - set BABEL_DATADIR="%CONDA_PREFIX%\share\openbabel"
+  - set SP_DIR="%CONDA_PREFIX%\Lib\site-packages"
   - XCOPY /E /I /Y pnab "%SP_DIR%\pnab"
   - XCOPY /E /I /Y tests "%SP_DIR%\pnab\tests"
   - dir "%SP_DIR%\pnab"
