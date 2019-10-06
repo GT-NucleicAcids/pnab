@@ -64,6 +64,7 @@ script:
   - cp -R pnab ${SP_DIR}
   - cp build/bind.*.so ${SP_DIR}/pnab
   - ls -l ${SP_DIR}/pnab
+  - mv tests/* pnab
   - pytest -s --cov
 
 notifications:
