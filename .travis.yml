@@ -1,17 +1,31 @@
-    
-language: python
+language: generic
 sudo: false
+
 matrix:
   include:
-
-  - env:
+  - os: linux
+    env: 
     - PYTHON_VER='3.6'
-
-  - env:
+    - CONDA_PLATFORM='Linux'
+    - COMPILERS='gcc_linux-64 gxx_linux-64'
+  - os: linux
+    env: 
     - PYTHON_VER='3.7'
+    - CONDA_PLATFORM='Linux'
+    - COMPILERS='gcc_linux-64 gxx_linux-64'
+  - os: osx
+    env:
+    - PYTHON_VER='3.6'
+    - CONDA_PLATFORM='MacOSX'
+    - COMPILERS='clang_osx-64 clangxx_osx-64
+  - os: osx
+    env:
+    - PYTHON_VER='3.7'
+    - CONDA_PLATFORM='MacOSX'
+    - COMPILERS='clang_osx-64 clangxx_osx-64'
 
 install:
-  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-${CONDA_PLATFORM}-x86_64.sh -O miniconda.sh;
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
@@ -21,7 +35,7 @@ install:
   - conda info -a
 
   - conda create -n pnab -c conda-forge python=$PYTHON_VER numpy cmake pkg-config
-        gcc_linux-64 gxx_linux-64 openbabel eigen pybind11 pyyaml
+        ${COMPILERS} openbabel eigen pybind11 pyyaml
         pytest pytest-cov codecov
         
   - source activate pnab
@@ -50,6 +64,7 @@ script:
   - cp -R pnab ${SP_DIR}
   - cp build/bind.*.so ${SP_DIR}/pnab
   - ls -l ${SP_DIR}/pnab
+  - mv tests/* pnab
   - pytest -s --cov
 
 notifications:
