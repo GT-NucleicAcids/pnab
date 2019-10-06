@@ -14,5 +14,3 @@ coverage:
     patch:
       default:
         threshold: 50%
-codecov:
-  token: aeae5652-faed-4a41-986d-69006b8a3a6b
