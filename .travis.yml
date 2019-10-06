@@ -7,13 +7,25 @@ os:
 matrix:
   include:
   - os: linux
-    env: PYTHON_VER='3.7'
-    env: CONDA_PLATFORM='Linux'
-    env: COMPILERS='gcc_linux-64 gxx_linux-64'
+    env: 
+    - PYTHON_VER='3.6'
+    - CONDA_PLATFORM='Linux'
+    - COMPILERS='gcc_linux-64 gxx_linux-64'
+  - os: linux
+    env: 
+    - PYTHON_VER='3.7'
+    - CONDA_PLATFORM='Linux'
+    - COMPILERS='gcc_linux-64 gxx_linux-64'
   - os: osx
-    env: PYTHON_VER='3.6'
-    env: CONDA_PLATFORM='MacOSX'
-    env: COMPILERS='clang_osx-64 clangxx_osx-64'
+    env:
+    - PYTHON_VER='3.6'
+    - CONDA_PLATFORM='MacOSX'
+    - COMPILERS='clang_osx-64 clangxx_osx-64
+  - os: osx
+    env:
+    - PYTHON_VER='3.7'
+    - CONDA_PLATFORM='MacOSX'
+    - COMPILERS='clang_osx-64 clangxx_osx-64'
 
 install:
   - wget https://repo.continuum.io/miniconda/Miniconda3-latest-${CONDA_PLATFORM}-x86_64.sh -O miniconda.sh;
