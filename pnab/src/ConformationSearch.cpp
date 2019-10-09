@@ -737,7 +737,7 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
 
     // Now we store the properties of the accepted candidates
     // Write header
-    std::string header = "# Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol/(nucleotide-1)), Angle Energy (kcal/mol/(nucleotide-1)), "
+    std::string header = "# Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), "
                          "Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), "
                          "Total Energy (kcal/mol/nucleotide), Nucleotide RMSD relative to lowest energy conformer (Angstrom)";
     output_stringstream << header << endl;

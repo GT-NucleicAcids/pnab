@@ -438,7 +438,7 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
     matrix3x3 change_sign = {{1, 0, 0},{0, -1, 0}, {0, 0, -1}};
 
     // Reflection that we can apply if we want the same orientation as that of 3DNA
-    //matrix3x3 change_sign2 = {{-1, 0, 0},{0, 1, 0}, {0, 0, -1}};
+    matrix3x3 change_sign2 = {{-1, 0, 0},{0, 1, 0}, {0, 0, -1}};
 
     // Get the global rotation and translations
     auto g_rot = hp.getGlobalRotationOBMatrix();
@@ -465,17 +465,19 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
             vector3 v3;
             v3.Set(base_coords + 3 * baseI);
 
-            v3 += g_trans; v3 *= g_rot;
-
             if (!strand_orientation_[chain_index])
                 v3 *= change_sign;
+
+            v3 *= g_rot;
+            v3 += g_trans;
+            v3 *= s_rot;
+            v3 += s_trans;
+
             if (hexad_)
                 v3 *= z_rot;
 
-            v3 += s_trans; v3 *= s_rot;
-
             // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
-            //v3 *=  change_sign2;
+            v3 *=  change_sign2;
 
             v3.Get(xyz + xyzI);
             xyzI += 3;
@@ -488,17 +490,19 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                 vector3 v3;
                 v3.Set(conf + 3 * monomer_index);
 
-                v3 += g_trans; v3 *= g_rot;
-
                 if (!strand_orientation_[chain_index])
                      v3 *= change_sign;
+
+                v3 *= g_rot;
+                v3 += g_trans;
+                v3 *= s_rot;
+                v3 += s_trans;
+
                 if (hexad_)
                     v3 *= z_rot;
 
-                v3 += s_trans; v3 *= s_rot;
-
                 // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
-                //v3 *=  change_sign2;
+                v3 *=  change_sign2;
 
                 v3.Get(xyz + xyzI);
                 xyzI += 3;

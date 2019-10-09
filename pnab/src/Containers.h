@@ -188,7 +188,7 @@ namespace PNAB {
         * @returns The translation vector
         */
         OpenBabel::vector3 getGlobalTranslationVec() {
-            return OpenBabel::vector3(x_displacement, y_displacement);
+            return OpenBabel::vector3(x_displacement, y_displacement, 0);
         }
 
         /**
@@ -226,10 +226,18 @@ namespace PNAB {
         *
         * @sa rodrigues_formula
         */
+
+        // Lu, X. J., El Hassan, M. A., & Hunter, C. A. (1997). Structure and conformation of helical nucleic acids:
+        // rebuilding program (SCHNArP). Journal of molecular biology, 273(3), 681-691.
         std::array<double, 9> getGlobalRotationMatrix() {
             double eta = inclination * DEG_TO_RAD, theta = tip * DEG_TO_RAD;
-            double phi_pp = atan(std::isnan(eta / theta) ? 0 : eta / theta), Lambda = sqrt(eta*eta + theta*theta);
-            std::array<double, 3> axis{sin(phi_pp), cos(phi_pp), 0};
+            double Lambda = sqrt(eta*eta + theta*theta);
+            
+            std::array<double, 3> axis;
+            if (Lambda != 0)
+                axis = {eta/Lambda, theta/Lambda, 0};
+            else
+               axis = {0, 1, 0};
 
             return rodrigues_formula(axis, Lambda);
         }
