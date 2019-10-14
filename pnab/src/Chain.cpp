@@ -302,33 +302,49 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         }
     }
 
-    // Delete extra atoms that remain after connecting the nucleotides
+    // Delete extra hydrogen atoms that remain after connecting the nucleotides
     for (unsigned i = 0; i < head_ids.size(); i++) {
         head = chain.GetAtomById(head_ids[i]);
         tail = chain.GetAtomById(tail_ids[i]);
+
+        // Get indices of the hydrogen atoms
+        vector<vector<unsigned long>> hydrogens = {{}, {}};
         FOR_NBORS_OF_ATOM(nbr, tail) {
-            if (nbr->GetAtomicNum() == 1) {
-                deleted_atoms_ids.push_back(nbr->GetId());
-                chain.DeleteAtom(chain.GetAtom(nbr->GetIdx()));
-                break;
-            }
+            if (nbr->GetAtomicNum() == 1)
+                hydrogens[0].push_back(nbr->GetId());
         }
+
         FOR_NBORS_OF_ATOM(nbr, head) {
-            if (nbr->GetAtomicNum() == 1) {
-                deleted_atoms_ids.push_back(nbr->GetId());
-                chain.DeleteAtom(chain.GetAtom(nbr->GetIdx()));
-                break;
-            }
+            if (nbr->GetAtomicNum() == 1)
+                hydrogens[1].push_back(nbr->GetId());
         }
+
+        // Delete all the hydrogen atoms from the tail
+        for (auto i: hydrogens[0]) {
+            deleted_atoms_ids.push_back(i);
+            chain.DeleteAtom(chain.GetAtomById(i));
+        }
+
+        // Delete hydrogen atoms from the head until you have the correct number of bonds - 1
+        // One more bond will be added to the next nucleotide
+        for (auto i: hydrogens[1]) {
+            if (head->GetValence() == head->GetImplicitValence() - 1)
+                break;
+            deleted_atoms_ids.push_back(i);
+            chain.DeleteAtom(chain.GetAtomById(i));
+        }
+
         FOR_NBORS_OF_ATOM(nbr, tail) {
             neighbor_id = nbr->GetId();
             break;
         }
+
         deleted_atoms_ids.push_back(tail->GetId());
         chain.DeleteAtom(tail);
         new_bond_ids.push_back(head->GetId());
         new_bond_ids.push_back(neighbor_id);
         chain.AddBond(head->GetIdx(), chain.GetAtomById(neighbor_id)->GetIdx(), 1);
+
     }
 
 
