@@ -298,6 +298,11 @@ The program can build structures with arbitrary nucleobases. The key problem wit
 the provided geometry of the nucleobase is in the correct standard frame of reference. Otherwise, the helical parameters
 will be ill-defined. The additional bases can be defined in the graphical user interface or by editing the input file.
 
+For the generated strands, the length of the bond between the nucleobases and the backbone is determined by the bond length of the
+first nucleotide in the strand. The bond length is determined by the distance between the two atoms in the nucleobase that form the
+vector connecting to the backbone. Therefore, if you plan to add other nucleobases to the library, make sure that the bond length
+is reasonable for the type of bond that forms between the nucleobase and the backbone (e.g. C-C bond).
+
 The program has a library of predefined nueleobases. They include adenine, guanine, cytosine, thymine, and uracil. Additionally,
 there are two proto-nucleobases that are used for building the hexads, namely triaminopyrimidine and cyanuric acid. To define
 other nucleobases, add the following entries to the input file:
