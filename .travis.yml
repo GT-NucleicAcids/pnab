@@ -35,7 +35,7 @@ install:
   - conda info -a
 
   - conda create -n pnab -c conda-forge python=$PYTHON_VER numpy cmake pkg-config
-        ${COMPILERS} openbabel eigen pybind11 pyyaml
+        ${COMPILERS} openbabel=2.4.1 eigen pybind11 pyyaml
         pytest pytest-cov codecov
         
   - source activate pnab
