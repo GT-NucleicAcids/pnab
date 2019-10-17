@@ -17,7 +17,7 @@ install:
                  numpy
                  cmake
                  pkg-config
-                 openbabel
+                 openbabel=2.4.1
                  eigen
                  pybind11
                  pyyaml
