@@ -5,8 +5,11 @@
 #ifndef PNAB_CHAIN_H
 #define PNAB_CHAIN_H
 
+#include <algorithm>
 #include <openbabel/forcefield.h>
 #include <openbabel/rotor.h>
+#include <openbabel/generic.h>
+#include <openbabel/obiter.h>
 #include "Containers.h"
 #define KJ_TO_KCAL 0.239006
 

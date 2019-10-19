@@ -3,6 +3,7 @@
  */
 
 #include <iomanip>
+#include <set>
 #include "ConformationSearch.h"
 
 using namespace PNAB;
