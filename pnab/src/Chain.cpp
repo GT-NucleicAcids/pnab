@@ -396,6 +396,13 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
 
 void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids, std::vector<std::vector<unsigned>> &fixed_bonds_vec, unsigned offset) {
 
+    map<unsigned, unsigned> residue_map;
+    FOR_RESIDUES_OF_MOL(r, chain) {
+        FOR_ATOMS_OF_RESIDUE(a,&*r) {
+            residue_map[a->GetIdx()] = r->GetNum();
+        }
+    }
+
     vector<int> bond_atoms;
 
     // Determine the bond and angle atoms only for the first strand
@@ -448,12 +455,12 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
             FOR_NBORS_OF_ATOM(nbr2, chain.GetAtom(v[2])) {
                 if (nbr2->GetIdx() == v[1])
                     continue;
-                unsigned num = nbr->GetResidue()->GetNum();
+                unsigned num = residue_map[nbr->GetIdx()];
                 // Exclude dihedral angles in two different residues as these bonds are not
                 // rotated in the conformation search
-                if ((chain.GetAtom(v[1])->GetResidue()->GetNum() == num) &&
-                    (chain.GetAtom(v[2])->GetResidue()->GetNum() == num) &&
-                    (nbr2->GetResidue()->GetNum() == num)) {
+                if ((residue_map[v[1]] == num) &&
+                    (residue_map[v[2]] == num) &&
+                    (residue_map[nbr2->GetIdx()] == num)) {
                     // These are the correct torsional angles that we want to compute energies for
                     bool fixed = false;
                     // Determine whether this angle is fixed

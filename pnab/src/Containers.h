@@ -9,7 +9,9 @@
 #include <random>
 #include <array>
 #include <openbabel/mol.h>
+#include <openbabel/atom.h>
 #include <openbabel/obconversion.h>
+#include <openbabel/math/matrix3x3.h>
 
 //! The PNAB name space contains all the C++ classes and functions for the proto-Nucleic Acid Builder.
 namespace PNAB {

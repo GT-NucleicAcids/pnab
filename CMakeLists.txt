@@ -7,7 +7,7 @@ add_definitions(-DUSING_DYNAMIC_LIBS) # Necessary for openbabel in Windows
 # set the module path
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
-find_package(OpenBabel2 REQUIRED)
+find_package(OpenBabel3 REQUIRED)
 
 find_package(Eigen3 REQUIRED) # find and setup Eigen3
 set(EIGEN2_SUPPORT_STAGE10_FULL_EIGEN2_API TRUE)
@@ -36,8 +36,8 @@ set(SOURCE_FILES
 find_package(pybind11 REQUIRED)
 # Must add NO_EXTRAS; otherwise code does not work in Release mode
 pybind11_add_module(bind NO_EXTRAS ${SOURCE_DIR}/binder.cpp ${SOURCE_FILES})
-target_link_libraries(bind PRIVATE ${OPENBABEL2_LIBRARY})
-target_include_directories(bind PRIVATE ${OPENBABEL2_INCLUDE_DIR})
+target_link_libraries(bind PRIVATE ${OPENBABEL3_LIBRARY})
+target_include_directories(bind PRIVATE ${OPENBABEL3_INCLUDE_DIR})
 
 add_library(restore_default_visibility INTERFACE)
 target_compile_options(restore_default_visibility INTERFACE -fvisibility=default)
