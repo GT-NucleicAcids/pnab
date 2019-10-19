@@ -1,5 +1,5 @@
 Base A:
-  code: ADA
+  code: A  
   file_path: adenine.pdb
   linker:
   - 5
@@ -7,7 +7,7 @@ Base A:
   name: A
   pair_name: T
 Base G:
-  code: GUA
+  code: G  
   file_path: guanine.pdb
   linker:
   - 2
@@ -15,7 +15,7 @@ Base G:
   name: G
   pair_name: C
 Base C:
-  code: CYT
+  code: C  
   file_path: cytosine.pdb
   linker:
   - 2
@@ -23,7 +23,7 @@ Base C:
   name: C
   pair_name: G
 Base U:
-  code: URA
+  code: U  
   file_path: uracil.pdb
   linker:
   - 2
@@ -31,7 +31,7 @@ Base U:
   name: U
   pair_name: A
 Base T:
-  code: THY
+  code: T  
   file_path: thymine.pdb
   linker:
   - 2
