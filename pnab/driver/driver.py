@@ -204,7 +204,7 @@ class pNAB(object):
         """!@brief Prepare helical configurations and run them in parallel.
 
         If a single value is given for a helical parameter (e.g. helical twist),
-        then that value is used. If a range of values is given, then random values
+        then that value is used. If a range of values is given, then equally spaced values
         in the range will be used. The number of configurations is determined by the
         third value in @a pNAB.pNAB.options. The various helical configurations
         are run in parallel using the multiprocessing library. 
@@ -223,8 +223,7 @@ class pNAB(object):
         self._verbose = verbose
 
         # Extract configurations
-        np.random.seed(self.options['RuntimeParameters']['seed'])
-        config = itertools.product(*[np.random.uniform(val[0], val[1], val[2])
+        config = itertools.product(*[np.linspace(val[0], val[1], val[2])
                                        for val in self.options['HelicalParameters'].values()])
         num_config = np.prod([val[2] for val in self.options['HelicalParameters'].values()])
         prefix = (str(i) for i in range(1, num_config + 1))
