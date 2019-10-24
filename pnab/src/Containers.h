@@ -700,7 +700,8 @@ namespace PNAB {
      * It includes detailed information about the energy components important
      * for distinguishing between different conformers. It also includes the value
      * of the RMSD relative to the best candidate. If the conformer satisfies
-     * the distance and energy thresholds, then it is saved.
+     * the distance and energy thresholds, then it is saved. It also contains
+     * the openbabel OBMol object for the accepted candidates
      *
      * @sa Chain::generateConformerData
      * @sa ConformationSearch::reportData
@@ -708,8 +709,8 @@ namespace PNAB {
      * @sa RuntimeParameters::max_distance
      */
     struct ConformerData {
-        double *coords,                             //!< @brief Pointer to array containing coordinates of all atoms in molecule chain
-               *monomer_coord,                      //!< @brief Pointer to array containing coordinates of a single monomer
+        OpenBabel::OBMol molecule;                  //!< @brief The openbabel OBMol object for the conformer
+        double *monomer_coord,                      //!< @brief Pointer to array containing coordinates of a single monomer
                 distance,                           //!< @brief distance between interconnects in Backbone for adjacent BaseUnit
                 bondE,                              //!< @brief Energy of newly formed bonds in the backbone divided by the length of the strand -1
                 angleE,                             //!< @brief Energy of newly formed angles in the backbone divided by the length of the strand -1
@@ -718,7 +719,6 @@ namespace PNAB {
                 total_energy,                       //!< @brief Total energy of the conformation divided by divided by the length of the strand
                 rmsd;                               //!< @brief Root-mean square distance relative to lowest energy conformer
         std::size_t index;                          //!< @brief The index of the conformer
-        bool chain_coords_present;                  //!< @brief Have the chain coordinates in coord been deleted?
         bool accepted;                              //!< @brief Is the energy of the conformer less than the thresholds
 
         /**

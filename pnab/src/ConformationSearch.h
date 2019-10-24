@@ -104,7 +104,6 @@ namespace PNAB {
         OpenBabel::vector3 step_translate_, //!< @brief The step translation vector, HelicalParameters::getStepTranslationVec
                            glbl_translate_; //!< @brief The global translation vector, HelicalParameters::getGlobalTranslationVec
         OpenBabel::OBConversion conv_; //!< @brief An openbabel conversion object used to write accepted candidates
-        OpenBabel::OBMol test_chain_; //!< @brief A molecule containing the structure of accepted candidates for saving
         unsigned monomer_num_coords_; //!< @brief 3*The number of atoms in the first nucleotide 
         std::string prefix_; //!< @brief A string to prepend the name of the accepted backbone candidates
 

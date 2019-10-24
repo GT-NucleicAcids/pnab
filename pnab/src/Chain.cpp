@@ -76,11 +76,44 @@ ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, 
 
     // Fill in the energy data
     ConformerData data;
-    data.coords = xyz;
-    data.chain_coords_present = true;
     fillConformerEnergyData(xyz, data, energy_filter);
 
+    // Reorder atoms
+    data.molecule = orderResidues();
+
     return data;
+}
+
+OBMol Chain::orderResidues() {
+    // Reorder residuew in the chain; improves the PDB formatting of systems with inverted chains
+    // Basically, this function inverts the order of the residues for inverted chains
+    vector<int> order;
+    int index = 0;
+
+    for (int i=0; i<6; i++) {
+        if (!build_strand_[i])
+            continue;
+
+        if (strand_orientation_[i]) {
+            for (int j=1; j < v_chain_[i].NumAtoms() + 1; j++)
+                order.push_back(j + index);
+            index += v_chain_[i].NumAtoms();
+        }
+
+        else {
+            for (int j = v_chain_[i].NumResidues() - 1; j > -1; j--) {
+                OBResidue* res = v_chain_[i].GetResidue(j);
+                FOR_ATOMS_OF_RESIDUE(atom, res)
+                    order.push_back(atom->GetIdx() + index);
+            }
+            index += v_chain_[i].NumAtoms();
+        }
+    }
+
+    OBMol ordered_mol = combined_chain_;
+    ordered_mol.RenumberAtoms(order);
+
+    return ordered_mol;
 }
 
 void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data, vector<double> energy_filter) {

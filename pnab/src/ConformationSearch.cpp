@@ -120,7 +120,6 @@ void ConformationSearch::GeneticAlgorithmSearch() {
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
                 runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
-    test_chain_ = chain.getChain();
 
     // Set the search size; the number of generations in the genetic algorithm search
     size_t search_size = runtime_params_.num_steps;
@@ -246,10 +245,7 @@ void ConformationSearch::GeneticAlgorithmSearch() {
                     // Generate chain and compute energies; check whether energies are less than thresholds
                     auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
 
-                    if (!data.accepted)
-                        delete[] data.coords;
-
-                    else {
+                    if (data.accepted) {
                         // Save the candidate
                         data.monomer_coord = new double[monomer_num_coords_];
                         data.index = save_index;
@@ -280,7 +276,6 @@ void ConformationSearch::RandomSearch(bool weighted) {
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
                 runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
-    test_chain_ = chain.getChain();
 
     // Set the search size;
     size_t search_size = runtime_params_.num_steps;
@@ -334,10 +329,7 @@ void ConformationSearch::RandomSearch(bool weighted) {
             // Generate chain and compute energies; check whether energies are less than thresholds
             auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
 
-            if (!data.accepted)
-                delete[] data.coords;
-
-            else {
+            if (data.accepted) {
                 // Save the candidate
                 data.monomer_coord = new double[monomer_num_coords_];
                 data.index = search_index;
@@ -361,7 +353,6 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
                 runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
-    test_chain_ = chain.getChain();
 
     // Set the search size;
     size_t search_size = runtime_params_.num_steps;
@@ -468,7 +459,6 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
             auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
 
             if (!data.accepted) {
-                delete[] data.coords;
                 // If the candidate is not accepted, reject the step
                 // This is not exactly like the Metropolis algorithm but we do not want to
                 // accept steps that generate bad energies. The whole purpose of the Monte
@@ -592,7 +582,6 @@ void ConformationSearch::SystematicSearch() {
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
                 runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
-    test_chain_ = chain.getChain();
 
     // Determine the step size and the number of steps
     // The number of steps is (360/dihedral_step)^(number of rotors)
@@ -641,10 +630,7 @@ void ConformationSearch::SystematicSearch() {
             // Generate chain and compute energies; check whether energies are less than thresholds
             auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
 
-            if (!data.accepted)
-                delete[] data.coords;
-
-            else {
+            if (data.accepted) {
                 // Save the candidate
                 data.monomer_coord = new double[monomer_num_coords_];
                 data.index = search_index;
@@ -700,10 +686,6 @@ double ConformationSearch::measureDistance(double *coords, unsigned head, unsign
 }
 
 void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
-    if (!conf_data.chain_coords_present) {
-        cerr << "Trying to print conformer with no chain_ coordinates. Exiting..." << endl;
-        exit(1);
-    }
 
     // Setup variables for saving the structure of the accepted candidate
     ostringstream strs;
@@ -724,15 +706,11 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
     ostream fileStream(&fb);
 
     // Set the conformer and save to file
-    test_chain_.SetTitle(strs.str().c_str());
-    test_chain_.SetCoordinates(conf_data.coords);
+    conf_data.molecule.SetTitle(strs.str().c_str());
     conv_.SetOutStream(&fileStream);
-    conv_.Write(&test_chain_);
+    conv_.Write(&conf_data.molecule);
     fb.close();
 
-    // Delete coordinates
-    delete[] conf_data.coords;
-    conf_data.chain_coords_present = false;
     conf_data_vec_.push_back(conf_data);
 
     // Now we store the properties of the accepted candidates
