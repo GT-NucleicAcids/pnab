@@ -101,10 +101,12 @@ OBMol Chain::orderResidues() {
         }
 
         else {
-            for (int j = v_chain_[i].NumResidues() - 1; j > -1; j--) {
-                OBResidue* res = v_chain_[i].GetResidue(j);
-                FOR_ATOMS_OF_RESIDUE(atom, res)
-                    order.push_back(atom->GetIdx() + index);
+            for (int j = v_chain_[i].NumResidues() - 1; j > -1; j = j-3) {
+                for (int k=2; k > -1; k--) {
+                    OBResidue* res = v_chain_[i].GetResidue(j-k);
+                    FOR_ATOMS_OF_RESIDUE(atom, res)
+                        order.push_back(atom->GetIdx() + index);
+                }
             }
             index += v_chain_[i].NumAtoms();
         }
