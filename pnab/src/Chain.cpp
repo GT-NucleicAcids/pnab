@@ -289,10 +289,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
             r->SetChainNum(chain_index);
             r->SetChain(chain_letter);
             r->SetTitle(base_names[c].c_str());
-            if (strand_orientation_[chain_index])
-                r->SetNum(c + 1);
-            else
-                r->SetNum(chain_length_ - c);
+            r->SetNum(c + 1);
         }
         chain += v;
         c++;
@@ -304,12 +301,13 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         for (auto bonds: base_fixed_bonds[i]) {
             OBAtom* a1 = chain.GetAtom(bonds[0] + num_atoms);
             OBAtom* a2 = chain.GetAtom(bonds[1] + num_atoms);
-            OBPairData *label1 = new OBPairData();
-            OBPairData *label2 = new OBPairData();
+            OBPairData *label1 = new OBPairData;
+            OBPairData *label2 = new OBPairData;
             label1->SetAttribute(to_string(n_fixed));
             label2->SetAttribute(to_string(n_fixed));
-            a1->SetData(label1);
-            a2->SetData(label2);
+            a1->CloneData(label1);
+            a2->CloneData(label2);
+            delete label1, label2;
             n_fixed++;
         }
         num_atoms += num_base_unit_atoms[i];

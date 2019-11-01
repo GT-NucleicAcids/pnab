@@ -705,8 +705,24 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
     fb.open(strs.str().c_str(), std::ios::out);
     ostream fileStream(&fb);
 
-    // Set the conformer and save to file
+    // Set conformer data and save to file
     conf_data.molecule.SetTitle(strs.str().c_str());
+
+    OBPairData *pairdata = new OBPairData;
+    pairdata->SetAttribute("AUTHOR");
+    pairdata->SetValue("    The proto-Nucleic Acid Builder");
+    conf_data.molecule.CloneData(pairdata);
+    delete pairdata;
+    vector<string> labels = {"Distance (Angstroms)", "Bond Energy (kcal/mol)", "Angle Energy (kcal/mol)", "Torsion Energy (kcal/mol/nucleotide)",
+                             "Van der Waals Energy (kcal/mol/nucleotide)", "Total Energy (kcal/mol/nucleotide)"};
+    vector<double> data = {conf_data.distance, conf_data.bondE, conf_data.angleE, conf_data.torsionE, conf_data.VDWE, conf_data.total_energy};
+    for (int i=0; i<6; i++) {
+        OBPairData *pairdata = new OBPairData;
+        pairdata->SetAttribute("TITLE");
+        pairdata->SetValue("    " + labels[i] + ": " + to_string(data[i]));
+        conf_data.molecule.CloneData(pairdata);
+        delete pairdata;
+    }
     conv_.SetOutStream(&fileStream);
     conv_.Write(&conf_data.molecule);
     fb.close();
