@@ -152,6 +152,8 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
 
     // We use energy groups here
     // Set the energy groups for the required angles
+    OBBitVec bit = OBBitVec();
+    pFF_->AddIntraGroup(bit); // Add empty bit in case only one nucleotide per strand is requested
     for (auto i: all_angles_) {
         OBBitVec bit = OBBitVec();
         for (auto j: i)
@@ -215,7 +217,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
         conf_data.VDWE *= KJ_TO_KCAL;
 
     // if not accepted, return
-    if (energy_filter[3] < conf_data.VDWE) {
+    if (energy_filter[3] < conf_data.VDWE || isnan(conf_data.VDWE)) { // nan energies happen when two atoms are in exactly the same position
         conf_data.accepted = false;
         return;
     }
@@ -226,7 +228,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
     if (!isKCAL_)
         conf_data.total_energy *= KJ_TO_KCAL;
 
-    if (energy_filter[4] < conf_data.total_energy) {
+    if (energy_filter[4] < conf_data.total_energy || isnan(conf_data.total_energy)) {
         conf_data.accepted = false;
         return;
     }
