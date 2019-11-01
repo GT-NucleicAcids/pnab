@@ -256,7 +256,7 @@ class pNAB(object):
 
         try:
             # Run the different helical configurations in parallel and process results
-            for results in pool.imap(self._run, zip(config, prefix)):
+            for results in pool.imap_unordered(self._run, zip(config, prefix)):
                 self._single_result(results)
         except KeyboardInterrupt:
             # If interuption is catched, terminate run and proceed
