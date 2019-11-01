@@ -458,18 +458,7 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
             // Generate chain and compute energies; check whether energies are less than thresholds
             auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
 
-            if (!data.accepted) {
-                // If the candidate is not accepted, reject the step
-                // This is not exactly like the Metropolis algorithm but we do not want to
-                // accept steps that generate bad energies. The whole purpose of the Monte
-                // Carlo procedure is just to get us close to the acceptable distance
-                for (int i=0; i < n_rotations; i++) {
-                    auto r = rotor_vector[rotated_indices[i]];
-                    r->SetToAngle(coords, old_angles[i]);
-                }
-            }
-
-            else {
+            if (data.accepted) {
                 // Save the candidate
                 data.monomer_coord = new double[monomer_num_coords_];
                 data.index = search_index;
