@@ -1,11 +1,11 @@
 Backbone:
   file_path: dna_bb.pdb
   interconnects:
-  - 10
+  - 15
   - 1
   linker:
-  - 12
-  - 13
+  - 20
+  - 22
 HelicalParameters:
   inclination:
   - 0
@@ -58,5 +58,5 @@ RuntimeParameters:
   max_distance: 0.05
   monte_carlo_temperature: 298.0
   num_steps: 10000000
-  strand: XYX
+  strand: YMY
   ff_type: GAFF

@@ -203,7 +203,7 @@ def _validate_strand(strand):
     for i in range(len(strand)):
         strand[i] = strand[i].upper()
     # Check if both canonical and noncanonical bases are in the sequence
-    if "X" in strand or "Y" in strand:
+    if "M" in strand or "Y" in strand:
         for i in ["A", "G", "C", "T", "U"]:
             if i in strand:
                 raise Exception("Cannot combine canonincal and non-canonical nucleobases")
@@ -310,7 +310,7 @@ _options_dict['Base']['code'] = {
 _options_dict['Base']['name'] = {
                                   'glossory': 'One-letter base name',
                                   'long_glossory': ('This name is used when specifying the strand sequence. It must not be one of the' +
-                                                    ' names defined in the program library (A, G, C, T, U, X, Y).'),
+                                                    ' names defined in the program library (A, G, C, T, U, M, Y).'),
                                   'default': '',
                                   'validation': lambda x: str(x),
                                   }
@@ -478,7 +478,7 @@ _options_dict['RuntimeParameters']['energy_filter'] = {
                                                       'validation': lambda x: _validate_energy_filter(x), 
                                                       }
 _options_dict['RuntimeParameters']['strand'] = {
-                                               'glossory': 'FASTA string for nucleotide sequence (e.g. GCAT or XYXY) ',
+                                               'glossory': 'FASTA string for nucleotide sequence (e.g. GCAT or MYMY) ',
                                                'long_glossory': ('See the Bases section for the defined bases and their one-letter abbreviation.' + 
                                                                  'The canonical nucleobases cannot be mixed with the nucleobases that form the hexad geometries' +
                                                                  ' because they have different standard frame of reference. The names are case-insensitive.'),

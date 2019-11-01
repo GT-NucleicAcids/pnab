@@ -1,11 +1,11 @@
 Backbone:
   file_path: rna_bb.pdb
   interconnects: # Backbone to backbone connection
-  - 10
+  - 15
   - 1
   linker: # Backbone to base connection
-  - 13
-  - 14
+  - 21
+  - 23
 HelicalParameters:
   inclination:
   - 22.9 # Initial point in the range
