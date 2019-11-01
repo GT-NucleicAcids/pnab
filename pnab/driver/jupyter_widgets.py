@@ -867,17 +867,9 @@ def run(button):
         f.write('# ' + time + '\n')
         f.write(yaml.dump(run_options))
 
-    # Capture progress report 
-    out = widgets.Output()
-    display(out)
-
-    with out:
-        # Run the code
-        run = pNAB('options.yaml')
-        run.run()
-
-    # Delete progress report
-    out.clear_output()
+    # Run the code
+    run = pNAB('options.yaml')
+    run.run()
 
     # Get output files
     files = [str(int(conformer[0])) + '_' + str(int(conformer[1])) + '.pdb' for conformer in run.results]

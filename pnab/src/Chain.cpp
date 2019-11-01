@@ -23,8 +23,7 @@ Chain::Chain(Bases bases, const Backbone &backbone, std::vector<std::string> str
     pFF_ = OBForceField::FindForceField(ff_type_);
     // Make sure we have a valid pointer
     if (!pFF_) {
-        cerr << "Cannot find force field. Exiting" << endl;
-        exit(1);
+        throw std::runtime_error("Cannot find force field.");
     }
     // Check whether the force field uses kcal/mol or kJ/mol
     isKCAL_ = pFF_->GetUnit().find("kcal") != string::npos;

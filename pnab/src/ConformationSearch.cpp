@@ -105,8 +105,7 @@ std::string ConformationSearch::run() {
         ConformationSearch::GeneticAlgorithmSearch();
 
     else {
-        cerr << search << " is unrecognized search algorithm" << endl;
-        exit(1);
+        throw std::runtime_error(search + " is unrecognized search algorithm");
     }
 
     // return the CSV output string
@@ -513,8 +512,7 @@ std::vector <std::piecewise_linear_distribution<double>> ConformationSearch::Wei
         // Setup force field
         OBForceField *pFF = OBForceField::FindForceField(runtime_params_.ff_type);
         if (!pFF) {
-            cerr << "Cannot find force field. Exiting" << endl;
-            exit(1);
+            throw std::runtime_error("Cannot find force field.");
         }
         // Check whether the energies are computed in kcal/mol
         bool isKCAL_ = pFF->GetUnit().find("kcal") != string::npos;

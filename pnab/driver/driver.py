@@ -263,6 +263,10 @@ class pNAB(object):
             print("Caught interruption; stopping ...")
             pool.terminate()
 
+        except RuntimeError as e:
+            # Error raised in the C++ code
+            raise RuntimeError(e)
+
         pool.close()
 
 
