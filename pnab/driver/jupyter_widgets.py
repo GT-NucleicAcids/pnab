@@ -474,8 +474,8 @@ def helical_parameters(param):
             param_dict[k].append(widgets.FloatRangeSlider(value=[default[0], default[1]], min=-180, max=180, step=0.01, readout_format='.2f'))
         # Set distances
         else: # h_rise, x-displacement, y-displacement
-            # limit maxium and minimum distance values to be between -10 and 10 and 0.01 Angstrom step size
-            param_dict[k].append(widgets.FloatRangeSlider(value=[default[0], default[1]], min=-10, max=10, step=0.01, readout_format='.3f'))
+            # limit maxium and minimum distance values to be between -20 and 20 and 0.01 Angstrom step size
+            param_dict[k].append(widgets.FloatRangeSlider(value=[default[0], default[1]], min=-20, max=20, step=0.01, readout_format='.3f'))
 
         # Add the number of steps widgets
         param_dict[k].append(widgets.BoundedIntText(value=default[2], min=1, max=1000, step=1, description='Steps'))
