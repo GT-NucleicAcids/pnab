@@ -967,11 +967,6 @@ def single_result(result, header, results, prefix):
     print(conformer)
     print(prefix['%i' %result[0]])
 
-    # Display a color based on energy terms
-    cost = sum([result[i] for i in range(3, 7)])
-    color = 'green' if cost < 2 else 'yellow' if cost < 5 else 'red'
-    display(widgets.ColorPicker(concise=True, value=color, disabled=True))
-
     for i in range(2, len(result)):
         print(header.split(', ')[i] + ': %.3f' %result[i])
 
