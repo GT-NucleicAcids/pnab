@@ -700,10 +700,20 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
     pairdata->SetValue("    The proto-Nucleic Acid Builder");
     conf_data.molecule.CloneData(pairdata);
     delete pairdata;
-    vector<string> labels = {"Distance (Angstroms)", "Bond Energy (kcal/mol)", "Angle Energy (kcal/mol)", "Torsion Energy (kcal/mol/nucleotide)",
+    vector<string> labels = {"Helical Rise (Angstroms)", "X-Displacement (Angstroms)", "Y-Displacement (Angstrom)",
+                             "Helical Twist (degrees)", "Inclination (degrees)", "Tip (degrees)",
+                             "Distance (Angstroms)", "Bond Energy (kcal/mol)", "Angle Energy (kcal/mol)", "Torsion Energy (kcal/mol/nucleotide)",
                              "Van der Waals Energy (kcal/mol/nucleotide)", "Total Energy (kcal/mol/nucleotide)"};
-    vector<double> data = {conf_data.distance, conf_data.bondE, conf_data.angleE, conf_data.torsionE, conf_data.VDWE, conf_data.total_energy};
-    for (int i=0; i<6; i++) {
+    vector<double> data = {helical_params_.h_rise, helical_params_.x_displacement, helical_params_.y_displacement,
+                           helical_params_.h_twist, helical_params_.inclination, helical_params_.tip,
+                           conf_data.distance, conf_data.bondE, conf_data.angleE, conf_data.torsionE, conf_data.VDWE, conf_data.total_energy};
+
+    for (int i=0; i < rotor_vector.size(); i++) {
+        labels.push_back("Dihedral " + to_string(i+1) + " (degrees)");
+        data.push_back(rotor_vector[i]->CalcTorsion(conf_data.monomer_coord) * 180.0/M_PI);
+    }
+
+    for (int i=0; i < 12 + rotor_vector.size(); i++) {
         OBPairData *pairdata = new OBPairData;
         pairdata->SetAttribute("TITLE");
         pairdata->SetValue("    " + labels[i] + ": " + to_string(data[i]));
