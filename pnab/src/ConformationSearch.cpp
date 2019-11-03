@@ -700,6 +700,12 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
     pairdata->SetValue("    The proto-Nucleic Acid Builder");
     conf_data.molecule.CloneData(pairdata);
     delete pairdata;
+
+    // Header
+    std::string header = "# Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), "
+                         "Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), "
+                         "Total Energy (kcal/mol/nucleotide), Nucleotide RMSD relative to lowest energy conformer (Angstrom)";
+
     vector<string> labels = {"Helical Rise (Angstroms)", "X-Displacement (Angstroms)", "Y-Displacement (Angstrom)",
                              "Helical Twist (degrees)", "Inclination (degrees)", "Tip (degrees)",
                              "Distance (Angstroms)", "Bond Energy (kcal/mol)", "Angle Energy (kcal/mol)", "Torsion Energy (kcal/mol/nucleotide)",
@@ -709,8 +715,11 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
                            conf_data.distance, conf_data.bondE, conf_data.angleE, conf_data.torsionE, conf_data.VDWE, conf_data.total_energy};
 
     for (int i=0; i < rotor_vector.size(); i++) {
+        header += ", Dihedral " + to_string(i+1) + " (degrees)";
         labels.push_back("Dihedral " + to_string(i+1) + " (degrees)");
-        data.push_back(rotor_vector[i]->CalcTorsion(conf_data.monomer_coord) * 180.0/M_PI);
+        double angle = rotor_vector[i]->CalcTorsion(conf_data.monomer_coord) * 180.0/M_PI;
+        conf_data.dihedral_angles.push_back(angle);
+        data.push_back(angle);
     }
 
     for (int i=0; i < 12 + rotor_vector.size(); i++) {
@@ -726,13 +735,9 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
 
     conf_data_vec_.push_back(conf_data);
 
-    // Now we store the properties of the accepted candidates
-    // Write header
-    std::string header = "# Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), "
-                         "Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), "
-                         "Total Energy (kcal/mol/nucleotide), Nucleotide RMSD relative to lowest energy conformer (Angstrom)";
     output_stringstream << header << endl;
 
+    // Now we store the properties of the accepted candidates
     // Sort candidates by lowest energy
     std::sort(conf_data_vec_.begin(), conf_data_vec_.end());
 
@@ -742,7 +747,10 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
         v.rmsd = calcRMSD(ref, v.monomer_coord, monomer_num_coords_);
         // write properties to the output stringstring
         output_stringstream << prefix_ << ", " << v.index  << ", " << v.distance << ", " << v.bondE << ", " << v.angleE << ", "
-            << v.torsionE << ", " << v.VDWE << ", " << v.total_energy << ", " << v.rmsd << endl;
+            << v.torsionE << ", " << v.VDWE << ", " << v.total_energy << ", " << v.rmsd;
+        for (auto angle: v.dihedral_angles)
+            output_stringstream << ", " << angle;
+        output_stringstream << endl;
     }
 
     // Update the output string

@@ -720,6 +720,7 @@ namespace PNAB {
                 rmsd;                               //!< @brief Root-mean square distance relative to lowest energy conformer
         std::size_t index;                          //!< @brief The index of the conformer
         bool accepted;                              //!< @brief Is the energy of the conformer less than the thresholds
+        std::vector<double> dihedral_angles;        //!< @brief The values of the rotatable dihedral angles in the conformer in degrees
 
         /**
          * @brief Used for simple sorting based on total energy of the conformer

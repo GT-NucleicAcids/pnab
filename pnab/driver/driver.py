@@ -195,9 +195,16 @@ class pNAB(object):
         header = results[1] + '\n'
         header += self.header
 
+        # Add header entries for the dihedral angles
+        for i in range(results[2].shape[1] - 9):
+            header += ", Dihedral " + str(i+1) + " (degrees)"
+
         # Write results to file
+        fmt = "%i,%i"
+        for i in range(results[2].shape[1] - 2):
+            fmt += ",%.6f"
         with open('results.csv', 'ab') as f:
-            np.savetxt(f, results[2], delimiter=',', header=header)
+            np.savetxt(f, results[2], header=header, fmt=fmt)
 
 
     def run(self, number_of_cpus=None, verbose=True):
