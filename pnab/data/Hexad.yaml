@@ -1,10 +1,10 @@
 Backbone:
   file_path: dna_bb.pdb
   interconnects:
-  - 15
+  - 10
   - 1
   linker:
-  - 20
+  - 12
   - 22
 HelicalParameters:
   inclination:
