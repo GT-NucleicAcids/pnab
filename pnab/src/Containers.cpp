@@ -296,6 +296,12 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
 
     // Form a bond between base and backbone
     mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
+    OBBond* new_bond = mol.GetBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms);
+    // Set Length prints useless messages to the console. We need to supress it
+    OBMessageHandler handler = OBMessageHandler();
+    handler.StartErrorWrap();
+    new_bond->SetLength(mol.GetAtom(base.getLinker()->GetIdx()), new_bond->GetEquibLength());
+    handler.StopErrorWrap();
 
     // garbage code for debugging
     // TODO delete this code
