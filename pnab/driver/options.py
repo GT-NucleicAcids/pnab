@@ -16,6 +16,7 @@ This file also contains additional functions to help in the validation.
 from __future__ import division, absolute_import, print_function
 
 import os
+import openbabel as ob
 
 from pnab import __path__
 
@@ -53,6 +54,8 @@ def validate_all_options(options):
                      # Add a default value for options not specified by the user
                       options[k1][k2] = _options_dict['Base'][k2]['default']
                 options[k1][k2] = _options_dict['Base'][k2]['validation'](options[k1][k2])
+            if options[k1].pop('align'):
+                _align_nucleobase(options[k1])
 
     # Validate whether some options are mutually exclusive
     # Cannot build hexad strands for canonical nucleobases
@@ -61,6 +64,65 @@ def validate_all_options(options):
             if i in options['RuntimeParameters']['strand']:
                 raise Exception("Cannot build hexads for canonical nucleobases")
 
+def _align_nucleobase(base_options):
+    """!@brief Aligns the provided nucleobase to purine or pyrimidine in the nucleic acid base pair standard reference frame
+
+    This can align modified purines and pyrimidines. It does not work for other heterocycles.
+    A new file with the aligned nucleobase is created and used instead of the provided file.
+
+    @param base_options (dict) The nucleobase options defined in the input file
+    """
+
+    conv = ob.OBConversion()
+    nucleobase = ob.OBMol()
+    conv.ReadFile(nucleobase, base_options['file_path'])
+    rings = list(nucleobase.GetSSSR())
+    if len(rings) == 2:
+        reference = 'guanine.pdb'
+    elif len(rings) == 1:
+        reference = 'uracil.pdb'
+    else:
+        return
+
+    ref = ob.OBMol()
+    conv.ReadFile(ref, os.path.join(__path__[0], 'data', reference))
+
+    centroid_ref = ob.vector3()
+    num_atoms = 0
+    ref_ring = ob.OBMol()
+    for atom in ob.OBMolAtomIter(ref):
+        if atom.IsInRing():
+            ref_ring.AddAtom(atom)
+            centroid_ref += atom.GetVector()
+            num_atoms += 1
+    centroid_ref /= num_atoms
+
+    centroid_nucleobase = ob.vector3()
+    num_atoms = 0
+    nucleobase_ring = ob.OBMol()
+    for atom in ob.OBMolAtomIter(nucleobase):
+        if atom.IsInRing():
+            nucleobase_ring.AddAtom(atom)
+            centroid_nucleobase += atom.GetVector()
+            num_atoms += 1
+    centroid_nucleobase /= -1*num_atoms
+
+    canonical = ob.OBOp.FindType("canonical")
+    canonical.Do(ref_ring)
+    canonical.Do(nucleobase_ring)
+
+    align = ob.OBAlign(ref_ring, nucleobase_ring, True, True)
+    align.Align()
+
+    matrix = align.GetRotMatrix()
+    array = ob.doubleArray(9)
+    matrix.GetArray(array)
+    nucleobase.Translate(centroid_nucleobase)
+    nucleobase.Rotate(array)
+    nucleobase.Translate(centroid_ref)
+
+    base_options['file_path'] = os.path.splitext(base_options['file_path'])[0] + '_aligned' + os.path.splitext(base_options['file_path'])[1]
+    conv.WriteFile(nucleobase, base_options['file_path'])
 
 def _validate_input_file(file_name):
     """!@brief Method to validate that the given file exists.
@@ -320,6 +382,13 @@ _options_dict['Base']['pair_name'] = {
                                        'default': '',
                                        'validation': lambda x: str(x),
                                        }
+_options_dict['Base']['align'] = {
+                                 'glossory': 'Align the base to the standard frame of reference',
+                                 'long_glossory': ('Aligns the new nucleobase to the purine or pyrimidine in the base pair standard frame of reference.' +
+                                                   'Works only for modified purines and pyrimdines'),
+                                 'default': False,
+                                 'validation': lambda x: bool(x),
+                                 }
 
 # Helical Parameters
 _options_dict['HelicalParameters'] = {}

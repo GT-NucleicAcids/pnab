@@ -193,11 +193,11 @@ class pNAB(object):
 
         # Update header
         header = results[1] + '\n'
-        header += self.header
 
         # Add header entries for the dihedral angles
         for i in range(results[2].shape[1] - 9):
-            header += ", Dihedral " + str(i+1) + " (degrees)"
+            self.header += ", Dihedral " + str(i+1) + " (degrees)"
+        header += self.header
 
         # Write results to file
         fmt = "%i,%i"

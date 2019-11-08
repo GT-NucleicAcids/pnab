@@ -345,9 +345,14 @@ def base_path(file_path, param, base_number):
     box = widgets.HBox([help_box, pair_name])
     display(box)
 
-    # Add widgets to the widgets dictionary
-    input_options['Base %i' %base_number] = {'file_path': file_path, 'linker': [linker1, linker2], 'code': code, 'name': name, 'pair_name': pair_name}
+    # Align
+    align = widgets.Checkbox(value=param['align']['default'], indent=False, description=param['align']['glossory'], style={'description_width': 'initial'}, layout={'width': '75%'})
+    help_box = widgets.Button(description='?', tooltip=param['align']['long_glossory'], layout=widgets.Layout(width='4%'))
+    box = widgets.HBox([help_box, align])
+    display(box)
 
+    # Add widgets to the widgets dictionary
+    input_options['Base %i' %base_number] = {'file_path': file_path, 'linker': [linker1, linker2], 'code': code, 'name': name, 'pair_name': pair_name, 'align': align}
 
 
 def upload_base(f, param, base_number):
