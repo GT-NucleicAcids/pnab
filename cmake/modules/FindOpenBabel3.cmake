@@ -16,6 +16,7 @@ else()
         PATHS
         ${OPENBABEL_DIR}/include/openbabel3
         ${OPENBABEL_DIR}/include
+        ${OPENBABEL_DIR}/Library/include/openbabel3
       )
     if(OPENBABEL3_INCLUDE_DIR)
       message(STATUS "Found Open Babel include files at ${OPENBABEL3_INCLUDE_DIR}")
@@ -24,9 +25,10 @@ else()
   endif()
 
   if(NOT OPENBABEL3_LIBRARY)
-  find_library(OPENBABEL3_LIBRARY NAMES openbabel openbabel3
+  find_library(OPENBABEL3_LIBRARY NAMES openbabel openbabel3 openbabel-3
       PATHS
       ${OPENBABEL_DIR}/lib
+      ${OPENBABEL_DIR}/Library/bin
     )
     if(OPENBABEL3_LIBRARY)
       message(STATUS "Found Open Babel library at ${OPENBABEL3_LIBRARY}")

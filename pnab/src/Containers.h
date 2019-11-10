@@ -14,6 +14,14 @@
 #include <openbabel/obconversion.h>
 #include <openbabel/math/matrix3x3.h>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+#ifndef DEG_TO_RAD
+#define DEG_TO_RAD (M_PI/180.0)
+#endif
+
 //! The PNAB name space contains all the C++ classes and functions for the proto-Nucleic Acid Builder.
 namespace PNAB {
     /**
