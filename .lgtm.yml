@@ -15,7 +15,7 @@ extraction:
         - PYTHON_VER='3.8'
         - conda create -n pnab -c conda-forge python=$PYTHON_VER cmake gcc_linux-64 gxx_linux-64 openbabel eigen pybind11
         - source activate pnab
-        - cmake -Bbuild -DCMAKE_BUILD_TYPE=Release        
+        - cmake -Bbuild -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE="$CONDA_PREFIX/bin/python" -DOPENBABEL_DIR="$CONDA_PREFIX"
     index:
       build_command:
         - cd build
