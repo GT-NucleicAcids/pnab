@@ -13,7 +13,7 @@ install:
   - conda config --set always_yes yes
   - conda create --channel conda-forge
                  --name %CONDA_ENV%
-                 python=3.8
+                 python=3.7
                  numpy
                  cmake
                  openbabel
@@ -32,7 +32,6 @@ before_build:
 
 build_script:
   - cmake -G "NMake Makefiles" -B%BUILD_FOLDER% -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DPYTHON_EXECUTABLE="%CONDA_PREFIX%\bin\python" -DOPENBABEL_DIR="%CONDA_PREFIX%"
-
   - cd build
   - nmake
 
