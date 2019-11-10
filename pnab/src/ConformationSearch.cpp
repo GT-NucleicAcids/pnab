@@ -644,8 +644,8 @@ void ConformationSearch::printProgress(std::size_t search_index, std::size_t sea
     cout << "%\tAccepted: " << setw(8) << prgrs;
     // Print the name of the accepted candidate and its energy and distance
     if (prgrs > 0) {
-        cout << ", Best Conformer (distance, energy): (" << setw(10) << conf_data_vec_[0].distance
-             << ", " << setw(10) << conf_data_vec_[0].total_energy << ") -- " << prefix_ << "_"
+        cout << ", Best Conformer (distance, energy): (" << setw(6) << conf_data_vec_[0].distance
+             << ", " << setw(6) << conf_data_vec_[0].total_energy << ") -- " << prefix_ << "_"
              << conf_data_vec_[0].index << ".pdb" << endl;
     } else {
         cout << endl;
@@ -673,7 +673,7 @@ double ConformationSearch::measureDistance(double *coords, unsigned head, unsign
     return sqrt(head_coord.distSq(tail_coord));
 }
 
-void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
+void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
 
     // Setup variables for saving the structure of the accepted candidate
     ostringstream strs;
@@ -730,6 +730,7 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
         conf_data.molecule.CloneData(pairdata);
         delete pairdata;
     }
+
     conv_.SetOutStream(&fileStream);
     conv_.Write(&conf_data.molecule);
     fb.close();

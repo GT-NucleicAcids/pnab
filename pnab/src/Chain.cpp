@@ -77,14 +77,18 @@ ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, 
     ConformerData data;
     fillConformerEnergyData(xyz, data, energy_filter);
 
-    // Reorder atoms
-    data.molecule = orderResidues();
+    if (data.accepted) {
+        data.molecule = combined_chain_;
+        data.molecule.SetChainsPerceived();
+        // Reorder atoms
+        orderResidues(&data.molecule);
+    }
 
     return data;
 }
 
-OBMol Chain::orderResidues() {
-    // Reorder residuew in the chain; improves the PDB formatting of systems with inverted chains
+void Chain::orderResidues(OBMol* molecule) {
+    // Reorder residues in the chain; improves the PDB formatting of systems with inverted chains
     // Basically, this function inverts the order of the residues for inverted chains
     vector<int> order;
     int index = 0;
@@ -111,10 +115,7 @@ OBMol Chain::orderResidues() {
         }
     }
 
-    OBMol ordered_mol = combined_chain_;
-    ordered_mol.RenumberAtoms(order);
-
-    return ordered_mol;
+    molecule->RenumberAtoms(order);
 }
 
 void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data, vector<double> energy_filter) {
@@ -362,7 +363,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         // Delete hydrogen atoms from the head until you have the correct number of bonds - 1
         // One more bond will be added to the next nucleotide
         for (auto i: hydrogens[1]) {
-            if (head->GetValence() == head->GetImplicitValence() - 1)
+            if (head->GetExplicitDegree() == head->GetTotalDegree() - 1)
                 break;
             deleted_atoms_ids.push_back(i);
             chain.DeleteAtom(chain.GetAtomById(i));

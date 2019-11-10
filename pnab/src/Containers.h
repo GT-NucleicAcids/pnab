@@ -10,6 +10,7 @@
 #include <array>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
+#include <openbabel/bond.h>
 #include <openbabel/obconversion.h>
 #include <openbabel/math/matrix3x3.h>
 

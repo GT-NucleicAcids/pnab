@@ -232,12 +232,12 @@ namespace PNAB {
         *
         * This function reverses the order of residues in inverted strands.
         *
-        * @returns The OBMol object with the correct order
+        * @param molecule The OBMol object of the system which will get the correct order
         *
         * @sa generateConformerData
         * @sa PNAB::ConformerData
         */  
-        OpenBabel::OBMol orderResidues();
+        void orderResidues(OpenBabel::OBMol* molecule);
     };
 
 }

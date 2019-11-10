@@ -281,7 +281,7 @@ namespace PNAB {
         *
         * @param conf_data The properties of the accepted candiate
         */ 
-        void reportData(PNAB::ConformerData conf_data);
+        void reportData(PNAB::ConformerData &conf_data);
 
         /**
         * @brief Calculate the RMSD between a given accpeted candidate the accepted candidate with the lowest energy
