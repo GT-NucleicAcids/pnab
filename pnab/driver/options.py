@@ -17,6 +17,7 @@ from __future__ import division, absolute_import, print_function
 
 import os
 import openbabel as ob
+import yaml
 
 from pnab import __path__
 
@@ -67,7 +68,10 @@ def validate_all_options(options):
 def _align_nucleobase(base_options):
     """!@brief Aligns the provided nucleobase to purine or pyrimidine in the nucleic acid base pair standard reference frame
 
-    This can align modified purines and pyrimidines. It does not work for other heterocycles.
+    This function aligns the provided nucleobase to either guanine if it has two rings or to uracil if it has one ring.
+    The provided linker atoms that connect the base to the backbone are used for alignment. A third atom used in the alignment is 
+    determined by rearraning the atoms in the molecules using the canonical order. The function loops over all atoms in the provided
+    nucleobase and the reference nucleobase and if two atoms have the same atomic number then these atoms are used for the alignment.
     A new file with the aligned nucleobase is created and used instead of the provided file.
 
     @param base_options (dict) The nucleobase options defined in the input file
@@ -75,45 +79,91 @@ def _align_nucleobase(base_options):
 
     conv = ob.OBConversion()
     nucleobase = ob.OBMol()
+    # Read the provided nucleobase
     conv.ReadFile(nucleobase, base_options['file_path'])
     rings = list(nucleobase.GetSSSR())
+    # Use either guanine or uracil as a reference
     if len(rings) == 2:
-        reference = 'guanine.pdb'
+        reference = 'G'
     elif len(rings) == 1:
-        reference = 'uracil.pdb'
+        reference = 'U'
     else:
         return
 
-    ref = ob.OBMol()
-    conv.ReadFile(ref, os.path.join(__path__[0], 'data', reference))
+    # Read the data for the reference nucleobase
+    ref_library = yaml.load(open(os.path.join(__path__[0], 'data', 'bases_library.yaml')), yaml.FullLoader) 
+    ref_linker = ref_library["Base " + reference]['linker']
+    ref_path = ref_library["Base " + reference]['file_path']
 
+    ref = ob.OBMol()
+    conv.ReadFile(ref, os.path.join(__path__[0], 'data', ref_path))
+
+    # Find the ring atoms in the reference base
+    # compute the centroid
     centroid_ref = ob.vector3()
     num_atoms = 0
     ref_ring = ob.OBMol()
+    # Add the two linker atoms
+    ref_ring.AddAtom(ref.GetAtom(ref_linker[1]))
+    ref_ring.AddAtom(ref.GetAtom(ref_linker[0]))
+    ref_ring.AddBond(1, 2, 1)
     for atom in ob.OBMolAtomIter(ref):
-        if atom.IsInRing():
+        if atom.IsInRing() and atom.GetIdx() != ref_linker[0]:
             ref_ring.AddAtom(atom)
             centroid_ref += atom.GetVector()
             num_atoms += 1
     centroid_ref /= num_atoms
 
+    # Find the ring atoms in the provided nucleobase
+    # compute the centroid
     centroid_nucleobase = ob.vector3()
-    num_atoms = 0
+    num_atoms = 0 
     nucleobase_ring = ob.OBMol()
+    # Add the two linker atoms
+    nucleobase_ring.AddAtom(nucleobase.GetAtom(base_options['linker'][1]))
+    nucleobase_ring.AddAtom(nucleobase.GetAtom(base_options['linker'][0]))
+    nucleobase_ring.AddBond(1, 2, 1)
     for atom in ob.OBMolAtomIter(nucleobase):
-        if atom.IsInRing():
+        if atom.IsInRing() and atom.GetIdx() != base_options['linker'][0]:
             nucleobase_ring.AddAtom(atom)
             centroid_nucleobase += atom.GetVector()
             num_atoms += 1
     centroid_nucleobase /= -1*num_atoms
 
+    # Pick three atoms for alignment
+    # First, add the two linker atoms
+    ref_align = ob.OBMol()
+    nucleobase_align = ob.OBMol()
+    for i in range(1, 3):
+        ref_align.AddAtom(ref_ring.GetAtom(i))
+        nucleobase_align.AddAtom(nucleobase_ring.GetAtom(i))
+
+    # Reorder the atoms using the canonical order
     canonical = ob.OBOp.FindType("canonical")
     canonical.Do(ref_ring)
     canonical.Do(nucleobase_ring)
 
-    align = ob.OBAlign(ref_ring, nucleobase_ring, True, True)
+    # Delete the two linker atoms
+    for atom in ob.OBAtomAtomIter(ref_ring.GetAtom(1)):
+        ref_ring.DeleteAtom(atom)
+    ref_ring.DeleteAtom(ref_ring.GetAtom(1))
+
+    for atom in ob.OBAtomAtomIter(nucleobase_ring.GetAtom(1)):
+        nucleobase_ring.DeleteAtom(atom)
+    nucleobase_ring.DeleteAtom(nucleobase_ring.GetAtom(1))
+
+    # Search for two atoms that have the same index and atomic number
+    for i in range(1, ref_ring.NumAtoms() + 1):
+        if ref_ring.GetAtom(i).GetAtomicNum() == nucleobase_ring.GetAtom(i).GetAtomicNum():
+            ref_align.AddAtom(ref_ring.GetAtom(i))
+            nucleobase_align.AddAtom(nucleobase_ring.GetAtom(i))
+            break
+
+    # Align the three atoms in the reference nucleobase and the provided nucleobase
+    align = ob.OBAlign(ref_align, nucleobase_align, True, True)
     align.Align()
 
+    # Apply the rotation to all the atoms
     matrix = align.GetRotMatrix()
     array = ob.doubleArray(9)
     matrix.GetArray(array)
@@ -121,6 +171,7 @@ def _align_nucleobase(base_options):
     nucleobase.Rotate(array)
     nucleobase.Translate(centroid_ref)
 
+    # Write a new file with the aligned coordinates and update the options
     base_options['file_path'] = os.path.splitext(base_options['file_path'])[0] + '_aligned' + os.path.splitext(base_options['file_path'])[1]
     conv.WriteFile(nucleobase, base_options['file_path'])
 
@@ -384,8 +435,7 @@ _options_dict['Base']['pair_name'] = {
                                        }
 _options_dict['Base']['align'] = {
                                  'glossory': 'Align the base to the standard frame of reference',
-                                 'long_glossory': ('Aligns the new nucleobase to the purine or pyrimidine in the base pair standard frame of reference.' +
-                                                   'Works only for modified purines and pyrimdines'),
+                                 'long_glossory': ('Aligns the provided nucleobase to either purine or pyrimidine in the base pair standard frame of reference.'),
                                  'default': False,
                                  'validation': lambda x: bool(x),
                                  }
