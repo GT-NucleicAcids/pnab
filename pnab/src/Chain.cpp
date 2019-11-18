@@ -104,8 +104,9 @@ void Chain::orderResidues(OBMol* molecule) {
         }
 
         else {
-            for (int j = v_chain_[i].NumResidues() - 1; j > -1; j = j-3) {
-                for (int k=2; k > -1; k--) {
+            int residue_per_nucleotide = v_chain_[i].NumResidues() / chain_length_;
+            for (int j = v_chain_[i].NumResidues() - 1; j > -1; j = j-residue_per_nucleotide) {
+                for (int k=residue_per_nucleotide-1; k > -1; k--) {
                     OBResidue* res = v_chain_[i].GetResidue(j-k);
                     FOR_ATOMS_OF_RESIDUE(atom, res)
                         order.push_back(atom->GetIdx() + index);
@@ -281,6 +282,13 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         base_fixed_bonds.push_back(v.getFixedBonds());
     }
 
+    // Get correct residue number
+    int resnum = 0;
+    for (int i = 0; i < chain_index; i++) {
+        if (build_strand_[i])
+            resnum += chain_length_;
+    }
+
     // Create chain by adding all the nucleotides
     auto chain_letter = static_cast<char>('A' + chain_index);
     unsigned c = 0;
@@ -291,7 +299,10 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
             r->SetChainNum(chain_index);
             r->SetChain(chain_letter);
             r->SetTitle(base_names[c].c_str());
-            r->SetNum(c + 1);
+            if (strand_orientation_[chain_index])
+                r->SetNum(resnum + c + 1);
+            else
+                r->SetNum(resnum + chain_length_ - c);
         }
         chain += v;
         c++;
