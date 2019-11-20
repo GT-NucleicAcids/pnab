@@ -158,7 +158,7 @@ void ConformationSearch::GeneticAlgorithmSearch() {
     for (size_t search_index=0; search_index < search_size; search_index++) {
 
         // print progress roughly every 10%
-        if (fmod(search_index, search_size/10.0) == 0 && verbose_) {
+        if (fmod(search_index, search_size/10) == 0 && verbose_) {
             printProgress(search_index, search_size);
         }
 
@@ -300,7 +300,7 @@ void ConformationSearch::RandomSearch(bool weighted) {
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
 
         // print progress roughly every 10%
-        if (fmod(search_index, search_size/10.0) == 0 && verbose_) {
+        if (fmod(search_index, search_size/10) == 0 && verbose_) {
             printProgress(search_index, search_size);
         }
 
@@ -390,7 +390,7 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
 
         // print progress roughly every 10%
-        if (fmod(search_index, search_size/10.0) == 0 && verbose_) {
+        if (fmod(search_index, search_size/10) == 0 && verbose_) {
             printProgress(search_index, search_size);
         }
 
@@ -585,7 +585,7 @@ void ConformationSearch::SystematicSearch() {
     for (size_t search_index = 1; search_index < search_size + 1; ++search_index) {
 
         // print progress roughly every 10%
-        if (fmod(search_index, search_size/10.0) == 0 && verbose_) {
+        if (fmod(search_index, search_size/10) == 0 && verbose_) {
             printProgress(search_index, search_size);
         }
 

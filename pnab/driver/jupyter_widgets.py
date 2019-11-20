@@ -881,7 +881,7 @@ def run(button):
 
     time = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     with ZipFile('output' + time + '.zip', 'w') as z:
-        for f in ['options.yaml', 'results.csv', 'summary.csv', 'prefix.yaml']:
+        for f in ['options.yaml', 'results.csv', 'prefix.yaml']:
             z.write(f)
         for f in files:
             z.write(f)
@@ -892,11 +892,16 @@ def run(button):
     # If no results are found, print and return
     if run.results.size == 0:
         print("No candidate found")
+        return
+
     # else display conformers and their properties
-    else:
-        # Sort by total energy
-        run.results = run.results[run.results[:, 7].argsort()]
-        show_results(run.results, run.header, run.prefix)
+    elif run.results.ndim == 1:
+        # Only one candidate found. Reshape results.
+        run.results = run.results.reshape(1, len(run.results))
+
+    # Sort by total energy
+    run.results = run.results[run.results[:, 7].argsort()]
+    show_results(run.results, run.header, run.prefix)
 
 
 

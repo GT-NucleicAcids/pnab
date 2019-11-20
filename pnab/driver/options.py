@@ -16,7 +16,7 @@ This file also contains additional functions to help in the validation.
 from __future__ import division, absolute_import, print_function
 
 import os
-import openbabel as ob
+from openbabel import openbabel as ob
 import yaml
 
 from pnab import __path__
@@ -365,7 +365,7 @@ _options_dict['Backbone']['file_path'] = {
                                                           ' The backbone must contain hydrogen atoms and not contain' +
                                                           ' atoms from the nucleobase. The atoms included here must' + 
                                                           ' be for one nucleotide.'),
-                                         'default': 'backbone.pdb',
+                                         'default': '',
                                          'validation': lambda x: _validate_input_file(x),
                                          }
 _options_dict['Backbone']['interconnects'] = {
@@ -424,7 +424,7 @@ _options_dict['Base']['name'] = {
                                   'glossory': 'One-letter base name',
                                   'long_glossory': ('This name is used when specifying the strand sequence. It must not be one of the' +
                                                     ' names defined in the program library (A, G, C, T, U, M, Y).'),
-                                  'default': '',
+                                  'default': 'R',
                                   'validation': lambda x: str(x),
                                   }
 _options_dict['Base']['pair_name'] = {
@@ -534,13 +534,13 @@ _options_dict['RuntimeParameters']['dihedral_step'] = {
 _options_dict['RuntimeParameters']['weighting_temperature'] = {
                                                               'glossory': 'Weighting temperature (K)',
                                                               'long_glossory': ('Temperature used for weighting the probability of each dihedral angle'),
-                                                              'default': 298.0,
+                                                              'default': 300.0,
                                                               'validation': lambda x: float(x),
                                                               }
 _options_dict['RuntimeParameters']['monte_carlo_temperature'] = {
                                                                 'glossory': 'Temperature used in the Monte Carlo procedure (K)',
                                                                 'long_glossory': ('This temperature controls the acceptance and rejection ratio of the Monte Carlo steps'),
-                                                                'default': 298.0,
+                                                                'default': 300.0,
                                                                 'validation': lambda x: float(x),
                                                                 }
 _options_dict['RuntimeParameters']['population_size'] = {
@@ -553,20 +553,20 @@ _options_dict['RuntimeParameters']['mutation_rate'] = {
                                                       'glossory': 'Mutation rate',
                                                       'long_glossory': ('Mutation rate in the genetic algorithm search. Used to intorduce new values' +
                                                                         ' for the dihedral angles in the population.'),
-                                                      'default': 0.75,
+                                                      'default': 0.5,
                                                       'validation': lambda x: float(x),
                                                       }
 _options_dict['RuntimeParameters']['crossover_rate'] = {
                                                        'glossory': 'Crossover rate',
                                                        'long_glossory': ('Crossover or mating rate in the genetic algorithm search.' +
                                                                          ' Used to exchange dihedral angles between individuals in the population.'),
-                                                       'default': 0.75,
+                                                       'default': 0.5,
                                                        'validation': lambda x: float(x),
                                                        }
 _options_dict['RuntimeParameters']['ff_type'] = {
                                                 'glossory': 'Force field type',
                                                 'long_glossory': 'Force field for computing the energy of the system.', 
-                                                'default': 'GAFF',
+                                                'default': 'MMFF94',
                                                 'validation': lambda x: str(x).upper(),
                                                 }
 _options_dict['RuntimeParameters']['max_distance'] = {
@@ -579,7 +579,7 @@ _options_dict['RuntimeParameters']['max_distance'] = {
                                                                        ' the two backbone molecules. This should be below 0.1 Angstroms. Conformers' +
                                                                        ' that do not pass this threshold are immediately rejected without proceeding to build' +
                                                                        ' the system.'),
-                                                     'default': 0.1,
+                                                     'default': 0.2,
                                                      'validation': lambda x: float(x),
                                                      }
 _options_dict['RuntimeParameters']['energy_filter'] = {
@@ -593,7 +593,7 @@ _options_dict['RuntimeParameters']['energy_filter'] = {
                                                                         'This is the torsional energy for all the rotatable backbone bonds.\n' + 
                                                                         'This is the total van der Waals energy of the system.\n' + 
                                                                         'This is the total energy of the system.\n'),
-                                                      'default': (2, 2, 5, 0, 10000000000),
+                                                      'default': (1, 4, 10, 500, 10000000000),
                                                       'validation': lambda x: _validate_energy_filter(x), 
                                                       }
 _options_dict['RuntimeParameters']['strand'] = {

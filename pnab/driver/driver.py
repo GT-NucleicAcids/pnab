@@ -41,10 +41,7 @@ class pNAB(object):
     1) results.csv: Contains all the results for all the helical configurations
         requested in the run.
 
-    2) summary.csv: Contains a summary of the best 10 results ordered by the
-        total energy of the conformer.
-    
-    3) prefix.yaml: Containts a dictionary of the sequence of the run and the 
+    2) prefix.yaml: Containts a dictionary of the sequence of the run and the 
         corresponding helical configuration (useful when a range of values is
         given for the helical parameters).
 
@@ -103,11 +100,6 @@ class pNAB(object):
         if self.options['RuntimeParameters'].pop('pair_A_U', None):
             bases_lib['Base A']['pair_name'] = 'U'
         self.options.update(bases_lib)
-
-        ##@brief A string comma-separated header for the results used in the generated CSV files
-        self.header = ('Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), ' +
-                       'Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), ' + 
-                       'Total Energy (kcal/mol/nucleotide), Nucleotide RMSD relative to lowest energy conformer (Angstrom)')
 
 
     def _run(self, config):
@@ -194,6 +186,11 @@ class pNAB(object):
         # Update header
         header = results[1] + '\n'
 
+        ##@brief A string comma-separated header for the results used in the generated CSV files
+        self.header = ('Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), ' +
+                       'Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), ' + 
+                       'Total Energy (kcal/mol/nucleotide), Nucleotide RMSD relative to lowest energy conformer (Angstrom)')
+
         # Add header entries for the dihedral angles
         for i in range(results[2].shape[1] - 9):
             self.header += ", Dihedral " + str(i+1) + " (degrees)"
@@ -216,9 +213,8 @@ class pNAB(object):
         third value in @a pNAB.pNAB.options. The various helical configurations
         are run in parallel using the multiprocessing library. 
 
-        This function writes three output files: "results.csv", "prefix.yaml",
-        and "summary.csv". It renames any existing files with these names by prepending
-        enough "_".
+        This function writes three output files: "results.csv" and "prefix.yaml".
+        It renames any existing files with these names by prepending enough "_".
 
         @param number_of_cpus Number of CPUs to use for parallel computations of different helical configurations, defaults to all cores
         @param verbose Whether to print progress report to the screen, default to True
@@ -245,7 +241,7 @@ class pNAB(object):
         pool = mp.Pool(number_of_cpus, init_worker, maxtasksperchild=1)
 
         # Rename files that have the same name
-        for f in ['results.csv', 'prefix.yaml', 'summary.csv']:
+        for f in ['results.csv', 'prefix.yaml']:
             file_path = f
             while True:
                 if os.path.isfile(file_path):
@@ -259,7 +255,6 @@ class pNAB(object):
         time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         with open('results.csv', 'w') as f: f.write('# ' + time + '\n')
         with open('prefix.yaml', 'w') as f: f.write('# ' + time + '\n')
-        with open('summary.csv', 'w') as f: f.write('# ' + time + '\n')
 
         try:
             # Run the different helical configurations in parallel and process results
@@ -277,7 +272,7 @@ class pNAB(object):
         pool.close()
 
 
-        #Extract the results from the run and report it to the user
+        #Extract the results from the run
 
         ##@brief A dictionary of the sequence of the run and the 
         # corresponding helical configuration
@@ -291,19 +286,3 @@ class pNAB(object):
         # The columns in the array correspond to the entries in @a pNAB.pNAB.header
         # and the helical configurations correspond to those in @a pNAB.pNAB.prefix
         self.results = np.loadtxt('results.csv', delimiter=',')
-
-        if self.results.size == 0:
-            # No results found; do not write anything to the summary file
-            return
-
-        elif self.results.ndim == 1:
-            # Only one candidate found. Reshape results.
-            self.results = self.results.reshape(1, len(self.results))
-
-        # Sort by total energy
-        results = self.results[self.results[:, 7].argsort()]
-
-        # Save the 10 best candidates
-        summary = results[:10]
-        with open('summary.csv', 'ab') as f:
-            np.savetxt(f, summary, delimiter=',', header=self.header)
