@@ -5,8 +5,11 @@
 #ifndef PNAB_CHAIN_H
 #define PNAB_CHAIN_H
 
+#include <algorithm>
 #include <openbabel/forcefield.h>
 #include <openbabel/rotor.h>
+#include <openbabel/generic.h>
+#include <openbabel/obiter.h>
 #include "Containers.h"
 #define KJ_TO_KCAL 0.239006
 
@@ -93,15 +96,6 @@ namespace PNAB {
         * @sa ConformationSearch::GeneticAlgorithmSearch
         */
         PNAB::ConformerData generateConformerData(double *xyz, PNAB::HelicalParameters &hp, std::vector<double> energy_filter);
-
-        /**
-         * @brief Returns the openbabel molecule containing the structure of the system
-         *
-         * @returns The openbabel molecule containing the structure of the system
-         */
-        OpenBabel::OBMol getChain() {
-            return combined_chain_;
-        }
 
     private:
         std::vector<OpenBabel::OBMol> v_chain_ = std::vector<OpenBabel::OBMol>(6); //!< @brief A vector of OpenBabel::OBMol containing the molecules for each strand in the system
@@ -232,6 +226,18 @@ namespace PNAB {
         void setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters &hp, std::vector<unsigned> &num_bu_atoms,
                                std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
                                std::vector<unsigned> &deleted_atoms_ids, unsigned chain_index);
+
+        /**
+        * @brief Orders the residues in the molecules correctly
+        *
+        * This function reverses the order of residues in inverted strands.
+        *
+        * @param molecule The OBMol object of the system which will get the correct order
+        *
+        * @sa generateConformerData
+        * @sa PNAB::ConformerData
+        */  
+        void orderResidues(OpenBabel::OBMol* molecule);
     };
 
 }

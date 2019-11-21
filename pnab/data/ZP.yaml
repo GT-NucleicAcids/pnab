@@ -1,0 +1,80 @@
+Backbone:
+  file_path: DNA_backbone.pdb
+  interconnects:
+  - 10
+  - 1
+  linker:
+  - 12
+  - 13
+Base 1:
+  code: Z
+  file_path: Z.pdb
+  linker:
+  - 2
+  - 1
+  name: Z
+  pair_name: P
+  align: true
+Base 2:
+  code: P
+  file_path: P.pdb
+  linker:
+  - 2
+  - 1
+  name: P
+  pair_name: Z
+  align: true
+HelicalParameters:
+  inclination:
+  - 13.68
+  - 13.68
+  - 1
+  h_rise:
+  - 2.84
+  - 2.84
+  - 1
+  tip:
+  - -0.04
+  - -0.04
+  - 1
+  h_twist:
+  - 31.57
+  - 31.57
+  - 1
+  x_displacement:
+  - -3.60
+  - -3.60
+  - 1
+  y_displacement:
+  - 0.19
+  - 0.19
+  - 1
+RuntimeParameters:
+  search_algorithm: monte carlo search
+  seed: 0
+  num_steps: 300000
+  monte_carlo_temperature: 300
+  energy_filter:
+  - 1
+  - 4
+  - 6
+  - 60
+  - 10000000000.0
+  is_hexad: false
+  build_strand:
+  - true
+  - true
+  - false
+  - false
+  - false
+  - false
+  strand_orientation:
+  - true
+  - false
+  - true
+  - true
+  - true
+  - true
+  max_distance: 0.2
+  strand: CTTATPPPZZZATAAG
+  ff_type: MMFF94

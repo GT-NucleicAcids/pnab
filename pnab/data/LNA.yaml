@@ -1,36 +1,37 @@
+# 2019-10-02 19:40:54
 Backbone:
-  file_path: RNA_backbone.pdb
+  file_path: LNA_backbone.pdb
   fixed_bonds: []
   interconnects:
-  - 10
+  - 11
   - 1
   linker:
-  - 13
-  - 14
+  - 6
+  - 7
 HelicalParameters:
   h_rise:
-  - 2.65
-  - 2.65
+  - 2.85
+  - 2.85
   - 1
   h_twist:
-  - 32.99
-  - 32.99
+  - 25.96
+  - 25.96
   - 1
   inclination:
-  - 16.62
-  - 16.62
+  - 9.08
+  - 9.08
   - 1
   tip:
-  - 0.0
-  - 0.0
+  - -2.29
+  - -2.29
   - 1
   x_displacement:
-  - -4.17
-  - -4.17
+  - -6.58
+  - -6.58
   - 1
   y_displacement:
-  - 0.0
-  - 0.0
+  - -0.09
+  - -0.09
   - 1
 RuntimeParameters:
   build_strand:
@@ -43,19 +44,17 @@ RuntimeParameters:
   energy_filter:
   - 1.0
   - 3.0
-  - 4.0
-  - 40
-  - 600
+  - 5.0
+  - 40.0
+  - 170.0
   ff_type: MMFF94
   is_hexad: false
   max_distance: 0.2
   pair_A_U: true
-  search_algorithm: weighted monte carlo search
-  num_steps: 10000
-  monte_carlo_temperature: 300
-  weighting_temperature: 300
+  search_algorithm: systematic search
+  dihedral_step: 5
   seed: 0
-  strand: AGAGAAGAUCUUCUCU
+  strand: CCUCACC
   strand_orientation:
   - true
   - false

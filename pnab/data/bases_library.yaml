@@ -2,8 +2,8 @@ Base A:
   code: A  
   file_path: adenine.pdb
   linker:
-  - 5
-  - 11
+  - 2
+  - 1
   name: A
   pair_name: T
 Base G:
@@ -38,19 +38,19 @@ Base T:
   - 1
   name: T
   pair_name: A
-Base X:
-  code: CYA
+Base Y:
+  code: Y
   file_path: cyanuric_acid.pdb
   linker:
-  - 5
-  - 12
-  name: X
-  pair_name: Y
-Base Y:
-  code: TAP
+  - 2
+  - 1
+  name: Y
+  pair_name: M
+Base M:
+  code: M
   file_path: triaminopyrimidine.pdb
   linker:
-  - 6
-  - 7
-  name: Y
-  pair_name: X
+  - 2
+  - 1
+  name: M
+  pair_name: Y

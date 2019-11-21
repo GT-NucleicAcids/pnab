@@ -16,6 +16,8 @@ This file also contains additional functions to help in the validation.
 from __future__ import division, absolute_import, print_function
 
 import os
+from openbabel import openbabel as ob
+import yaml
 
 from pnab import __path__
 
@@ -53,6 +55,8 @@ def validate_all_options(options):
                      # Add a default value for options not specified by the user
                       options[k1][k2] = _options_dict['Base'][k2]['default']
                 options[k1][k2] = _options_dict['Base'][k2]['validation'](options[k1][k2])
+            if options[k1].pop('align'):
+                _align_nucleobase(options[k1])
 
     # Validate whether some options are mutually exclusive
     # Cannot build hexad strands for canonical nucleobases
@@ -61,6 +65,115 @@ def validate_all_options(options):
             if i in options['RuntimeParameters']['strand']:
                 raise Exception("Cannot build hexads for canonical nucleobases")
 
+def _align_nucleobase(base_options):
+    """!@brief Aligns the provided nucleobase to purine or pyrimidine in the nucleic acid base pair standard reference frame
+
+    This function aligns the provided nucleobase to either guanine if it has two rings or to uracil if it has one ring.
+    The provided linker atoms that connect the base to the backbone are used for alignment. A third atom used in the alignment is 
+    determined by rearraning the atoms in the molecules using the canonical order. The function loops over all atoms in the provided
+    nucleobase and the reference nucleobase and if two atoms have the same atomic number then these atoms are used for the alignment.
+    A new file with the aligned nucleobase is created and used instead of the provided file.
+
+    @param base_options (dict) The nucleobase options defined in the input file
+    """
+
+    conv = ob.OBConversion()
+    nucleobase = ob.OBMol()
+    # Read the provided nucleobase
+    conv.ReadFile(nucleobase, base_options['file_path'])
+    rings = list(nucleobase.GetSSSR())
+    # Use either guanine or uracil as a reference
+    if len(rings) == 2:
+        reference = 'G'
+    elif len(rings) == 1:
+        reference = 'U'
+    else:
+        return
+
+    # Read the data for the reference nucleobase
+    ref_library = yaml.load(open(os.path.join(__path__[0], 'data', 'bases_library.yaml')), yaml.FullLoader) 
+    ref_linker = ref_library["Base " + reference]['linker']
+    ref_path = ref_library["Base " + reference]['file_path']
+
+    ref = ob.OBMol()
+    conv.ReadFile(ref, os.path.join(__path__[0], 'data', ref_path))
+
+    # Find the ring atoms in the reference base
+    # compute the centroid
+    centroid_ref = ob.vector3()
+    num_atoms = 0
+    ref_ring = ob.OBMol()
+    # Add the two linker atoms
+    ref_ring.AddAtom(ref.GetAtom(ref_linker[1]))
+    ref_ring.AddAtom(ref.GetAtom(ref_linker[0]))
+    ref_ring.AddBond(1, 2, 1)
+    for atom in ob.OBMolAtomIter(ref):
+        if atom.IsInRing() and atom.GetIdx() != ref_linker[0]:
+            ref_ring.AddAtom(atom)
+            centroid_ref += atom.GetVector()
+            num_atoms += 1
+    centroid_ref /= num_atoms
+
+    # Find the ring atoms in the provided nucleobase
+    # compute the centroid
+    centroid_nucleobase = ob.vector3()
+    num_atoms = 0 
+    nucleobase_ring = ob.OBMol()
+    # Add the two linker atoms
+    nucleobase_ring.AddAtom(nucleobase.GetAtom(base_options['linker'][1]))
+    nucleobase_ring.AddAtom(nucleobase.GetAtom(base_options['linker'][0]))
+    nucleobase_ring.AddBond(1, 2, 1)
+    for atom in ob.OBMolAtomIter(nucleobase):
+        if atom.IsInRing() and atom.GetIdx() != base_options['linker'][0]:
+            nucleobase_ring.AddAtom(atom)
+            centroid_nucleobase += atom.GetVector()
+            num_atoms += 1
+    centroid_nucleobase /= -1*num_atoms
+
+    # Pick three atoms for alignment
+    # First, add the two linker atoms
+    ref_align = ob.OBMol()
+    nucleobase_align = ob.OBMol()
+    for i in range(1, 3):
+        ref_align.AddAtom(ref_ring.GetAtom(i))
+        nucleobase_align.AddAtom(nucleobase_ring.GetAtom(i))
+
+    # Reorder the atoms using the canonical order
+    canonical = ob.OBOp.FindType("canonical")
+    canonical.Do(ref_ring)
+    canonical.Do(nucleobase_ring)
+
+    # Delete the two linker atoms
+    for atom in ob.OBAtomAtomIter(ref_ring.GetAtom(1)):
+        ref_ring.DeleteAtom(atom)
+    ref_ring.DeleteAtom(ref_ring.GetAtom(1))
+
+    for atom in ob.OBAtomAtomIter(nucleobase_ring.GetAtom(1)):
+        nucleobase_ring.DeleteAtom(atom)
+    nucleobase_ring.DeleteAtom(nucleobase_ring.GetAtom(1))
+
+    # Search for two atoms that have the same index and atomic number
+    for i in range(1, ref_ring.NumAtoms() + 1):
+        if ref_ring.GetAtom(i).GetAtomicNum() == nucleobase_ring.GetAtom(i).GetAtomicNum():
+            ref_align.AddAtom(ref_ring.GetAtom(i))
+            nucleobase_align.AddAtom(nucleobase_ring.GetAtom(i))
+            break
+
+    # Align the three atoms in the reference nucleobase and the provided nucleobase
+    align = ob.OBAlign(ref_align, nucleobase_align, True, True)
+    align.Align()
+
+    # Apply the rotation to all the atoms
+    matrix = align.GetRotMatrix()
+    array = ob.doubleArray(9)
+    matrix.GetArray(array)
+    nucleobase.Translate(centroid_nucleobase)
+    nucleobase.Rotate(array)
+    nucleobase.Translate(centroid_ref)
+
+    # Write a new file with the aligned coordinates and update the options
+    base_options['file_path'] = os.path.splitext(base_options['file_path'])[0] + '_aligned' + os.path.splitext(base_options['file_path'])[1]
+    conv.WriteFile(nucleobase, base_options['file_path'])
 
 def _validate_input_file(file_name):
     """!@brief Method to validate that the given file exists.
@@ -203,7 +316,7 @@ def _validate_strand(strand):
     for i in range(len(strand)):
         strand[i] = strand[i].upper()
     # Check if both canonical and noncanonical bases are in the sequence
-    if "X" in strand or "Y" in strand:
+    if "M" in strand or "Y" in strand:
         for i in ["A", "G", "C", "T", "U"]:
             if i in strand:
                 raise Exception("Cannot combine canonincal and non-canonical nucleobases")
@@ -252,7 +365,7 @@ _options_dict['Backbone']['file_path'] = {
                                                           ' The backbone must contain hydrogen atoms and not contain' +
                                                           ' atoms from the nucleobase. The atoms included here must' + 
                                                           ' be for one nucleotide.'),
-                                         'default': 'backbone.pdb',
+                                         'default': '',
                                          'validation': lambda x: _validate_input_file(x),
                                          }
 _options_dict['Backbone']['interconnects'] = {
@@ -310,8 +423,8 @@ _options_dict['Base']['code'] = {
 _options_dict['Base']['name'] = {
                                   'glossory': 'One-letter base name',
                                   'long_glossory': ('This name is used when specifying the strand sequence. It must not be one of the' +
-                                                    ' names defined in the program library (A, G, C, T, U, X, Y).'),
-                                  'default': '',
+                                                    ' names defined in the program library (A, G, C, T, U, M, Y).'),
+                                  'default': 'R',
                                   'validation': lambda x: str(x),
                                   }
 _options_dict['Base']['pair_name'] = {
@@ -320,6 +433,12 @@ _options_dict['Base']['pair_name'] = {
                                        'default': '',
                                        'validation': lambda x: str(x),
                                        }
+_options_dict['Base']['align'] = {
+                                 'glossory': 'Align the base to the standard frame of reference',
+                                 'long_glossory': ('Aligns the provided nucleobase to either purine or pyrimidine in the base pair standard frame of reference.'),
+                                 'default': False,
+                                 'validation': lambda x: bool(x),
+                                 }
 
 # Helical Parameters
 _options_dict['HelicalParameters'] = {}
@@ -415,13 +534,13 @@ _options_dict['RuntimeParameters']['dihedral_step'] = {
 _options_dict['RuntimeParameters']['weighting_temperature'] = {
                                                               'glossory': 'Weighting temperature (K)',
                                                               'long_glossory': ('Temperature used for weighting the probability of each dihedral angle'),
-                                                              'default': 298.0,
+                                                              'default': 300.0,
                                                               'validation': lambda x: float(x),
                                                               }
 _options_dict['RuntimeParameters']['monte_carlo_temperature'] = {
                                                                 'glossory': 'Temperature used in the Monte Carlo procedure (K)',
                                                                 'long_glossory': ('This temperature controls the acceptance and rejection ratio of the Monte Carlo steps'),
-                                                                'default': 298.0,
+                                                                'default': 300.0,
                                                                 'validation': lambda x: float(x),
                                                                 }
 _options_dict['RuntimeParameters']['population_size'] = {
@@ -434,20 +553,20 @@ _options_dict['RuntimeParameters']['mutation_rate'] = {
                                                       'glossory': 'Mutation rate',
                                                       'long_glossory': ('Mutation rate in the genetic algorithm search. Used to intorduce new values' +
                                                                         ' for the dihedral angles in the population.'),
-                                                      'default': 0.75,
+                                                      'default': 0.5,
                                                       'validation': lambda x: float(x),
                                                       }
 _options_dict['RuntimeParameters']['crossover_rate'] = {
                                                        'glossory': 'Crossover rate',
                                                        'long_glossory': ('Crossover or mating rate in the genetic algorithm search.' +
                                                                          ' Used to exchange dihedral angles between individuals in the population.'),
-                                                       'default': 0.75,
+                                                       'default': 0.5,
                                                        'validation': lambda x: float(x),
                                                        }
 _options_dict['RuntimeParameters']['ff_type'] = {
                                                 'glossory': 'Force field type',
                                                 'long_glossory': 'Force field for computing the energy of the system.', 
-                                                'default': 'GAFF',
+                                                'default': 'MMFF94',
                                                 'validation': lambda x: str(x).upper(),
                                                 }
 _options_dict['RuntimeParameters']['max_distance'] = {
@@ -460,7 +579,7 @@ _options_dict['RuntimeParameters']['max_distance'] = {
                                                                        ' the two backbone molecules. This should be below 0.1 Angstroms. Conformers' +
                                                                        ' that do not pass this threshold are immediately rejected without proceeding to build' +
                                                                        ' the system.'),
-                                                     'default': 0.1,
+                                                     'default': 0.2,
                                                      'validation': lambda x: float(x),
                                                      }
 _options_dict['RuntimeParameters']['energy_filter'] = {
@@ -474,11 +593,11 @@ _options_dict['RuntimeParameters']['energy_filter'] = {
                                                                         'This is the torsional energy for all the rotatable backbone bonds.\n' + 
                                                                         'This is the total van der Waals energy of the system.\n' + 
                                                                         'This is the total energy of the system.\n'),
-                                                      'default': (2, 2, 5, 0, 10000000000),
+                                                      'default': (1, 4, 10, 500, 10000000000),
                                                       'validation': lambda x: _validate_energy_filter(x), 
                                                       }
 _options_dict['RuntimeParameters']['strand'] = {
-                                               'glossory': 'FASTA string for nucleotide sequence (e.g. GCAT or XYXY) ',
+                                               'glossory': 'FASTA string for nucleotide sequence (e.g. GCAT or MYMY) ',
                                                'long_glossory': ('See the Bases section for the defined bases and their one-letter abbreviation.' + 
                                                                  'The canonical nucleobases cannot be mixed with the nucleobases that form the hexad geometries' +
                                                                  ' because they have different standard frame of reference. The names are case-insensitive.'),

@@ -23,8 +23,7 @@ Chain::Chain(Bases bases, const Backbone &backbone, std::vector<std::string> str
     pFF_ = OBForceField::FindForceField(ff_type_);
     // Make sure we have a valid pointer
     if (!pFF_) {
-        cerr << "Cannot find force field. Exiting" << endl;
-        exit(1);
+        throw std::runtime_error("Cannot find force field.");
     }
     // Check whether the force field uses kcal/mol or kJ/mol
     isKCAL_ = pFF_->GetUnit().find("kcal") != string::npos;
@@ -76,11 +75,48 @@ ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, 
 
     // Fill in the energy data
     ConformerData data;
-    data.coords = xyz;
-    data.chain_coords_present = true;
     fillConformerEnergyData(xyz, data, energy_filter);
 
+    if (data.accepted) {
+        data.molecule = combined_chain_;
+        data.molecule.SetChainsPerceived();
+        // Reorder atoms
+        orderResidues(&data.molecule);
+    }
+
     return data;
+}
+
+void Chain::orderResidues(OBMol* molecule) {
+    // Reorder residues in the chain; improves the PDB formatting of systems with inverted chains
+    // Basically, this function inverts the order of the residues for inverted chains
+    vector<int> order;
+    int index = 0;
+
+    for (int i=0; i<6; i++) {
+        if (!build_strand_[i])
+            continue;
+
+        if (strand_orientation_[i]) {
+            for (int j=1; j < v_chain_[i].NumAtoms() + 1; j++)
+                order.push_back(j + index);
+            index += v_chain_[i].NumAtoms();
+        }
+
+        else {
+            int residue_per_nucleotide = v_chain_[i].NumResidues() / chain_length_;
+            for (int j = v_chain_[i].NumResidues() - 1; j > -1; j = j-residue_per_nucleotide) {
+                for (int k=residue_per_nucleotide-1; k > -1; k--) {
+                    OBResidue* res = v_chain_[i].GetResidue(j-k);
+                    FOR_ATOMS_OF_RESIDUE(atom, res)
+                        order.push_back(atom->GetIdx() + index);
+                }
+            }
+            index += v_chain_[i].NumAtoms();
+        }
+    }
+
+    molecule->RenumberAtoms(order);
 }
 
 void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data, vector<double> energy_filter) {
@@ -117,6 +153,8 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
 
     // We use energy groups here
     // Set the energy groups for the required angles
+    OBBitVec bit = OBBitVec();
+    pFF_->AddIntraGroup(bit); // Add empty bit in case only one nucleotide per strand is requested
     for (auto i: all_angles_) {
         OBBitVec bit = OBBitVec();
         for (auto j: i)
@@ -180,7 +218,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
         conf_data.VDWE *= KJ_TO_KCAL;
 
     // if not accepted, return
-    if (energy_filter[3] < conf_data.VDWE) {
+    if (energy_filter[3] < conf_data.VDWE || isnan(conf_data.VDWE)) { // nan energies happen when two atoms are in exactly the same position
         conf_data.accepted = false;
         return;
     }
@@ -191,7 +229,7 @@ void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data,
     if (!isKCAL_)
         conf_data.total_energy *= KJ_TO_KCAL;
 
-    if (energy_filter[4] < conf_data.total_energy) {
+    if (energy_filter[4] < conf_data.total_energy || isnan(conf_data.total_energy)) {
         conf_data.accepted = false;
         return;
     }
@@ -244,6 +282,13 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         base_fixed_bonds.push_back(v.getFixedBonds());
     }
 
+    // Get correct residue number
+    int resnum = 0;
+    for (int i = 0; i < chain_index; i++) {
+        if (build_strand_[i])
+            resnum += chain_length_;
+    }
+
     // Create chain by adding all the nucleotides
     auto chain_letter = static_cast<char>('A' + chain_index);
     unsigned c = 0;
@@ -255,9 +300,9 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
             r->SetChain(chain_letter);
             r->SetTitle(base_names[c].c_str());
             if (strand_orientation_[chain_index])
-                r->SetNum(c + 1);
+                r->SetNum(resnum + c + 1);
             else
-                r->SetNum(chain_length_ - c);
+                r->SetNum(resnum + chain_length_ - c);
         }
         chain += v;
         c++;
@@ -269,12 +314,13 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         for (auto bonds: base_fixed_bonds[i]) {
             OBAtom* a1 = chain.GetAtom(bonds[0] + num_atoms);
             OBAtom* a2 = chain.GetAtom(bonds[1] + num_atoms);
-            OBPairData *label1 = new OBPairData();
-            OBPairData *label2 = new OBPairData();
+            OBPairData *label1 = new OBPairData;
+            OBPairData *label2 = new OBPairData;
             label1->SetAttribute(to_string(n_fixed));
             label2->SetAttribute(to_string(n_fixed));
-            a1->SetData(label1);
-            a2->SetData(label2);
+            a1->CloneData(label1);
+            a2->CloneData(label2);
+            delete label1, label2;
             n_fixed++;
         }
         num_atoms += num_base_unit_atoms[i];
@@ -302,33 +348,49 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
         }
     }
 
-    // Delete extra atoms that remain after connecting the nucleotides
+    // Delete extra hydrogen atoms that remain after connecting the nucleotides
     for (unsigned i = 0; i < head_ids.size(); i++) {
         head = chain.GetAtomById(head_ids[i]);
         tail = chain.GetAtomById(tail_ids[i]);
+
+        // Get indices of the hydrogen atoms
+        vector<vector<unsigned long>> hydrogens = {{}, {}};
         FOR_NBORS_OF_ATOM(nbr, tail) {
-            if (nbr->GetAtomicNum() == 1) {
-                deleted_atoms_ids.push_back(nbr->GetId());
-                chain.DeleteAtom(chain.GetAtom(nbr->GetIdx()));
-                break;
-            }
+            if (nbr->GetAtomicNum() == 1)
+                hydrogens[0].push_back(nbr->GetId());
         }
+
         FOR_NBORS_OF_ATOM(nbr, head) {
-            if (nbr->GetAtomicNum() == 1) {
-                deleted_atoms_ids.push_back(nbr->GetId());
-                chain.DeleteAtom(chain.GetAtom(nbr->GetIdx()));
-                break;
-            }
+            if (nbr->GetAtomicNum() == 1)
+                hydrogens[1].push_back(nbr->GetId());
         }
+
+        // Delete all the hydrogen atoms from the tail
+        for (auto i: hydrogens[0]) {
+            deleted_atoms_ids.push_back(i);
+            chain.DeleteAtom(chain.GetAtomById(i));
+        }
+
+        // Delete hydrogen atoms from the head until you have the correct number of bonds - 1
+        // One more bond will be added to the next nucleotide
+        for (auto i: hydrogens[1]) {
+            if (head->GetExplicitDegree() == head->GetTotalDegree() - 1)
+                break;
+            deleted_atoms_ids.push_back(i);
+            chain.DeleteAtom(chain.GetAtomById(i));
+        }
+
         FOR_NBORS_OF_ATOM(nbr, tail) {
             neighbor_id = nbr->GetId();
             break;
         }
+
         deleted_atoms_ids.push_back(tail->GetId());
         chain.DeleteAtom(tail);
         new_bond_ids.push_back(head->GetId());
         new_bond_ids.push_back(neighbor_id);
         chain.AddBond(head->GetIdx(), chain.GetAtomById(neighbor_id)->GetIdx(), 1);
+
     }
 
 
@@ -345,6 +407,13 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
 };
 
 void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &new_bond_ids, std::vector<std::vector<unsigned>> &fixed_bonds_vec, unsigned offset) {
+
+    map<unsigned, unsigned> residue_map;
+    FOR_RESIDUES_OF_MOL(r, chain) {
+        FOR_ATOMS_OF_RESIDUE(a,&*r) {
+            residue_map[a->GetIdx()] = r->GetNum();
+        }
+    }
 
     vector<int> bond_atoms;
 
@@ -398,12 +467,12 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
             FOR_NBORS_OF_ATOM(nbr2, chain.GetAtom(v[2])) {
                 if (nbr2->GetIdx() == v[1])
                     continue;
-                unsigned num = nbr->GetResidue()->GetNum();
+                unsigned num = residue_map[nbr->GetIdx()];
                 // Exclude dihedral angles in two different residues as these bonds are not
                 // rotated in the conformation search
-                if ((chain.GetAtom(v[1])->GetResidue()->GetNum() == num) &&
-                    (chain.GetAtom(v[2])->GetResidue()->GetNum() == num) &&
-                    (nbr2->GetResidue()->GetNum() == num)) {
+                if ((residue_map[v[1]] == num) &&
+                    (residue_map[v[2]] == num) &&
+                    (residue_map[nbr2->GetIdx()] == num)) {
                     // These are the correct torsional angles that we want to compute energies for
                     bool fixed = false;
                     // Determine whether this angle is fixed
@@ -438,7 +507,7 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
     matrix3x3 change_sign = {{1, 0, 0},{0, -1, 0}, {0, 0, -1}};
 
     // Reflection that we can apply if we want the same orientation as that of 3DNA
-    //matrix3x3 change_sign2 = {{-1, 0, 0},{0, 1, 0}, {0, 0, -1}};
+    matrix3x3 change_sign2 = {{-1, 0, 0},{0, 1, 0}, {0, 0, -1}};
 
     // Get the global rotation and translations
     auto g_rot = hp.getGlobalRotationOBMatrix();
@@ -465,17 +534,19 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
             vector3 v3;
             v3.Set(base_coords + 3 * baseI);
 
-            v3 += g_trans; v3 *= g_rot;
-
             if (!strand_orientation_[chain_index])
                 v3 *= change_sign;
+
+            v3 *= g_rot;
+            v3 += g_trans;
+            v3 *= s_rot;
+            v3 += s_trans;
+
             if (hexad_)
                 v3 *= z_rot;
 
-            v3 += s_trans; v3 *= s_rot;
-
             // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
-            //v3 *=  change_sign2;
+            v3 *=  change_sign2;
 
             v3.Get(xyz + xyzI);
             xyzI += 3;
@@ -488,17 +559,19 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                 vector3 v3;
                 v3.Set(conf + 3 * monomer_index);
 
-                v3 += g_trans; v3 *= g_rot;
-
                 if (!strand_orientation_[chain_index])
                      v3 *= change_sign;
+
+                v3 *= g_rot;
+                v3 += g_trans;
+                v3 *= s_rot;
+                v3 += s_trans;
+
                 if (hexad_)
                     v3 *= z_rot;
 
-                v3 += s_trans; v3 *= s_rot;
-
                 // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
-                //v3 *=  change_sign2;
+                v3 *=  change_sign2;
 
                 v3.Get(xyz + xyzI);
                 xyzI += 3;

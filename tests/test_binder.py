@@ -59,7 +59,7 @@ def test_binder_2():
 
     base = bind.Base()
     base.file_path = os.path.join('files', 'adenine.pdb')
-    base.code = 'ADA'
+    base.code = 'A'
     base.linker = [5, 11]
     base.name = 'Adenine'
     base.pair_name = 'Uracil'
@@ -77,8 +77,8 @@ def test_binder_2():
     rp.search_algorithm = 'weighted random search'
     rp.num_steps = 1000000
     rp.ff_type = 'GAFF'
-    rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0]
-    rp.max_distance = 0.05
+    rp.energy_filter = [1.0, 5.0, 10.0, 10000.0, 10000.0]
+    rp.max_distance = 0.2
     rp.strand = ['Adenine']*5
 
     output = bind.run(rp, backbone, bases, hp, 'test')

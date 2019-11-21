@@ -9,7 +9,18 @@
 #include <random>
 #include <array>
 #include <openbabel/mol.h>
+#include <openbabel/atom.h>
+#include <openbabel/bond.h>
 #include <openbabel/obconversion.h>
+#include <openbabel/math/matrix3x3.h>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+#ifndef DEG_TO_RAD
+#define DEG_TO_RAD (M_PI/180.0)
+#endif
 
 //! The PNAB name space contains all the C++ classes and functions for the proto-Nucleic Acid Builder.
 namespace PNAB {
@@ -188,7 +199,7 @@ namespace PNAB {
         * @returns The translation vector
         */
         OpenBabel::vector3 getGlobalTranslationVec() {
-            return OpenBabel::vector3(x_displacement, y_displacement);
+            return OpenBabel::vector3(x_displacement, y_displacement, 0);
         }
 
         /**
@@ -226,10 +237,18 @@ namespace PNAB {
         *
         * @sa rodrigues_formula
         */
+
+        // Lu, X. J., El Hassan, M. A., & Hunter, C. A. (1997). Structure and conformation of helical nucleic acids:
+        // rebuilding program (SCHNArP). Journal of molecular biology, 273(3), 681-691.
         std::array<double, 9> getGlobalRotationMatrix() {
             double eta = inclination * DEG_TO_RAD, theta = tip * DEG_TO_RAD;
-            double phi_pp = atan(std::isnan(eta / theta) ? 0 : eta / theta), Lambda = sqrt(eta*eta + theta*theta);
-            std::array<double, 3> axis{sin(phi_pp), cos(phi_pp), 0};
+            double Lambda = sqrt(eta*eta + theta*theta);
+            
+            std::array<double, 3> axis;
+            if (Lambda != 0)
+                axis = {eta/Lambda, theta/Lambda, 0};
+            else
+               axis = {0, 1, 0};
 
             return rodrigues_formula(axis, Lambda);
         }
@@ -692,7 +711,8 @@ namespace PNAB {
      * It includes detailed information about the energy components important
      * for distinguishing between different conformers. It also includes the value
      * of the RMSD relative to the best candidate. If the conformer satisfies
-     * the distance and energy thresholds, then it is saved.
+     * the distance and energy thresholds, then it is saved. It also contains
+     * the openbabel OBMol object for the accepted candidates
      *
      * @sa Chain::generateConformerData
      * @sa ConformationSearch::reportData
@@ -700,8 +720,8 @@ namespace PNAB {
      * @sa RuntimeParameters::max_distance
      */
     struct ConformerData {
-        double *coords,                             //!< @brief Pointer to array containing coordinates of all atoms in molecule chain
-               *monomer_coord,                      //!< @brief Pointer to array containing coordinates of a single monomer
+        OpenBabel::OBMol molecule;                  //!< @brief The openbabel OBMol object for the conformer
+        double *monomer_coord,                      //!< @brief Pointer to array containing coordinates of a single monomer
                 distance,                           //!< @brief distance between interconnects in Backbone for adjacent BaseUnit
                 bondE,                              //!< @brief Energy of newly formed bonds in the backbone divided by the length of the strand -1
                 angleE,                             //!< @brief Energy of newly formed angles in the backbone divided by the length of the strand -1
@@ -710,8 +730,8 @@ namespace PNAB {
                 total_energy,                       //!< @brief Total energy of the conformation divided by divided by the length of the strand
                 rmsd;                               //!< @brief Root-mean square distance relative to lowest energy conformer
         std::size_t index;                          //!< @brief The index of the conformer
-        bool chain_coords_present;                  //!< @brief Have the chain coordinates in coord been deleted?
         bool accepted;                              //!< @brief Is the energy of the conformer less than the thresholds
+        std::vector<double> dihedral_angles;        //!< @brief The values of the rotatable dihedral angles in the conformer in degrees
 
         /**
          * @brief Used for simple sorting based on total energy of the conformer

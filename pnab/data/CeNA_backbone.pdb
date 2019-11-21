@@ -1,0 +1,52 @@
+ATOM      1  O5T XGR A   3      18.344 -14.793   5.478  1.00  0.00           O  
+ATOM      2  P   XGR A   3      19.180 -13.509   5.869  1.00  0.00           P  
+ATOM      3  N9  XGR A   3      21.937 -12.764   1.285  1.00  0.00           N  
+ATOM      4  C1' XGR A   3      22.849 -13.925   1.523  1.00  0.00           C  
+ATOM      5  C2' XGR A   3      23.781 -13.706   2.714  1.00  0.00           C  
+ATOM      6  C3' XGR A   3      23.048 -13.700   4.058  1.00  0.00           C  
+ATOM      7  O3' XGR A   3      24.050 -13.573   5.040  1.00  0.00           O  
+ATOM      8  C4' XGR A   3      22.376 -15.051   4.302  1.00  0.00           C  
+ATOM      9  C5' XGR A   3      21.202 -14.989   5.274  1.00  0.00           C  
+ATOM     10  O5' XGR A   3      20.564 -13.745   5.131  1.00  0.00           O  
+ATOM     11  C6' XGR A   3      21.905 -15.695   3.010  1.00  0.00           C  
+ATOM     12  C7' XGR A   3      22.106 -15.206   1.786  1.00  0.00           C  
+ATOM     13  OP1 XGR A   3      19.555 -13.613   7.289  1.00  0.00           O  
+ATOM     14  OP2 XGR A   3      18.496 -12.322   5.300  1.00  0.00           O  
+ATOM     15  H5T XGR A   3      17.728 -14.455   4.806  1.00  0.00           H  
+ATOM     16  H1' XGR A   3      23.460 -14.050   0.622  1.00  0.00           H  
+ATOM     17  H2' XGR A   3      24.320 -12.756   2.595  1.00  0.00           H  
+ATOM     18 H2'' XGR A   3      24.573 -14.470   2.718  1.00  0.00           H  
+ATOM     19  H3' XGR A   3      22.387 -12.831   4.115  1.00  0.00           H  
+ATOM     20 HO3' XGR A   3      24.609 -14.366   5.040  1.00  0.00           H  
+ATOM     21  H4' XGR A   3      23.094 -15.770   4.724  1.00  0.00           H  
+ATOM     22  H5' XGR A   3      21.590 -15.050   6.298  1.00  0.00           H  
+ATOM     23 H5'' XGR A   3      20.506 -15.823   5.137  1.00  0.00           H  
+ATOM     24  H6' XGR A   3      21.344 -16.623   3.110  1.00  0.00           H  
+ATOM     25  H7' XGR A   3      21.685 -15.717   0.925  1.00  0.00           H  
+CONECT    1    2   15                                                 
+CONECT    2    1   10   14   13                                       
+CONECT    3    4                                                      
+CONECT    4    3   12    5   16                                       
+CONECT    5    4    6   17   18                                       
+CONECT    6    5    8    7   19                                       
+CONECT    7    6   20                                                 
+CONECT    8    6   11    9   21                                       
+CONECT    9    8   10   22   23                                       
+CONECT   10    2    9                                                 
+CONECT   11    8   12   24                                            
+CONECT   12    4   11   25                                            
+CONECT   13    2                                                      
+CONECT   14    2                                                      
+CONECT   15    1                                                      
+CONECT   16    4                                                      
+CONECT   17    5                                                      
+CONECT   18    5                                                      
+CONECT   19    6                                                      
+CONECT   20    7                                                      
+CONECT   21    8                                                      
+CONECT   22    9                                                      
+CONECT   23    9                                                      
+CONECT   24   11                                                      
+CONECT   25   12                                                      
+MASTER        0    0    0    0    0    0    0    0   25    0   25    0
+END

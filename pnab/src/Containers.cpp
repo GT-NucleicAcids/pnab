@@ -44,8 +44,8 @@ Backbone::Backbone(std::string file_path, std::array<unsigned, 2> interconnects,
         conv.SetInFormat("PDB");
     }
     if (!conv.Read(&backbone)) {
-        cerr << "Backbone: There was an error reading file for backbone: " << file_path << endl;
-        exit(1);
+        throw std::runtime_error("Backbone: There was an error reading file for backbone: " + file_path);
+        
     }
 
     // Basic validation of the indices
@@ -57,33 +57,31 @@ void Backbone::validate() {
     // Make sure only two atoms are specified for connecting the backbones
     auto vec = interconnects;
     if (vec.size() != 2) {
-        cerr << "Backbone: Incorrect number of elements specified for the atoms connecting the two backbones."
-             << " There must be exactly 2 indices indicated." << endl;
-        exit(1);
+        string error = "Backbone: Incorrect number of elements specified for the atoms connecting the two backbones.";
+        error += " There must be exactly 2 indices indicated.";
+        throw std::runtime_error(error);
     }
     copy(vec.begin(), vec.end(), interconnects.begin());
 
     // Make sure only two atoms are specified for connecting backbone to base
     vec = linker;
     if (vec.size() != 2) {
-        cerr << "Backbone: Incorrect number of elements specified for the atoms forming the vector connecting the backbone to the nucleobase."
-             << " There must be exactly 2 indices indicated." << endl;
-        exit(1);
+        string error = "Backbone: Incorrect number of elements specified for the atoms forming the vector connecting the backbone to the nucleobase.";
+        error += " There must be exactly 2 indices indicated.";
+        throw std::runtime_error(error);
     }
     copy(vec.begin(), vec.end(), linker.begin());
 
     for (auto i : interconnects)
         // Make sure the index is within the number of atoms in the backbone
         if (i > backbone.NumAtoms()) {
-            cerr << "Backbone: Interconnects atom indices are out of bounds." << endl;
-            exit(1);
+            throw std::runtime_error("Backbone: Interconnects atom indices are out of bounds.");
         }
 
     for (auto i : linker)
         // Make sure the index is within the number of atoms in the backbone
         if (i > backbone.NumAtoms()) {
-            cerr << "Backbone: Linker atom indices are out of bounds." << endl;
-            exit(1);
+            throw std::runtime_error("Backbone: Linker atom indices are out of bounds.");
         }
 
     OBAtom *link = backbone.GetAtom(static_cast<int>(linker[0])),
@@ -91,8 +89,7 @@ void Backbone::validate() {
 
     // Make sure the two provided atoms are neighbors
     if (!link->IsConnected(link2)) {
-        cerr << "Backbone: Atoms in defined in the Linker must be neighbors." << endl;
-        exit(1);
+        throw std::runtime_error("Backbone: Atoms in defined in the Linker must be neighbors.");
     }
 
 }
@@ -106,8 +103,7 @@ Base::Base(std::string nameT, std::string codeT, std::string file_path, std::arr
     linker = linkerT;
 
     if (file_path.empty()) {
-        cerr << "Bases: No file path was specified." << endl;
-        exit(1);
+        throw std::runtime_error("Bases: No file path was specified.");
     }
 
     // Read file specifying the geometry of the base
@@ -121,8 +117,7 @@ Base::Base(std::string nameT, std::string codeT, std::string file_path, std::arr
     }
     OBMol molT;
     if (!conv.ReadFile(&molT, file_path)) {
-        cerr << "Base: There was an error reading file for base: " << file_path << endl;
-        exit(1);
+        throw std::runtime_error("Base: There was an error reading file for base: " + file_path);
     }
 
     base = OBMol(molT);
@@ -142,8 +137,7 @@ void Base::validate() {
         for (auto i : linker)
             // Make sure the indices are within the number of atoms in the base
             if (i > base.NumAtoms()) {
-                cerr << "Base: Linker atom indices are out of bounds." << endl;
-                exit(1);
+                throw std::runtime_error("Base: Linker atom indices are out of bounds.");
             }
 
         OBAtom *link = base.GetAtom(static_cast<int>(linker[0])),
@@ -151,13 +145,11 @@ void Base::validate() {
 
         // Make sure the atoms are neighbors
         if (!link->IsConnected(vec)) {
-            cerr << "Base: Atoms in defined in the Linker must be neighbors." << endl;
-            exit(1);
+            throw std::runtime_error("Base: Atoms in defined in the Linker must be neighbors.");
         }
 
     } else {
-        cerr << "Base: Linker is of incorrect dimension." << endl;
-        exit(1);
+        throw std::runtime_error("Base: Linker is of incorrect dimension.");
     }
 }
 
@@ -169,9 +161,9 @@ Bases::Bases(std::vector<Base> input_bases) {
 
         auto vec = input_bases[i].linker;
         if (vec.size() != 2) {
-            cerr << "Incorrect number of elements specified for Field \"Backbone_Connect\" "
-                 << "\". There must be exactly 2 indices indicated." << endl;
-            exit(1);
+            string error = "Incorrect number of elements specified for backbone connection. ";
+            error += "There must be exactly 2 indices indicated.";
+            throw std::runtime_error(error);
         }
         array<size_t, 2> linkers = {vec[0], vec[1]};
 
@@ -252,8 +244,7 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
     if (align.Align()) {
         matrix = align.GetRotMatrix();
     } else {
-        cerr << "Failed to align backbone to base. Check base and backbone." << endl;
-        exit(1);
+        throw std::runtime_error("Failed to align backbone to base. Check base and backbone.");
     }
     double rot[9];
     matrix.GetArray(rot);
@@ -305,6 +296,12 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
 
     // Form a bond between base and backbone
     mol.AddBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms, 1);
+    OBBond* new_bond = mol.GetBond(base.getLinker()->GetIdx(), backbone.getLinker()->GetIdx() + num_atoms);
+    // Set Length prints useless messages to the console. We need to supress it
+    OBMessageHandler handler = OBMessageHandler();
+    handler.StartErrorWrap();
+    new_bond->SetLength(mol.GetAtom(base.getLinker()->GetIdx()), new_bond->GetEquibLength());
+    handler.StopErrorWrap();
 
     // garbage code for debugging
     // TODO delete this code

@@ -3,6 +3,7 @@
  */
 
 #include <iomanip>
+#include <set>
 #include "ConformationSearch.h"
 
 using namespace PNAB;
@@ -105,8 +106,7 @@ std::string ConformationSearch::run() {
         ConformationSearch::GeneticAlgorithmSearch();
 
     else {
-        cerr << search << " is unrecognized search algorithm" << endl;
-        exit(1);
+        throw std::runtime_error(search + " is unrecognized search algorithm");
     }
 
     // return the CSV output string
@@ -120,7 +120,6 @@ void ConformationSearch::GeneticAlgorithmSearch() {
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
                 runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
-    test_chain_ = chain.getChain();
 
     // Set the search size; the number of generations in the genetic algorithm search
     size_t search_size = runtime_params_.num_steps;
@@ -159,7 +158,7 @@ void ConformationSearch::GeneticAlgorithmSearch() {
     for (size_t search_index=0; search_index < search_size; search_index++) {
 
         // print progress roughly every 10%
-        if (fmod(search_index, search_size/10.0) == 0 && verbose_) {
+        if (fmod(search_index, search_size/10) == 0 && verbose_) {
             printProgress(search_index, search_size);
         }
 
@@ -246,10 +245,7 @@ void ConformationSearch::GeneticAlgorithmSearch() {
                     // Generate chain and compute energies; check whether energies are less than thresholds
                     auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
 
-                    if (!data.accepted)
-                        delete[] data.coords;
-
-                    else {
+                    if (data.accepted) {
                         // Save the candidate
                         data.monomer_coord = new double[monomer_num_coords_];
                         data.index = save_index;
@@ -280,7 +276,6 @@ void ConformationSearch::RandomSearch(bool weighted) {
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
                 runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
-    test_chain_ = chain.getChain();
 
     // Set the search size;
     size_t search_size = runtime_params_.num_steps;
@@ -305,7 +300,7 @@ void ConformationSearch::RandomSearch(bool weighted) {
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
 
         // print progress roughly every 10%
-        if (fmod(search_index, search_size/10.0) == 0 && verbose_) {
+        if (fmod(search_index, search_size/10) == 0 && verbose_) {
             printProgress(search_index, search_size);
         }
 
@@ -334,10 +329,7 @@ void ConformationSearch::RandomSearch(bool weighted) {
             // Generate chain and compute energies; check whether energies are less than thresholds
             auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
 
-            if (!data.accepted)
-                delete[] data.coords;
-
-            else {
+            if (data.accepted) {
                 // Save the candidate
                 data.monomer_coord = new double[monomer_num_coords_];
                 data.index = search_index;
@@ -361,7 +353,6 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
                 runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
-    test_chain_ = chain.getChain();
 
     // Set the search size;
     size_t search_size = runtime_params_.num_steps;
@@ -399,7 +390,7 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
 
         // print progress roughly every 10%
-        if (fmod(search_index, search_size/10.0) == 0 && verbose_) {
+        if (fmod(search_index, search_size/10) == 0 && verbose_) {
             printProgress(search_index, search_size);
         }
 
@@ -467,19 +458,7 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
             // Generate chain and compute energies; check whether energies are less than thresholds
             auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
 
-            if (!data.accepted) {
-                delete[] data.coords;
-                // If the candidate is not accepted, reject the step
-                // This is not exactly like the Metropolis algorithm but we do not want to
-                // accept steps that generate bad energies. The whole purpose of the Monte
-                // Carlo procedure is just to get us close to the acceptable distance
-                for (int i=0; i < n_rotations; i++) {
-                    auto r = rotor_vector[rotated_indices[i]];
-                    r->SetToAngle(coords, old_angles[i]);
-                }
-            }
-
-            else {
+            if (data.accepted) {
                 // Save the candidate
                 data.monomer_coord = new double[monomer_num_coords_];
                 data.index = search_index;
@@ -534,8 +513,7 @@ std::vector <std::piecewise_linear_distribution<double>> ConformationSearch::Wei
         // Setup force field
         OBForceField *pFF = OBForceField::FindForceField(runtime_params_.ff_type);
         if (!pFF) {
-            cerr << "Cannot find force field. Exiting" << endl;
-            exit(1);
+            throw std::runtime_error("Cannot find force field.");
         }
         // Check whether the energies are computed in kcal/mol
         bool isKCAL_ = pFF->GetUnit().find("kcal") != string::npos;
@@ -592,7 +570,6 @@ void ConformationSearch::SystematicSearch() {
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
                 runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
-    test_chain_ = chain.getChain();
 
     // Determine the step size and the number of steps
     // The number of steps is (360/dihedral_step)^(number of rotors)
@@ -608,7 +585,7 @@ void ConformationSearch::SystematicSearch() {
     for (size_t search_index = 1; search_index < search_size + 1; ++search_index) {
 
         // print progress roughly every 10%
-        if (fmod(search_index, search_size/10.0) == 0 && verbose_) {
+        if (fmod(search_index, search_size/10) == 0 && verbose_) {
             printProgress(search_index, search_size);
         }
 
@@ -641,10 +618,7 @@ void ConformationSearch::SystematicSearch() {
             // Generate chain and compute energies; check whether energies are less than thresholds
             auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
 
-            if (!data.accepted)
-                delete[] data.coords;
-
-            else {
+            if (data.accepted) {
                 // Save the candidate
                 data.monomer_coord = new double[monomer_num_coords_];
                 data.index = search_index;
@@ -670,8 +644,8 @@ void ConformationSearch::printProgress(std::size_t search_index, std::size_t sea
     cout << "%\tAccepted: " << setw(8) << prgrs;
     // Print the name of the accepted candidate and its energy and distance
     if (prgrs > 0) {
-        cout << ", Best Conformer (distance, energy): (" << setw(10) << conf_data_vec_[0].distance
-             << ", " << setw(10) << conf_data_vec_[0].total_energy << ") -- " << prefix_ << "_"
+        cout << ", Best Conformer (distance, energy): (" << setw(6) << conf_data_vec_[0].distance
+             << ", " << setw(6) << conf_data_vec_[0].total_energy << ") -- " << prefix_ << "_"
              << conf_data_vec_[0].index << ".pdb" << endl;
     } else {
         cout << endl;
@@ -699,11 +673,7 @@ double ConformationSearch::measureDistance(double *coords, unsigned head, unsign
     return sqrt(head_coord.distSq(tail_coord));
 }
 
-void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
-    if (!conf_data.chain_coords_present) {
-        cerr << "Trying to print conformer with no chain_ coordinates. Exiting..." << endl;
-        exit(1);
-    }
+void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
 
     // Setup variables for saving the structure of the accepted candidate
     ostringstream strs;
@@ -723,25 +693,53 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
     fb.open(strs.str().c_str(), std::ios::out);
     ostream fileStream(&fb);
 
-    // Set the conformer and save to file
-    test_chain_.SetTitle(strs.str().c_str());
-    test_chain_.SetCoordinates(conf_data.coords);
-    conv_.SetOutStream(&fileStream);
-    conv_.Write(&test_chain_);
-    fb.close();
+    // Set conformer data and save to file
+    conf_data.molecule.SetTitle(strs.str().c_str());
 
-    // Delete coordinates
-    delete[] conf_data.coords;
-    conf_data.chain_coords_present = false;
-    conf_data_vec_.push_back(conf_data);
+    OBPairData *pairdata = new OBPairData;
+    pairdata->SetAttribute("AUTHOR");
+    pairdata->SetValue("    The proto-Nucleic Acid Builder");
+    conf_data.molecule.CloneData(pairdata);
+    delete pairdata;
 
-    // Now we store the properties of the accepted candidates
-    // Write header
-    std::string header = "# Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol/(nucleotide-1)), Angle Energy (kcal/mol/(nucleotide-1)), "
+    // Header
+    std::string header = "# Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), "
                          "Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), "
                          "Total Energy (kcal/mol/nucleotide), Nucleotide RMSD relative to lowest energy conformer (Angstrom)";
+
+    vector<string> labels = {"Helical Rise (Angstroms)", "X-Displacement (Angstroms)", "Y-Displacement (Angstrom)",
+                             "Helical Twist (degrees)", "Inclination (degrees)", "Tip (degrees)",
+                             "Distance (Angstroms)", "Bond Energy (kcal/mol)", "Angle Energy (kcal/mol)", "Torsion Energy (kcal/mol/nucleotide)",
+                             "Van der Waals Energy (kcal/mol/nucleotide)", "Total Energy (kcal/mol/nucleotide)"};
+    vector<double> data = {helical_params_.h_rise, helical_params_.x_displacement, helical_params_.y_displacement,
+                           helical_params_.h_twist, helical_params_.inclination, helical_params_.tip,
+                           conf_data.distance, conf_data.bondE, conf_data.angleE, conf_data.torsionE, conf_data.VDWE, conf_data.total_energy};
+
+    for (int i=0; i < rotor_vector.size(); i++) {
+        header += ", Dihedral " + to_string(i+1) + " (degrees)";
+        labels.push_back("Dihedral " + to_string(i+1) + " (degrees)");
+        double angle = rotor_vector[i]->CalcTorsion(conf_data.monomer_coord) * 180.0/M_PI;
+        conf_data.dihedral_angles.push_back(angle);
+        data.push_back(angle);
+    }
+
+    for (int i=0; i < 12 + rotor_vector.size(); i++) {
+        OBPairData *pairdata = new OBPairData;
+        pairdata->SetAttribute("TITLE");
+        pairdata->SetValue("    " + labels[i] + ": " + to_string(data[i]));
+        conf_data.molecule.CloneData(pairdata);
+        delete pairdata;
+    }
+
+    conv_.SetOutStream(&fileStream);
+    conv_.Write(&conf_data.molecule);
+    fb.close();
+
+    conf_data_vec_.push_back(conf_data);
+
     output_stringstream << header << endl;
 
+    // Now we store the properties of the accepted candidates
     // Sort candidates by lowest energy
     std::sort(conf_data_vec_.begin(), conf_data_vec_.end());
 
@@ -751,7 +749,10 @@ void ConformationSearch::reportData(PNAB::ConformerData conf_data) {
         v.rmsd = calcRMSD(ref, v.monomer_coord, monomer_num_coords_);
         // write properties to the output stringstring
         output_stringstream << prefix_ << ", " << v.index  << ", " << v.distance << ", " << v.bondE << ", " << v.angleE << ", "
-            << v.torsionE << ", " << v.VDWE << ", " << v.total_energy << ", " << v.rmsd << endl;
+            << v.torsionE << ", " << v.VDWE << ", " << v.total_energy << ", " << v.rmsd;
+        for (auto angle: v.dihedral_angles)
+            output_stringstream << ", " << angle;
+        output_stringstream << endl;
     }
 
     // Update the output string

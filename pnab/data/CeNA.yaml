@@ -1,41 +1,42 @@
+# 2019-10-02 19:40:54
 Backbone:
-  file_path: RNA_backbone.pdb
+  file_path: CeNA_backbone.pdb
   fixed_bonds: []
   interconnects:
-  - 10
+  - 7
   - 1
   linker:
-  - 13
-  - 14
+  - 4
+  - 3
 HelicalParameters:
   h_rise:
-  - 2.65
-  - 2.65
+  - 2.45
+  - 2.45
   - 1
   h_twist:
-  - 32.99
-  - 32.99
+  - 33.14
+  - 33.14
   - 1
   inclination:
-  - 16.62
-  - 16.62
+  - 17.13
+  - 17.13
   - 1
   tip:
-  - 0.0
-  - 0.0
+  - -3.21
+  - -3.21
   - 1
   x_displacement:
-  - -4.17
-  - -4.17
+  - -4.97
+  - -4.97
   - 1
   y_displacement:
-  - 0.0
-  - 0.0
+  - 0.18
+  - 0.18
   - 1
 RuntimeParameters:
   build_strand:
   - true
-  - true
+  - false
   - false
   - false
   - false
@@ -44,18 +45,16 @@ RuntimeParameters:
   - 1.0
   - 3.0
   - 4.0
-  - 40
-  - 600
-  ff_type: MMFF94
+  - 5.0
+  - 170.0
+  ff_type: GAFF
   is_hexad: false
   max_distance: 0.2
   pair_A_U: true
-  search_algorithm: weighted monte carlo search
-  num_steps: 10000
-  monte_carlo_temperature: 300
-  weighting_temperature: 300
+  search_algorithm: systematic search
+  dihedral_step: 5
   seed: 0
-  strand: AGAGAAGAUCUUCUCU
+  strand: GCGTAGCG
   strand_orientation:
   - true
   - false

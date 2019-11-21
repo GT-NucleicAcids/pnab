@@ -21,7 +21,7 @@ def test_energy_filter():
 
     base = bind.Base()
     base.file_path = os.path.join('files', 'adenine.pdb')
-    base.code = 'ADA'
+    base.code = 'A'
     base.linker = [5, 11]
     base.name = 'Adenine'
     base.pair_name = 'Uracil'
