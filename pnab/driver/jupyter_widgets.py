@@ -535,8 +535,18 @@ def algorithm(chosen_algorithm, param):
         display(widgets.HBox([help_box, dihedral_step]))
         input_options['RuntimeParameters']['dihedral_step'] = dihedral_step
 
-    # The other five algorithms require specifying the number of steps or generation
+    # The other five algorithms require specifying the random number seed and the number of steps or generation
     else:
+        # Random number generator seed
+        seed = widgets.BoundedIntText(value=param['seed']['default'], min=0, max=2**32-1,
+                                      description=param['seed']['glossory'],
+                                      style={'description_width': 'initial'},
+                                      layout={'width': '75%'})
+        help_box = widgets.Button(description='?', tooltip=param['seed']['long_glossory'], layout=widgets.Layout(width='3%'))
+        display(widgets.HBox([help_box, seed]))
+        input_options['RuntimeParameters']['seed'] = seed
+
+        # Number of steps or generations
         num_steps = widgets.BoundedIntText(value=param['num_steps']['default'], min=1, max=1e100,
                                            description=param['num_steps']['glossory'],
                                            style={'description_width': 'initial'},
@@ -612,16 +622,6 @@ def runtime_parameters(param):
 
     input_options['RuntimeParameters'] = {}
 
-    # Random number generator seed
-    seed = widgets.BoundedIntText(value=param['seed']['default'], min=0, max=2**32-1,
-                                  description=param['seed']['glossory'],
-                                  style={'description_width': 'initial'},
-                                  layout={'width': '75%'})
-    help_box = widgets.Button(description='?', tooltip=param['seed']['long_glossory'], layout=widgets.Layout(width='3%'))
-    display(widgets.HBox([help_box, seed]))
-    input_options['RuntimeParameters']['seed'] = seed
-
-
     # Search algorithm
     display(widgets.HTML(value='<H4>Search Algorithm</H4>'))
     dropdown = widgets.Dropdown(value=param['search_algorithm']['default'].title(),
@@ -646,7 +646,7 @@ def runtime_parameters(param):
     input_options['RuntimeParameters']['max_distance'] = max_distance
 
     # Force field
-    ff_type = widgets.Dropdown(options=['GAFF', 'MMFF94', 'MMFF94s', 'UFF', 'GHEMICAL'],
+    ff_type = widgets.Dropdown(value=param['ff_type']['default'], options=['GAFF', 'MMFF94', 'MMFF94s', 'UFF', 'GHEMICAL'],
                                description=param['ff_type']['glossory'],
                                style={'description_width': 'initial'},
                                layout={'width': '75%'})
@@ -826,11 +826,13 @@ def user_input_file(param):
     @sa display_options_widgets
     """
 
-    # Provide three input files as examples
+    # Provide input files as examples
+    examples = ['DNA.yaml', 'RNA.yaml', 'FRNA.yaml', 'LNA.yaml', 'CeNA.yaml', 'PNA.yaml', '5methylcytosine.yaml',
+                'ZP.yaml', 'Hexad.yaml', 'adenine_cyanuric_acid.yaml', 'Upload file']
     w = widgets.interactive(display_options_widgets, param=widgets.fixed(param), uploaded=widgets.fixed(False),
-            input_file=widgets.Dropdown(options=['RNA.yaml', 'DNA.yaml', 'Hexad.yaml', 'Upload file'],
+            input_file=widgets.Dropdown(options=examples,
                                         style={'description_width': 'initial'}, description='Input File'))
-    help_box = widgets.Button(description='?', tooltip=('There are existing example files for RNA, DNA, and hexad geometries.' +
+    help_box = widgets.Button(description='?', tooltip=('There are existing example files for RNA, DNA, and other nucleic acid analogs.' +
                                                         ' You can use these examples as a starting point for customizing your input options.' + 
                                                         ' Alternatively, you can upload your own input file.'),
                layout=widgets.Layout(width='3%'))
@@ -874,7 +876,15 @@ def run(button):
 
     # Run the code
     run = pNAB('options.yaml')
-    run.run()
+    out = widgets.Output()
+    display(out)
+    with out:
+        run.run()
+    out.clear_output()
+
+    if run.results.ndim == 1:
+        # Only one candidate found. Reshape results.
+        run.results = run.results.reshape(1, len(run.results))
 
     # Get output files
     files = [str(int(conformer[0])) + '_' + str(int(conformer[1])) + '.pdb' for conformer in run.results]
@@ -892,16 +902,12 @@ def run(button):
     # If no results are found, print and return
     if run.results.size == 0:
         print("No candidate found")
-        return
 
     # else display conformers and their properties
-    elif run.results.ndim == 1:
-        # Only one candidate found. Reshape results.
-        run.results = run.results.reshape(1, len(run.results))
-
-    # Sort by total energy
-    run.results = run.results[run.results[:, 7].argsort()]
-    show_results(run.results, run.header, run.prefix)
+    else:
+        # Sort by total energy
+        run.results = run.results[run.results[:, 7].argsort()]
+        show_results(run.results, run.header, run.prefix)
 
 
 
