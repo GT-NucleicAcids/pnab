@@ -1,0 +1,64 @@
+# 2019-10-02 19:40:54
+Backbone:
+  file_path: CeNA_backbone.pdb
+  fixed_bonds: []
+  interconnects:
+  - 7
+  - 1
+  linker:
+  - 4
+  - 3
+HelicalParameters:
+  h_rise:
+  - 2.45
+  - 2.45
+  - 1
+  h_twist:
+  - 33.14
+  - 33.14
+  - 1
+  inclination:
+  - 17.13
+  - 17.13
+  - 1
+  tip:
+  - -3.21
+  - -3.21
+  - 1
+  x_displacement:
+  - -4.97
+  - -4.97
+  - 1
+  y_displacement:
+  - 0.18
+  - 0.18
+  - 1
+RuntimeParameters:
+  build_strand:
+  - true
+  - false
+  - false
+  - false
+  - false
+  - false
+  energy_filter:
+  - 1.0
+  - 3.0
+  - 4.0
+  - 5.0
+  - 170.0
+  ff_type: GAFF
+  is_hexad: false
+  max_distance: 0.2
+  pair_A_U: true
+  search_algorithm: systematic search
+  dihedral_step: 5
+  seed: 0
+  strand: GCGTAGCG
+  strand_orientation:
+  - true
+  - false
+  - false
+  - false
+  - false
+  - false

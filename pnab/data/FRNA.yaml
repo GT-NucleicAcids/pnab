@@ -1,0 +1,64 @@
+# 2019-10-02 19:40:54
+Backbone:
+  file_path: FRNA_backbone.pdb
+  fixed_bonds: []
+  interconnects:
+  - 10
+  - 1
+  linker:
+  - 5
+  - 4
+HelicalParameters:
+  h_rise:
+  - 2.62
+  - 2.62
+  - 1
+  h_twist:
+  - 32.78
+  - 32.78
+  - 1
+  inclination:
+  - 18.02
+  - 18.02
+  - 1
+  tip:
+  - -0.46
+  - -0.46
+  - 1
+  x_displacement:
+  - -4.21
+  - -4.21
+  - 1
+  y_displacement:
+  - -0.02
+  - -0.02
+  - 1
+RuntimeParameters:
+  build_strand:
+  - true
+  - true
+  - false
+  - false
+  - false
+  - false
+  energy_filter:
+  - 1.0
+  - 3.0
+  - 4.0
+  - 0.0
+  - 1000000000.0
+  ff_type: GAFF
+  is_hexad: false
+  max_distance: 0.2
+  pair_A_U: true
+  search_algorithm: systematic search
+  dihedral_step: 5
+  seed: 0
+  strand: CGAAUUCG
+  strand_orientation:
+  - true
+  - false
+  - false
+  - false
+  - false
+  - false

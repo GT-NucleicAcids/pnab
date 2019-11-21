@@ -1,0 +1,65 @@
+Backbone:
+  file_path: RNA_backbone.pdb
+  fixed_bonds: []
+  interconnects:
+  - 10
+  - 1
+  linker:
+  - 13
+  - 14
+HelicalParameters:
+  h_rise:
+  - 2.65
+  - 2.65
+  - 1
+  h_twist:
+  - 32.99
+  - 32.99
+  - 1
+  inclination:
+  - 16.62
+  - 16.62
+  - 1
+  tip:
+  - 0.0
+  - 0.0
+  - 1
+  x_displacement:
+  - -4.17
+  - -4.17
+  - 1
+  y_displacement:
+  - 0.0
+  - 0.0
+  - 1
+RuntimeParameters:
+  build_strand:
+  - true
+  - true
+  - false
+  - false
+  - false
+  - false
+  energy_filter:
+  - 1.0
+  - 3.0
+  - 4.0
+  - 40
+  - 600
+  ff_type: MMFF94
+  is_hexad: false
+  max_distance: 0.2
+  pair_A_U: true
+  search_algorithm: weighted monte carlo search
+  num_steps: 10000
+  monte_carlo_temperature: 300
+  weighting_temperature: 300
+  seed: 0
+  strand: AGAGAAGAUCUUCUCU
+  strand_orientation:
+  - true
+  - false
+  - false
+  - false
+  - false
+  - false

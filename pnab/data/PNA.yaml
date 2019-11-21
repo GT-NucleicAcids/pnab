@@ -1,0 +1,67 @@
+Backbone:
+  file_path: PNA_backbone.pdb
+  fixed_bonds:
+  - - 2
+    - 7
+  interconnects:
+  - 12
+  - 10
+  linker:
+  - 1
+  - 11
+HelicalParameters:
+  h_rise:
+  - 3.27
+  - 3.27
+  - 1
+  h_twist:
+  - 19.43
+  - 19.43
+  - 1
+  inclination:
+  - 0.72
+  - 0.72
+  - 1
+  tip:
+  - 0.41
+  - 0.41
+  - 1
+  x_displacement:
+  - -7.78
+  - -7.78
+  - 1
+  y_displacement:
+  - -0.11
+  - -0.11
+  - 1
+RuntimeParameters:
+  build_strand:
+  - true
+  - true
+  - false
+  - false
+  - false
+  - false
+  energy_filter:
+  - 1.0
+  - 4.0
+  - 10
+  - 20
+  - 100000.0
+  ff_type: GAFF
+  is_hexad: false
+  max_distance: 0.2
+  pair_A_U: false
+  search_algorithm: weighted random search
+  monte_carlo_temperature: 300
+  weighting_temperature: 300
+  num_steps: 1000000
+  seed: 0
+  strand: GGCATGCC
+  strand_orientation:
+  - true
+  - false
+  - false
+  - false
+  - false
+  - false
