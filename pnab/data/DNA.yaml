@@ -43,17 +43,16 @@ RuntimeParameters:
   energy_filter:
   - 1.0
   - 3.0
-  - 4.0
-  - 30.0
-  - 410.0
+  - 6.0
+  - 100.0
+  - 1000.0
   ff_type: MMFF94
   is_hexad: false
   max_distance: 0.2
   pair_A_U: false
-  search_algorithm: weighted monte carlo search
-  num_steps: 100000
+  search_algorithm: monte carlo search
+  num_steps: 1000000
   monte_carlo_temperature: 300
-  weighting_temperature: 300
   seed: 0
   strand: ACTACAATGTTGCAAT
   strand_orientation:

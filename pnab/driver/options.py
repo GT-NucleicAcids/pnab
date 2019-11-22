@@ -583,13 +583,13 @@ _options_dict['RuntimeParameters']['max_distance'] = {
                                                      'validation': lambda x: float(x),
                                                      }
 _options_dict['RuntimeParameters']['energy_filter'] = {
-                                                      'glossory': ('Maximum energy for newly formed bonds in the backbone (kcal/mol/(nucleotide-1))\n' +
-                                                                   'Maximum energy for newly formed angles in the backbone (kcal/mol/(nucleotide-1))\n' +
+                                                      'glossory': ('Maximum energy for newly formed bonds in the backbone (kcal/mol)\n' +
+                                                                   'Maximum energy for newly formed angles in the backbone (kcal/mol)\n' +
                                                                    'Maximum torsional energy for rotatable bonds (kcal/mol/nucleotide)\n' +
                                                                    'Maximum van der Waals energy (kcal/mol/nucleotide)\n' +
                                                                    'Maximum total energy (kcal/mol/nucleotide)\n'),
-                                                      'long_glossory': ('This is the bond stretching energy for the newly formed bonds between two adjacent backbone molecules.\n' +
-                                                                        'This is the angle bending energy for the newly formed angles between two adjacent backbone molecules.\n' +
+                                                      'long_glossory': ('This is the bond stretching energy for the newly formed bonds between the first two adjacent backbone molecules.\n' +
+                                                                        'This is the angle bending energy for the newly formed angles between the first two adjacent backbone molecules.\n' +
                                                                         'This is the torsional energy for all the rotatable backbone bonds.\n' + 
                                                                         'This is the total van der Waals energy of the system.\n' + 
                                                                         'This is the total energy of the system.\n'),

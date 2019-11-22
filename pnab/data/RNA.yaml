@@ -44,8 +44,8 @@ RuntimeParameters:
   - 1.0
   - 3.0
   - 4.0
-  - 40
-  - 600
+  - 100
+  - 1000
   ff_type: MMFF94
   is_hexad: false
   max_distance: 0.2

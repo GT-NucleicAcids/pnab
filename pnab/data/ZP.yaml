@@ -52,14 +52,14 @@ HelicalParameters:
 RuntimeParameters:
   search_algorithm: monte carlo search
   seed: 0
-  num_steps: 300000
+  num_steps: 1000000
   monte_carlo_temperature: 300
   energy_filter:
   - 1
   - 4
   - 6
-  - 60
-  - 10000000000.0
+  - 100
+  - 1000.0
   is_hexad: false
   build_strand:
   - true
