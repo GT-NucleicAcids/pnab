@@ -1,4 +1,4 @@
-backbone:
+Backbone:
   file_path: PNA_backbone.pdb
   fixed_bonds:
   - - 2
