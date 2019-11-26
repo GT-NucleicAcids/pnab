@@ -320,7 +320,8 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
             label2->SetAttribute(to_string(n_fixed));
             a1->CloneData(label1);
             a2->CloneData(label2);
-            delete label1, label2;
+            delete label1;
+            delete label2;
             n_fixed++;
         }
         num_atoms += num_base_unit_atoms[i];
