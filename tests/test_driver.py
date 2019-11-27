@@ -44,4 +44,4 @@ def test_examples():
 
         ref_output = np.genfromtxt(os.path.join('files', f.split('.')[0] + '.csv'), delimiter=',')
         if 'linux' in sys.platform or run.options['RuntimeParameters']['search_algorithm'] == 'systematic search':
-            assert np.allclose(run.results, ref_output)
+            assert np.allclose(run.results, ref_output, atol=0.4)

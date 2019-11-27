@@ -1,4 +1,5 @@
-# 2019-11-20 16:06:19
+# 2019-11-26 10:18:10
 # h_rise=3.40, h_twist=24.00, inclination=0.00, tip=0.00, x_displacement=0.00, y_displacement=0.00
 # Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), Total Energy (kcal/mol/nucleotide), Nucleotide RMSD relative to lowest energy conformer (Angstrom), Dihedral 1 (degrees), Dihedral 2 (degrees), Dihedral 3 (degrees), Dihedral 4 (degrees)
 5,819604,0.182767,0.632681,10.284000,4.777670,65.995900,453.817000,0.000000,-109.732000,-31.337200,-127.334000,-56.939200
+5,3079350,0.153161,0.267823,9.866830,4.968880,65.716900,454.117000,0.106227,-108.338000,-25.511800,-127.568000,-49.292300

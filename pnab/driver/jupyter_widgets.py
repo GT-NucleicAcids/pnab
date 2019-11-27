@@ -80,9 +80,9 @@ def view_nglview(molecule, label=False):
     if not os.path.isfile(molecule):
         return 0
 
-    # If a label is requested, then this is a backbone molecule
+    # If a label is requested, then this is a backbone or base molecule
     if label:
-        # Read the backbone molecule and convert it to a pdb format
+        # Read the molecule and convert it to a pdb format
         mol = openbabel.OBMol()
         conv = openbabel.OBConversion()
         fmt = conv.FormatFromExt(molecule)
@@ -93,7 +93,7 @@ def view_nglview(molecule, label=False):
         num_atoms = mol.NumAtoms()
         mol = conv.WriteString(mol)
 
-        # Display the backbone molecule
+        # Display the molecule
         struct = nglview.TextStructure(mol)
         view = nglview.NGLWidget(struct, defaultRepresentation=False)
         view.camera = 'orthographic'
@@ -102,7 +102,7 @@ def view_nglview(molecule, label=False):
         view.center()
         display(view)
 
-        # Return the number of atoms to be used for the backbone widgets
+        # Return the number of atoms to be used for the backbone or base widgets
         return num_atoms
 
     # Show accepted candidates
@@ -466,7 +466,7 @@ def helical_parameters(param):
     display(widgets.HTML(value='<H3>Helical Parameters</H3>'))
 
     # Display an image showing the helical parameters for DNA and RNA
-    display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.jpeg'), retina=True))
+    display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.jpeg'), width=500))
 
     param_dict = {}
     # Add widget to the widgets dictionary
@@ -882,7 +882,12 @@ def run(button):
         run.run()
     out.clear_output()
 
-    if run.results.ndim == 1:
+    # If no results are found, print and return
+    if run.results.size == 0:
+        print("No candidate found")
+        return
+
+    elif run.results.ndim == 1:
         # Only one candidate found. Reshape results.
         run.results = run.results.reshape(1, len(run.results))
 
@@ -899,15 +904,10 @@ def run(button):
     display(widgets.HTML("""<a href="output""" + time + """.zip" target="_blank">Download Output</a>"""))
     display(Javascript("""var url="output%s.zip"\nwindow.open(url, 'download')""" %time))
 
-    # If no results are found, print and return
-    if run.results.size == 0:
-        print("No candidate found")
-
-    # else display conformers and their properties
-    else:
-        # Sort by total energy
-        run.results = run.results[run.results[:, 7].argsort()]
-        show_results(run.results, run.header, run.prefix)
+    # display conformers and their properties
+    # Sort by total energy
+    run.results = run.results[run.results[:, 7].argsort()]
+    show_results(run.results, run.header, run.prefix)
 
 
 

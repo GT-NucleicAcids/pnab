@@ -45,14 +45,14 @@ RuntimeParameters:
   - 1.0
   - 3.0
   - 4.0
-  - 5.0
-  - 170.0
+  - 10.0
+  - 1000.0
   ff_type: GAFF
   is_hexad: false
   max_distance: 0.2
   pair_A_U: true
   search_algorithm: systematic search
-  dihedral_step: 5
+  dihedral_step: 4
   seed: 0
   strand: GCGTAGCG
   strand_orientation:
