@@ -98,7 +98,7 @@ namespace PNAB {
         PNAB::HelicalParameters helical_params_; //!< @brief the helical parameters
         PNAB::Bases bases_; //!< @brief the list of the defined bases
         std::mt19937_64 rng_; //!< @brief A random number generator
-        std::vector<PNAB::ConformerData> conf_data_vec_; //!< @brief A vector containing the data for the accepted candidates
+        int number_of_candidates = 0; //!< @brief The number of accepted candiates
         OpenBabel::matrix3x3 step_rot_, //!< @brief The step rotation matrix, HelicalParameters::getStepRotationOBMatrix
                              glbl_rot_; //!< @brief The global rotation matrix, HelicalParameters::getGlobalRotationOBMatrix
         OpenBabel::vector3 step_translate_, //!< @brief The step translation vector, HelicalParameters::getStepTranslationVec
@@ -282,25 +282,6 @@ namespace PNAB {
         * @param conf_data The properties of the accepted candiate
         */ 
         void reportData(PNAB::ConformerData &conf_data);
-
-        /**
-        * @brief Calculate the RMSD between a given accpeted candidate the accepted candidate with the lowest energy
-        *
-        * @param ref The coordinates of the lowest energy candidate
-        * @param conf The coordinates of the accepted candidate
-        * @param size The number of atoms*3 in the molecule
-        *
-        * @returns The RMSD value
-        *
-        * @sa reportData
-        */ 
-        double calcRMSD(double *ref, double *conf, unsigned long size) {
-            double rmsd = 0;
-            for (int i = 0; i < size; i++) {
-                rmsd += pow(*(ref + i) - *(conf + i),2);
-            }
-            return sqrt(rmsd/(size/3));
-        }
 
         /**
         * @brief Prints the percentage of search completed and the best accepted candidate

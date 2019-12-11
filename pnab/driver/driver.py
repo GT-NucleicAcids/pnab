@@ -149,6 +149,9 @@ class pNAB(object):
         elif result.ndim == 1:
             result = result.reshape(1, len(result))
 
+        if result is not None:
+            result = result[result[:, 7].argsort()]
+
         # Add a header of the helical parameters
         header = ''.join(['%s=%.2f, ' %(k, val) for k, val in zip(self.options['HelicalParameters'], config)])
         header = header.strip(', ')
@@ -189,10 +192,10 @@ class pNAB(object):
         ##@brief A string comma-separated header for the results used in the generated CSV files
         self.header = ('Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), ' +
                        'Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), ' + 
-                       'Total Energy (kcal/mol/nucleotide), Nucleotide RMSD relative to lowest energy conformer (Angstrom)')
+                       'Total Energy (kcal/mol/nucleotide)')
 
         # Add header entries for the dihedral angles
-        for i in range(results[2].shape[1] - 9):
+        for i in range(results[2].shape[1] - 8):
             self.header += ", Dihedral " + str(i+1) + " (degrees)"
         header += self.header
 

@@ -79,6 +79,15 @@ ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbo
         r = rl.NextRotor(ri);
     }
 
+    // Header
+    std::string header = "# Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), "
+                         "Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), "
+                         "Total Energy (kcal/mol/nucleotide)";
+    for (int i=0; i < rotor_vector.size(); i++) {
+        header += ", Dihedral " + to_string(i+1) + " (degrees)";
+    }
+
+    output_string += header + "\n";
 }
 
 std::string ConformationSearch::run() {
@@ -252,6 +261,7 @@ void ConformationSearch::GeneticAlgorithmSearch() {
                         data.distance = cur_dist;
                         memcpy(data.monomer_coord, coords, sizeof(double) * monomer_num_coords_);
                         reportData(data);
+                        delete[] data.monomer_coord;
                     }
                 }
             }
@@ -261,10 +271,6 @@ void ConformationSearch::GeneticAlgorithmSearch() {
         population = new_generation;
 
     }
-
-    // Clean
-    for (auto &v : conf_data_vec_)
-        delete[] v.monomer_coord;
 
     return;
 
@@ -336,13 +342,10 @@ void ConformationSearch::RandomSearch(bool weighted) {
                 data.distance = cur_dist;
                 memcpy(data.monomer_coord, coords, sizeof(double) * monomer_num_coords_);
                 reportData(data);
+                delete[] data.monomer_coord;
             }
         }
     }
-
-    // Clean
-    for (auto &v : conf_data_vec_)
-        delete[] v.monomer_coord;
 
     return;
 }
@@ -465,13 +468,10 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
                 data.distance = cur_dist;
                 memcpy(data.monomer_coord, coords, sizeof(double) * monomer_num_coords_);
                 reportData(data);
+                delete[] data.monomer_coord;
             }
         }
     }
-
-    // Clean
-    for (auto &v : conf_data_vec_)
-        delete[] v.monomer_coord;
 
     return;
 }
@@ -625,32 +625,19 @@ void ConformationSearch::SystematicSearch() {
                 data.distance = cur_dist;
                 memcpy(data.monomer_coord, coords, sizeof(double) * monomer_num_coords_);
                 reportData(data);
+                delete[] data.monomer_coord;
             }
         }
     }
-
-    // Clean
-    for (auto &v : conf_data_vec_)
-        delete[] v.monomer_coord;
 
     return;
 }
 
 void ConformationSearch::printProgress(std::size_t search_index, std::size_t search_size) {
     // Print progress
-    auto prgrs = conf_data_vec_.size(); // Number of accepted candidates
     cout << prefix_ << ": ";
     cout << 100 * static_cast<double>(search_index) / search_size;
-    cout << "%\tAccepted: " << setw(8) << prgrs;
-    // Print the name of the accepted candidate and its energy and distance
-    if (prgrs > 0) {
-        cout << ", Best Conformer (distance, energy): (" << setw(6) << conf_data_vec_[0].distance
-             << ", " << setw(6) << conf_data_vec_[0].total_energy << ") -- " << prefix_ << "_"
-             << conf_data_vec_[0].index << ".pdb" << endl;
-    } else {
-        cout << endl;
-    }
-
+    cout << "%\tAccepted: " << number_of_candidates << endl;
 }
 
 double ConformationSearch::measureDistance(double *coords, unsigned head, unsigned tail) {
@@ -674,6 +661,9 @@ double ConformationSearch::measureDistance(double *coords, unsigned head, unsign
 }
 
 void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
+    
+    // Increase number of accepted candidates
+    number_of_candidates += 1;
 
     // Setup variables for saving the structure of the accepted candidate
     ostringstream strs;
@@ -702,11 +692,6 @@ void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
     conf_data.molecule.CloneData(pairdata);
     delete pairdata;
 
-    // Header
-    std::string header = "# Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), "
-                         "Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), "
-                         "Total Energy (kcal/mol/nucleotide), Nucleotide RMSD relative to lowest energy conformer (Angstrom)";
-
     vector<string> labels = {"Helical Rise (Angstroms)", "X-Displacement (Angstroms)", "Y-Displacement (Angstrom)",
                              "Helical Twist (degrees)", "Inclination (degrees)", "Tip (degrees)",
                              "Distance (Angstroms)", "Bond Energy (kcal/mol)", "Angle Energy (kcal/mol)", "Torsion Energy (kcal/mol/nucleotide)",
@@ -716,7 +701,6 @@ void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
                            conf_data.distance, conf_data.bondE, conf_data.angleE, conf_data.torsionE, conf_data.VDWE, conf_data.total_energy};
 
     for (int i=0; i < rotor_vector.size(); i++) {
-        header += ", Dihedral " + to_string(i+1) + " (degrees)";
         labels.push_back("Dihedral " + to_string(i+1) + " (degrees)");
         double angle = rotor_vector[i]->CalcTorsion(conf_data.monomer_coord) * 180.0/M_PI;
         conf_data.dihedral_angles.push_back(angle);
@@ -735,28 +719,16 @@ void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
     conv_.Write(&conf_data.molecule);
     fb.close();
 
-    conf_data_vec_.push_back(conf_data);
-
-    output_stringstream << header << endl;
-
     // Now we store the properties of the accepted candidates
-    // Sort candidates by lowest energy
-    std::sort(conf_data_vec_.begin(), conf_data_vec_.end());
-
-    double *ref = conf_data_vec_[0].monomer_coord;
-    for (auto &v : conf_data_vec_) {
-        // Calculate RMSD relative to the lowest energy candidate
-        v.rmsd = calcRMSD(ref, v.monomer_coord, monomer_num_coords_);
-        // write properties to the output stringstring
-        output_stringstream << prefix_ << ", " << v.index  << ", " << v.distance << ", " << v.bondE << ", " << v.angleE << ", "
-            << v.torsionE << ", " << v.VDWE << ", " << v.total_energy << ", " << v.rmsd;
-        for (auto angle: v.dihedral_angles)
-            output_stringstream << ", " << angle;
-        output_stringstream << endl;
-    }
+    auto v = conf_data;
+    output_stringstream << prefix_ << ", " << v.index  << ", " << v.distance << ", " << v.bondE << ", " << v.angleE << ", "
+        << v.torsionE << ", " << v.VDWE << ", " << v.total_energy;
+    for (auto angle: v.dihedral_angles)
+        output_stringstream << ", " << angle;
+    output_stringstream << endl;
 
     // Update the output string
-    output_string = output_stringstream.str();
+    output_string += output_stringstream.str();
 
     return;
 }
