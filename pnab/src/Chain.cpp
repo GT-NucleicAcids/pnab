@@ -9,9 +9,11 @@ using namespace PNAB;
 using namespace OpenBabel;
 
 Chain::Chain(Bases bases, const Backbone &backbone, std::vector<std::string> strand, std::string ff_type,
-             std::array<unsigned, 2> &range, bool hexad, std::vector<bool> build_strand, std::vector<bool> strand_orientation) {
+             std::array<unsigned, 2> &range, bool hexad, std::vector<bool> build_strand, std::vector<bool> strand_orientation,
+             double glycosidic_bond_distance) {
 
     // Set some variables
+    glycosidic_bond_distance_ = glycosidic_bond_distance;
     build_strand_ = build_strand;
     strand_orientation_ = strand_orientation;
     hexad_ = hexad;
@@ -254,7 +256,7 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
     vector<string> base_codes;
     vector<string> base_names;
     for (auto v : bases_A) {
-        bu_A.emplace_back(BaseUnit(v, backbone));
+        bu_A.emplace_back(BaseUnit(v, backbone, glycosidic_bond_distance_));
         base_codes.emplace_back(v.getCode());
         base_names.emplace_back(v.getName());
     }

@@ -39,7 +39,7 @@ ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbo
     glbl_translate_ = helical_params_.getGlobalTranslationVec();
 
     // Get a base unit
-    unit = BaseUnit(base_a, backbone_);
+    unit = BaseUnit(base_a, backbone_, runtime_params_.glycosidic_bond_distance);
     auto range = unit.getBackboneIndexRange();
     backbone_range_ = {static_cast<unsigned >(range[0]), static_cast<unsigned >(range[1])};
     bu_a_mol = unit.getMol();
@@ -128,7 +128,8 @@ void ConformationSearch::GeneticAlgorithmSearch() {
 
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
-                runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
+                runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation,
+                runtime_params_.glycosidic_bond_distance);
 
     // Set the search size; the number of generations in the genetic algorithm search
     size_t search_size = runtime_params_.num_steps;
@@ -281,7 +282,8 @@ void ConformationSearch::RandomSearch(bool weighted) {
 
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
-                runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
+                runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation,
+                runtime_params_.glycosidic_bond_distance);
 
     // Set the search size;
     size_t search_size = runtime_params_.num_steps;
@@ -355,7 +357,8 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
 
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
-                runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
+                runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation,
+                runtime_params_.glycosidic_bond_distance);
 
     // Set the search size;
     size_t search_size = runtime_params_.num_steps;
@@ -569,7 +572,8 @@ void ConformationSearch::SystematicSearch() {
 
     // Setup chain
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
-                runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation);
+                runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation,
+                runtime_params_.glycosidic_bond_distance);
 
     // Determine the step size and the number of steps
     // The number of steps is (360/dihedral_step)^(number of rotors)

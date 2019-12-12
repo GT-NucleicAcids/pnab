@@ -26,7 +26,7 @@ def test_binder_1():
                                'search_algorithm': str, 'num_steps': int, 'dihedral_step': float,
                                'strand': list, 'is_hexad': bool, 'build_strand': list, 'strand_orientation': list,
                                'weighting_temperature': float, 'monte_carlo_temperature': float, 'mutation_rate': float,
-                               'crossover_rate': float, 'population_size': int} 
+                               'crossover_rate': float, 'population_size': int, 'glycosidic_bond_distance': float} 
     assert all([i in runtime_parameters.__dir__() for i in runtime_parameters_attr])
     assert all([type(runtime_parameters.__getattribute__(k)) is val
                 for k, val in runtime_parameters_attr.items()])

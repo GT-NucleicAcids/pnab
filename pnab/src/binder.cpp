@@ -69,6 +69,7 @@ namespace PNAB {
             .def_readwrite("build_strand", &PNAB::RuntimeParameters::build_strand)
             .def_readwrite("strand_orientation", &PNAB::RuntimeParameters::strand_orientation)
             .def_readwrite("is_hexad", &PNAB::RuntimeParameters::is_hexad)
+            .def_readwrite("glycosidic_bond_distance", &PNAB::RuntimeParameters::glycosidic_bond_distance)
             ;
 
         py::class_<PNAB::HelicalParameters>(m, "HelicalParameters")

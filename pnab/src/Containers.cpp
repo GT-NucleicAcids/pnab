@@ -225,7 +225,7 @@ std::vector<Base> Bases::getComplimentBasesFromStrand(std::vector<std::string> s
     return vector<Base>();
 }
 
-BaseUnit::BaseUnit(Base base, Backbone backbone) {
+BaseUnit::BaseUnit(Base base, Backbone backbone, double glycosidic_bond_distance) {
 
     // We go ahead and center everything so we can rotate later
     backbone.center();
@@ -300,7 +300,10 @@ BaseUnit::BaseUnit(Base base, Backbone backbone) {
     // Set Length prints useless messages to the console. We need to supress it
     OBMessageHandler handler = OBMessageHandler();
     handler.StartErrorWrap();
-    new_bond->SetLength(mol.GetAtom(base.getLinker()->GetIdx()), new_bond->GetEquibLength());
+    if (glycosidic_bond_distance != 0.0)
+        new_bond->SetLength(glycosidic_bond_distance);
+    else
+        new_bond->SetLength(mol.GetAtom(base.getLinker()->GetIdx()), new_bond->GetEquibLength());
     handler.StopErrorWrap();
 
     // garbage code for debugging

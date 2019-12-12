@@ -40,7 +40,7 @@ namespace PNAB {
         *
         * This empty constructor can be used. After that, values for the member variables should be specified.
         */
-        RuntimeParameters() : energy_filter{}, max_distance(), ff_type(),
+        RuntimeParameters() : energy_filter{}, max_distance(), ff_type(), glycosidic_bond_distance(0.0),
                               num_steps(0), seed(0), weighting_temperature(298.0), monte_carlo_temperature(298.0),
                               mutation_rate(0.75), crossover_rate(0.75), population_size(1000), strand{}, is_hexad(false),
                               build_strand(std::vector<bool> {true, false, false, false, false, false}),
@@ -150,6 +150,8 @@ namespace PNAB {
                                                 * @sa Chain::setCoordsForChain
                                                 */
         bool is_hexad;                          //!< @brief Defines whether the 60 degrees rotation for hexads is performed
+        // Glycosidic bond
+        double glycosidic_bond_distance;        //!< @brief Set a user-defined glycosidic bond distance (in Angstroms). If zero (default), sets the distance based on van der Waals radii
     };
 
     /**
@@ -634,8 +636,9 @@ namespace PNAB {
         *
         * @param b Base instance
         * @param backbone Backbone instance
+        * @param glycosidic_bond_distance The glycosidic bond distance. If zero (default), set it by using the van der Waals radii
         */
-        BaseUnit(Base b, Backbone backbone);
+        BaseUnit(Base b, Backbone backbone, double glycosidic_bond_distance = 0.0);
 
         /**
         * @brief Empty constructor.

@@ -633,3 +633,13 @@ _options_dict['RuntimeParameters']['strand_orientation'] = {
                                                            'default': [True, True, True, True, True, True],
                                                            'validation': lambda x: _validate_bool_list(x),
                                                            }
+_options_dict['RuntimeParameters']['glycosidic_bond_distance'] = {
+                                                                 'glossory': 'The distance of the glycosidic bond or its equivalent',
+                                                                 'long_glossory': ("A user-defined distance for the glycosidic bond" + 
+                                                                                   " If it is zero, the van der Waals radii are used to" + 
+                                                                                   " determine an appropriate distance. This distance is set for" + 
+                                                                                   " first nucleotide. The distances in the other nucleotides are" + 
+                                                                                   " set by the periodic condition."),
+                                                                 'default': 0.0,
+                                                                 'validation': lambda x: float(x),
+                                                                 }

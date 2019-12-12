@@ -53,6 +53,7 @@ namespace PNAB {
         * @param hexad Defines whether the 60 degrees rotation for hexads is performed, RuntimeParameters::is_hexad
         * @param build_strand Defines whether to build a given strand, RuntimeParameters::build_strand
         * @param strand_orientation The orientation of each strand in the hexad, RuntimeParameters::strand_orientation
+        * @param glycosidic_bond_distance The distance of the glycosidic bond, RuntimeParameters::glycosidic_bond_distance
         *
         * @sa setupChain
         * @sa setupFFConstraints
@@ -60,7 +61,8 @@ namespace PNAB {
         Chain(PNAB::Bases bases, const PNAB::Backbone &backbone, std::vector<std::string> strand,
               std::string ff_type, std::array<unsigned, 2> &range, bool hexad,
               std::vector<bool> build_strand = {true, false, false, false, false, false},
-              std::vector<bool> strand_orientation = {true, true, true, true, true, true});
+              std::vector<bool> strand_orientation = {true, true, true, true, true, true},
+              double glycosidic_bond_distance = 0.0);
 
         /**
         * @brief Destructor for the chain class
@@ -120,6 +122,7 @@ namespace PNAB {
         bool isKCAL_, //!< @brief Whether the energy computed by openbabel is in kcal/mol
              hexad_; //!< @brief Whether we are building a hexad, RuntimeParameters::is_hexad
         std::vector<bool> strand_orientation_; //!< @brief A vector containing the orientation of each strand in the hexad, RuntimeParameters::strand_orientation
+        double glycosidic_bond_distance_; //!< @brief The distance of the glycosidic bond, RuntimeParameters::glycosidic_bond_distance
         OpenBabel::OBForceField *pFF_; //!< @brief The openbabel force field. Used to compute the energy of the system
         std::array<unsigned, 2> monomer_bb_index_range_; //!< @brief Backbone index range for the first nucleotide
         std::vector<std::vector<unsigned>> v_bb_start_index_ = std::vector<std::vector<unsigned>>(6); /*!< @brief A vector containing a vector of the starting
