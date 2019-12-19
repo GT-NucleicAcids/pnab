@@ -9,7 +9,6 @@ var searchData=
   ['getbaseindexrange',['getBaseIndexRange',['../classPNAB_1_1BaseUnit.html#ac46697994e7c0bc9b84faf4bb0e65b49',1,'PNAB::BaseUnit']]],
   ['getbasepairname',['getBasePairName',['../classPNAB_1_1Base.html#a45a030ab7fa9eb2f527505f13d8d2e7b',1,'PNAB::Base']]],
   ['getbasesfromstrand',['getBasesFromStrand',['../classPNAB_1_1Bases.html#ae267d4875a811cfc9e36226d41348dfc',1,'PNAB::Bases']]],
-  ['getchain',['getChain',['../classPNAB_1_1Chain.html#a0dd842f87a26dfee4ad2d261cfc7b66f',1,'PNAB::Chain']]],
   ['getcode',['getCode',['../classPNAB_1_1Base.html#a06f95e06dceb50347ac9ef5c25a0ff25',1,'PNAB::Base']]],
   ['getcomplimentbasesfromstrand',['getComplimentBasesFromStrand',['../classPNAB_1_1Bases.html#a9aae5b36f8d4e6eb03b63aeb6a031d92',1,'PNAB::Bases']]],
   ['getfixedbonds',['getFixedBonds',['../classPNAB_1_1BaseUnit.html#a96d302f6284ea2010ea0924856cbff2e',1,'PNAB::BaseUnit']]],
@@ -27,5 +26,7 @@ var searchData=
   ['gettail',['getTail',['../classPNAB_1_1Backbone.html#ace2292cbacc6b52adafcb4d22d03f0ef',1,'PNAB::Backbone']]],
   ['getvector',['getVector',['../classPNAB_1_1Backbone.html#ad02278cef6fb2d74c030637f129fac4e',1,'PNAB::Backbone::getVector()'],['../classPNAB_1_1Base.html#a23374546670c6732dd8b9944173c03d4',1,'PNAB::Base::getVector()']]],
   ['glbl_5frot_5f',['glbl_rot_',['../classPNAB_1_1ConformationSearch.html#ae81f71fd0d5dea1a4f9d7aaf122f6ce2',1,'PNAB::ConformationSearch']]],
-  ['glbl_5ftranslate_5f',['glbl_translate_',['../classPNAB_1_1ConformationSearch.html#a35490d8c862b89aed9b4c8d2d9bf359c',1,'PNAB::ConformationSearch']]]
+  ['glbl_5ftranslate_5f',['glbl_translate_',['../classPNAB_1_1ConformationSearch.html#a35490d8c862b89aed9b4c8d2d9bf359c',1,'PNAB::ConformationSearch']]],
+  ['glycosidic_5fbond_5fdistance',['glycosidic_bond_distance',['../classPNAB_1_1RuntimeParameters.html#a6b2a98cd7796c30abefb5f4cbef45684',1,'PNAB::RuntimeParameters']]],
+  ['glycosidic_5fbond_5fdistance_5f',['glycosidic_bond_distance_',['../classPNAB_1_1Chain.html#a272e58a631e7be5c212b1b3822418f1a',1,'PNAB::Chain']]]
 ];

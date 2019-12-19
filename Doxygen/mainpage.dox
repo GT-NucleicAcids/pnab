@@ -1,30 +1,42 @@
 /*! @mainpage
-The proto-Nucleic Acid Builder is a software tool for predicting the structure and stability of
-proto-nucleic acid systems.
+The proto-Nucleic Acid Builder is a software tool for constructing nucleic acid analogs.
+Click on the links below to learn how to install and use the program.
 
-This manual is divided in the following sections:
 - @subpage trying_and_installing
 - @subpage examples
 - @subpage advanced
+
+Here, we present a summary of the idea of the program. For more details, refer to the
+published article.
+
+@section analogs Nucleic Acid Analogs
+In the context of this program, Nucleic Acid Analogs refer to nucleic acids with any
+modifications in the nucleobase or the backbone. Additionally, the program can build
+hexameric nucleic acid analogs. The following image shows a few example of nucleic
+acid analogs that can be constructed by the program.
+
+@htmlonly <style>div.image img[src="structures.png"]{width:800px;}</style> @endhtmlonly
+@image html images/structures.png "Chemical structures of alternative nucleic acids. Panel (a) shows examples of alternative nucleic acid backbones. Panel (b) shows the canonical nucleobases and two examples of alternative nucleobases that can be incorporated into a nucleic acid duplex. Panel (c) shows the interaction between three adenine oligomers and an alternative nucleobase. Panel (d) shows the interaction between oligomers of two alternative nucleobases and the formation of a hexmeric structure. (LNA: locked nucleic acid; CeNA: cyclohexene nucleic acid; GNA: glycol nucleic acid; PNA: peptide nucleic acid; P: 6-amino-5-nitro-2(1H)-pyridone; Z: 2-amino-imidazo[1,2-a]-1,3,5-triazin-4(8H)-one; Y: cyanuric acid; M: triaminopyrimidine)"
+
+@section algorithm Algorithm
+The program builds nucleic acid according to the following algorithm:
+
+@htmlonly <style>div.image img[src="algorithm.png"]{width:300px;}</style> @endhtmlonly
+@image html images/algorithm.png "The algorithm for predicting alternative nucleic acid structures."
 
 @page trying_and_installing Trying Online or Installing 
 
 @section trying Trying the Program Online
 You can explore the program online by clicking [here](https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder/driver.ipynb).
 This link takes you to the graphical user interface of the program. There, you can try various available examples for building DNA, RNA, and 
-other alternative nucleic acids. You can also explore how the structure and energy of nucleic acids change as you play with the different options
-of the program. Additionally, you can upload a three-dimensional structure of an alternative nucleic acid backbone and explore whether it can
-form a stable structure.
-
-After running the program, it will download different output files. The output will contain PDB files of the structure of the nucleic
-acid candidates, if there are any. It will also contain files summarizing the energies and various properties of the accepted candidate.
-Additionally, it will contain a file specifying all the input options used for running the program. This options file can be uploaded
-again to the program to run the same simulation, or it can be used as a starting point for customizating the input.
+other alternative nucleic acids. You can also explore how the structure and energy of nucleic acids change as you play with the helical parameters.
+Additionally, you can upload a three-dimensional structure of an alternative nucleic acid backbone or nucleobase construct a new nucleic acid analogs.
+See the @ref examples section to learn how to use the grahpical interface.
 
 This online version is useful for testing the program. The online version uses free cloud computing resources provided by
 [Binder](https://mybinder.readthedocs.io/en/latest/index.html), and this comes with several limitations. If your session remains inactive
-for 10-20 minutes, your session will be terminated. Moreover, the cloud computers limit how long you can remain in a session and how much
-RAM memory can be used. To prevent the loss of data when the session terminates because of inactivity, the program automatically download the output files
+for 10-20 minutes, your session will be terminated. Moreover, the cloud computers limit how long you can remain in a session. To prevent the loss of
+data when the session terminates because of inactivity, the program automatically download the output files
 after it finishes running. You may need to adjust the settings of the browser to allow pop-up windows to open for downloading.
 
 If you need a more permanent version of the program, you can install it in your computer.
@@ -45,10 +57,16 @@ or the more fully featured [Anaconda](https://www.anaconda.com/distribution/). O
 @code{.sh}
 conda install -c conda-forge -c alenaizan pnab
 @endcode
-You may also need to activate the NGLView library to visualize molecules:
+
+@note
+You may need to activate the NGLView library to visualize molecules:
 @code{.sh}
 jupyter-nbextension enable nglview --py --sys-prefix
 @endcode
+
+@note
+In Windows, the program may not compute energires correctly if the environment variable BABEL_DATADIR is not set. Set the variable to
+the @code share\openbabel @endcode folder inside your Miniconda/Anaconda folder.
 
 @section running Running the Program
 
@@ -94,18 +112,91 @@ run.run()
 @endcode
 
 To create your own input files, you can use the downloaded grahpical user interface or the online version.
-Alternatively, you can write an input file using a text editor and run it.
+Alternatively, you can write an input file using a text editor and run it. See the @ref examples section to
+learn the content of the input files.
 
 @page examples Examples
 @section GUI_examples The Graphical User Interface
-The graphical user interface ([here](https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder/driver.ipynb)) contains three examples for RNA, DNA, and the hexad systems.
-You can switch between these three examples using the @a Input @a File option. You can run these
+The graphical user interface ([here](https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder/driver.ipynb)) contains examples for RNA, DNA, and other nucleic acid
+anaolgs. The available examples generates similar structures to those published in the software article. They use a variety of nucleobases, backbones,
+helical parameters, and algorithm options.
+You can switch between these examples using the @a Input @a File option. You can run these
 examples as they are or you can use them as starting points for customizing your options.
 Bring the mouse pointer to the question marks @a ? in front of each option to get some explanation of
 the option.
+@htmlonly <style>div.image img[src="notebook.png"]{width:1000px;}</style> @endhtmlonly
+@image html notebook.png "The graphical user interface."
 
-After clicking on Run, the program will use the specified options for running. The time required to complete the run depends on the algorithm.
-After it finishes, the program will display all the accepted candidates and their properties.
+After choosing or uploading the input file, the graphical interface will display the backbone and nucleobase molecules and the
+other options.
+
+The options are divided into four sections:
+- Backbone
+- Nucleobases
+- Helical Parameters
+- Runtime Parameters
+
+As shown in the above figure, specifying the backbone requires three parameters: A path to a file containing the three-dimesional
+structure of the backbone, two indices specifying the connection to the nucleobase, and two indices specifying the connetions
+to the adjacent backbones. The structure of the backbone can be uploaded. Optional parameters include the indices of fixed rotatable
+bonds. This is useful when the number of rotatable bonds in the backbone are large and the search space need to be limited to
+specific dihedral angles.
+
+
+Specifying the nucleobases may not be necessary. The program contains a library of the canonical nucelobases: adenine (A), guaninie (G), cytosine (C),
+uracil (U), and thymine (T). It also contains two alternative nucleobases that can adopt the hexad geometry, namely, triaminopyrimidine (M) and
+cyanuric acid (Y). If the user wants to construct a nucleic acid analog with alternative nucleobases, then the additional nucleobases must be defined as shown in the figure.
+
+@htmlonly <style>div.image img[src="nucleobases.png"]{width:1000px;}</style> @endhtmlonly 
+@image html nucleobases.png "Options for specifying the nucleobases."
+
+To specify the nucleobases, a three-dimensional geometry of the nucleobases must be provided. Additionally, two indices of
+atoms connecting the nucleobase to the backbone must be specified. The up-to-three-letter code is used to identify the residue
+name in the generated PDB files. The one-letter base name is a unique name that will be used in specifying the sequence of nucleobases
+in the strand. It should be different from the one-letter names of the nucleobases already defined in the program library.
+The name of the pairing base is the one-letter code for the pairing nucleobases. It is necessary when more than one strands are
+constructed. The coordinates of the specified nucleobases must be in the correct reference frame. This can be done automatically
+by the program, but it may need to be verified by the users. The new nucleobases are aligned to the DNA/RNA frame of reference.
+The program cannot align the nucleobases to a hexad frame of reference.
+
+
+@htmlonly <style>div.image img[src="helical_parameters.png"]{width:1000px;}</style> @endhtmlonly
+@image html helical_parameters.png "Specifying the helical parameters."
+
+Six parameters specify the helical structure of the nucleic acid strands. Single values or multiple values can be specified in a range.
+For example, as shown in the figure, 10 values for the twist angle will be sampled between 20 and 40 degrees. These values are uniformally
+spaced between, and including, the the end points.
+
+The runtime parameters include the options for specifying the conformational search algorithm and structural parameters.
+
+@htmlonly <style>div.image img[src="runtime_parameters1.png"]{width:1000px;}</style> @endhtmlonly
+@image html runtime_parameters1.png "Specifying the search algorithm and distance and energy thresholds."
+
+Various conformational search algorithms are available for sapmling the dihedral angles in the backbone. Each algorithm requires specific
+parameters. For exmaple, Systematic Search algorithm requires specifying the step size. The distance and energy thresholds can be used
+to refine the generated structures and exclude unreasonable conformers. The distance threshold determines whether the conformer can adopt
+a periodic structure. It should be set to a small value, such as 0.2 Angstroms. The bond, angle, and torsional energies should also be
+set to small values. This can accelerate the search and eliminate structures with elongated bonds or strained angles. The van der Waals
+energy can be used to eliminate structures with significant steric clashes. However, it may vary much depending on the choice of the force
+field. The total energy also varies significanly with the force field. Furthermore, as the system size increases, the 
+total energy per nucleotide may increase significantly becasue of the lack of screening of the positive charges and other factors.
+
+@htmlonly <style>div.image img[src="runtime_parameters2.png"]{width:1000px;}</style> @endhtmlonly
+@image html runtime_parameters2.png "Specifying the structural parameters."
+
+The sequence of nucleobases is written as a FASTA string of the one-letter codes of the nucleobases. It needs to be written for one
+strand only, while the sequence of other strands is determined by the pairing nucleobase. If building a new system, it might be advisable to start with a short
+sequence to determine appropriate values for the helical parameters and energy thresholds. Larger strands require more time in energy computation.
+The default pairing scheme is to pair adenine with thymine. If an adenine-uracil base pairing is wanted, the box should be checked. The program can build hexameric proto-nucleic
+acid strand. If this is desired, the @a Hexad @a strands box should be checked. This tells the program to perform a multiple of 60-degree rotation to generate
+other strands. By checking on two boxes in the @a Build @a the @a strand option, the program is asked to build a duplex. Clicking on more boxes will build triplexes,
+quadruplexes, etc. This is appropriate only if the nucleobases are set in the hexad frame of reference, and it does not work for DNA/RNA-like structures.
+The strand orientation specifies whether to build parallel or anti-parallel strands. The latter is required for DNA/RNA analogs, whereas both options are possible for
+a hexameric nucleic acid.
+
+
+The program will use the specified options for running. The time required to complete the run depends on the algorithm options.
+After it finishes, the program will display all the accepted candidates (if their are any) and their properties.
 
 @htmlonly <style>div.image img[src="output.png"]{width:1000px;}</style> @endhtmlonly
 @image html output.png "Example Results"
@@ -117,13 +208,8 @@ the output files are written in the folder where the Jupyter notebook was starte
 The dropdown list contains all the accepted candidates ordered by the the total energy. The output data are
 the distance between between one terminal atom of the backbone and the periodic image of the other terminal atom in the adjacent backbone,
 the energy of the new bond and the new angles formed between two nucleotides, the energy of all rotatable bonds in the backbone, the van
-der Waals energy, and the total energy. Note that these six terms are correspond to distance and energy thresholds defined in the input options.
-Additionally, the output data include the root mean-squared displacement (RMSD) between the backbone atoms of the different conformers.
-The RMSD is between a given conformer and the lowest energy conformer of the same helical configuration.
-
-The green mark indicates that the sum of the bond, angle, torsion, and van der Waals energies is less than 2 kcal/mol, thus indicating that there
-is a low energetic penalty from adopting the backbone conformation. If the sum of the energies between 2 and 5 kcal/mol, a yellow mark is displayed.
-Otherwise, a red mark is shown.
+der Waals energy, and the total energy. These six terms correspond to distance and energy thresholds defined in the input options.
+Additionally, the output data include the values of the dihedral angles for the rotatable bonds.
 
 @section more Additional Examples
 The graphical user interface is essentially a tool for specifying the input options and visualizing the results.
@@ -200,7 +286,7 @@ RuntimeParameters:
   num_steps: 10000000 # Number of steps for backbone dihedral search
   weighting_temperature: 298.0 # Temperature used in the weighting procedure for dihedral angles
   monte_carlo_temperature: 298.0 # Temperature used in the Monte Carlo procedure
-  max_distance: 0.05 # Maximum distance between atom linkers in backbone
+  max_distance: 0.2 # Maximum distance between atom linkers in backbone
   ff_type: GAFF # Force field type
   energy_filter:
   - 3.0 # Angle energy involving newly formed backbone bonds
@@ -297,11 +383,12 @@ strands by setting the values to @a true or @a false
 The program can build structures with arbitrary nucleobases. The key problem with defining a new nucleobase is making sure that
 the provided geometry of the nucleobase is in the correct standard frame of reference. Otherwise, the helical parameters
 will be ill-defined. The additional bases can be defined in the graphical user interface or by editing the input file.
+The program can automatically align provided nucleobases to the standard DNA/RNA frame of reference, though the user may
+need to verify that the nucleobase is correctly aligned. The program cannot align bases to the hexad frame of reference.
 
 For the generated strands, the length of the bond between the nucleobases and the backbone is determined by the bond length of the
-first nucleotide in the strand. The bond length is determined by the distance between the two atoms in the nucleobase that form the
-vector connecting to the backbone. Therefore, if you plan to add other nucleobases to the library, make sure that the bond length
-is reasonable for the type of bond that forms between the nucleobase and the backbone (e.g. C-C bond).
+first nucleotide in the strand. The bond length is determined by the van der Waals radii of the bonded atoms. It can also
+be set manually by the user.
 
 The program has a library of predefined nueleobases. They include adenine, guanine, cytosine, thymine, and uracil. Additionally,
 there are two proto-nucleobases that are used for building the hexads, namely triaminopyrimidine and cyanuric acid. To define
@@ -319,7 +406,7 @@ Base modified_adenine:
 
 These lines will add the nucleobase @a modified_adenine to the library of available nucleobases. For the name of the base, you
 must not use any of the names already used in the library. Otherwise, your new base might be overwritten. The reserved names are the following:
-@a A, @a G, @a C, @a T, @a U, @a X, and @a Y. These names are case-insensitive.
+@a A, @a G, @a C, @a T, @a U, @a M, and @a Y. These names are case-insensitive.
 
 Now that you defined a new nucleobase, you can use its name when you specify the strand:
 @verbatim
@@ -329,7 +416,7 @@ Now that you defined a new nucleobase, you can use its name when you specify the
 You can define additional nucleobases in the same way.
 
 @subsection lib Adding Files to the Library
-The library of the program is in the folder @a data in the package folder. The library contains three example files and the coordinates for the
+The library of the program is in the folder @a data in the package folder. The library contains example files and the coordinates for the
 defined bases and backbones. You can add additional files there to make them accessible wherever you run your Jupyter notebook or python script.
 To add other nucleobases to the library, edit the @a bases_library.yaml files.
 

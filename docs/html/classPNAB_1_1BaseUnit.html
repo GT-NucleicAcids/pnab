@@ -103,8 +103,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2bd878a12e03f8341fd9f4fee85294f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1BaseUnit.html#a2bd878a12e03f8341fd9f4fee85294f2">BaseUnit</a> (<a class="el" href="classPNAB_1_1Base.html">Base</a> b, <a class="el" href="classPNAB_1_1Backbone.html">Backbone</a> backbone)</td></tr>
-<tr class="separator:a2bd878a12e03f8341fd9f4fee85294f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2270e3aee0d845c63db0cc1a8a3ae179"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1BaseUnit.html#a2270e3aee0d845c63db0cc1a8a3ae179">BaseUnit</a> (<a class="el" href="classPNAB_1_1Base.html">Base</a> b, <a class="el" href="classPNAB_1_1Backbone.html">Backbone</a> backbone, double glycosidic_bond_distance=0.0)</td></tr>
+<tr class="separator:a2270e3aee0d845c63db0cc1a8a3ae179"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe424dcfdfea4394d8ef277fc13af7f7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1BaseUnit.html#afe424dcfdfea4394d8ef277fc13af7f7">BaseUnit</a> ()</td></tr>
 <tr class="memdesc:afe424dcfdfea4394d8ef277fc13af7f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empty constructor.  <a href="#afe424dcfdfea4394d8ef277fc13af7f7">More...</a><br/></td></tr>
 <tr class="separator:afe424dcfdfea4394d8ef277fc13af7f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,7 +160,7 @@ Private Attributes</h2></td></tr>
 <dd>
 <a class="el" href="classPNAB_1_1ConformationSearch.html" title="A rotor search function used to find acceptable conformations of arbitrary backbone and helical param...">ConformationSearch</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a2bd878a12e03f8341fd9f4fee85294f2"></a>
+<a class="anchor" id="a2270e3aee0d845c63db0cc1a8a3ae179"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -174,7 +174,13 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classPNAB_1_1Backbone.html">Backbone</a>&#160;</td>
-          <td class="paramname"><em>backbone</em>&#160;</td>
+          <td class="paramname"><em>backbone</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>glycosidic_bond_distance</em> = <code>0.0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -188,6 +194,7 @@ Private Attributes</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">b</td><td><a class="el" href="classPNAB_1_1Base.html" title="Class to fully define bases (i.e. Adenine, Cytosine) ">Base</a> instance </td></tr>
     <tr><td class="paramname">backbone</td><td><a class="el" href="classPNAB_1_1Backbone.html" title="Class for holding backbone information. ">Backbone</a> instance </td></tr>
+    <tr><td class="paramname">glycosidic_bond_distance</td><td>The glycosidic bond distance. If zero (default), set it by using the van der Waals radii </td></tr>
   </table>
   </dd>
 </dl>

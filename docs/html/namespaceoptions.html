@@ -97,6 +97,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a6dd0b4ffb1b6e70bc4eeb5d1b4be64d9"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoptions.html#a6dd0b4ffb1b6e70bc4eeb5d1b4be64d9">validate_all_options</a></td></tr>
 <tr class="memdesc:a6dd0b4ffb1b6e70bc4eeb5d1b4be64d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to validate all options.  <a href="#a6dd0b4ffb1b6e70bc4eeb5d1b4be64d9">More...</a><br/></td></tr>
 <tr class="separator:a6dd0b4ffb1b6e70bc4eeb5d1b4be64d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e746046783785b902cf3cc4458720cf"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoptions.html#a8e746046783785b902cf3cc4458720cf">_align_nucleobase</a></td></tr>
+<tr class="memdesc:a8e746046783785b902cf3cc4458720cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aligns the provided nucleobase to purine or pyrimidine in the nucleic acid base pair standard reference frame.  <a href="#a8e746046783785b902cf3cc4458720cf">More...</a><br/></td></tr>
+<tr class="separator:a8e746046783785b902cf3cc4458720cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad68fd5af16c891f5d916b324b11df7c3"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoptions.html#ad68fd5af16c891f5d916b324b11df7c3">_validate_input_file</a></td></tr>
 <tr class="memdesc:ad68fd5af16c891f5d916b324b11df7c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to validate that the given file exists.  <a href="#ad68fd5af16c891f5d916b324b11df7c3">More...</a><br/></td></tr>
 <tr class="separator:ad68fd5af16c891f5d916b324b11df7c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,6 +130,39 @@ Variables</h2></td></tr>
 <p>This option file defines a dictionary containing all the available options for the builder code. <em><a class="el" href="namespaceoptions.html#ac713404e5973898909787d2f50f5e42e" title="Nucleic acid builder options used in the driver. ">options._options_dict</a></em> has three keys: Backbone, HelicalParameters, and RuntimeParameters. Each of these contains a dictionary of available options in each category. Each dictionary contains a short glossory that describe the option, a long glossory giving hints on how to use this option, a default value, and a validation scheme.</p>
 <p>This file also contains additional functions to help in the validation. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a8e746046783785b902cf3cc4458720cf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">def options._align_nucleobase </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>base_options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Aligns the provided nucleobase to purine or pyrimidine in the nucleic acid base pair standard reference frame. </p>
+<p>This function aligns the provided nucleobase to either guanine if it has two rings or to uracil if it has one ring. The provided linker atoms that connect the base to the backbone are used for alignment. A third atom used in the alignment is determined by rearraning the atoms in the molecules using the canonical order. The function loops over all atoms in the provided nucleobase and the reference nucleobase and if two atoms have the same atomic number then these atoms are used for the alignment. A new file with the aligned nucleobase is created and used instead of the provided file.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base_options</td><td>(dict) The nucleobase options defined in the input file </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ad247a7dea07a94fc9342a6b0cb3f8662"></a>
 <div class="memitem">
 <div class="memproto">

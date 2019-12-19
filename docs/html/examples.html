@@ -85,15 +85,48 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="GUI_examples"></a>
 The Graphical User Interface</h1>
-<p>The graphical user interface (<a href="https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder/driver.ipynb">here</a>) contains three examples for RNA, DNA, and the hexad systems. You can switch between these three examples using the <em>Input</em> <em>File</em> option. You can run these examples as they are or you can use them as starting points for customizing your options. Bring the mouse pointer to the question marks <em></em>? in front of each option to get some explanation of the option.</p>
-<p>After clicking on Run, the program will use the specified options for running. The time required to complete the run depends on the algorithm. After it finishes, the program will display all the accepted candidates and their properties.</p>
+<p>The graphical user interface (<a href="https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder/driver.ipynb">here</a>) contains examples for RNA, DNA, and other nucleic acid anaolgs. The available examples generates similar structures to those published in the software article. They use a variety of nucleobases, backbones, helical parameters, and algorithm options. You can switch between these examples using the <em>Input</em> <em>File</em> option. You can run these examples as they are or you can use them as starting points for customizing your options. Bring the mouse pointer to the question marks <em></em>? in front of each option to get some explanation of the option.  <style>div.image img[src="notebook.png"]{width:1000px;}</style>  <div class="image">
+<img src="notebook.png" alt="notebook.png"/>
+<div class="caption">
+The graphical user interface.</div></div>
+<p> After choosing or uploading the input file, the graphical interface will display the backbone and nucleobase molecules and the other options.</p>
+<p>The options are divided into four sections:</p>
+<ul>
+<li>Backbone</li>
+<li>Nucleobases</li>
+<li>Helical Parameters</li>
+<li>Runtime Parameters</li>
+</ul>
+<p>As shown in the above figure, specifying the backbone requires three parameters: A path to a file containing the three-dimesional structure of the backbone, two indices specifying the connection to the nucleobase, and two indices specifying the connetions to the adjacent backbones. The structure of the backbone can be uploaded. Optional parameters include the indices of fixed rotatable bonds. This is useful when the number of rotatable bonds in the backbone are large and the search space need to be limited to specific dihedral angles.</p>
+<p>Specifying the nucleobases may not be necessary. The program contains a library of the canonical nucelobases: adenine (A), guaninie (G), cytosine (C), uracil (U), and thymine (T). It also contains two alternative nucleobases that can adopt the hexad geometry, namely, triaminopyrimidine (M) and cyanuric acid (Y). If the user wants to construct a nucleic acid analog with alternative nucleobases, then the additional nucleobases must be defined as shown in the figure.</p>
+ <style>div.image img[src="nucleobases.png"]{width:1000px;}</style>  <div class="image">
+<img src="nucleobases.png" alt="nucleobases.png"/>
+<div class="caption">
+Options for specifying the nucleobases.</div></div>
+<p> To specify the nucleobases, a three-dimensional geometry of the nucleobases must be provided. Additionally, two indices of atoms connecting the nucleobase to the backbone must be specified. The up-to-three-letter code is used to identify the residue name in the generated PDB files. The one-letter base name is a unique name that will be used in specifying the sequence of nucleobases in the strand. It should be different from the one-letter names of the nucleobases already defined in the program library. The name of the pairing base is the one-letter code for the pairing nucleobases. It is necessary when more than one strands are constructed. The coordinates of the specified nucleobases must be in the correct reference frame. This can be done automatically by the program, but it may need to be verified by the users. The new nucleobases are aligned to the DNA/RNA frame of reference. The program cannot align the nucleobases to a hexad frame of reference.</p>
+ <style>div.image img[src="helical_parameters.png"]{width:1000px;}</style>  <div class="image">
+<img src="helical_parameters.png" alt="helical_parameters.png"/>
+<div class="caption">
+Specifying the helical parameters.</div></div>
+<p> Six parameters specify the helical structure of the nucleic acid strands. Single values or multiple values can be specified in a range. For example, as shown in the figure, 10 values for the twist angle will be sampled between 20 and 40 degrees. These values are uniformally spaced between, and including, the the end points.</p>
+<p>The runtime parameters include the options for specifying the conformational search algorithm and structural parameters.</p>
+ <style>div.image img[src="runtime_parameters1.png"]{width:1000px;}</style>  <div class="image">
+<img src="runtime_parameters1.png" alt="runtime_parameters1.png"/>
+<div class="caption">
+Specifying the search algorithm and distance and energy thresholds.</div></div>
+<p> Various conformational search algorithms are available for sapmling the dihedral angles in the backbone. Each algorithm requires specific parameters. For exmaple, Systematic Search algorithm requires specifying the step size. The distance and energy thresholds can be used to refine the generated structures and exclude unreasonable conformers. The distance threshold determines whether the conformer can adopt a periodic structure. It should be set to a small value, such as 0.2 Angstroms. The bond, angle, and torsional energies should also be set to small values. This can accelerate the search and eliminate structures with elongated bonds or strained angles. The van der Waals energy can be used to eliminate structures with significant steric clashes. However, it may vary much depending on the choice of the force field. The total energy also varies significanly with the force field. Furthermore, as the system size increases, the total energy per nucleotide may increase significantly becasue of the lack of screening of the positive charges and other factors.</p>
+ <style>div.image img[src="runtime_parameters2.png"]{width:1000px;}</style>  <div class="image">
+<img src="runtime_parameters2.png" alt="runtime_parameters2.png"/>
+<div class="caption">
+Specifying the structural parameters.</div></div>
+<p> The sequence of nucleobases is written as a FASTA string of the one-letter codes of the nucleobases. It needs to be written for one strand only, while the sequence of other strands is determined by the pairing nucleobase. If building a new system, it might be advisable to start with a short sequence to determine appropriate values for the helical parameters and energy thresholds. Larger strands require more time in energy computation. The default pairing scheme is to pair adenine with thymine. If an adenine-uracil base pairing is wanted, the box should be checked. The program can build hexameric proto-nucleic acid strand. If this is desired, the <em>Hexad</em> <em>strands</em> box should be checked. This tells the program to perform a multiple of 60-degree rotation to generate other strands. By checking on two boxes in the <em>Build</em> <em>the</em> <em>strand</em> option, the program is asked to build a duplex. Clicking on more boxes will build triplexes, quadruplexes, etc. This is appropriate only if the nucleobases are set in the hexad frame of reference, and it does not work for DNA/RNA-like structures. The strand orientation specifies whether to build parallel or anti-parallel strands. The latter is required for DNA/RNA analogs, whereas both options are possible for a hexameric nucleic acid.</p>
+<p>The program will use the specified options for running. The time required to complete the run depends on the algorithm options. After it finishes, the program will display all the accepted candidates (if their are any) and their properties.</p>
  <style>div.image img[src="output.png"]{width:1000px;}</style>  <div class="image">
 <img src="output.png" alt="output.png"/>
 <div class="caption">
 Example Results</div></div>
 <p> The results are automatically downloaded as a zip file. Additionally, the output can be downloaded manually by clicking on <em>Download</em> <em>Output</em>. Note that downloading the output is only useful when the program is run in the cloud. When it is run locally the output files are written in the folder where the Jupyter notebook was started.</p>
-<p>The dropdown list contains all the accepted candidates ordered by the the total energy. The output data are the distance between between one terminal atom of the backbone and the periodic image of the other terminal atom in the adjacent backbone, the energy of the new bond and the new angles formed between two nucleotides, the energy of all rotatable bonds in the backbone, the van der Waals energy, and the total energy. Note that these six terms are correspond to distance and energy thresholds defined in the input options. Additionally, the output data include the root mean-squared displacement (RMSD) between the backbone atoms of the different conformers. The RMSD is between a given conformer and the lowest energy conformer of the same helical configuration.</p>
-<p>The green mark indicates that the sum of the bond, angle, torsion, and van der Waals energies is less than 2 kcal/mol, thus indicating that there is a low energetic penalty from adopting the backbone conformation. If the sum of the energies between 2 and 5 kcal/mol, a yellow mark is displayed. Otherwise, a red mark is shown.</p>
+<p>The dropdown list contains all the accepted candidates ordered by the the total energy. The output data are the distance between between one terminal atom of the backbone and the periodic image of the other terminal atom in the adjacent backbone, the energy of the new bond and the new angles formed between two nucleotides, the energy of all rotatable bonds in the backbone, the van der Waals energy, and the total energy. These six terms correspond to distance and energy thresholds defined in the input options. Additionally, the output data include the values of the dihedral angles for the rotatable bonds.</p>
 <h1><a class="anchor" id="more"></a>
 Additional Examples</h1>
 <p>The graphical user interface is essentially a tool for specifying the input options and visualizing the results. However, the functionalities of the program can also be accessed through python scripts.</p>
@@ -149,7 +182,7 @@ Basic Structue of the Input File</h2>
   num_steps: 10000000 # Number of steps for backbone dihedral search
   weighting_temperature: 298.0 # Temperature used in the weighting procedure for dihedral angles
   monte_carlo_temperature: 298.0 # Temperature used in the Monte Carlo procedure
-  max_distance: 0.05 # Maximum distance between atom linkers in backbone
+  max_distance: 0.2 # Maximum distance between atom linkers in backbone
   ff_type: GAFF # Force field type
   energy_filter:
   - 3.0 # Angle energy involving newly formed backbone bonds
@@ -216,7 +249,8 @@ Basic Structue of the Input File</h2>
 </pre><p> The <em>is_hexad</em> keyword tells the program that we want to use the hexad geometry. The program, therefore, will perform 60 degrees rotation when appropriate to generate the strands. To build all the six strands in the hexad, set all entries in <em>build_strand</em> to true. The <em>strand_orientation</em> option allows you to build any cobmination of parallel and anti-parallel strands by setting the values to <em>true</em> or <em>false</em> </p>
 <h2><a class="anchor" id="bases"></a>
 Adding Bases Not Defined in The Library</h2>
-<p>The program can build structures with arbitrary nucleobases. The key problem with defining a new nucleobase is making sure that the provided geometry of the nucleobase is in the correct standard frame of reference. Otherwise, the helical parameters will be ill-defined. The additional bases can be defined in the graphical user interface or by editing the input file.</p>
+<p>The program can build structures with arbitrary nucleobases. The key problem with defining a new nucleobase is making sure that the provided geometry of the nucleobase is in the correct standard frame of reference. Otherwise, the helical parameters will be ill-defined. The additional bases can be defined in the graphical user interface or by editing the input file. The program can automatically align provided nucleobases to the standard DNA/RNA frame of reference, though the user may need to verify that the nucleobase is correctly aligned. The program cannot align bases to the hexad frame of reference.</p>
+<p>For the generated strands, the length of the bond between the nucleobases and the backbone is determined by the bond length of the first nucleotide in the strand. The bond length is determined by the van der Waals radii of the bonded atoms. It can also be set manually by the user.</p>
 <p>The program has a library of predefined nueleobases. They include adenine, guanine, cytosine, thymine, and uracil. Additionally, there are two proto-nucleobases that are used for building the hexads, namely triaminopyrimidine and cyanuric acid. To define other nucleobases, add the following entries to the input file: </p>
 <pre class="fragment">Base modified_adenine:
   code: AD2 # Three letter PDB code
@@ -226,13 +260,13 @@ Adding Bases Not Defined in The Library</h2>
   - 11
   name: Q # One-letter name of the base
   pair_name: T # One-letter name of the pairing base
-</pre><p>These lines will add the nucleobase <em>modified_adenine</em> to the library of available nucleobases. For the name of the base, you must not use any of the names already used in the library. Otherwise, your new base might be overwritten. The reserved names are the following: <em>A</em>, <em>G</em>, <em>C</em>, <em>T</em>, <em>U</em>, <em>X</em>, and <em>Y</em>. These names are case-insensitive.</p>
+</pre><p>These lines will add the nucleobase <em>modified_adenine</em> to the library of available nucleobases. For the name of the base, you must not use any of the names already used in the library. Otherwise, your new base might be overwritten. The reserved names are the following: <em>A</em>, <em>G</em>, <em>C</em>, <em>T</em>, <em>U</em>, <em>M</em>, and <em>Y</em>. These names are case-insensitive.</p>
 <p>Now that you defined a new nucleobase, you can use its name when you specify the strand: </p>
 <pre class="fragment">  strand: CGCQUQTGQG
 </pre><p>You can define additional nucleobases in the same way.</p>
 <h2><a class="anchor" id="lib"></a>
 Adding Files to the Library</h2>
-<p>The library of the program is in the folder <em>data</em> in the package folder. The library contains three example files and the coordinates for the defined bases and backbones. You can add additional files there to make them accessible wherever you run your Jupyter notebook or python script. To add other nucleobases to the library, edit the <em>bases_library.yaml</em> files.</p>
+<p>The library of the program is in the folder <em>data</em> in the package folder. The library contains example files and the coordinates for the defined bases and backbones. You can add additional files there to make them accessible wherever you run your Jupyter notebook or python script. To add other nucleobases to the library, edit the <em>bases_library.yaml</em> files.</p>
 <h2><a class="anchor" id="script_example"></a>
 Python Script</h2>
 <p>The minimal input to run the program as a python script is this: </p>

@@ -9,7 +9,6 @@ var searchData=
   ['getbaseindexrange',['getBaseIndexRange',['../classPNAB_1_1BaseUnit.html#ac46697994e7c0bc9b84faf4bb0e65b49',1,'PNAB::BaseUnit']]],
   ['getbasepairname',['getBasePairName',['../classPNAB_1_1Base.html#a45a030ab7fa9eb2f527505f13d8d2e7b',1,'PNAB::Base']]],
   ['getbasesfromstrand',['getBasesFromStrand',['../classPNAB_1_1Bases.html#ae267d4875a811cfc9e36226d41348dfc',1,'PNAB::Bases']]],
-  ['getchain',['getChain',['../classPNAB_1_1Chain.html#a0dd842f87a26dfee4ad2d261cfc7b66f',1,'PNAB::Chain']]],
   ['getcode',['getCode',['../classPNAB_1_1Base.html#a06f95e06dceb50347ac9ef5c25a0ff25',1,'PNAB::Base']]],
   ['getcomplimentbasesfromstrand',['getComplimentBasesFromStrand',['../classPNAB_1_1Bases.html#a9aae5b36f8d4e6eb03b63aeb6a031d92',1,'PNAB::Bases']]],
   ['getfixedbonds',['getFixedBonds',['../classPNAB_1_1BaseUnit.html#a96d302f6284ea2010ea0924856cbff2e',1,'PNAB::BaseUnit']]],

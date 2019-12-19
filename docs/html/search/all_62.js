@@ -15,7 +15,7 @@ var searchData=
   ['bases',['Bases',['../classPNAB_1_1Bases.html#a4a50981d10161ac1420e29a458312feb',1,'PNAB::Bases::Bases(std::vector&lt; Base &gt; input_bases)'],['../classPNAB_1_1Bases.html#ac9a5cbb609e4106a5678df26cc06106c',1,'PNAB::Bases::Bases()'],['../classPNAB_1_1Bases.html#aab117f7ce23bd67f7fce03646013d064',1,'PNAB::Bases::bases()'],['../namespacejupyter__widgets.html#a4b7ff81037ee033b52665868b240f934',1,'jupyter_widgets.bases()']]],
   ['bases_5f',['bases_',['../classPNAB_1_1ConformationSearch.html#a2c863ecfd419da9d099ef8b14ce2779e',1,'PNAB::ConformationSearch']]],
   ['baseunit',['BaseUnit',['../classPNAB_1_1BaseUnit.html',1,'PNAB']]],
-  ['baseunit',['BaseUnit',['../classPNAB_1_1BaseUnit.html#a2bd878a12e03f8341fd9f4fee85294f2',1,'PNAB::BaseUnit::BaseUnit(Base b, Backbone backbone)'],['../classPNAB_1_1BaseUnit.html#afe424dcfdfea4394d8ef277fc13af7f7',1,'PNAB::BaseUnit::BaseUnit()']]],
+  ['baseunit',['BaseUnit',['../classPNAB_1_1BaseUnit.html#a2270e3aee0d845c63db0cc1a8a3ae179',1,'PNAB::BaseUnit::BaseUnit(Base b, Backbone backbone, double glycosidic_bond_distance=0.0)'],['../classPNAB_1_1BaseUnit.html#afe424dcfdfea4394d8ef277fc13af7f7',1,'PNAB::BaseUnit::BaseUnit()']]],
   ['binder_2ecpp',['binder.cpp',['../binder_8cpp.html',1,'']]],
   ['boltzmann',['BOLTZMANN',['../ConformationSearch_8h.html#aa1487dae81baa2e0a5643e7b571633a0',1,'ConformationSearch.h']]],
   ['bonde',['bondE',['../structPNAB_1_1ConformerData.html#a0d539a82d3d07fbf7f2aaabf00f6e393',1,'PNAB::ConformerData']]],

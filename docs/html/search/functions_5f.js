@@ -1,6 +1,7 @@
 var searchData=
 [
   ['_5f_5finit_5f_5f',['__init__',['../classdriver_1_1pNAB.html#ae682ce7ca0d8588b8ec8e62583313a9c',1,'driver::pNAB']]],
+  ['_5falign_5fnucleobase',['_align_nucleobase',['../namespaceoptions.html#a8e746046783785b902cf3cc4458720cf',1,'options']]],
   ['_5frun',['_run',['../classdriver_1_1pNAB.html#a4c1092a8b49df907f86dbb65208d145b',1,'driver::pNAB']]],
   ['_5fsingle_5fresult',['_single_result',['../classdriver_1_1pNAB.html#a81aab550af24103403db4fd0d8bfbe17',1,'driver::pNAB']]],
   ['_5fvalidate_5fatom_5findices',['_validate_atom_indices',['../namespaceoptions.html#ad247a7dea07a94fc9342a6b0cb3f8662',1,'options']]],

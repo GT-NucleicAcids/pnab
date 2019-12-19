@@ -104,18 +104,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a92005d97cb2043fca705c6c88345d518"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1Chain.html#a92005d97cb2043fca705c6c88345d518">Chain</a> (<a class="el" href="classPNAB_1_1Bases.html">PNAB::Bases</a> bases, const <a class="el" href="classPNAB_1_1Backbone.html">PNAB::Backbone</a> &amp;backbone, std::vector&lt; std::string &gt; strand, std::string ff_type, std::array&lt; unsigned, 2 &gt; &amp;range, bool hexad, std::vector&lt; bool &gt; build_strand={true, false, false, false, false, false}, std::vector&lt; bool &gt; strand_orientation={true, true, true, true, true, true})</td></tr>
-<tr class="memdesc:a92005d97cb2043fca705c6c88345d518"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the chain class.  <a href="#a92005d97cb2043fca705c6c88345d518">More...</a><br/></td></tr>
-<tr class="separator:a92005d97cb2043fca705c6c88345d518"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a807f97333d7905a8e1655ee1cd091955"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1Chain.html#a807f97333d7905a8e1655ee1cd091955">Chain</a> (<a class="el" href="classPNAB_1_1Bases.html">PNAB::Bases</a> bases, const <a class="el" href="classPNAB_1_1Backbone.html">PNAB::Backbone</a> &amp;backbone, std::vector&lt; std::string &gt; strand, std::string ff_type, std::array&lt; unsigned, 2 &gt; &amp;range, bool hexad, std::vector&lt; bool &gt; build_strand={true, false, false, false, false, false}, std::vector&lt; bool &gt; strand_orientation={true, true, true, true, true, true}, double glycosidic_bond_distance=0.0)</td></tr>
+<tr class="memdesc:a807f97333d7905a8e1655ee1cd091955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for the chain class.  <a href="#a807f97333d7905a8e1655ee1cd091955">More...</a><br/></td></tr>
+<tr class="separator:a807f97333d7905a8e1655ee1cd091955"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23b7b9a89e0b75b3e9ccecd415736bd6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1Chain.html#a23b7b9a89e0b75b3e9ccecd415736bd6">~Chain</a> ()</td></tr>
 <tr class="memdesc:a23b7b9a89e0b75b3e9ccecd415736bd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor for the chain class.  <a href="#a23b7b9a89e0b75b3e9ccecd415736bd6">More...</a><br/></td></tr>
 <tr class="separator:a23b7b9a89e0b75b3e9ccecd415736bd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad739566234b023be04bc2f2f2a5c7194"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structPNAB_1_1ConformerData.html">PNAB::ConformerData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1Chain.html#ad739566234b023be04bc2f2f2a5c7194">generateConformerData</a> (double *xyz, <a class="el" href="classPNAB_1_1HelicalParameters.html">PNAB::HelicalParameters</a> &amp;hp, std::vector&lt; double &gt; energy_filter)</td></tr>
 <tr class="memdesc:ad739566234b023be04bc2f2f2a5c7194"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate structure and energy data for nucleic acid conformers.  <a href="#ad739566234b023be04bc2f2f2a5c7194">More...</a><br/></td></tr>
 <tr class="separator:ad739566234b023be04bc2f2f2a5c7194"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0dd842f87a26dfee4ad2d261cfc7b66f"><td class="memItemLeft" align="right" valign="top">OpenBabel::OBMol&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1Chain.html#a0dd842f87a26dfee4ad2d261cfc7b66f">getChain</a> ()</td></tr>
-<tr class="memdesc:a0dd842f87a26dfee4ad2d261cfc7b66f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the openbabel molecule containing the structure of the system.  <a href="#a0dd842f87a26dfee4ad2d261cfc7b66f">More...</a><br/></td></tr>
-<tr class="separator:a0dd842f87a26dfee4ad2d261cfc7b66f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -131,6 +128,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a441ef4ae7dc91a981c97c37383e0b012"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1Chain.html#a441ef4ae7dc91a981c97c37383e0b012">setCoordsForChain</a> (double *xyz, double *conf, <a class="el" href="classPNAB_1_1HelicalParameters.html">PNAB::HelicalParameters</a> &amp;hp, std::vector&lt; unsigned &gt; &amp;num_bu_atoms, std::vector&lt; unsigned &gt; &amp;bb_start_index, std::vector&lt; double * &gt; &amp;base_coords_vec, std::vector&lt; unsigned &gt; &amp;deleted_atoms_ids, unsigned chain_index)</td></tr>
 <tr class="memdesc:a441ef4ae7dc91a981c97c37383e0b012"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the coordinates for each strand in the system.  <a href="#a441ef4ae7dc91a981c97c37383e0b012">More...</a><br/></td></tr>
 <tr class="separator:a441ef4ae7dc91a981c97c37383e0b012"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c581f8e6ac44d4d4d5772c93a3be4fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1Chain.html#a0c581f8e6ac44d4d4d5772c93a3be4fe">orderResidues</a> (OpenBabel::OBMol *molecule)</td></tr>
+<tr class="memdesc:a0c581f8e6ac44d4d4d5772c93a3be4fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Orders the residues in the molecules correctly.  <a href="#a0c581f8e6ac44d4d4d5772c93a3be4fe">More...</a><br/></td></tr>
+<tr class="separator:a0c581f8e6ac44d4d4d5772c93a3be4fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -175,6 +175,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:acf64d4319751b80acc3a2048a5f8c5ac"><td class="memItemLeft" align="right" valign="top">std::vector&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1Chain.html#acf64d4319751b80acc3a2048a5f8c5ac">strand_orientation_</a></td></tr>
 <tr class="memdesc:acf64d4319751b80acc3a2048a5f8c5ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">A vector containing the orientation of each strand in the hexad, <a class="el" href="classPNAB_1_1RuntimeParameters.html#aa5ffe42dbad68706b2ba1361fdd547f6" title="Defines strand orientation for each strand in the hexad. ">RuntimeParameters::strand_orientation</a>.  <a href="#acf64d4319751b80acc3a2048a5f8c5ac">More...</a><br/></td></tr>
 <tr class="separator:acf64d4319751b80acc3a2048a5f8c5ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a272e58a631e7be5c212b1b3822418f1a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1Chain.html#a272e58a631e7be5c212b1b3822418f1a">glycosidic_bond_distance_</a></td></tr>
+<tr class="memdesc:a272e58a631e7be5c212b1b3822418f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The distance of the glycosidic bond, <a class="el" href="classPNAB_1_1RuntimeParameters.html#a6b2a98cd7796c30abefb5f4cbef45684" title="Set a user-defined glycosidic bond distance (in Angstroms). If zero (default), sets the distance base...">RuntimeParameters::glycosidic_bond_distance</a>.  <a href="#a272e58a631e7be5c212b1b3822418f1a">More...</a><br/></td></tr>
+<tr class="separator:a272e58a631e7be5c212b1b3822418f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ba0453fbd479f84b5a1c3d361fdf3e4"><td class="memItemLeft" align="right" valign="top">OpenBabel::OBForceField *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1Chain.html#a8ba0453fbd479f84b5a1c3d361fdf3e4">pFF_</a></td></tr>
 <tr class="memdesc:a8ba0453fbd479f84b5a1c3d361fdf3e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The openbabel force field. Used to compute the energy of the system.  <a href="#a8ba0453fbd479f84b5a1c3d361fdf3e4">More...</a><br/></td></tr>
 <tr class="separator:a8ba0453fbd479f84b5a1c3d361fdf3e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -228,7 +231,7 @@ Private Attributes</h2></td></tr>
 <dd>
 <a class="el" href="classPNAB_1_1Bases.html" title="A class that contains a vector of all the defined bases and a funtion to return a base and the compli...">Bases</a> </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a92005d97cb2043fca705c6c88345d518"></a>
+<a class="anchor" id="a807f97333d7905a8e1655ee1cd091955"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -278,7 +281,13 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; bool &gt;&#160;</td>
-          <td class="paramname"><em>strand_orientation</em> = <code>{true,&#160;true,&#160;true,&#160;true,&#160;true,&#160;true}</code>&#160;</td>
+          <td class="paramname"><em>strand_orientation</em> = <code>{true,&#160;true,&#160;true,&#160;true,&#160;true,&#160;true}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>glycosidic_bond_distance</em> = <code>0.0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -299,7 +308,8 @@ Private Attributes</h2></td></tr>
     <tr><td class="paramname">range</td><td><a class="el" href="classPNAB_1_1Backbone.html" title="Class for holding backbone information. ">Backbone</a> index range for the first nucleotide </td></tr>
     <tr><td class="paramname">hexad</td><td>Defines whether the 60 degrees rotation for hexads is performed, <a class="el" href="classPNAB_1_1RuntimeParameters.html#aabae2cf8ab4a60cc40bdfb5173910867" title="Defines whether the 60 degrees rotation for hexads is performed. ">RuntimeParameters::is_hexad</a> </td></tr>
     <tr><td class="paramname">build_strand</td><td>Defines whether to build a given strand, <a class="el" href="classPNAB_1_1RuntimeParameters.html#a755a1bcd73b84ccbbd2d9822fb0ede1e" title="Defines whether to build a given strand. ">RuntimeParameters::build_strand</a> </td></tr>
-    <tr><td class="paramname">strand_orientation</td><td>The orientation of each strand in the hexad, <a class="el" href="classPNAB_1_1RuntimeParameters.html#aa5ffe42dbad68706b2ba1361fdd547f6" title="Defines strand orientation for each strand in the hexad. ">RuntimeParameters::strand_orientation</a></td></tr>
+    <tr><td class="paramname">strand_orientation</td><td>The orientation of each strand in the hexad, <a class="el" href="classPNAB_1_1RuntimeParameters.html#aa5ffe42dbad68706b2ba1361fdd547f6" title="Defines strand orientation for each strand in the hexad. ">RuntimeParameters::strand_orientation</a> </td></tr>
+    <tr><td class="paramname">glycosidic_bond_distance</td><td>The distance of the glycosidic bond, <a class="el" href="classPNAB_1_1RuntimeParameters.html#a6b2a98cd7796c30abefb5f4cbef45684" title="Set a user-defined glycosidic bond distance (in Angstroms). If zero (default), sets the distance base...">RuntimeParameters::glycosidic_bond_distance</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -443,7 +453,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0dd842f87a26dfee4ad2d261cfc7b66f"></a>
+<a class="anchor" id="a0c581f8e6ac44d4d4d5772c93a3be4fe"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -451,21 +461,31 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">OpenBabel::OBMol PNAB::Chain::getChain </td>
+          <td class="memname">void Chain::orderResidues </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">OpenBabel::OBMol *&#160;</td>
+          <td class="paramname"><em>molecule</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the openbabel molecule containing the structure of the system. </p>
-<dl class="section return"><dt>Returns</dt><dd>The openbabel molecule containing the structure of the system </dd></dl>
+<p>Orders the residues in the molecules correctly. </p>
+<p>This function reverses the order of residues in inverted strands.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">molecule</td><td>The OBMol object of the system which will get the correct order</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classPNAB_1_1Chain.html#ad739566234b023be04bc2f2f2a5c7194" title="Generate structure and energy data for nucleic acid conformers. ">generateConformerData</a> </dd>
+<dd>
+<a class="el" href="structPNAB_1_1ConformerData.html" title="Class to contain important information for an individual conformer. ">PNAB::ConformerData</a> </dd></dl>
 
 </div>
 </div>
@@ -659,7 +679,7 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classPNAB_1_1Chain.html#a92005d97cb2043fca705c6c88345d518" title="Constructor for the chain class. ">Chain::Chain</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classPNAB_1_1Chain.html#a807f97333d7905a8e1655ee1cd091955" title="Constructor for the chain class. ">Chain::Chain</a> </dd></dl>
 
 </div>
 </div>
@@ -720,7 +740,7 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classPNAB_1_1Chain.html#a92005d97cb2043fca705c6c88345d518" title="Constructor for the chain class. ">Chain::Chain</a> </dd>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classPNAB_1_1Chain.html#a807f97333d7905a8e1655ee1cd091955" title="Constructor for the chain class. ">Chain::Chain</a> </dd>
 <dd>
 <a class="el" href="classPNAB_1_1Chain.html#a07c0d2802edfc258047e85be262f48e1" title="Creates the molecule for each strand in the system. ">setupChain</a> </dd>
 <dd>
@@ -946,6 +966,28 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The force field type (e.g. "GAFF"), <a class="el" href="classPNAB_1_1RuntimeParameters.html#aae9ac5c8604dd8f0bcf7cfbf3ddad627" title="The type of the forcefield such as &quot;GAFF&quot; or &quot;MMFF94&quot;; available through Openbabel. ">RuntimeParameters::ff_type</a>. </p>
+
+</div>
+</div>
+<a class="anchor" id="a272e58a631e7be5c212b1b3822418f1a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double PNAB::Chain::glycosidic_bond_distance_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The distance of the glycosidic bond, <a class="el" href="classPNAB_1_1RuntimeParameters.html#a6b2a98cd7796c30abefb5f4cbef45684" title="Set a user-defined glycosidic bond distance (in Angstroms). If zero (default), sets the distance base...">RuntimeParameters::glycosidic_bond_distance</a>. </p>
 
 </div>
 </div>

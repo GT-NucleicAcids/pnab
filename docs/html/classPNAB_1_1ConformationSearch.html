@@ -140,12 +140,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a1b7bbc60c2acc830297c1f97249f20da"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#a1b7bbc60c2acc830297c1f97249f20da">measureDistance</a> (double *<a class="el" href="classPNAB_1_1ConformationSearch.html#a460891946a43dbe553e9ec56e2ca3cc7">coords</a>, unsigned <a class="el" href="classPNAB_1_1ConformationSearch.html#a97890c1e28ac451dd0a33332929a8384">head</a>, unsigned <a class="el" href="classPNAB_1_1ConformationSearch.html#a2f7611fb7bc03a4193dca86db300ee9b">tail</a>)</td></tr>
 <tr class="memdesc:a1b7bbc60c2acc830297c1f97249f20da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the distance between the head backbone atom and the tail backbone atom of the next nucleotide.  <a href="#a1b7bbc60c2acc830297c1f97249f20da">More...</a><br/></td></tr>
 <tr class="separator:a1b7bbc60c2acc830297c1f97249f20da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0093dc12fcca4543b08e5b0137a21fb8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#a0093dc12fcca4543b08e5b0137a21fb8">reportData</a> (<a class="el" href="structPNAB_1_1ConformerData.html">PNAB::ConformerData</a> conf_data)</td></tr>
-<tr class="memdesc:a0093dc12fcca4543b08e5b0137a21fb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function to report the data on the accepted candidates.  <a href="#a0093dc12fcca4543b08e5b0137a21fb8">More...</a><br/></td></tr>
-<tr class="separator:a0093dc12fcca4543b08e5b0137a21fb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1e9b2b4878232f0c03bd016377ec60a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#ae1e9b2b4878232f0c03bd016377ec60a">calcRMSD</a> (double *ref, double *conf, unsigned long size)</td></tr>
-<tr class="memdesc:ae1e9b2b4878232f0c03bd016377ec60a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the RMSD between a given accpeted candidate the accepted candidate with the lowest energy.  <a href="#ae1e9b2b4878232f0c03bd016377ec60a">More...</a><br/></td></tr>
-<tr class="separator:ae1e9b2b4878232f0c03bd016377ec60a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78e485c16429926686e12ccf48df35ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#a78e485c16429926686e12ccf48df35ba">reportData</a> (<a class="el" href="structPNAB_1_1ConformerData.html">PNAB::ConformerData</a> &amp;conf_data)</td></tr>
+<tr class="memdesc:a78e485c16429926686e12ccf48df35ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function to report the data on the accepted candidates.  <a href="#a78e485c16429926686e12ccf48df35ba">More...</a><br/></td></tr>
+<tr class="separator:a78e485c16429926686e12ccf48df35ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02eb6b556cdebf2b0e66842751c27be4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#a02eb6b556cdebf2b0e66842751c27be4">printProgress</a> (std::size_t search_index, std::size_t search_size)</td></tr>
 <tr class="memdesc:a02eb6b556cdebf2b0e66842751c27be4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the percentage of search completed and the best accepted candidate.  <a href="#a02eb6b556cdebf2b0e66842751c27be4">More...</a><br/></td></tr>
 <tr class="separator:a02eb6b556cdebf2b0e66842751c27be4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -173,9 +170,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a3371928146032cd0805c3c46e98985c7"><td class="memItemLeft" align="right" valign="top">std::mt19937_64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#a3371928146032cd0805c3c46e98985c7">rng_</a></td></tr>
 <tr class="memdesc:a3371928146032cd0805c3c46e98985c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A random number generator.  <a href="#a3371928146032cd0805c3c46e98985c7">More...</a><br/></td></tr>
 <tr class="separator:a3371928146032cd0805c3c46e98985c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6dec4b181176eaf389e37106dd27fae0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structPNAB_1_1ConformerData.html">PNAB::ConformerData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#a6dec4b181176eaf389e37106dd27fae0">conf_data_vec_</a></td></tr>
-<tr class="memdesc:a6dec4b181176eaf389e37106dd27fae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">A vector containing the data for the accepted candidates.  <a href="#a6dec4b181176eaf389e37106dd27fae0">More...</a><br/></td></tr>
-<tr class="separator:a6dec4b181176eaf389e37106dd27fae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3359f926a0d4394aa633e643a9884e2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#ab3359f926a0d4394aa633e643a9884e2">number_of_candidates</a> = 0</td></tr>
+<tr class="memdesc:ab3359f926a0d4394aa633e643a9884e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of accepted candiates.  <a href="#ab3359f926a0d4394aa633e643a9884e2">More...</a><br/></td></tr>
+<tr class="separator:ab3359f926a0d4394aa633e643a9884e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a126f3544b6103177a47481f499272c79"><td class="memItemLeft" align="right" valign="top">OpenBabel::matrix3x3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#a126f3544b6103177a47481f499272c79">step_rot_</a></td></tr>
 <tr class="memdesc:a126f3544b6103177a47481f499272c79"><td class="mdescLeft">&#160;</td><td class="mdescRight">The step rotation matrix, <a class="el" href="classPNAB_1_1HelicalParameters.html#aa24a56812f26f7e883557581d8b15cfe" title="Get the step rotation matrix in the OpenBabel::matrix3x3 format. ">HelicalParameters::getStepRotationOBMatrix</a>.  <a href="#a126f3544b6103177a47481f499272c79">More...</a><br/></td></tr>
 <tr class="separator:a126f3544b6103177a47481f499272c79"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,9 +188,6 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a37899834efd346baf028af9b2e74465a"><td class="memItemLeft" align="right" valign="top">OpenBabel::OBConversion&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#a37899834efd346baf028af9b2e74465a">conv_</a></td></tr>
 <tr class="memdesc:a37899834efd346baf028af9b2e74465a"><td class="mdescLeft">&#160;</td><td class="mdescRight">An openbabel conversion object used to write accepted candidates.  <a href="#a37899834efd346baf028af9b2e74465a">More...</a><br/></td></tr>
 <tr class="separator:a37899834efd346baf028af9b2e74465a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf74643623988de5eab6369dca9e6c11"><td class="memItemLeft" align="right" valign="top">OpenBabel::OBMol&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#abf74643623988de5eab6369dca9e6c11">test_chain_</a></td></tr>
-<tr class="memdesc:abf74643623988de5eab6369dca9e6c11"><td class="mdescLeft">&#160;</td><td class="mdescRight">A molecule containing the structure of accepted candidates for saving.  <a href="#abf74643623988de5eab6369dca9e6c11">More...</a><br/></td></tr>
-<tr class="separator:abf74643623988de5eab6369dca9e6c11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a664ceb75b5462883ab2531dbb883c8eb"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1ConformationSearch.html#a664ceb75b5462883ab2531dbb883c8eb">monomer_num_coords_</a></td></tr>
 <tr class="memdesc:a664ceb75b5462883ab2531dbb883c8eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">3*The number of atoms in the first nucleotide  <a href="#a664ceb75b5462883ab2531dbb883c8eb">More...</a><br/></td></tr>
 <tr class="separator:a664ceb75b5462883ab2531dbb883c8eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -342,58 +336,6 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae1e9b2b4878232f0c03bd016377ec60a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double PNAB::ConformationSearch::calcRMSD </td>
-          <td>(</td>
-          <td class="paramtype">double *&#160;</td>
-          <td class="paramname"><em>ref</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double *&#160;</td>
-          <td class="paramname"><em>conf</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned long&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Calculate the RMSD between a given accpeted candidate the accepted candidate with the lowest energy. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ref</td><td>The coordinates of the lowest energy candidate </td></tr>
-    <tr><td class="paramname">conf</td><td>The coordinates of the accepted candidate </td></tr>
-    <tr><td class="paramname">size</td><td>The number of atoms*3 in the molecule</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The RMSD value</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="classPNAB_1_1ConformationSearch.html#a0093dc12fcca4543b08e5b0137a21fb8" title="A function to report the data on the accepted candidates. ">reportData</a> </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a4ff01c48376901bcf73758b1a013f3c1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -624,7 +566,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0093dc12fcca4543b08e5b0137a21fb8"></a>
+<a class="anchor" id="a78e485c16429926686e12ccf48df35ba"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -634,7 +576,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void ConformationSearch::reportData </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structPNAB_1_1ConformerData.html">PNAB::ConformerData</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structPNAB_1_1ConformerData.html">PNAB::ConformerData</a> &amp;&#160;</td>
           <td class="paramname"><em>conf_data</em></td><td>)</td>
           <td></td>
         </tr>
@@ -835,28 +777,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a6dec4b181176eaf389e37106dd27fae0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="structPNAB_1_1ConformerData.html">PNAB::ConformerData</a>&gt; PNAB::ConformationSearch::conf_data_vec_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>A vector containing the data for the accepted candidates. </p>
-
-</div>
-</div>
 <a class="anchor" id="a37899834efd346baf028af9b2e74465a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1008,6 +928,28 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>3*The number of atoms in the first nucleotide </p>
+
+</div>
+</div>
+<a class="anchor" id="ab3359f926a0d4394aa633e643a9884e2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int PNAB::ConformationSearch::number_of_candidates = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of accepted candiates. </p>
 
 </div>
 </div>
@@ -1206,28 +1148,6 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The second terminal atom in the backbone. </p>
-
-</div>
-</div>
-<a class="anchor" id="abf74643623988de5eab6369dca9e6c11"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">OpenBabel::OBMol PNAB::ConformationSearch::test_chain_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>A molecule containing the structure of accepted candidates for saving. </p>
 
 </div>
 </div>

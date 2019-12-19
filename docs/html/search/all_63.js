@@ -1,16 +1,13 @@
 var searchData=
 [
-  ['calcrmsd',['calcRMSD',['../classPNAB_1_1ConformationSearch.html#ae1e9b2b4878232f0c03bd016377ec60a',1,'PNAB::ConformationSearch']]],
   ['center',['center',['../classPNAB_1_1Backbone.html#a35c7fde42b7575d81d1c16a4fae8688f',1,'PNAB::Backbone']]],
   ['chain',['Chain',['../classPNAB_1_1Chain.html',1,'PNAB']]],
-  ['chain',['Chain',['../classPNAB_1_1Chain.html#a92005d97cb2043fca705c6c88345d518',1,'PNAB::Chain']]],
+  ['chain',['Chain',['../classPNAB_1_1Chain.html#a807f97333d7905a8e1655ee1cd091955',1,'PNAB::Chain']]],
   ['chain_2ecpp',['Chain.cpp',['../Chain_8cpp.html',1,'']]],
   ['chain_2eh',['Chain.h',['../Chain_8h.html',1,'']]],
-  ['chain_5fcoords_5fpresent',['chain_coords_present',['../structPNAB_1_1ConformerData.html#a2da1a81f5ed2b2d3112f7fa7dad6eacc',1,'PNAB::ConformerData']]],
   ['chain_5flength_5f',['chain_length_',['../classPNAB_1_1Chain.html#a1bb973da7c538278da12a394c270feb9',1,'PNAB::Chain']]],
   ['code',['code',['../classPNAB_1_1Base.html#a07c7ee332ffcfff95ee80fb66e227c11',1,'PNAB::Base']]],
   ['combined_5fchain_5f',['combined_chain_',['../classPNAB_1_1Chain.html#a10c066182c6b386c6b9f2be83d98858b',1,'PNAB::Chain']]],
-  ['conf_5fdata_5fvec_5f',['conf_data_vec_',['../classPNAB_1_1ConformationSearch.html#a6dec4b181176eaf389e37106dd27fae0',1,'PNAB::ConformationSearch']]],
   ['conformationsearch',['ConformationSearch',['../classPNAB_1_1ConformationSearch.html',1,'PNAB']]],
   ['conformationsearch',['ConformationSearch',['../classPNAB_1_1ConformationSearch.html#aa8fb93aba77a04fa41bdb648667b6118',1,'PNAB::ConformationSearch']]],
   ['conformationsearch_2ecpp',['ConformationSearch.cpp',['../ConformationSearch_8cpp.html',1,'']]],
@@ -23,6 +20,6 @@ var searchData=
   ['containers_2ecpp',['Containers.cpp',['../Containers_8cpp.html',1,'']]],
   ['containers_2eh',['Containers.h',['../Containers_8h.html',1,'']]],
   ['conv_5f',['conv_',['../classPNAB_1_1ConformationSearch.html#a37899834efd346baf028af9b2e74465a',1,'PNAB::ConformationSearch']]],
-  ['coords',['coords',['../classPNAB_1_1ConformationSearch.html#a460891946a43dbe553e9ec56e2ca3cc7',1,'PNAB::ConformationSearch::coords()'],['../structPNAB_1_1ConformerData.html#af81f876fa27db93dbd1e2b7b65fb4eab',1,'PNAB::ConformerData::coords()']]],
+  ['coords',['coords',['../classPNAB_1_1ConformationSearch.html#a460891946a43dbe553e9ec56e2ca3cc7',1,'PNAB::ConformationSearch']]],
   ['crossover_5frate',['crossover_rate',['../classPNAB_1_1RuntimeParameters.html#afba9c7b7013290f173faca84df845dce',1,'PNAB::RuntimeParameters']]]
 ];

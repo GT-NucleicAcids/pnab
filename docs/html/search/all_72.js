@@ -1,7 +1,7 @@
 var searchData=
 [
   ['randomsearch',['RandomSearch',['../classPNAB_1_1ConformationSearch.html#ad52e77cb571044efcdf2750bf54232c4',1,'PNAB::ConformationSearch']]],
-  ['reportdata',['reportData',['../classPNAB_1_1ConformationSearch.html#a0093dc12fcca4543b08e5b0137a21fb8',1,'PNAB::ConformationSearch']]],
+  ['reportdata',['reportData',['../classPNAB_1_1ConformationSearch.html#a78e485c16429926686e12ccf48df35ba',1,'PNAB::ConformationSearch']]],
   ['results',['results',['../classdriver_1_1pNAB.html#a19cbd7ab9ec24e9e7bb5d6112c7f52f4',1,'driver::pNAB']]],
   ['rl',['rl',['../classPNAB_1_1ConformationSearch.html#af4e2546b32cd541c944cc110898405ff',1,'PNAB::ConformationSearch']]],
   ['rmsd',['rmsd',['../structPNAB_1_1ConformerData.html#a6d16a0a87c834d049f0fb473e8aef588',1,'PNAB::ConformerData']]],

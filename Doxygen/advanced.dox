@@ -48,7 +48,7 @@ backbone.linker = [13, 14]
 
 base = bind.Base()
 base.file_path = 'adenine.pdb'
-base.code = 'ADA'
+base.code = 'ADE'
 base.linker = [5, 11]
 base.name = 'Adenine'
 base.pair_name = 'Uracil'
@@ -77,5 +77,5 @@ print(output)
 The output from the run is a string containing the data in CSV format.
 
 The C++ classes exposed to python are only for defining options and running the program. The other classes can be
-accessed through the C++ API.
+accessed through the C++ code.
 */

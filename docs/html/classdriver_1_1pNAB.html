@@ -155,8 +155,7 @@ Private Attributes</h2></td></tr>
 <p>A class that contains methods to create a <a class="el" href="classdriver_1_1pNAB.html" title="The proto-Nucleic Acid Builder main python class. ">pNAB</a> run. It validates input, runs it, and save results.</p>
 <p>Examples: Use the code to get RNA and DNA candidates. This uses the provided example files in the "pnab/data" directory. The results are in three files:</p>
 <p>1) results.csv: Contains all the results for all the helical configurations requested in the run.</p>
-<p>2) summary.csv: Contains a summary of the best 10 results ordered by the total energy of the conformer.</p>
-<p>3) prefix.yaml: Containts a dictionary of the sequence of the run and the corresponding helical configuration (useful when a range of values is given for the helical parameters).</p>
+<p>2) prefix.yaml: Containts a dictionary of the sequence of the run and the corresponding helical configuration (useful when a range of values is given for the helical parameters).</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> pnab</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;run = pnab.pNAB(<span class="stringliteral">&#39;RNA.yaml&#39;</span>)</div>
@@ -331,8 +330,8 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Prepare helical configurations and run them in parallel. </p>
-<p>If a single value is given for a helical parameter (e.g. helical twist), then that value is used. If a range of values is given, then random values in the range will be used. The number of configurations is determined by the third value in <em>pNAB.pNAB.options</em>. The various helical configurations are run in parallel using the multiprocessing library.</p>
-<p>This function writes three output files: "results.csv", "prefix.yaml", and "summary.csv". It renames any existing files with these names by prepending enough "_".</p>
+<p>If a single value is given for a helical parameter (e.g. helical twist), then that value is used. If a range of values is given, then equally spaced values in the range will be used. The number of configurations is determined by the third value in <em>pNAB.pNAB.options</em>. The various helical configurations are run in parallel using the multiprocessing library.</p>
+<p>This function writes three output files: "results.csv" and "prefix.yaml". It renames any existing files with these names by prepending enough "_".</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">number_of_cpus</td><td>Number of CPUs to use for parallel computations of different helical configurations, defaults to all cores </td></tr>
