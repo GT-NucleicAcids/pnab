@@ -1,25 +1,23 @@
 package:
   name: pnab
-  version: "0.7"
+  version: "0.93"
 
 source:
-  #path: ../
-  git_url: https://github.com/alenaizan/pnab.git  # [linux]
-  git_url: https://github.com/alenaizan/pnab.git  # [osx]
-  git_tag: v0.7
+  git_url: https://github.com/alenaizan/pnab.git
+  git_tag: v0.93
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
+    - git
     - {{ compiler('cxx') }}
     - cmake
-    - pkg-config
   host:
     - eigen
     - openbabel {{ openbabel }}
-    - pybind11
+    - pybind11 {{ pybind11 }}
     - python {{ python }}
     - ipywidgets {{ ipywidgets }}
   run:
@@ -36,10 +34,11 @@ test:
   requires:
     - pytest
   commands:
+    - call set BABEL_DATADIR=%PREFIX%\share\openbabel # [win]
     - python -c "import pnab; pnab.test()"
 
 about:
   home: https://github.com/alenaizan/pnab
-  license: None
-  license_family: None
+  license: GPL
+  license_family: GPL
   summary: proto-Nucleic Acid Builder

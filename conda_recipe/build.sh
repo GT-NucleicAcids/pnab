@@ -8,16 +8,16 @@ ${BUILD_PREFIX}/bin/cmake \
     -DCMAKE_CXX_COMPILER=${CXX} \
     -DCMAKE_C_FLAGS="${CFLAGS}" \
     -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
-    -DPYTHON_EXECUTABLE="${PYTHON}" \
-    -DPYTHON_LIBRARY="${PREFIX}/lib/lib${PY_ABBR}${SHLIB_EXT}" \
-    -DPYTHON_INCLUDE_DIR="${PREFIX}/include/${PY_ABBR}" \
+    -DPYTHON_EXECUTABLE="$PREFIX/bin/python" \
+    -DPYTHON_LIBRARY="$PREFIX/lib/lib${PY_ABBR}${SHLIB_EXT}" \
+    -DPYTHON_INCLUDE_DIR="$PREFIX/include/${PY_ABBR}" \
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_DOCS=OFF \
     -DENABLE_OPENMP=OFF \
     -DENABLE_XHOST=OFF \
     -DENABLE_GENERIC=ON \
-    -Dopenbabel2_DIR="${PREFIX}/lib/cmake/openbabel2" \
     -Dpybind11_DIR="${PREFIX}/share/cmake/pybind11" \
+    -DOPENBABEL_DIR="$PREFIX" \
     -DCMAKE_PREFIX_PATH="${PREFIX}"
 
 # build
