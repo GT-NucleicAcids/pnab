@@ -643,3 +643,11 @@ _options_dict['RuntimeParameters']['glycosidic_bond_distance'] = {
                                                                  'default': 0.0,
                                                                  'validation': lambda x: float(x),
                                                                  }
+_options_dict['RuntimeParameters']['only_one_candidate'] = {
+                                                           'glossory': 'Quit after finding one accepted candidate',
+                                                           'long_glossory': ('Quit after finding one accepted candidate' + 
+                                                                             ' Can be used to save time if only one backbone conformation for a given helical configuration is needed.' +
+                                                                             ' If multiple helical configurations are requested, all of them will be tested.'),
+                                                           'default': False,
+                                                           'validation': lambda x: bool(x),
+                                                           }

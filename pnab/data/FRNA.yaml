@@ -43,7 +43,7 @@ RuntimeParameters:
   - false
   energy_filter:
   - 1.0
-  - 3.0
+  - 2.0
   - 4.0
   - 0.0
   - 1000000000.0
@@ -51,8 +51,10 @@ RuntimeParameters:
   is_hexad: false
   max_distance: 0.2
   pair_A_U: true
-  search_algorithm: systematic search
-  dihedral_step: 4
+  search_algorithm: monte carlo search
+  only_one_candidate: true
+  monte_carlo_temperature: 300
+  num_steps: 10000000
   seed: 0
   strand: CGAAUUCG
   strand_orientation:

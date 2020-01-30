@@ -42,17 +42,20 @@ RuntimeParameters:
   - false
   energy_filter:
   - 1.0
-  - 3.0
-  - 6.0
-  - 100.0
+  - 2.0
+  - 4.0
+  - 30.0
   - 1000.0
   ff_type: MMFF94
   is_hexad: false
   max_distance: 0.2
   pair_A_U: false
-  search_algorithm: monte carlo search
-  num_steps: 1000000
-  monte_carlo_temperature: 300
+  search_algorithm: genetic algorithm search
+  num_steps: 10000
+  crossover_rate: 0.5
+  mutation_rate: 0.5
+  population_size: 10000
+  only_one_candidate: true
   seed: 0
   strand: ACTACAATGTTGCAAT
   strand_orientation:

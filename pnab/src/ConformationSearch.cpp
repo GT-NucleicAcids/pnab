@@ -263,6 +263,8 @@ void ConformationSearch::GeneticAlgorithmSearch() {
                         memcpy(data.monomer_coord, coords, sizeof(double) * monomer_num_coords_);
                         reportData(data);
                         delete[] data.monomer_coord;
+                        if (runtime_params_.only_one_candidate)
+                            return;
                     }
                 }
             }
@@ -345,6 +347,8 @@ void ConformationSearch::RandomSearch(bool weighted) {
                 memcpy(data.monomer_coord, coords, sizeof(double) * monomer_num_coords_);
                 reportData(data);
                 delete[] data.monomer_coord;
+                if (runtime_params_.only_one_candidate)
+                    return;
             }
         }
     }
@@ -472,6 +476,8 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
                 memcpy(data.monomer_coord, coords, sizeof(double) * monomer_num_coords_);
                 reportData(data);
                 delete[] data.monomer_coord;
+                if (runtime_params_.only_one_candidate)
+                    return;
             }
         }
     }
@@ -630,6 +636,8 @@ void ConformationSearch::SystematicSearch() {
                 memcpy(data.monomer_coord, coords, sizeof(double) * monomer_num_coords_);
                 reportData(data);
                 delete[] data.monomer_coord;
+                if (runtime_params_.only_one_candidate)
+                    return;
             }
         }
     }

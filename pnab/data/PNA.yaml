@@ -44,9 +44,9 @@ RuntimeParameters:
   - false
   energy_filter:
   - 1.0
-  - 4.0
-  - 10
-  - 100
+  - 2.0
+  - 6.0
+  - 20.0
   - 100000.0
   ff_type: GAFF
   is_hexad: false
@@ -55,6 +55,7 @@ RuntimeParameters:
   search_algorithm: weighted random search
   weighting_temperature: 300
   num_steps: 10000000
+  only_one_candidate: true
   seed: 0
   strand: GGCATGCC
   strand_orientation:

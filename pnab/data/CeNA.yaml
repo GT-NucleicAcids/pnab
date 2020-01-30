@@ -43,16 +43,20 @@ RuntimeParameters:
   - false
   energy_filter:
   - 1.0
-  - 3.0
+  - 2.0
   - 4.0
-  - 10.0
+  - 5.0
   - 1000.0
   ff_type: GAFF
   is_hexad: false
   max_distance: 0.2
   pair_A_U: true
-  search_algorithm: systematic search
-  dihedral_step: 4
+  search_algorithm: genetic algorithm search
+  num_steps: 1000
+  crossover_rate: 0.5
+  mutation_rate: 0.5
+  population_size: 10000
+  only_one_candidate: true
   seed: 0
   strand: GCGTAGCG
   strand_orientation:
