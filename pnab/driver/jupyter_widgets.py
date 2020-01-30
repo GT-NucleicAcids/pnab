@@ -523,6 +523,14 @@ def algorithm(chosen_algorithm, param):
     # Add widget to the widgets dictionary
     input_options['RuntimeParameters']['search_algorithm'] = chosen_algorithm
 
+    only_one_candidate = widgets.Checkbox(value=param['only_one_candidate']['default'], indent=False,
+                                          description=param['only_one_candidate']['glossory'],
+                                          style={'description_width': 'initial'},
+                                          layout={'width': '75%'})
+    help_box = widgets.Button(description='?', tooltip=param['only_one_candidate']['long_glossory'], layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, only_one_candidate]))
+    input_options['RuntimeParameters']['only_one_candidate'] = only_one_candidate
+
     # Systematic search algorithm needs a dihedral step size
     if chosen_algorithm == 'systematic search':
         dihedral_step = widgets.BoundedFloatText(value=param['dihedral_step']['default'],

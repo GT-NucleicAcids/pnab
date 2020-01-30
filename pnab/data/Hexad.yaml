@@ -39,8 +39,8 @@ RuntimeParameters:
   seed: 0
   energy_filter:
   - 1
-  - 3
-  - 6
+  - 2
+  - 7
   - 100
   - 1000.0
   is_hexad: true
@@ -60,5 +60,6 @@ RuntimeParameters:
   - true
   max_distance: 0.2
   num_steps: 10000000
+  only_one_candidate: true
   strand: MMMMMMMMMM
   ff_type: MMFF94

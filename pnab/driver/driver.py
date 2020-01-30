@@ -119,6 +119,10 @@ class pNAB(object):
         """
         config, prefix = config[0], config[1]
 
+        # Add a header of the helical parameters
+        header = ''.join(['%s=%.2f, ' %(k, val) for k, val in zip(self.options['HelicalParameters'], config)])
+        header = header.strip(', ')
+
         # Set runtime parameters
         runtime_parameters = bind.RuntimeParameters()
         [runtime_parameters.__setattr__(k, val) for k, val in self.options['RuntimeParameters'].items()]
@@ -151,10 +155,6 @@ class pNAB(object):
 
         if result is not None:
             result = result[result[:, 7].argsort()]
-
-        # Add a header of the helical parameters
-        header = ''.join(['%s=%.2f, ' %(k, val) for k, val in zip(self.options['HelicalParameters'], config)])
-        header = header.strip(', ')
 
         results = [prefix, header, result]
 

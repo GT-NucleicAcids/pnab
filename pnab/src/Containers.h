@@ -43,7 +43,7 @@ namespace PNAB {
         RuntimeParameters() : energy_filter{}, max_distance(), ff_type(), glycosidic_bond_distance(0.0),
                               num_steps(0), seed(0), weighting_temperature(298.0), monte_carlo_temperature(298.0),
                               mutation_rate(0.75), crossover_rate(0.75), population_size(1000), strand{}, is_hexad(false),
-                              build_strand(std::vector<bool> {true, false, false, false, false, false}),
+                              build_strand(std::vector<bool> {true, false, false, false, false, false}), only_one_candidate(true),
                               strand_orientation(std::vector<bool> {true, true, true, true, true, true}){};
 
         // Thresholds
@@ -152,6 +152,7 @@ namespace PNAB {
         bool is_hexad;                          //!< @brief Defines whether the 60 degrees rotation for hexads is performed
         // Glycosidic bond
         double glycosidic_bond_distance;        //!< @brief Set a user-defined glycosidic bond distance (in Angstroms). If zero (default), sets the distance based on van der Waals radii
+        bool only_one_candidate;                //!< @brief Quit after finding one accepted candidate
     };
 
     /**
