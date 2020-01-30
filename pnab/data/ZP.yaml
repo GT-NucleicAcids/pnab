@@ -52,7 +52,7 @@ HelicalParameters:
 RuntimeParameters:
   search_algorithm: systematic search
   dihedral_step: 3
-  only_one_candidate: false
+  only_one_candidate: true
   energy_filter:
   - 1
   - 3

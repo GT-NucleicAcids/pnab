@@ -53,8 +53,8 @@ RuntimeParameters:
   pair_A_U: true
   search_algorithm: genetic algorithm search
   num_steps: 1000
-  crossover_rate: 0.5
-  mutation_rate: 0.5
+  crossover_rate: 0.25
+  mutation_rate: 0.75
   population_size: 10000
   only_one_candidate: true
   seed: 0
