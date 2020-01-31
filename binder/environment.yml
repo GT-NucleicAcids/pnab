@@ -4,4 +4,4 @@ channels:
     - alenaizan
 dependencies: 
     - appmode
-    - pnab=0.93
+    - pnab=0.94
