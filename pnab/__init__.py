@@ -4,10 +4,10 @@
 
 from __future__ import division, absolute_import, print_function
 
-from . import bind
-from .driver.driver import pNAB
+from pnab import bind
+from pnab.driver.driver import pNAB
 try:
-    from .driver.jupyter_widgets import builder
+    from pnab.driver.jupyter_widgets import builder
 except ImportError:
     pass
-from .extras import test
+from pnab.extras import test
