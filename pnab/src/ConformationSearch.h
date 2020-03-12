@@ -272,6 +272,21 @@ namespace PNAB {
         double measureDistance(double *coords, unsigned head, unsigned tail);
 
         /**
+        * @brief A function to compute the dihedral angles of the backbone
+        *
+        * This function 
+        *
+        * @param coords The coordinates of the first nucleotide
+        * @param head The index of the first terminal atom in the backbone of the first nucleotide
+        * @param tail The index of the second terminal atom the backbone of the first nucleotide
+        *
+        * @returns The dihedral angles of the rotatable bonds 
+        *
+        * @sa reportData
+        */ 
+        std::vector<double> measureAngles(double *coords, unsigned head, unsigned tail);
+
+        /**
         * @brief A function to report the data on the accepted candidates 
         *
         * This function saves the structure of each accepted candidate in PDB format. It also reports

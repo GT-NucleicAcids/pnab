@@ -672,6 +672,65 @@ double ConformationSearch::measureDistance(double *coords, unsigned head, unsign
     return sqrt(head_coord.distSq(tail_coord));
 }
 
+vector<double> ConformationSearch::measureAngles(double *coords, unsigned head, unsigned tail) {
+    // Measure the dihedral angles of the rotatable bonds
+    // All the angles except one can be directly determined from the OBRotor objects
+    // The last one, which connects two nucleotides, is not assigned correctly by the OBRotor
+    // object because we replace the terminal atom with the periodic image of the other terminal
+    // atom. This introduces a little difference between the angle in the OBRotor object and the
+    // angle in the actual accepted candidate
+
+    // Set the dihedral angles for the non-terminal torsion
+    vector<double> angles;
+    for (int i=0; i < rotor_vector.size() - 1; i++) {
+        angles.push_back(rotor_vector[i]->CalcTorsion(coords) * 180.0/M_PI);
+    }
+
+    // Obtain the dihedral angle for the terminal torsion
+    // The trick is to obtain the coordinates of the periodic image of the second terminal atom
+    double* new_coords = new double[monomer_num_coords_];
+    memcpy(new_coords, coords, sizeof(double) * monomer_num_coords_);
+
+    // get the coordinates of the terminal atom
+    auto hi = 3 * (head - 1), ti = 3 * (tail - 1);
+    vector3 head_coord(coords[hi], coords[hi + 1], coords[hi + 2]);
+    vector3 tail_coord(coords[ti], coords[ti + 1], coords[ti + 2]);
+
+    // Perform the global rotation and translation for both the head terminal atom
+    head_coord += glbl_translate_;
+    head_coord *= glbl_rot_;
+
+    vector<int> indices = rotor_vector[3]->GetDihedralAtoms();
+    for (int i=0; i<3; i++) {
+        int ind = (indices[i]-1) * 3;
+        // Perform the global and step rotation and translation for the atoms involving
+        // the terminal torsion
+        vector3 coord(coords[ind], coords[ind + 1], coords[ind + 2]);
+        coord += glbl_translate_; 
+        coord *= glbl_rot_;
+        coord += step_translate_;
+        coord *= step_rot_;
+        new_coords[ind] = coord[0];
+        new_coords[ind + 1] = coord[1];
+        new_coords[ind + 2] = coord[2];
+    }
+
+    // Set the coordinates of the terminal atom to those of the periodic image of the second terminal atom
+    new_coords[ti] = head_coord[0];
+    new_coords[ti + 1] = head_coord[1];
+    new_coords[ti + 2] = head_coord[2];
+
+    // Compute the angle of the last torsion
+    angles.push_back(rotor_vector[3]->CalcTorsion(new_coords) * 180.0/M_PI);
+
+    delete[] new_coords;
+
+    // Return the angles
+    return angles;
+}
+
+
+
 void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
     
     // Increase number of accepted candidates
@@ -712,12 +771,13 @@ void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
                            helical_params_.h_twist, helical_params_.inclination, helical_params_.tip,
                            conf_data.distance, conf_data.bondE, conf_data.angleE, conf_data.torsionE, conf_data.VDWE, conf_data.total_energy};
 
+    vector<double> angles = measureAngles(conf_data.monomer_coord, head, tail);
     for (int i=0; i < rotor_vector.size(); i++) {
         labels.push_back("Dihedral " + to_string(i+1) + " (degrees)");
-        double angle = rotor_vector[i]->CalcTorsion(conf_data.monomer_coord) * 180.0/M_PI;
-        conf_data.dihedral_angles.push_back(angle);
-        data.push_back(angle);
+        conf_data.dihedral_angles.push_back(angles[i]);
+        data.push_back(angles[i]);
     }
+
 
     for (int i=0; i < 12 + rotor_vector.size(); i++) {
         OBPairData *pairdata = new OBPairData;
