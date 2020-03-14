@@ -51,7 +51,7 @@ HelicalParameters:
   - 1
 RuntimeParameters:
   search_algorithm: weighted monte carlo search
-  only_one_candidate: true
+  num_candidates: 2
   num_steps: 1000000
   monte_carlo_temperature: 300
   weighting_temperature: 300

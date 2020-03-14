@@ -55,7 +55,7 @@ RuntimeParameters:
   search_algorithm: weighted random search
   weighting_temperature: 300
   num_steps: 10000000
-  only_one_candidate: true
+  num_candidates: 2
   seed: 0
   strand: GGCATGCC
   strand_orientation:

@@ -60,7 +60,7 @@ RuntimeParameters:
   pair_A_U: false
   search_algorithm: random search
   num_steps: 10000000
-  only_one_candidate: true
+  num_candidates: 1
   seed: 0
   strand: RRRRRRRRRRRRRRR
   strand_orientation:

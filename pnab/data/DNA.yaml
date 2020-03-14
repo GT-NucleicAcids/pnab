@@ -55,7 +55,7 @@ RuntimeParameters:
   crossover_rate: 0.25
   mutation_rate: 0.75
   population_size: 10000
-  only_one_candidate: true
+  num_candidates: 2
   seed: 0
   strand: ACTACAATGTTGCAAT
   strand_orientation:

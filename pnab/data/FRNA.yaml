@@ -52,7 +52,7 @@ RuntimeParameters:
   max_distance: 0.2
   pair_A_U: true
   search_algorithm: monte carlo search
-  only_one_candidate: true
+  num_candidates: 2
   monte_carlo_temperature: 300
   num_steps: 10000000
   seed: 0
