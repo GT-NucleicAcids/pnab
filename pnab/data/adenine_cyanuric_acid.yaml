@@ -21,9 +21,9 @@ HelicalParameters:
   - 3.4
   - 1
   h_twist:
+  - -60.0
   - 0.0
-  - 60.0
-  - 11
+  - 13
   inclination:
   - 0.0
   - 0.0
@@ -49,10 +49,10 @@ RuntimeParameters:
   - true
   - false
   energy_filter:
-  - 1.0
-  - 7.0
-  - 5.0
-  - 100.0
+  - 1
+  - 2
+  - 4
+  - 10
   - 1000.0
   ff_type: GAFF
   is_hexad: true
@@ -60,7 +60,7 @@ RuntimeParameters:
   pair_A_U: false
   search_algorithm: random search
   num_steps: 10000000
-  only_one_candidate: true
+  num_candidates: 1
   seed: 0
   strand: RRRRRRRRRRRRRRR
   strand_orientation:

@@ -27,7 +27,7 @@ def test_binder_1():
                                'strand': list, 'is_hexad': bool, 'build_strand': list, 'strand_orientation': list,
                                'weighting_temperature': float, 'monte_carlo_temperature': float, 'mutation_rate': float,
                                'crossover_rate': float, 'population_size': int, 'glycosidic_bond_distance': float,
-                               'only_one_candidate': bool}
+                               'num_candidates': int}
     assert all([i in runtime_parameters.__dir__() for i in runtime_parameters_attr])
     assert all([type(runtime_parameters.__getattribute__(k)) is val
                 for k, val in runtime_parameters_attr.items()])
@@ -78,10 +78,10 @@ def test_binder_2():
     rp.search_algorithm = 'weighted random search'
     rp.num_steps = 1000000
     rp.ff_type = 'GAFF'
-    rp.energy_filter = [1.0, 5.0, 10.0, 10000.0, 10000.0]
+    rp.energy_filter = [2.0, 5.0, 10.0, 10000.0, 10000.0]
     rp.max_distance = 0.2
     rp.strand = ['Adenine']*5
-    rp.only_one_candidate = True
+    rp.num_candidates = 2
 
     output = bind.run(rp, backbone, bases, hp, 'test')
     print(output)

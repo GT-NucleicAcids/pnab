@@ -402,14 +402,14 @@ _options_dict['Base']['file_path'] = {
                                        'long_glossory': ('Path to the file containing the three-dimensional' +
                                                         ' molecular structure of the nucleobase (e.g. PDB file).' +
                                                         ' The base must contain hydrogen atoms and not contain' +
-                                                        ' atoms from the backbone. The base must be in the correct standard frame of reference.'),
+                                                        ' atoms from the backbone.'),
                                        'default': '',
                                        'validation': lambda x: _validate_input_file(x),
                                        }
 _options_dict['Base']['linker'] = {
                                     'glossory': 'Two atoms forming a vector connecting to backbone',
                                     'long_glossory': ('Select two atoms that form the vector connecting the nucleobase molecule to' +
-                                                      ' the backbone. The terminal atom will be deleted as the bond with the nucleobase' +
+                                                      ' the backbone. The terminal atom will be deleted as the bond with the backbone' +
                                                       ' is formed.'),
                                     'default': [0, 0],
                                     'validation': lambda x: _validate_atom_indices(x),
@@ -423,7 +423,7 @@ _options_dict['Base']['code'] = {
 _options_dict['Base']['name'] = {
                                   'glossory': 'One-letter base name',
                                   'long_glossory': ('This name is used when specifying the strand sequence. It must not be one of the' +
-                                                    ' names defined in the program library (A, G, C, T, U, M, Y).'),
+                                                    ' names defined in the program library (A, G, C, T, U, M, P, Y).'),
                                   'default': 'R',
                                   'validation': lambda x: str(x),
                                   }
@@ -435,7 +435,8 @@ _options_dict['Base']['pair_name'] = {
                                        }
 _options_dict['Base']['align'] = {
                                  'glossory': 'Align the base to the standard frame of reference',
-                                 'long_glossory': ('Aligns the provided nucleobase to either purine or pyrimidine in the base pair standard frame of reference.'),
+                                 'long_glossory': ('Aligns the provided nucleobase to either purine or pyrimidine in the base pair standard frame of reference.' +
+                                                   ' This alignment is not available for the hexad reference frame.'),
                                  'default': False,
                                  'validation': lambda x: bool(x),
                                  }
@@ -446,7 +447,7 @@ _options_dict['HelicalParameters']['h_twist'] = {
                                                'glossory': 'Helical Twist (degree)',
                                                'long_glossory': ('Select a single value or a range of values. If you select a range of values,' + 
                                                                  ' you can control the number of configurations generated in that range by increasing' + 
-                                                                 ' the number of steps. Random configurations in the provided range will be generated.'), 
+                                                                 ' the number of steps. Uniformly spaced configurations in the provided range will be generated.'), 
                                                'default': [0.0, 0.0, 1],
                                                'validation': lambda x: _validate_helical_parameters(x),
                                                }
@@ -454,7 +455,7 @@ _options_dict['HelicalParameters']['inclination'] = {
                                                     'glossory': 'Inclination (degree)',
                                                     'long_glossory': ('Select a single value or a range of values. If you select a range of values,' + 
                                                                       ' you can control the number of configurations generated in that range by increasing' + 
-                                                                      ' the number of steps. Random configurations in the provided range will be generated.' +
+                                                                      ' the number of steps. Uniformly spaced configurations in the provided range will be generated.' +
                                                                       ' Not defined for the hexad geometry.'), 
                                                     'default': [0.0, 0.0, 1],
                                                     'validation': lambda x: _validate_helical_parameters(x),
@@ -463,7 +464,7 @@ _options_dict['HelicalParameters']['tip'] = {
                                             'glossory': 'Tip (degree)',
                                             'long_glossory': ('Select a single value or a range of values. If you select a range of values,' + 
                                                               ' you can control the number of configurations generated in that range by increasing' + 
-                                                              ' the number of steps. Random configurations in the provided range will be generated.' + 
+                                                              ' the number of steps. Uniformly spaced configurations in the provided range will be generated.' + 
                                                               ' Not defined for the hexad geometry.'), 
                                             'default': [0.0, 0.0, 1],
                                             'validation': lambda x: _validate_helical_parameters(x),
@@ -472,7 +473,7 @@ _options_dict['HelicalParameters']['h_rise'] = {
                                                 'glossory': 'Helical Rise (Angstrom)',
                                                 'long_glossory': ('Select a single value or a range of values. If you select a range of values,' + 
                                                                   ' you can control the number of configurations generated in that range by increasing' + 
-                                                                  ' the number of steps. Random configurations in the provided range will be generated.'), 
+                                                                  ' the number of steps. Uniformly spaced configurations in the provided range will be generated.'), 
                                                 'default': [0.0, 0.0, 1],
                                                 'validation': lambda x: _validate_helical_parameters(x),
                                                 }
@@ -480,7 +481,7 @@ _options_dict['HelicalParameters']['x_displacement'] = {
                                                        'glossory': 'X-Displacement (Angstrom)',
                                                        'long_glossory': ('Select a single value or a range of values. If you select a range of values,' + 
                                                                          ' you can control the number of configurations generated in that range by increasing' + 
-                                                                         ' the number of steps. Random configurations in the provided range will be generated.' + 
+                                                                         ' the number of steps. Uniformly spaced in the provided range will be generated.' + 
                                                                          ' Not defined for the hexad geometry.'), 
                                                        'default': [0.0, 0.0, 1],
                                                        'validation': lambda x: _validate_helical_parameters(x),
@@ -489,7 +490,7 @@ _options_dict['HelicalParameters']['y_displacement'] = {
                                                        'glossory': 'Y-Displacement (Angstrom)',
                                                        'long_glossory': ('Select a single value or a range of values. If you select a range of values,' + 
                                                                          ' you can control the number of configurations generated in that range by increasing' + 
-                                                                         ' the number of steps. Random configurations in the provided range will be generated.' + 
+                                                                         ' the number of steps. Uniformly spaced configurations in the provided range will be generated.' + 
                                                                          ' Not defined for the hexad geometry.'), 
                                                        'default': [0.0, 0.0, 1],
                                                        'validation': lambda x: _validate_helical_parameters(x),
@@ -499,14 +500,14 @@ _options_dict['HelicalParameters']['y_displacement'] = {
 _options_dict['RuntimeParameters'] = {}
 _options_dict['RuntimeParameters']['search_algorithm'] = {
                                                          'glossory': 'Search algorithm',
-                                                         'long_glossory': ('There are six search algorithms comprising four classes:\n' + 
+                                                         'long_glossory': ('There are six search algorithms comprising four classes:\n' +
                                                                            '1) Monte Carlo search, 2) Random Search, 3) Genetic Algorithm Search, and 4) Systematic Search\n'
                                                                            'The first three algorithms are not deterministic. Weighted algorithms do not use' + 
                                                                            ' uniform distributions for generating random dihedral angles. Instead, the probability' +
-                                                                           ' distribution for each dihedral angle is weighted by exp(-Ei/kT)/sum(exp(-E/kT) where' + 
+                                                                           ' distribution for each dihedral angle is weighted by exp(-Ei/kT)/sum(exp(-Ei/kT) where' +
                                                                            ' Ei is the torsional energy at dihedral angle i.'
                                                                           ),
-                                                         'default': 'weighted monte carlo search',
+                                                         'default': 'systematic search',
                                                          'validation': lambda x: x.lower(),
                                                          }
 _options_dict['RuntimeParameters']['num_steps'] = {
@@ -533,34 +534,34 @@ _options_dict['RuntimeParameters']['dihedral_step'] = {
                                                       }
 _options_dict['RuntimeParameters']['weighting_temperature'] = {
                                                               'glossory': 'Weighting temperature (K)',
-                                                              'long_glossory': ('Temperature used for weighting the probability of each dihedral angle'),
+                                                              'long_glossory': ('Temperature used for weighting the probability of each dihedral angle.'),
                                                               'default': 300.0,
                                                               'validation': lambda x: float(x),
                                                               }
 _options_dict['RuntimeParameters']['monte_carlo_temperature'] = {
                                                                 'glossory': 'Temperature used in the Monte Carlo procedure (K)',
-                                                                'long_glossory': ('This temperature controls the acceptance and rejection ratio of the Monte Carlo steps'),
+                                                                'long_glossory': ('This temperature controls the acceptance and rejection ratio of the Monte Carlo steps.'),
                                                                 'default': 300.0,
                                                                 'validation': lambda x: float(x),
                                                                 }
 _options_dict['RuntimeParameters']['population_size'] = {
                                                         'glossory': 'The size of the population',
                                                         'long_glossory': ('The size of the population in the genetic algorithm search.'),
-                                                        'default': 1000,
+                                                        'default': 10000,
                                                         'validation': lambda x: int(x),
                                                         }
 _options_dict['RuntimeParameters']['mutation_rate'] = {
                                                       'glossory': 'Mutation rate',
                                                       'long_glossory': ('Mutation rate in the genetic algorithm search. Used to intorduce new values' +
                                                                         ' for the dihedral angles in the population.'),
-                                                      'default': 0.5,
+                                                      'default': 0.75,
                                                       'validation': lambda x: float(x),
                                                       }
 _options_dict['RuntimeParameters']['crossover_rate'] = {
                                                        'glossory': 'Crossover rate',
                                                        'long_glossory': ('Crossover or mating rate in the genetic algorithm search.' +
                                                                          ' Used to exchange dihedral angles between individuals in the population.'),
-                                                       'default': 0.5,
+                                                       'default': 0.25,
                                                        'validation': lambda x: float(x),
                                                        }
 _options_dict['RuntimeParameters']['ff_type'] = {
@@ -570,34 +571,32 @@ _options_dict['RuntimeParameters']['ff_type'] = {
                                                 'validation': lambda x: str(x).upper(),
                                                 }
 _options_dict['RuntimeParameters']['max_distance'] = {
-                                                     'glossory': ('The maximum distance between atom' +
-                                                                  ' linkers in backbone (Angstrom)' 
-                                                                  ),
-                                                     'long_glossory': ('This is the distance between the second terminal atom in one backbone' + 
-                                                                       ' and the first terminal atom in the adjacent backbone. When the distance' + 
-                                                                       ' between these two atoms is below this threshold, a bond can form between' + 
-                                                                       ' the two backbone molecules. This should be below 0.1 Angstroms. Conformers' +
+                                                     'glossory': 'The maximum distance between atom linkers in backbone (Angstrom)',
+                                                     'long_glossory': ('This is the distance between the head atom in one backbone' +
+                                                                       ' and the tail atom in the adjacent backbone. When the distance' +
+                                                                       ' between these two atoms is below this threshold, a bond can form between' +
+                                                                       ' the two backbone molecules. This should be around 0.2 Angstroms. Conformers' +
                                                                        ' that do not pass this threshold are immediately rejected without proceeding to build' +
                                                                        ' the system.'),
                                                      'default': 0.2,
                                                      'validation': lambda x: float(x),
                                                      }
 _options_dict['RuntimeParameters']['energy_filter'] = {
-                                                      'glossory': ('Maximum energy for newly formed bonds in the backbone (kcal/mol)\n' +
+                                                      'glossory': ('Maximum energy for newly formed bond in the backbone (kcal/mol)\n' +
                                                                    'Maximum energy for newly formed angles in the backbone (kcal/mol)\n' +
                                                                    'Maximum torsional energy for rotatable bonds (kcal/mol/nucleotide)\n' +
                                                                    'Maximum van der Waals energy (kcal/mol/nucleotide)\n' +
                                                                    'Maximum total energy (kcal/mol/nucleotide)\n'),
-                                                      'long_glossory': ('This is the bond stretching energy for the newly formed bonds between the first two adjacent backbone molecules.\n' +
+                                                      'long_glossory': ('This is the bond stretching energy for the newly formed bond between the first two adjacent backbone molecules.\n' +
                                                                         'This is the angle bending energy for the newly formed angles between the first two adjacent backbone molecules.\n' +
                                                                         'This is the torsional energy for all the rotatable backbone bonds.\n' + 
                                                                         'This is the total van der Waals energy of the system.\n' + 
                                                                         'This is the total energy of the system.\n'),
-                                                      'default': (1, 4, 10, 500, 10000000000),
+                                                      'default': (1, 2, 4, 30, 10000000000),
                                                       'validation': lambda x: _validate_energy_filter(x), 
                                                       }
 _options_dict['RuntimeParameters']['strand'] = {
-                                               'glossory': 'FASTA string for nucleotide sequence (e.g. GCAT or MYMY) ',
+                                               'glossory': 'FASTA string for nucleotide sequence (e.g. GCAT or PYPY) ',
                                                'long_glossory': ('See the Bases section for the defined bases and their one-letter abbreviation.' + 
                                                                  'The canonical nucleobases cannot be mixed with the nucleobases that form the hexad geometries' +
                                                                  ' because they have different standard frame of reference. The names are case-insensitive.'),
@@ -643,11 +642,12 @@ _options_dict['RuntimeParameters']['glycosidic_bond_distance'] = {
                                                                  'default': 0.0,
                                                                  'validation': lambda x: float(x),
                                                                  }
-_options_dict['RuntimeParameters']['only_one_candidate'] = {
-                                                           'glossory': 'Quit after finding one accepted candidate',
-                                                           'long_glossory': ('Quit after finding one accepted candidate' + 
-                                                                             ' Can be used to save time if only one backbone conformation for a given helical configuration is needed.' +
-                                                                             ' If multiple helical configurations are requested, all of them will be tested.'),
-                                                           'default': False,
-                                                           'validation': lambda x: bool(x),
-                                                           }
+_options_dict['RuntimeParameters']['num_candidates'] = {
+                                                       'glossory': 'Quit after finding the specified number of accepted candidates',
+                                                       'long_glossory': ('Quit after finding the specified number of accepted candidates for a given helical configuration.' + 
+                                                                         ' Can be used to save time if only a few backbone conformations are needed.' +
+                                                                         ' If the specified number of candidates is not satisfied, the search will continue' + 
+                                                                         ' until the requested number of steps is completed.'),
+                                                       'default': 1,
+                                                       'validation': lambda x: int(x),
+                                                       }
