@@ -50,9 +50,10 @@ HelicalParameters:
   - 0.19
   - 1
 RuntimeParameters:
-  search_algorithm: systematic search
-  dihedral_step: 3
-  num_candidates: 1000
+  search_algorithm: monte carlo search
+  num_steps: 10000000
+  monte_carlo_temperature: 300
+  num_candidates: 1
   energy_filter:
   - 1
   - 3

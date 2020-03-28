@@ -592,7 +592,7 @@ void ConformationSearch::SystematicSearch() {
         r->SetToAngle(coords, 0.0);
 
     // Loop over the number of iterations
-    for (size_t search_index = 1; search_index < search_size + 1; ++search_index) {
+    for (size_t search_index = 0; search_index < search_size; ++search_index) {
 
         // print progress roughly every 10%
         if (fmod(search_index, search_size/10) == 0 && verbose_) {

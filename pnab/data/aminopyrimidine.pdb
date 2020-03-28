@@ -1,0 +1,27 @@
+COMPND    aminopyrimidine
+ATOM      1  H1  P   A   1       8.049  -0.009   0.000  1.00  0.00           H
+ATOM      2  C1  P   A   1       6.969  -0.004   0.000  1.00  0.00           C
+ATOM      3  C2  P   A   1       6.246   1.199   0.000  1.00  0.00           C
+ATOM      4  N3  P   A   1       4.884   1.217   0.000  1.00  0.00           N
+ATOM      5  C4  P   A   1       4.265   0.006   0.000  1.00  0.00           C
+ATOM      6  N4  P   A   1       2.919   0.006   0.000  1.00  0.00           N
+ATOM      7  N5  P   A   1       4.875  -1.210   0.000  1.00  0.00           N
+ATOM      8  C6  P   A   1       6.236  -1.201   0.000  1.00  0.00           C
+ATOM      9 HN41 P   A   1       2.406   0.884   0.000  1.00  0.00           H
+ATOM     10 HN42 P   A   1       2.409  -0.873   0.000  1.00  0.00           H
+ATOM     11  H2  P   A   1       6.735   2.166  -0.000  1.00  0.00           H
+ATOM     12  H6  P   A   1       6.719  -2.172   0.000  1.00  0.00           H
+CONECT    1    2
+CONECT    2    1    8    3
+CONECT    3    2    4   11
+CONECT    4    3    5
+CONECT    5    4    7    6
+CONECT    6    5    9   10
+CONECT    7    5    8
+CONECT    8    2    7   12
+CONECT    9    6
+CONECT   10    6
+CONECT   11    3
+CONECT   12    8
+MASTER        0    0    0    0    0    0    0    0   12    0   12    0
+END

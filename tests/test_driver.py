@@ -33,7 +33,7 @@ def test_examples():
     import pnab
 
     examples = ['DNA.yaml', 'RNA.yaml', 'FRNA.yaml', 'LNA.yaml', 'CeNA.yaml', 'PNA.yaml', '5methylcytosine.yaml',
-                'ZP.yaml', 'Hexad.yaml', 'adenine_cyanuric_acid.yaml']
+                'ZP.yaml', 'Hexad.yaml', 'Hexad_Antiparallel.yaml', 'adenine_cyanuric_acid.yaml']
 
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
@@ -43,5 +43,5 @@ def test_examples():
         run.run()
 
         ref_output = np.genfromtxt(os.path.join('files', f.split('.')[0] + '.csv'), delimiter=',')
-        #if 'linux' in sys.platform or run.options['RuntimeParameters']['search_algorithm'] == 'systematic search':
-        #    assert np.allclose(run.results, ref_output, atol=0.4)
+        if 'linux' in sys.platform or run.options['RuntimeParameters']['search_algorithm'] == 'systematic search':
+            assert np.allclose(run.results, ref_output, atol=0.4)

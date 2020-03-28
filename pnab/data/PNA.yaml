@@ -46,16 +46,16 @@ RuntimeParameters:
   - 1.0
   - 2.0
   - 6.0
-  - 20.0
+  - 5.0
   - 100000.0
   ff_type: GAFF
   is_hexad: false
   max_distance: 0.2
   pair_A_U: false
-  search_algorithm: weighted random search
-  weighting_temperature: 300
+  search_algorithm: monte carlo search
+  monte_carlo_temperature: 300
   num_steps: 10000000
-  num_candidates: 2
+  num_candidates: 1
   seed: 0
   strand: GGCATGCC
   strand_orientation:
