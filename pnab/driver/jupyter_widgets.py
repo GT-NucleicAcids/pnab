@@ -523,14 +523,6 @@ def algorithm(chosen_algorithm, param):
     # Add widget to the widgets dictionary
     input_options['RuntimeParameters']['search_algorithm'] = chosen_algorithm
 
-    num_candidates = widgets.BoundedIntText(value=param['num_candidates']['default'], min=1, max=2**32-1,
-                                          description=param['num_candidates']['glossory'],
-                                          style={'description_width': 'initial'},
-                                          layout={'width': '75%'})
-    help_box = widgets.Button(description='?', tooltip=param['num_candidates']['long_glossory'], layout=widgets.Layout(width='3%'))
-    display(widgets.HBox([help_box, num_candidates]))
-    input_options['RuntimeParameters']['num_candidates'] = num_candidates
-
     # Systematic search algorithm needs a dihedral step size
     if chosen_algorithm == 'systematic search':
         dihedral_step = widgets.BoundedFloatText(value=param['dihedral_step']['default'],
@@ -642,9 +634,20 @@ def runtime_parameters(param):
     display(widgets.HBox([help_box, dropdown]))
     display(search_algorithm)
 
+    # Maximum number of accepted candidates
+    num_candidates = widgets.BoundedIntText(value=param['num_candidates']['default'], min=1, max=2**32-1,
+                                          description=param['num_candidates']['glossory'],
+                                          style={'description_width': 'initial'},
+                                          layout={'width': '75%'})
+    help_box = widgets.Button(description='?', tooltip=param['num_candidates']['long_glossory'], layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, num_candidates]))
+    input_options['RuntimeParameters']['num_candidates'] = num_candidates
+
     display(widgets.HTML(value='<H4>Distance and Energy Thresholds</H4>'))
 
     # Distance and energy thresholds
+
+    # Threshold for the distance
     max_distance = widgets.BoundedFloatText(value=param['max_distance']['default'], min=0.0,
                                             description=param['max_distance']['glossory'],
                                             style={'description_width': 'initial'},
@@ -665,11 +668,12 @@ def runtime_parameters(param):
     # Energy filters
     input_options['RuntimeParameters']['energy_filter'] = []
     for i in range(5):
+        minimum = 0 if i < 3 else -1e10 # Put the minimum value to zero for bonded terms
         label = param['energy_filter']['glossory'].split('\n')[i]
-        energy_filter = widgets.FloatText(value=param['energy_filter']['default'][i],
-                                          description=label,
-                                          style={'description_width': 'initial'},
-                                          layout={'width': '75%'})
+        energy_filter = widgets.BoundedFloatText(value=param['energy_filter']['default'][i], min=minimum,
+                                                 description=label,
+                                                 style={'description_width': 'initial'},
+                                                 layout={'width': '75%'})
         help_box = widgets.Button(description='?', tooltip=param['energy_filter']['long_glossory'].split('\n')[i], layout=widgets.Layout(width='3%'))
         display(widgets.HBox([help_box, energy_filter]))
         input_options['RuntimeParameters']['energy_filter'].append(energy_filter)
