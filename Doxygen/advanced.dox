@@ -48,7 +48,7 @@ backbone.linker = [13, 14]
 
 base = bind.Base()
 base.file_path = 'adenine.pdb'
-base.code = 'ADE'
+base.code = 'A'
 base.linker = [5, 11]
 base.name = 'Adenine'
 base.pair_name = 'Uracil'
@@ -67,7 +67,7 @@ rp.search_algorithm = 'weighted random search'
 rp.num_steps = 1000000
 rp.ff_type = 'GAFF'
 rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0]
-rp.max_distance = 0.05
+rp.max_distance = 0.2
 rp.strand = ['Adenine']*5
 
 output = bind.run(rp, backbone, bases, hp, 'test')

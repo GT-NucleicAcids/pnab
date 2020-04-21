@@ -106,8 +106,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a896f5a24ccc61552db246c593bdd09a7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#a896f5a24ccc61552db246c593bdd09a7">RuntimeParameters</a> ()</td></tr>
 <tr class="memdesc:a896f5a24ccc61552db246c593bdd09a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empty constructor.  <a href="#a896f5a24ccc61552db246c593bdd09a7">More...</a><br/></td></tr>
 <tr class="separator:a896f5a24ccc61552db246c593bdd09a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1184c693b65e8239375b647dd48719b0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#a1184c693b65e8239375b647dd48719b0">only_one_candidate</a> (true)</td></tr>
-<tr class="separator:a1184c693b65e8239375b647dd48719b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf7b1eb0eb10745517381e38b8a13f3f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#adf7b1eb0eb10745517381e38b8a13f3f">num_candidates</a> (10)</td></tr>
+<tr class="separator:adf7b1eb0eb10745517381e38b8a13f3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc671f34370d8604694daa09d370fa40"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#abc671f34370d8604694daa09d370fa40">strand_orientation</a> (std::vector&lt; bool &gt;{true, true, true, true, true, true})</td></tr>
 <tr class="separator:abc671f34370d8604694daa09d370fa40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -163,9 +163,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a6b2a98cd7796c30abefb5f4cbef45684"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#a6b2a98cd7796c30abefb5f4cbef45684">glycosidic_bond_distance</a></td></tr>
 <tr class="memdesc:a6b2a98cd7796c30abefb5f4cbef45684"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a user-defined glycosidic bond distance (in Angstroms). If zero (default), sets the distance based on van der Waals radii.  <a href="#a6b2a98cd7796c30abefb5f4cbef45684">More...</a><br/></td></tr>
 <tr class="separator:a6b2a98cd7796c30abefb5f4cbef45684"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9da209e3b7e21b924e7584a33b04a2b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#aa9da209e3b7e21b924e7584a33b04a2b">only_one_candidate</a></td></tr>
-<tr class="memdesc:aa9da209e3b7e21b924e7584a33b04a2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quit after finding one accepted candidate.  <a href="#aa9da209e3b7e21b924e7584a33b04a2b">More...</a><br/></td></tr>
-<tr class="separator:aa9da209e3b7e21b924e7584a33b04a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6de3cf83055adb82a46601324c2339bd"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPNAB_1_1RuntimeParameters.html#a6de3cf83055adb82a46601324c2339bd">num_candidates</a></td></tr>
+<tr class="memdesc:a6de3cf83055adb82a46601324c2339bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quit after finding the specified number of accepted candidates.  <a href="#a6de3cf83055adb82a46601324c2339bd">More...</a><br/></td></tr>
+<tr class="separator:a6de3cf83055adb82a46601324c2339bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class for holding necessary and optional runtime parameters for conformational searches. </p>
@@ -201,14 +201,14 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a1184c693b65e8239375b647dd48719b0"></a>
+<a class="anchor" id="adf7b1eb0eb10745517381e38b8a13f3f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">PNAB::RuntimeParameters::only_one_candidate </td>
+          <td class="memname">PNAB::RuntimeParameters::num_candidates </td>
           <td>(</td>
-          <td class="paramtype">true&#160;</td>
+          <td class="paramtype">10&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -401,6 +401,20 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a6de3cf83055adb82a46601324c2339bd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int PNAB::RuntimeParameters::num_candidates</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Quit after finding the specified number of accepted candidates. </p>
+
+</div>
+</div>
 <a class="anchor" id="afce1eb97e0219b2ecf63b6af7d97599d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -417,20 +431,6 @@ Public Attributes</h2></td></tr>
 <a class="el" href="classPNAB_1_1ConformationSearch.html#ad52e77cb571044efcdf2750bf54232c4" title="The algorithm randomly changes all the dihedral angles in the backbone and evaluates whether they are...">ConformationSearch::RandomSearch</a> </dd>
 <dd>
 <a class="el" href="classPNAB_1_1ConformationSearch.html#a4ff01c48376901bcf73758b1a013f3c1" title="This algorithm utilizes the genetic algorihtm procedure to improve the choice of the dihedral angle...">ConformationSearch::GeneticAlgorithmSearch</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="aa9da209e3b7e21b924e7584a33b04a2b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool PNAB::RuntimeParameters::only_one_candidate</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Quit after finding one accepted candidate. </p>
 
 </div>
 </div>

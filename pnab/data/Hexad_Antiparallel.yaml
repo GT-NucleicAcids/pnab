@@ -1,3 +1,11 @@
+Base M:
+  code: M
+  file_path: triaminopyrimidine.pdb
+  linker:
+  - 2
+  - 1
+  name: M
+  pair_name: Y
 Backbone:
   file_path: threoninol_backbone.pdb
   interconnects:

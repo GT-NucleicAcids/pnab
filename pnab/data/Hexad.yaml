@@ -61,5 +61,5 @@ RuntimeParameters:
   max_distance: 0.2
   num_steps: 10000000
   num_candidates: 1
-  strand: PPPPPPPPPP
+  strand: RRRRRRRRRR
   ff_type: MMFF94

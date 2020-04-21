@@ -438,8 +438,7 @@ def bases(param):
     display(widgets.HTML(value='<H3>Bases</H3>'))
     display(widgets.HTML(value=('These bases are already defined:' +
                                '<br> Adenine (A), Guanine (G), Cytosine (C), Uracil (U), Thymine (T), ' +
-                               'Cyanuric Acid (Y), and Triaminopyrimidine (M)')))
-    display(widgets.HTML(value='Additional bases can also be defined. Make sure the base coordinates are in the correct reference frame.'))
+                               'Cyanuric Acid (Y), and aminopyrimidine (R)')))
 
     num_defined_bases = len([k for k in param if 'Base' in k]) - 1 # Subtract the item from the main options
     w = widgets.interactive(add_base, param=widgets.fixed(param), number_of_bases=widgets.BoundedIntText(value=num_defined_bases, min=0,

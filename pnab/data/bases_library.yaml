@@ -45,20 +45,12 @@ Base Y:
   - 2
   - 1
   name: Y
-  pair_name: P
-Base M:
-  code: M
-  file_path: triaminopyrimidine.pdb
-  linker:
-  - 2
-  - 1
-  name: M
-  pair_name: Y
-Base P:
-  code: P
+  pair_name: R
+Base R:
+  code: R
   file_path: aminopyrimidine.pdb
   linker:
   - 2
   - 1
-  name: P
+  name: R
   pair_name: Y

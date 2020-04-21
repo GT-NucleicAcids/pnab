@@ -13,7 +13,7 @@ Base 1:
   linker:
   - 2
   - 1
-  name: R
+  name: X
   pair_name: ''
 HelicalParameters:
   h_rise:
@@ -62,7 +62,7 @@ RuntimeParameters:
   num_steps: 10000000
   num_candidates: 1
   seed: 0
-  strand: RRRRRRRRRRRRRRR
+  strand: XXXXXXXXXXXXXXX
   strand_orientation:
   - true
   - true
