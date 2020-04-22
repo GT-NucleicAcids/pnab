@@ -1,5 +1,5 @@
 # proto-Nucleic Acid Builder (pNAB)
-## Try the Package: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/alenaizan/pnab/v1.0.0?filepath=binder%2Fdriver.ipynb)
+## Try the Package: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/alenaizan/pnab/v1.0.0?urlpath=%2Fapps%2Fbinder%2Fdriver.ipynb)
 ## Read the documentation: [![docs latest](https://img.shields.io/badge/docs-latest-5077AB.svg?logo=read%20the%20docs)](https://alenaizan.github.io/pnab/html/index.html)
 
 [![Build Status](https://travis-ci.com/alenaizan/pnab.svg?branch=master)](https://travis-ci.com/alenaizan/pnab)
