@@ -8,7 +8,7 @@
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/alenaizan/pnab.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/alenaizan/pnab/context:python)
 
 ## Overview
-The proto-Nucleic Acid Builder is a program for modeling the 3D strucutres of DNA, RNA, and nucleic acid analogs. Nucleic acids with alternative backbones or nucleobases can be constructed by the program by supplying the 3D structure of an isolated backbone or a nucleobases. The program can perform a helical parameter search and backbone conformation search and find reasonable nucleic acid structures.
+The proto-Nucleic Acid Builder is a program for modeling the 3D strucutres of DNA, RNA, and nucleic acid analogs. Nucleic acids with alternative backbones or nucleobases can be constructed by the program by supplying the 3D structure of an isolated backbones or nucleobases. The program can perform a helical parameter search and backbone conformation search and find reasonable nucleic acid structures.
 ![image](Doxygen/images/output.png)
 
 ## Installing the Package Using the conda package manager
