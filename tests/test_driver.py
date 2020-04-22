@@ -35,9 +35,9 @@ def test_examples():
     examples = ['DNA.yaml', 'RNA.yaml', 'FRNA.yaml', 'LNA.yaml', 'CeNA.yaml', 'PNA.yaml', '5methylcytosine.yaml',
                 'ZP.yaml', 'Hexad.yaml', 'Hexad_Antiparallel.yaml', 'adenine_cyanuric_acid.yaml']
 
-    # MacOS takes longer time to test and cannot finish before the end of time limit in Travis CI
+    # MacOS and Windows take longer time to test and cannot finish before the end of time limit in Travis CI and AppVeyor
     # Skip the last three tests
-    if platform.system() == "Darwin":
+    if platform.system() != "Linux":
         examples = examples[:-3]
     
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
