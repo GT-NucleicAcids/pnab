@@ -111,7 +111,7 @@ Accessing the C++ Classes through Python</h1>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;base = bind.Base()</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;base.file_path = <span class="stringliteral">&#39;adenine.pdb&#39;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;base.code = <span class="stringliteral">&#39;ADE&#39;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;base.code = <span class="stringliteral">&#39;A&#39;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;base.linker = [5, 11]</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;base.name = <span class="stringliteral">&#39;Adenine&#39;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;base.pair_name = <span class="stringliteral">&#39;Uracil&#39;</span></div>
@@ -130,7 +130,7 @@ Accessing the C++ Classes through Python</h1>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;rp.num_steps = 1000000</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;rp.ff_type = <span class="stringliteral">&#39;GAFF&#39;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;rp.energy_filter = [10000.0, 10000.0, 10000.0, 10000.0]</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;rp.max_distance = 0.05</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;rp.max_distance = 0.2</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;rp.strand = [<span class="stringliteral">&#39;Adenine&#39;</span>]*5</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;output = bind.run(rp, backbone, bases, hp, <span class="stringliteral">&#39;test&#39;</span>)</div>
