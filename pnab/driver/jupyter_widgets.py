@@ -669,7 +669,7 @@ def runtime_parameters(param):
     for i in range(5):
         minimum = 0 if i < 3 else -1e10 # Put the minimum value to zero for bonded terms
         label = param['energy_filter']['glossory'].split('\n')[i]
-        energy_filter = widgets.BoundedFloatText(value=param['energy_filter']['default'][i], min=minimum,
+        energy_filter = widgets.BoundedFloatText(value=param['energy_filter']['default'][i], min=minimum, max=1e10,
                                                  description=label,
                                                  style={'description_width': 'initial'},
                                                  layout={'width': '75%'})
