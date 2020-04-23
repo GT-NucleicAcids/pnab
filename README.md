@@ -1,6 +1,6 @@
 # proto-Nucleic Acid Builder (pNAB)
 ## Try the Package: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder%2Fdriver.ipynb)
-## Read the documentation: [![docs latest](https://img.shields.io/badge/docs-latest-5077AB.svg?logo=read%20the%20docs)](https://alenaizan.github.io/pnab/html/index.html)
+## Read the documentation: [![docs v1.0.0](https://img.shields.io/badge/docs-v1.0.0-blue)](https://proto-nucleic-acid-builder-v1-0-0.netlify.app/html/index.html)
 
 [![Build Status](https://travis-ci.com/alenaizan/pnab.svg?branch=master)](https://travis-ci.com/alenaizan/pnab)
 [![Build status](https://ci.appveyor.com/api/projects/status/9uew76hr6ftlwso4/branch/master?svg=true)](https://ci.appveyor.com/project/alenaizan/pnab/branch/master)
@@ -26,3 +26,8 @@ git clone https://github.com/alenaizan/pnab.git
 cd pnab
 sh install.sh 
 ```
+
+## Documentations:
+Development version: [![docs latest](https://img.shields.io/badge/docs-latest-blue)](https://alenaizan.github.io/pnab/html/index.html)
+
+Latest release: [![docs v1.0.0](https://img.shields.io/badge/docs-v1.0.0-blue)](https://proto-nucleic-acid-builder-v1-0-0.netlify.app/html/index.html)
