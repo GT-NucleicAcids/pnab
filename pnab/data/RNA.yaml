@@ -32,6 +32,30 @@ HelicalParameters:
   - 0.0
   - 0.0
   - 1
+  buckle:
+  - 0.0
+  - 0.0
+  - 1
+  propeller:
+  - -12.40
+  - -12.40
+  - 1
+  opening:
+  - 0.66
+  - 0.66
+  - 1
+  shear:
+  - 0.0
+  - 0.0
+  - 1
+  stretch:
+  - -0.14
+  - -0.14
+  - 1
+  stagger:
+  - -0.01
+  - -0.01
+  - 1
 RuntimeParameters:
   build_strand:
   - true
@@ -41,14 +65,14 @@ RuntimeParameters:
   - false
   - false
   energy_filter:
-  - 1.0
-  - 2.0
+  - 0.5
+  - 2.5
   - 4.0
-  - 30.0
+  - 50.0
   - 1000
   ff_type: MMFF94
   is_hexad: false
-  max_distance: 0.2
+  max_distance: 0.8
   pair_A_U: true
   search_algorithm: weighted random search
   num_steps: 100000000

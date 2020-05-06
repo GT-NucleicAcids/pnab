@@ -172,7 +172,8 @@ namespace PNAB {
         *
         * This empty constructor can be used. After that, values for the member variables should be specified.
         */
-        HelicalParameters() : h_twist{0}, h_rise{0}, inclination{0}, tip{0}, x_displacement{0}, y_displacement{0} {};
+        HelicalParameters() : h_twist{0}, h_rise{0}, inclination{0}, tip{0}, x_displacement{0}, y_displacement{0},
+                              buckle{0}, propeller{0}, opening{0}, shear{0}, stretch{0}, stagger{0} {};
 
         //Helical parameters
         double     inclination,                         //!< @brief Inclination
@@ -180,7 +181,13 @@ namespace PNAB {
                    h_twist,                             //!< @brief Helical twist
                    x_displacement,                      //!< @brief X-Displacement
                    y_displacement,                      //!< @brief Y-Displacement
-                   h_rise;                              //!< @brief Helical rise
+                   h_rise,                              //!< @brief Helical rise
+                   buckle,                              //!< @brief Buckle
+                   propeller,                           //!< @brief Propeller twist
+                   opening,                             //!< @brief Opening
+                   shear,                               //!< @brief Shear
+                   stretch,                             //!< @brief Stretch
+                   stagger;                             //!< @brief Stagger
 
         /**
         * @brief Get the global rotation matrix in the OpenBabel::matrix3x3 format

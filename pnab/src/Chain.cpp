@@ -86,6 +86,8 @@ ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, 
         orderResidues(&data.molecule);
     }
 
+    delete[] xyz;
+
     return data;
 }
 
@@ -502,6 +504,15 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                               std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
                               std::vector<unsigned> &deleted_atoms_ids, unsigned chain_index) {
 
+    // A trick to quickly implement the six base pair parameters
+    HelicalParameters hp2;
+    hp2.h_twist = pow(-1.0, chain_index) / 2.0 * hp.opening;
+    hp2.inclination = pow(-1.0, chain_index) / 2.0 * hp.buckle;
+    hp2.tip = pow(-1.0, chain_index) / 2.0 * hp.propeller;
+    hp2.x_displacement = pow(-1.0, chain_index) / 2.0 * hp.shear;
+    hp2.y_displacement = pow(-1.0, chain_index) / 2.0 * hp.stretch;
+    hp2.h_rise = pow(-1.0, chain_index) / 2.0 * hp.stagger;
+
     // Rotation for hexad
     double twist = chain_index * 60.0 * DEG_TO_RAD;
     matrix3x3 z_rot = {{cos(twist), -sin(twist), 0},{sin(twist), cos(twist), 0}, {0, 0, 1}};
@@ -540,6 +551,11 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
             if (!strand_orientation_[chain_index])
                 v3 *= change_sign;
 
+            v3 *= hp2.getStepRotationOBMatrix(1);
+            v3 *= hp2.getGlobalRotationOBMatrix();
+            v3 += hp2.getStepTranslationVec(1);
+            v3 += hp2.getGlobalTranslationVec();
+            
             v3 *= g_rot;
             v3 += g_trans;
             v3 *= s_rot;
@@ -565,6 +581,11 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                 if (!strand_orientation_[chain_index])
                      v3 *= change_sign;
 
+                v3 *= hp2.getStepRotationOBMatrix(1);
+                v3 *= hp2.getGlobalRotationOBMatrix();
+                v3 += hp2.getStepTranslationVec(1);
+                v3 += hp2.getGlobalTranslationVec();
+ 
                 v3 *= g_rot;
                 v3 += g_trans;
                 v3 *= s_rot;

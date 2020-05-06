@@ -42,6 +42,30 @@ HelicalParameters:
   - 0
   - 0
   - 1
+  buckle:
+  - 0
+  - 0
+  - 1
+  propeller:
+  - 0
+  - 0
+  - 1
+  opening:
+  - 0
+  - 0
+  - 1
+  shear:
+  - 0
+  - 0
+  - 1
+  stretch:
+  - 0
+  - 0
+  - 1
+  stagger:
+  - 0
+  - 0
+  - 1
 RuntimeParameters:
   search_algorithm: random search
   seed: 0
@@ -66,7 +90,7 @@ RuntimeParameters:
   - false
   - true
   - false
-  max_distance: 0.2
+  max_distance: 0.8
   num_steps: 10000000
   num_candidates: 1
   strand: MMMMMMMMMM

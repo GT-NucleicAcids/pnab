@@ -34,6 +34,30 @@ HelicalParameters:
   - -0.11
   - -0.11
   - 1
+  buckle:
+  - -0.52
+  - -0.52
+  - 1
+  propeller:
+  - -3.37
+  - -3.37
+  - 1
+  opening:
+  - -0.37
+  - -0.37
+  - 1
+  shear:
+  - 0.02
+  - 0.02
+  - 1
+  stretch:
+  - -0.13
+  - -0.13
+  - 1
+  stagger:
+  - 0.12
+  - 0.12
+  - 1
 RuntimeParameters:
   build_strand:
   - true
@@ -43,14 +67,14 @@ RuntimeParameters:
   - false
   - false
   energy_filter:
-  - 1.0
-  - 2.0
+  - 0.5
+  - 2.5
   - 6.0
-  - 5.0
+  - 10.0
   - 100000.0
   ff_type: GAFF
   is_hexad: false
-  max_distance: 0.2
+  max_distance: 0.8
   pair_A_U: false
   search_algorithm: monte carlo search
   monte_carlo_temperature: 300

@@ -49,6 +49,30 @@ HelicalParameters:
   - -0.03
   - -0.03
   - 1
+  buckle:
+  - 2.33
+  - 2.33
+  - 1
+  propeller:
+  - -10.99
+  - -10.99
+  - 1
+  opening:
+  - 0.47
+  - 0.47
+  - 1
+  shear:
+  - -0.01
+  - -0.01
+  - 1
+  stretch:
+  - -0.14
+  - -0.14
+  - 1
+  stagger:
+  - 0.16
+  - 0.16
+  - 1
 RuntimeParameters:
   search_algorithm: weighted monte carlo search
   num_candidates: 2
@@ -56,10 +80,10 @@ RuntimeParameters:
   monte_carlo_temperature: 300
   weighting_temperature: 300
   energy_filter:
-  - 1
-  - 2
-  - 4
-  - 30
+  - 0.5
+  - 2.5
+  - 4.0
+  - 50.0
   - 1000.0
   is_hexad: false
   build_strand:
@@ -76,6 +100,6 @@ RuntimeParameters:
   - true
   - true
   - true
-  max_distance: 0.2
+  max_distance: 0.8
   strand: CGLGAATTCKCG
   ff_type: MMFF94

@@ -495,6 +495,60 @@ _options_dict['HelicalParameters']['y_displacement'] = {
                                                        'default': [0.0, 0.0, 1],
                                                        'validation': lambda x: _validate_helical_parameters(x),
                                                        }
+_options_dict['HelicalParameters']['buckle'] = {
+                                            'glossory': 'Buckle (degree)',
+                                            'long_glossory': ('Select a single value or a range of values. If you select a range of values,' + 
+                                                              ' you can control the number of configurations generated in that range by increasing' + 
+                                                              ' the number of steps. Uniformly spaced configurations in the provided range will be generated.' + 
+                                                              ' Not defined for the hexad geometry.'), 
+                                            'default': [0.0, 0.0, 1],
+                                            'validation': lambda x: _validate_helical_parameters(x),
+                                            }
+_options_dict['HelicalParameters']['propeller'] = {
+                                            'glossory': 'Propeller (degree)',
+                                            'long_glossory': ('Select a single value or a range of values. If you select a range of values,' + 
+                                                              ' you can control the number of configurations generated in that range by increasing' + 
+                                                              ' the number of steps. Uniformly spaced configurations in the provided range will be generated.' + 
+                                                              ' Not defined for the hexad geometry.'), 
+                                            'default': [0.0, 0.0, 1],
+                                            'validation': lambda x: _validate_helical_parameters(x),
+                                            }
+_options_dict['HelicalParameters']['opening'] = {
+                                            'glossory': 'Opening (degree)',
+                                            'long_glossory': ('Select a single value or a range of values. If you select a range of values,' + 
+                                                              ' you can control the number of configurations generated in that range by increasing' + 
+                                                              ' the number of steps. Uniformly spaced configurations in the provided range will be generated.' + 
+                                                              ' Not defined for the hexad geometry.'), 
+                                            'default': [0.0, 0.0, 1],
+                                            'validation': lambda x: _validate_helical_parameters(x),
+                                            }
+_options_dict['HelicalParameters']['shear'] = {
+                                            'glossory': 'Shear (Angstrom)',
+                                            'long_glossory': ('Select a single value or a range of values. If you select a range of values,' + 
+                                                              ' you can control the number of configurations generated in that range by increasing' + 
+                                                              ' the number of steps. Uniformly spaced configurations in the provided range will be generated.' + 
+                                                              ' Not defined for the hexad geometry.'), 
+                                            'default': [0.0, 0.0, 1],
+                                            'validation': lambda x: _validate_helical_parameters(x),
+                                            }
+_options_dict['HelicalParameters']['stretch'] = {
+                                            'glossory': 'Stretch (Angstrom)',
+                                            'long_glossory': ('Select a single value or a range of values. If you select a range of values,' + 
+                                                              ' you can control the number of configurations generated in that range by increasing' + 
+                                                              ' the number of steps. Uniformly spaced configurations in the provided range will be generated.' + 
+                                                              ' Not defined for the hexad geometry.'), 
+                                            'default': [0.0, 0.0, 1],
+                                            'validation': lambda x: _validate_helical_parameters(x),
+                                            }
+_options_dict['HelicalParameters']['stagger'] = {
+                                            'glossory': 'Stagger (Angstrom)',
+                                            'long_glossory': ('Select a single value or a range of values. If you select a range of values,' + 
+                                                              ' you can control the number of configurations generated in that range by increasing' + 
+                                                              ' the number of steps. Uniformly spaced configurations in the provided range will be generated.' + 
+                                                              ' Not defined for the hexad geometry.'), 
+                                            'default': [0.0, 0.0, 1],
+                                            'validation': lambda x: _validate_helical_parameters(x),
+                                            }
 
 # Runtime Parameters
 _options_dict['RuntimeParameters'] = {}

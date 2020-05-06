@@ -81,6 +81,12 @@ namespace PNAB {
             .def_readwrite("tip", &PNAB::HelicalParameters::tip)
             .def_readwrite("x_displacement", &PNAB::HelicalParameters::x_displacement)
             .def_readwrite("y_displacement", &PNAB::HelicalParameters::y_displacement)
+            .def_readwrite("buckle", &PNAB::HelicalParameters::buckle)
+            .def_readwrite("propeller", &PNAB::HelicalParameters::propeller)
+            .def_readwrite("opening", &PNAB::HelicalParameters::opening)
+            .def_readwrite("shear", &PNAB::HelicalParameters::shear)
+            .def_readwrite("stretch", &PNAB::HelicalParameters::stretch)
+            .def_readwrite("stagger", &PNAB::HelicalParameters::stagger)
             ;
 
         py::class_<PNAB::Backbone>(m, "Backbone")
