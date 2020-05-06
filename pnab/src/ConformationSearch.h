@@ -99,8 +99,8 @@ namespace PNAB {
         PNAB::Bases bases_; //!< @brief the list of the defined bases
         std::mt19937_64 rng_; //!< @brief A random number generator
         int number_of_candidates = 0; //!< @brief The number of accepted candiates
-        OpenBabel::matrix3x3 step_rot_, //!< @brief The step rotation matrix, HelicalParameters::getStepRotationOBMatrix
-                             glbl_rot_; //!< @brief The global rotation matrix, HelicalParameters::getGlobalRotationOBMatrix
+        OpenBabel::matrix3x3 step_rot_, //!< @brief The step rotation matrix, HelicalParameters::getStepRotationMatrix
+                             glbl_rot_; //!< @brief The global rotation matrix, HelicalParameters::getGlobalRotationMatrix
         OpenBabel::vector3 step_translate_, //!< @brief The step translation vector, HelicalParameters::getStepTranslationVec
                            glbl_translate_; //!< @brief The global translation vector, HelicalParameters::getGlobalTranslationVec
         OpenBabel::OBConversion conv_; //!< @brief An openbabel conversion object used to write accepted candidates

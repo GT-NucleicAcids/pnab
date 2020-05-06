@@ -474,10 +474,10 @@ def helical_parameters(param):
         param_dict[k] = []
         default = [param[k]['default'][0], param[k]['default'][1], param[k]['default'][2]] # [beginning point, end point, number of steps]
         # Set angles
-        if k in ['inclination', 'tip', 'h_twist']:
+        if k in ['inclination', 'tip', 'h_twist', 'buckle', 'propeller', 'opening']:
             param_dict[k].append(widgets.FloatRangeSlider(value=[default[0], default[1]], min=-180, max=180, step=0.01, readout_format='.2f'))
         # Set distances
-        else: # h_rise, x-displacement, y-displacement
+        else: # h_rise, x-displacement, y-displacement, stretch, shear, stagger
             # limit maxium and minimum distance values to be between -20 and 20 and 0.01 Angstrom step size
             param_dict[k].append(widgets.FloatRangeSlider(value=[default[0], default[1]], min=-20, max=20, step=0.01, readout_format='.3f'))
 

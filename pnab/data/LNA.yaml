@@ -1,4 +1,3 @@
-# 2019-10-02 19:40:54
 Backbone:
   file_path: LNA_backbone.pdb
   fixed_bonds: []
@@ -69,16 +68,15 @@ RuntimeParameters:
   - 0.5
   - 2.5
   - 4.0
-  - 50.0
+  - 100.0
   - 1000.0
   ff_type: MMFF94
   is_hexad: false
   max_distance: 0.8
   pair_A_U: false
-  search_algorithm: monte carlo search
-  num_candidates: 2
-  num_steps: 10000000
-  monte_carlo_temperature: 300
+  search_algorithm: systematic search
+  dihedral_step: 4
+  num_candidates: 10000
   seed: 0
   strand: CCTCACC
   strand_orientation:

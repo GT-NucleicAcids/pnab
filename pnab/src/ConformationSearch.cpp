@@ -33,10 +33,10 @@ ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbo
     rng_.seed(runtime_params.seed);
 
     // Get the required translations and rotations
-    step_rot_ = helical_params_.getStepRotationOBMatrix(1);
-    glbl_rot_ = helical_params_.getGlobalRotationOBMatrix();
-    step_translate_ = helical_params_.getStepTranslationVec(1);
-    glbl_translate_ = helical_params_.getGlobalTranslationVec();
+    step_rot_ = helical_params_.getStepRotationMatrix(1, false, false);
+    glbl_rot_ = helical_params_.getGlobalRotationMatrix(false, false);
+    step_translate_ = helical_params_.getStepTranslationVec(1, false, false);
+    glbl_translate_ = helical_params_.getGlobalTranslationVec(false, false);
 
     // Get a base unit
     unit = BaseUnit(base_a, backbone_, runtime_params_.glycosidic_bond_distance);

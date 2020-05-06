@@ -190,42 +190,17 @@ namespace PNAB {
                    stagger;                             //!< @brief Stagger
 
         /**
-        * @brief Get the global rotation matrix in the OpenBabel::matrix3x3 format
-        *
-        * @returns The global rotation matrix
-        *
-        * @sa getGlobalRotationMatrix
-        */
-        OpenBabel::matrix3x3 getGlobalRotationOBMatrix() {
-            auto arr = getGlobalRotationMatrix();
-            return OpenBabel::matrix3x3(OpenBabel::vector3(arr[0], arr[1], arr[2]),
-                                        OpenBabel::vector3(arr[3], arr[4], arr[5]),
-                                        OpenBabel::vector3(arr[6], arr[7], arr[8]));
-        }
-
-        /**
         * @brief Get the global translation vector using the HelicalParameters::x_displacement and HelicalParameters::y_displacement
         *
         * @returns The translation vector
         */
-        OpenBabel::vector3 getGlobalTranslationVec() {
-            return OpenBabel::vector3(x_displacement, y_displacement, 0);
-        }
-
-        /**
-        * @brief Get the step rotation matrix in the OpenBabel::matrix3x3 format
-        *
-        * @param n The sequence of the nucleobase in the strand
-        *
-        * @returns The step rotation matrix
-        *
-        * @sa getStepRotationMatrix
-        */
-        OpenBabel::matrix3x3 getStepRotationOBMatrix(unsigned n = 0) {
-            auto arr = getStepRotationMatrix(n);
-            return OpenBabel::matrix3x3(OpenBabel::vector3(arr[0], arr[1], arr[2]),
-                                        OpenBabel::vector3(arr[3], arr[4], arr[5]),
-                                        OpenBabel::vector3(arr[6], arr[7], arr[8]));
+        OpenBabel::vector3 getGlobalTranslationVec(bool is_base_pair=false, bool is_second_strand=false) {
+            if (not is_base_pair)
+                return OpenBabel::vector3(x_displacement, y_displacement, 0);
+            else if (not is_second_strand)
+                return OpenBabel::vector3(0.5*shear, 0.5*stretch, 0);
+            else
+                return OpenBabel::vector3(-0.5*shear, -0.5*stretch, 0);
         }
 
         /**
@@ -235,11 +210,15 @@ namespace PNAB {
         *
         * @returns The step translation vector
         */
-        OpenBabel::vector3 getStepTranslationVec(unsigned n = 0) {
-            return OpenBabel::vector3(0, 0, n * h_rise);
+        OpenBabel::vector3 getStepTranslationVec(unsigned n = 0, bool is_base_pair=false, bool is_second_strand=false) {
+            if (not is_base_pair)
+                return OpenBabel::vector3(0, 0, n * h_rise);
+            else if (not is_second_strand)
+                return OpenBabel::vector3(0, 0, 0.5*stagger);
+            else
+                return OpenBabel::vector3(0, 0, -0.5*stagger);
         }
 
-    private:
         /**
         * @brief Get the global rotation matrix using the HelicalParameters::tip and HelicalParameters::inclination
         *
@@ -250,17 +229,26 @@ namespace PNAB {
 
         // Lu, X. J., El Hassan, M. A., & Hunter, C. A. (1997). Structure and conformation of helical nucleic acids:
         // rebuilding program (SCHNArP). Journal of molecular biology, 273(3), 681-691.
-        std::array<double, 9> getGlobalRotationMatrix() {
-            double eta = inclination * DEG_TO_RAD, theta = tip * DEG_TO_RAD;
-            double Lambda = sqrt(eta*eta + theta*theta);
-            
-            std::array<double, 3> axis;
-            if (Lambda != 0)
-                axis = {eta/Lambda, theta/Lambda, 0};
+        OpenBabel::matrix3x3 getGlobalRotationMatrix(bool is_base_pair=false, bool is_second_strand=false) {
+            double angle1, angle2;
+            if (not is_base_pair)
+                angle1 = inclination * DEG_TO_RAD, angle2 = tip * DEG_TO_RAD;
+            else if (not is_second_strand)
+                angle1 = 0.5 * buckle * DEG_TO_RAD, angle2 = 0.5 * propeller * DEG_TO_RAD;
             else
-               axis = {0, 1, 0};
+                angle1 = -0.5 * buckle * DEG_TO_RAD, angle2 = -0.5 * propeller * DEG_TO_RAD;
 
-            return rodrigues_formula(axis, Lambda);
+            double Lambda = sqrt(angle1*angle1 + angle2*angle2);
+            
+            OpenBabel::vector3 axis;
+            if (Lambda != 0)
+                axis = OpenBabel::vector3(angle1/Lambda, angle2/Lambda, 0);
+            else
+               axis = OpenBabel::vector3(0, 1, 0);
+
+            OpenBabel::matrix3x3 result = rodrigues_formula(axis, Lambda);
+
+            return result;
         }
 
         /**
@@ -272,17 +260,26 @@ namespace PNAB {
         *
         * @sa matrix_mult
         */
-        std::array<double, 9> getStepRotationMatrix(unsigned n = 0) {
-            double Omega = h_twist * DEG_TO_RAD;
-            std::array<double, 9> m_mat {cos(Omega), -sin(Omega), 0, sin(Omega), cos(Omega), 0, 0, 0, 1};
-            std::array<double, 9> r_mat = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+        OpenBabel::matrix3x3 getStepRotationMatrix(unsigned n = 0, bool is_base_pair=false, bool is_second_strand=false) {
+            double angle;
+            if (not is_base_pair)
+                angle = h_twist * DEG_TO_RAD;
+            else if (not is_second_strand)
+                angle = 0.5 * opening * DEG_TO_RAD, n = 1;
+            else
+                angle = -0.5 * opening * DEG_TO_RAD, n = 1;
+
+            OpenBabel::matrix3x3 m_mat = OpenBabel::matrix3x3(OpenBabel::vector3(cos(angle), -sin(angle), 0),
+                                                              OpenBabel::vector3(sin(angle), cos(angle), 0),
+                                                              OpenBabel::vector3(0, 0, 1));
+            OpenBabel::matrix3x3 r_mat = OpenBabel::matrix3x3(1);
             for (int i = 0; i < n; ++i)
-                r_mat = matrix_mult(m_mat, r_mat);
+                r_mat = m_mat * r_mat;
 
             return r_mat;
         };
 
-
+    private:
         /**
         * @brief Rodrigues rotation formula for rotating a vector in space
         *
@@ -293,7 +290,9 @@ namespace PNAB {
         *
         * @return The new rotation matrix
         */
-        std::array<double, 9> rodrigues_formula(std::array<double, 3> axis, double theta) {
+        OpenBabel::matrix3x3 rodrigues_formula(OpenBabel::vector3 axis_vector, double theta) {
+
+            std::array<double, 3> axis = {axis_vector.GetX(), axis_vector.GetY(), axis_vector.GetZ()};
             std::array<double, 9> m{};
             m[0] = cos(theta) + axis[0]*axis[0]*(1 - cos(theta));
             m[1] = axis[0]*axis[1]*(1 - cos(theta)) - axis[2]*sin(theta);
@@ -305,27 +304,15 @@ namespace PNAB {
             m[7] = axis[0]*sin(theta) + axis[1]*axis[2]*(1 - cos(theta));
             m[8] = cos(theta) + axis[2]*axis[2]*(1 - cos(theta));
 
-            return m;
+            OpenBabel::matrix3x3 result = OpenBabel::matrix3x3(OpenBabel::vector3(m[0], m[1], m[2]),
+                                                               OpenBabel::vector3(m[3], m[4], m[5]),
+                                                               OpenBabel::vector3(m[6], m[7], m[8]));
+            return result;
         };
 
         /**
-        * @brief Matrix multiplication function
         *
-        * @param m1 Matrix 1
-        * @param m2 Matrix 2
-        *
-        * @returns The matrix product
         */
-        std::array<double, 9> matrix_mult(std::array<double, 9> m1, std::array<double, 9> m2) {
-            std::array<double, 9> out{};
-
-            for (int i = 0; i < 3; ++i)
-                for (int j = 0; j < 3; ++j)
-                    for (int k = 0; k < 3; ++k)
-                        out[3*i + j] += m1[3*i + k]*m2[j + 3*k];
-
-            return out;
-        };
     };
 
     /**

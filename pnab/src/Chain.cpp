@@ -504,15 +504,6 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                               std::vector<unsigned> &bb_start_index, std::vector<double *> &base_coords_vec,
                               std::vector<unsigned> &deleted_atoms_ids, unsigned chain_index) {
 
-    // A trick to quickly implement the six base pair parameters
-    HelicalParameters hp2;
-    hp2.h_twist = pow(-1.0, chain_index) / 2.0 * hp.opening;
-    hp2.inclination = pow(-1.0, chain_index) / 2.0 * hp.buckle;
-    hp2.tip = pow(-1.0, chain_index) / 2.0 * hp.propeller;
-    hp2.x_displacement = pow(-1.0, chain_index) / 2.0 * hp.shear;
-    hp2.y_displacement = pow(-1.0, chain_index) / 2.0 * hp.stretch;
-    hp2.h_rise = pow(-1.0, chain_index) / 2.0 * hp.stagger;
-
     // Rotation for hexad
     double twist = chain_index * 60.0 * DEG_TO_RAD;
     matrix3x3 z_rot = {{cos(twist), -sin(twist), 0},{sin(twist), cos(twist), 0}, {0, 0, 1}};
@@ -524,8 +515,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
     matrix3x3 change_sign2 = {{-1, 0, 0},{0, 1, 0}, {0, 0, -1}};
 
     // Get the global rotation and translations
-    auto g_rot = hp.getGlobalRotationOBMatrix();
-    auto g_trans = hp.getGlobalTranslationVec();
+    auto g_rot = hp.getGlobalRotationMatrix(false, false);
+    auto g_trans = hp.getGlobalTranslationVec(false, false);
     unsigned xyzI = 0, local_offset = 0, deleted_atom_index = 0;
 
     // Get the correct beginning index for the duplex and the hexad
@@ -539,8 +530,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
         auto n = num_bu_atoms[i];
         auto r = bb_start_index[i];
         // Get the step translation and rotation 
-        auto s_trans = hp.getStepTranslationVec(i);
-        auto s_rot   = hp.getStepRotationOBMatrix(i);
+        auto s_trans = hp.getStepTranslationVec(i, false, false);
+        auto s_rot   = hp.getStepRotationMatrix(i, false, false);
 
         // Set the coordinates for the nucleobases
         double *base_coords = base_coords_vec[i];
@@ -551,10 +542,10 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
             if (!strand_orientation_[chain_index])
                 v3 *= change_sign;
 
-            v3 *= hp2.getStepRotationOBMatrix(1);
-            v3 *= hp2.getGlobalRotationOBMatrix();
-            v3 += hp2.getStepTranslationVec(1);
-            v3 += hp2.getGlobalTranslationVec();
+            v3 *= hp.getStepRotationMatrix(1, true, (bool) chain_index);
+            v3 *= hp.getGlobalRotationMatrix(true, (bool) chain_index);
+            v3 += hp.getStepTranslationVec(1, true, (bool) chain_index);
+            v3 += hp.getGlobalTranslationVec(true, (bool) chain_index);
             
             v3 *= g_rot;
             v3 += g_trans;
@@ -581,10 +572,10 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                 if (!strand_orientation_[chain_index])
                      v3 *= change_sign;
 
-                v3 *= hp2.getStepRotationOBMatrix(1);
-                v3 *= hp2.getGlobalRotationOBMatrix();
-                v3 += hp2.getStepTranslationVec(1);
-                v3 += hp2.getGlobalTranslationVec();
+                v3 *= hp.getStepRotationMatrix(1, true, (bool) chain_index);
+                v3 *= hp.getGlobalRotationMatrix(true, (bool) chain_index);
+                v3 += hp.getStepTranslationVec(1, true, (bool) chain_index);
+                v3 += hp.getGlobalTranslationVec(true, (bool) chain_index);
  
                 v3 *= g_rot;
                 v3 += g_trans;

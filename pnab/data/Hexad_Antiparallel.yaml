@@ -90,7 +90,7 @@ RuntimeParameters:
   - false
   - true
   - false
-  max_distance: 0.8
+  max_distance: 0.2
   num_steps: 10000000
   num_candidates: 1
   strand: MMMMMMMMMM

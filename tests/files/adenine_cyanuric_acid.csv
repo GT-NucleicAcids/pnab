@@ -1,4 +1,4 @@
-# 2020-03-28 00:08:43
-# h_rise=3.40, h_twist=-25.00, inclination=0.00, tip=0.00, x_displacement=0.00, y_displacement=0.00
+# 2020-05-06 16:28:13
+# h_rise=3.40, h_twist=-25.00, inclination=0.00, tip=0.00, x_displacement=0.00, y_displacement=0.00, buckle=0.00, propeller=0.00, opening=0.00, shear=0.00, stretch=0.00, stagger=0.00
 # Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), Total Energy (kcal/mol/nucleotide), Dihedral 1 (degrees), Dihedral 2 (degrees), Dihedral 3 (degrees), Dihedral 4 (degrees)
-8,1322281,0.091579,0.563687,1.029990,1.657810,6.527110,405.454000,-176.309000,-74.819400,151.432000,53.875000
+8,9510525,0.160143,0.327311,0.489192,1.535240,7.277350,405.884000,-176.464000,-72.854200,152.044000,50.939700
