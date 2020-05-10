@@ -154,9 +154,11 @@ The program cannot align the nucleobases to a hexad frame of reference.
 @htmlonly <style>div.image img[src="helical_parameters.png"]{width:1000px;}</style> @endhtmlonly
 @image html helical_parameters.png "Specifying the helical parameters."
 
-Six parameters specify the helical structure of the nucleic acid strands. Single values or multiple values can be specified in a range.
-When a range of values is specified, the values are uniformally spaced between, and including, the the end points, with the specified
-number of configurations.
+Six parameters specify the helical structure of the nucleic acid strands. Two equivalent schemes can be used according to whether
+a global helical frame or a local frame is used. Either scheme can be used for building the nucleic acid structure.
+Additional six parameters are used for speicifying the relative orientation of the bases in a base pair.
+Single values or multiple values can be specified in a range. When a range of values is specified, the values are uniformally spaced between,
+and including, the the end points, with the specified number of configurations.
 
 The runtime parameters include the options for specifying the conformational search algorithm and structural parameters.
 
@@ -211,7 +213,7 @@ Input files can also be generated using the graphical user interface.
 
 @verbatim
 Backbone:
-  file_path: rna_bb.pdb
+  file_path: RNA_backbone.pdb
   interconnects: # Backbone to backbone connection
   - 10
   - 1 
@@ -238,6 +240,7 @@ This specifies that the dihedral angle specified by atom indices 1 and 2 and the
 
 @verbatim
 HelicalParameters:
+  is_helical: true
   inclination:
   - 22.9 # Initial point in the range
   - 22.9 # Final point in the range
@@ -263,7 +266,10 @@ HelicalParameters:
   - -0.02
   - 1 
 @endverbatim
-This section specifies the helical parameters. The first value is the beginning of the range, the second value is the end of the range, and the third
+This section specifies the helical parameters. The @a is_helical keyword determines whether the helical parameters are used or whether the step parameters
+(i.e. shift, slide, rise, tilt, roll, twist). These are two equivalent schemes for describing the orienation of the nucleobases. When the @a is_helical
+value is true, any values specified for the step parameters will not be used. The base pair parameters (shear, stretch, stagger, buckle, propeller, opening)
+can be similarly specified. The first value is the beginning of the range, the second value is the end of the range, and the third
 value is the number of configurations in the range. If you want a specific single value, simply specify the same value for both the beginning and the end
 of the interval.
 

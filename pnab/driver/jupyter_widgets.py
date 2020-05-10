@@ -465,30 +465,51 @@ def helical_parameters(param):
     display(widgets.HTML(value='<H3>Helical Parameters</H3>'))
 
     # Display an image showing the helical parameters for DNA and RNA
-    display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.jpeg'), width=500))
+    display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.jpeg'), width=800))
 
     param_dict = {}
     # Add widget to the widgets dictionary
     input_options['HelicalParameters'] = {}
-    for k in param:
-        param_dict[k] = []
-        default = [param[k]['default'][0], param[k]['default'][1], param[k]['default'][2]] # [beginning point, end point, number of steps]
-        # Set angles
-        if k in ['inclination', 'tip', 'h_twist', 'buckle', 'propeller', 'opening']:
-            param_dict[k].append(widgets.FloatRangeSlider(value=[default[0], default[1]], min=-180, max=180, step=0.01, readout_format='.2f'))
-        # Set distances
-        else: # h_rise, x-displacement, y-displacement, stretch, shear, stagger
-            # limit maxium and minimum distance values to be between -20 and 20 and 0.01 Angstrom step size
-            param_dict[k].append(widgets.FloatRangeSlider(value=[default[0], default[1]], min=-20, max=20, step=0.01, readout_format='.3f'))
 
-        # Add the number of steps widgets
-        param_dict[k].append(widgets.BoundedIntText(value=default[2], min=1, max=1000, step=1, description='Steps'))
-        help_box = widgets.Button(description='?', tooltip=param[k]['long_glossory'], layout=widgets.Layout(width='3%'))
-        box = widgets.HBox([help_box, widgets.Label(param[k]['glossory'], layout={'width': '200px'}), param_dict[k][0], param_dict[k][1]])
-        display(box)
+    def helical_or_step(mode, param):
+        if mode == 'Helical':
+            excluded_parameters = ['shift', 'slide', 'rise', 'tilt', 'roll', 'twist']
+            input_options['HelicalParameters']['is_helical'] =  True
+        else:
+            excluded_parameters = ['x_displacement', 'y_displacement', 'h_rise', 'inclination', 'tip', 'h_twist']
+            input_options['HelicalParameters']['is_helical'] =  False
 
-        # Add widgets for helical parameter k to the widgets dictionary
-        input_options['HelicalParameters'][k] = [param_dict[k][0], param_dict[k][1]]
+        for k in param:
+            if k == 'is_helical' or k in excluded_parameters:
+                continue
+            param_dict[k] = []
+            default = [param[k]['default'][0], param[k]['default'][1], param[k]['default'][2]] # [beginning point, end point, number of steps]
+            # Set angles
+            if k in ['inclination', 'tip', 'h_twist', 'roll', 'tilt', 'twist', 'buckle', 'propeller', 'opening']:
+                param_dict[k].append(widgets.FloatRangeSlider(value=[default[0], default[1]], min=-180, max=180, step=0.01, readout_format='.2f'))
+            # Set distances
+            else: # h_rise, x-displacement, y-displacement, rise, slide, shift, stretch, shear, stagger
+                # limit maxium and minimum distance values to be between -20 and 20 and 0.01 Angstrom step size
+                param_dict[k].append(widgets.FloatRangeSlider(value=[default[0], default[1]], min=-20, max=20, step=0.01, readout_format='.3f'))
+
+            # Add the number of steps widgets
+            param_dict[k].append(widgets.BoundedIntText(value=default[2], min=1, max=1000, step=1, description='Steps'))
+            help_box = widgets.Button(description='?', tooltip=param[k]['long_glossory'], layout=widgets.Layout(width='3%'))
+            box = widgets.HBox([help_box, widgets.Label(param[k]['glossory'], layout={'width': '200px'}), param_dict[k][0], param_dict[k][1]])
+            display(box)
+
+            # Add widgets for helical parameter k to the widgets dictionary
+            input_options['HelicalParameters'][k] = [param_dict[k][0], param_dict[k][1]]
+
+    default = 'Helical' if param['is_helical']['default'] else 'Step'
+    help_box = widgets.Button(description='?', tooltip=param['is_helical']['long_glossory'], layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, widgets.interactive(helical_or_step, mode=widgets.Dropdown(value=default,
+                                         options=['Helical', 'Step'],
+                                         description="Base step scheme",
+                                         style={'description_width': 'initial'},
+                                         #layout={'width': '75%'}
+                                         ),
+                                         param=widgets.fixed(param))]))
 
 
 def algorithm(chosen_algorithm, param):
@@ -921,7 +942,6 @@ def run(button):
     show_results(run.results, run.header, run.prefix)
 
 
-
 def extract_options():
     """!@brief Extracts user options from the widgets
 
@@ -956,7 +976,10 @@ def extract_options():
                     user_options[k1][k2] = val2.value
 
             elif k1 == 'HelicalParameters':
-                user_options[k1][k2] = [val2[0].value[0], val2[0].value[1], val2[1].value]
+                if k2 == 'is_helical':
+                    user_options[k1][k2] = val2
+                else:
+                    user_options[k1][k2] = [val2[0].value[0], val2[0].value[1], val2[1].value]
 
             else:
                 if k2 == 'energy_filter' or k2 == 'strand_orientation' or k2 == 'build_strand':

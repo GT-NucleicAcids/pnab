@@ -25,13 +25,22 @@ Base 2:
   pair_name: Z
   align: true
 HelicalParameters:
-  inclination:
-  - 13.68
-  - 13.68
+  is_helical: true
+  x_displacement:
+  - -3.60
+  - -3.60
+  - 1
+  y_displacement:
+  - 0.19
+  - 0.19
   - 1
   h_rise:
   - 2.84
   - 2.84
+  - 1
+  inclination:
+  - 13.68
+  - 13.68
   - 1
   tip:
   - -0.04
@@ -41,25 +50,29 @@ HelicalParameters:
   - 31.57
   - 31.57
   - 1
-  x_displacement:
-  - -3.60
-  - -3.60
+  shift:
+  - -0.1013
+  - -0.1013
   - 1
-  y_displacement:
-  - 0.19
-  - 0.19
+  slide:
+  - -1.2593
+  - -1.2593
   - 1
-  buckle:
-  - -0.83
-  - -0.83
+  rise:
+  - 3.2119
+  - 3.2119
   - 1
-  propeller:
-  - -10.05
-  - -10.05
+  tilt:
+  - 0.0216
+  - 0.0216
   - 1
-  opening:
-  - 1.46
-  - 1.46
+  roll:
+  - 7.3773
+  - 7.3773
+  - 1
+  twist:
+  - 30.7173
+  - 30.7173
   - 1
   shear:
   - -0.03
@@ -72,6 +85,18 @@ HelicalParameters:
   stagger:
   - 0.10
   - 0.10
+  - 1
+  buckle:
+  - -0.83
+  - -0.83
+  - 1
+  propeller:
+  - -10.05
+  - -10.05
+  - 1
+  opening:
+  - 1.46
+  - 1.46
   - 1
 RuntimeParameters:
   search_algorithm: weighted monte carlo search

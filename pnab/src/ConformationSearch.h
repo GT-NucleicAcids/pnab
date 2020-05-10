@@ -161,12 +161,12 @@ namespace PNAB {
          *
          * At every iteration, this algorithm randomly chooses two dihedrals and set them to random values.
          * If the new configuration decreases the distance between the head atom of the backbone and the tail atom
-         * of the adjacent backbone, this step is accepted. If the new configuration does not decrease the distance,
-         * the step is provisionally accpeted if a random number between 0 and 1 is less than 
-         * \f$exp(\frac{E}{k_{B}T})\f$, where \f$E\f$ is a penalty term based on the distance, and \f$k_{B}T\f$ is the Boltzmann
-         * constant multiplied by the temperature. If the step is provisionally accepted, the system is constructed
-         * and the energy terms of the system are computed. If the energy terms are higher than the thresholds,
-         * the step is finally rejected. The algorithm finishes after the specified number of iterations.
+         * of the adjacent backbone or if the new distance is less than 1 Angstrom, this step is accepted.
+         * If the new configuration does not decrease the distance, the step is provisionally accpeted if a random number
+         * between 0 and 1 is less than \f$exp(\frac{E}{k_{B}T})\f$, where \f$E\f$ is a penalty term based on the distance,
+         * and \f$k_{B}T\f$ is the Boltzmann constant multiplied by the temperature. If the step is provisionally accepted,
+         * the system is constructed and the energy terms of the system are computed. If the energy terms are higher than
+         * the thresholds, the step is finally rejected. The algorithm finishes after the specified number of iterations.
          *
          * The penalty term \f$E\f$ is given by \f$E=-k(\textrm{currrent distance} - \textrm{previous distance})^2\f$.
          * \f$k\f$ is a bond stretching constant fixed at 300 kcal/mol/Angstrom\f$^2\f$. The temperature controls how
@@ -176,7 +176,7 @@ namespace PNAB {
          * The algorithm significantly accelerates the finding of dihedral angles that satisfy the distance threshold.
          * However, the distance threshold only indicates that the candidate backbone configuration can form a periodic
          * structure. It does not indicates whether the backbone configuration is low or high in energy. Therefore,
-         * the ultimate criteria for accepting or rejecting a step, if the distance is not decreases in the step,
+         * the ultimate criteria for accepting or rejecting a step, if the distance is not decreased in the step,
          * is whether it satisfies the energy thresholds.
          *
          * The probability of choosing a random angle between 0 and 360&deg; can be uniform or can be weighted. See the

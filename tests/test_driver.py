@@ -39,9 +39,17 @@ def test_examples():
 
     for f in examples:
         print("Testing ", f)
-        run = pnab.pNAB(f)
-        run.run()
 
         ref_output = np.genfromtxt(os.path.join('files', f.split('.')[0] + '.csv'), delimiter=',')
+
+        run1 = pnab.pNAB(f)
+        run1.options['HelicalParameters']['is_helical'] = True
+        run1.run()
+
+        run2 = pnab.pNAB(f)
+        run2.options['HelicalParameters']['is_helical'] = False
+        run2.run()
+
         if platform.system() == 'Linux' or run.options['RuntimeParameters']['search_algorithm'] == 'systematic search':
-            assert np.allclose(run.results, ref_output, atol=0.4)
+            assert np.allclose(run1.results, ref_output, atol=0.4)
+            assert np.allclose(run2.results, ref_output, atol=0.4)

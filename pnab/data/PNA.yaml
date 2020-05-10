@@ -10,13 +10,18 @@ Backbone:
   - 1
   - 11
 HelicalParameters:
+  is_helical: true
+  x_displacement:
+  - -7.78
+  - -7.78
+  - 1
+  y_displacement:
+  - -0.11
+  - -0.11
+  - 1
   h_rise:
   - 3.27
   - 3.27
-  - 1
-  h_twist:
-  - 19.43
-  - 19.43
   - 1
   inclination:
   - 0.72
@@ -26,25 +31,33 @@ HelicalParameters:
   - 0.41
   - 0.41
   - 1
-  x_displacement:
-  - -7.78
-  - -7.78
+  h_twist:
+  - 19.43
+  - 19.43
   - 1
-  y_displacement:
-  - -0.11
-  - -0.11
+  shift:
+  - 0.0139
+  - 0.0139
   - 1
-  buckle:
-  - -0.52
-  - -0.52
+  slide:
+  - -2.5850
+  - -2.5850
   - 1
-  propeller:
-  - -3.37
-  - -3.37
+  rise:
+  - 3.3025
+  - 3.3025
   - 1
-  opening:
-  - -0.37
-  - -0.37
+  tilt:
+  - -0.1384
+  - -0.1384
+  - 1
+  roll:
+  - 0.2430
+  - 0.2430
+  - 1
+  twist:
+  - 19.4280
+  - 19.4280
   - 1
   shear:
   - 0.02
@@ -57,6 +70,18 @@ HelicalParameters:
   stagger:
   - 0.12
   - 0.12
+  - 1
+  buckle:
+  - -0.52
+  - -0.52
+  - 1
+  propeller:
+  - -3.37
+  - -3.37
+  - 1
+  opening:
+  - -0.37
+  - -0.37
   - 1
 RuntimeParameters:
   build_strand:

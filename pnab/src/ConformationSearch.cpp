@@ -707,17 +707,34 @@ void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
     conf_data.molecule.CloneData(pairdata);
     delete pairdata;
 
-    vector<string> labels = {"Helical Rise (Angstroms)", "X-Displacement (Angstroms)", "Y-Displacement (Angstrom)",
-                             "Helical Twist (degrees)", "Inclination (degrees)", "Tip (degrees)",
-                             "Shear (Angstroms)", "Stretch (Angstroms)", "Stagger (Angstroms)", 
-                             "Buckle (degrees)", "Propeller (degrees)", "Opening (degrees)",
-                             "Distance (Angstroms)", "Bond Energy (kcal/mol)", "Angle Energy (kcal/mol)", "Torsion Energy (kcal/mol/nucleotide)",
-                             "Van der Waals Energy (kcal/mol/nucleotide)", "Total Energy (kcal/mol/nucleotide)"};
-    vector<double> data = {helical_params_.h_rise, helical_params_.x_displacement, helical_params_.y_displacement,
-                           helical_params_.h_twist, helical_params_.inclination, helical_params_.tip,
-                           helical_params_.shear, helical_params_.stretch, helical_params_.stagger,
-                           helical_params_.buckle, helical_params_.propeller, helical_params_.opening,
-                           conf_data.distance, conf_data.bondE, conf_data.angleE, conf_data.torsionE, conf_data.VDWE, conf_data.total_energy};
+    vector<string> labels;   
+    vector<double> data;
+    if (helical_params_.is_helical) {
+        labels = {"Helical Rise (Angstroms)", "X-Displacement (Angstroms)", "Y-Displacement (Angstrom)",
+                  "Helical Twist (degrees)", "Inclination (degrees)", "Tip (degrees)",
+                  };
+        data = {helical_params_.h_rise, helical_params_.x_displacement, helical_params_.y_displacement,
+                helical_params_.h_twist, helical_params_.inclination, helical_params_.tip};
+    }
+
+    else {
+        labels = {"Rise (Angstroms)", "Shift (Angstroms)", "Slide (Angstrom)",
+                  "Twist (degrees)", "Roll (degrees)", "Tilt (degrees)",
+                  };
+        data = {helical_params_.rise, helical_params_.shift, helical_params_.slide,
+                helical_params_.twist, helical_params_.roll, helical_params_.tilt};
+    }
+
+    vector<string> labels2 = {"Shear (Angstroms)", "Stretch (Angstroms)", "Stagger (Angstroms)", 
+                              "Buckle (degrees)", "Propeller (degrees)", "Opening (degrees)",
+                              "Distance (Angstroms)", "Bond Energy (kcal/mol)", "Angle Energy (kcal/mol)", "Torsion Energy (kcal/mol/nucleotide)",
+                              "Van der Waals Energy (kcal/mol/nucleotide)", "Total Energy (kcal/mol/nucleotide)"};
+    vector<double> data2 = {helical_params_.shear, helical_params_.stretch, helical_params_.stagger,
+                            helical_params_.buckle, helical_params_.propeller, helical_params_.opening,
+                            conf_data.distance, conf_data.bondE, conf_data.angleE, conf_data.torsionE, conf_data.VDWE, conf_data.total_energy};
+
+    labels.insert(labels.end(), labels2.begin(), labels2.end());
+    data.insert(data.end(), data2.begin(), data2.end());
 
     for (int i=0; i < rotor_vector.size(); i++) {
         labels.push_back("Dihedral " + to_string(i+1) + " (degrees)");

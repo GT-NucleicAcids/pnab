@@ -511,8 +511,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
     // Reflection for both the duplex and the hexad
     matrix3x3 change_sign = {{1, 0, 0},{0, -1, 0}, {0, 0, -1}};
 
-    // Reflection that we can apply if we want the same orientation as that of 3DNA
-    matrix3x3 change_sign2 = {{-1, 0, 0},{0, 1, 0}, {0, 0, -1}};
+    //// Reflection that we can apply if we want the same orientation as that of 3DNA
+    //matrix3x3 change_sign2 = {{-1, 0, 0},{0, 1, 0}, {0, 0, -1}};
 
     // Get the global rotation and translations
     auto g_rot = hp.getGlobalRotationMatrix(false, false);
@@ -555,8 +555,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
             if (hexad_)
                 v3 *= z_rot;
 
-            // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
-            v3 *=  change_sign2;
+            //// Reflect to get the orientation that agrees with 3DNA for DNA/RNA
+            //v3 *=  change_sign2;
 
             v3.Get(xyz + xyzI);
             xyzI += 3;
@@ -585,8 +585,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                 if (hexad_)
                     v3 *= z_rot;
 
-                // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
-                v3 *=  change_sign2;
+                //// Reflect to get the orientation that agrees with 3DNA for DNA/RNA
+                //v3 *=  change_sign2;
 
                 v3.Get(xyz + xyzI);
                 xyzI += 3;

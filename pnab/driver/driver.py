@@ -120,7 +120,12 @@ class pNAB(object):
         config, prefix = config[0], config[1]
 
         # Add a header of the helical parameters
-        header = ''.join(['%s=%.2f, ' %(k, val) for k, val in zip(self.options['HelicalParameters'], config)])
+        header_dict = {'%s' %k:  '%.2f' %val for k, val in zip(self.options['HelicalParameters'], config)}
+        if self._is_helical:
+            header = ''.join(['%s=%s, ' %(k, header_dict[k]) for k in ['x_displacement', 'y_displacement', 'h_rise', 'inclination', 'tip', 'h_twist']])
+        else:
+            header = ''.join(['%s=%s, ' %(k, header_dict[k]) for k in ['shift', 'slide', 'rise', 'tilt', 'roll', 'twist']])
+        header += ''.join(['%s=%s, ' %(k, header_dict[k]) for k in ['shear', 'stretch', 'stagger', 'buckle', 'propeller', 'opening']])
         header = header.strip(', ')
 
         # Set runtime parameters
@@ -141,6 +146,7 @@ class pNAB(object):
         # Set helical parameters
         helical_parameters = bind.HelicalParameters()
         [helical_parameters.__setattr__(k, val) for k, val in zip(self.options['HelicalParameters'], config)]
+        helical_parameters.is_helical = self._is_helical
 
         # Run code
         result = bind.run(runtime_parameters, backbone, bases, helical_parameters, prefix, self._verbose)
@@ -164,11 +170,9 @@ class pNAB(object):
     def _single_result(self, results):
         """!@brief Write results to disk for each helical configuration as it finishe.
 
-        This is a separate function from @a pNAB.pNAB._run to allow the results to be
-        written in the order that they are generated. Two files are written: "prefix.yaml"
-        contains a dictionary of the sequence of the run and the corresponding helical
-        configuration; "results.csv" contains the information on the accepted candidates
-        for all of configurations
+        Two files are written: 
+            "prefix.yaml" contains a dictionary of the sequence of the run and the corresponding helical configuration
+            "results.csv" contains the information on the accepted candidates for all of configurations
 
         @param results (list) The return value of @a pNAB.pNAB._run
 
@@ -228,18 +232,24 @@ class pNAB(object):
         ##@brief Whether to print progress report to the screen
         self._verbose = verbose
 
+        self._is_helical = self.options['HelicalParameters'].pop('is_helical')
+        hp = self.options['HelicalParameters'].copy()
+        if self._is_helical:
+            # Set the number of configurations for each of the step parameters to 1
+            # so that we don't generate more configurations than necessary in case
+            # the user specifies both in the input file
+            for k in ['shift', 'slide', 'rise', 'tilt', 'roll', 'twist']:
+                hp[k][2] = 1
+        else:
+            for k in ['x_displacement', 'y_displacement', 'h_rise', 'inclination', 'tip', 'h_twist']:
+                hp[k][2] = 1
+
         # Extract configurations
-        config = itertools.product(*[np.linspace(val[0], val[1], val[2])
-                                       for val in self.options['HelicalParameters'].values()])
-        num_config = np.prod([val[2] for val in self.options['HelicalParameters'].values()])
+        config = itertools.product(*[np.linspace(val[0], val[1], val[2]) for val in hp.values()])
+        num_config = np.prod([val[2] for val in hp.values()])
         prefix = (str(i) for i in range(1, num_config + 1))
 
-        # Note: For reasons I do not understand, using the default
-        # maxtaskperchild leads to different results for parallel jobs
-        # when using different numbers of processors. What I found is
-        # that the random numbers produced become different even though
-        # we were using the same seed. Setting maxtasksperchild to one
-        # fixes the issue apparently
+        # Use maxtasksperchild=1 to free memory after each run
         number_of_cpus = mp.cpu_count() if number_of_cpus is None else number_of_cpus
         pool = mp.Pool(number_of_cpus, init_worker, maxtasksperchild=1)
 
@@ -274,6 +284,7 @@ class pNAB(object):
 
         pool.close()
 
+        del self._is_helical
 
         #Extract the results from the run
 

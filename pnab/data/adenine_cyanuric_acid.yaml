@@ -16,14 +16,19 @@ Base 1:
   name: X
   pair_name: ''
 HelicalParameters:
+  is_helical: true
+  x_displacement:
+  - 0.0
+  - 0.0
+  - 1
+  y_displacement:
+  - 0.0
+  - 0.0
+  - 1
   h_rise:
   - 3.4
   - 3.4
   - 1
-  h_twist:
-  - -60.0
-  - 0.0
-  - 13
   inclination:
   - 0.0
   - 0.0
@@ -32,13 +37,45 @@ HelicalParameters:
   - 0.0
   - 0.0
   - 1
-  x_displacement:
+  h_twist:
+  - -60.0
   - 0.0
-  - 0.0
+  - 13
+  shift:
+  - 0
+  - 0
   - 1
-  y_displacement:
+  slide:
+  - 0
+  - 0
+  - 1
+  rise:
+  - 3.4
+  - 3.4
+  - 1
+  tilt:
+  - 0
+  - 0
+  - 1
+  roll:
+  - 0
+  - 0
+  - 1
+  twist:
+  - -60.0
   - 0.0
-  - 0.0
+  - 13
+  shear:
+  - 0
+  - 0
+  - 1
+  stretch:
+  - 0
+  - 0
+  - 1
+  stagger:
+  - 0
+  - 0
   - 1
   buckle:
   - 0
@@ -49,18 +86,6 @@ HelicalParameters:
   - 0
   - 1
   opening:
-  - 0
-  - 0
-  - 1
-  shear:
-  - 0
-  - 0
-  - 1
-  stretch:
-  - 0
-  - 0
-  - 1
-  stagger:
   - 0
   - 0
   - 1

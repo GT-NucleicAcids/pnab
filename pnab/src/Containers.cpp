@@ -9,6 +9,246 @@ using namespace std;
 using namespace PNAB;
 using namespace OpenBabel;
 
+void HelicalParameters::computeHelicalParameters() {
+    if (not is_helical) {
+        vector<vector3> ref_frame = StepParametersToReferenceFrame();
+        ReferenceFrameToHelicalParameters(ref_frame[0], ref_frame[1], ref_frame[2], ref_frame[3]);
+    }
+
+    return;
+}
+
+vector3 HelicalParameters::getGlobalTranslationVec(bool is_base_pair, bool is_second_strand) {
+    if (not is_base_pair)
+        return vector3(x_displacement, y_displacement, 0);
+    else if (not is_second_strand)
+        return vector3(0.5*shear, 0.5*stretch, 0);
+    else
+        return vector3(-0.5*shear, -0.5*stretch, 0);
+}
+
+vector3 HelicalParameters::getStepTranslationVec(unsigned n, bool is_base_pair, bool is_second_strand) {
+    if (not is_base_pair)
+        return vector3(0, 0, n * h_rise);
+    else if (not is_second_strand)
+        return vector3(0, 0, 0.5*stagger);
+    else
+        return vector3(0, 0, -0.5*stagger);
+}
+
+
+matrix3x3 HelicalParameters::getGlobalRotationMatrix(bool is_base_pair, bool is_second_strand) {
+    double angle1, angle2;
+    if (not is_base_pair)
+        angle1 = inclination * DEG_TO_RAD, angle2 = tip * DEG_TO_RAD;
+    else if (not is_second_strand)
+        angle1 = 0.5 * buckle * DEG_TO_RAD, angle2 = 0.5 * propeller * DEG_TO_RAD;
+    else
+        angle1 = -0.5 * buckle * DEG_TO_RAD, angle2 = -0.5 * propeller * DEG_TO_RAD;
+
+    double Lambda = sqrt(angle1*angle1 + angle2*angle2);
+    
+    vector3 axis;
+    if (Lambda != 0)
+        axis = vector3(angle1/Lambda, angle2/Lambda, 0);
+    else
+       axis = vector3(0, 1, 0);
+
+    matrix3x3 result = rodrigues_formula(axis, Lambda);
+
+    return result;
+}
+
+matrix3x3 HelicalParameters::getStepRotationMatrix(unsigned n, bool is_base_pair, bool is_second_strand) {
+    double angle;
+    if (not is_base_pair)
+        angle = n * h_twist * DEG_TO_RAD;
+    else if (not is_second_strand)
+        angle = 0.5 * opening * DEG_TO_RAD, n = 1;
+    else
+        angle = -0.5 * opening * DEG_TO_RAD, n = 1;
+
+    matrix3x3 r_mat = matrix3x3(vector3(cos(angle), -sin(angle), 0),
+                                vector3(sin(angle), cos(angle), 0),
+                                vector3(0, 0, 1));
+
+    return r_mat;
+};
+
+matrix3x3 HelicalParameters::rodrigues_formula(vector3 axis_vector, double theta) {
+
+    array<double, 3> axis = {axis_vector.GetX(), axis_vector.GetY(), axis_vector.GetZ()};
+    array<double, 9> m{};
+    m[0] = cos(theta) + axis[0]*axis[0]*(1 - cos(theta));
+    m[1] = axis[0]*axis[1]*(1 - cos(theta)) - axis[2]*sin(theta);
+    m[2] = axis[1]*sin(theta) + axis[0]*axis[2]*(1 - cos(theta));
+    m[3] = axis[2]*sin(theta) + axis[0]*axis[1]*(1 - cos(theta));
+    m[4] = cos(theta) + axis[1]*axis[1]*(1 - cos(theta));
+    m[5] = -axis[0]*sin(theta) + axis[1]*axis[2]*(1 - cos(theta));
+    m[6] = -axis[1]*sin(theta) + axis[0]*axis[2]*(1 - cos(theta));
+    m[7] = axis[0]*sin(theta) + axis[1]*axis[2]*(1 - cos(theta));
+    m[8] = cos(theta) + axis[2]*axis[2]*(1 - cos(theta));
+
+    matrix3x3 result = matrix3x3(vector3(m[0], m[1], m[2]),
+                                 vector3(m[3], m[4], m[5]),
+                                 vector3(m[6], m[7], m[8]));
+    return result;
+};
+
+
+vector<vector3> HelicalParameters::StepParametersToReferenceFrame() {
+    vector3 old_origin(0.0, 0.0, 0.0);
+    vector3 x(1.0, 0.0, 0.0);
+    vector3 y(0.0, 1.0, 0.0);
+    vector3 z(0.0, 0.0, 1.0);
+
+    // Compute the RollTill axis and angle; Equation 1
+    vector3 hinge(tilt*DEG_TO_RAD, roll*DEG_TO_RAD, 0.0);
+    double gamma = hinge.length();
+    double phi;
+    if (fabs(roll) > 0.000001)
+        phi = atan(tilt/roll);
+    else if (tilt > 0.0)
+        phi = M_PI/2.0;
+    else
+        phi = -M_PI/2.0;
+
+    if ((cos(phi) * roll < 0) || (sin(phi) * tilt < 0))
+        gamma *= -1.0;
+
+
+    // Compute Ti+1; equation 9
+    matrix3x3 rz1 = rodrigues_formula(z, twist*DEG_TO_RAD/2.0 - phi);
+    matrix3x3 ry2 = rodrigues_formula(y, gamma);
+    matrix3x3 rz3 = rodrigues_formula(z, twist*DEG_TO_RAD/2.0 + phi);
+
+    matrix3x3 tiplus1 = rz1*ry2;
+    tiplus1 = tiplus1 * rz3;
+    tiplus1 = tiplus1 * matrix3x3(x, y, z).transpose();
+
+    // Compute Tmst; equation 10
+    rz1 = rodrigues_formula(z, twist*DEG_TO_RAD/2.0 - phi);
+    ry2 = rodrigues_formula(y, gamma/2.0);
+    rz3 = rodrigues_formula(z, phi);
+
+    matrix3x3 tmst = rz1*ry2;
+    tmst = tmst * rz3;
+    tmst = tmst * matrix3x3(x, y, z).transpose();
+
+    // Compute the new origin; Equation 11
+    vector3 new_origin = old_origin + shift * tmst.GetColumn(0) + slide * tmst.GetColumn(1) + rise * tmst.GetColumn(2);
+
+    // return origin and direction vectors
+    vector<vector3> results = {new_origin, tiplus1.GetColumn(0), tiplus1.GetColumn(1), tiplus1.GetColumn(2)};
+
+    return results;
+}
+
+
+void HelicalParameters::ReferenceFrameToHelicalParameters(vector3 origin2, vector3 x2, vector3 y2, vector3 z2) {
+    vector3 origin1(0.0, 0.0, 0.0);
+    vector3 x1(1.0, 0.0, 0.0);
+    vector3 y1(0.0, 1.0, 0.0);
+    vector3 z1(0.0, 0.0, 1.0);
+
+    matrix3x3 direction_vectors1 = matrix3x3(x1, y1, z1).transpose();
+    matrix3x3 direction_vectors2 = matrix3x3(x2, y2, z2).transpose();
+
+    // Compute the helical axis
+    vector3 helical_axis = OpenBabel::cross(direction_vectors2.GetColumn(0) - direction_vectors1.GetColumn(0), direction_vectors2.GetColumn(1) - direction_vectors1.GetColumn(1));
+    if (helical_axis.length() < 0.000001)
+        helical_axis = vector3(0.0, 0.0, 1.0);
+    else
+        helical_axis /= helical_axis.length();
+
+    // Compute TipInclination angle; Equation 17
+    double Lambda1;
+    if ((helical_axis.length() < 0.000001) || (direction_vectors1.GetColumn(2).length() < 0.000001))
+        Lambda1 = 0.0;
+    else {
+        double dot = OpenBabel::dot(helical_axis/helical_axis.length(), direction_vectors1.GetColumn(2)/direction_vectors1.GetColumn(2).length());
+        if (dot >= 1.0)
+            Lambda1 = 0.0;
+        else if (dot <= -1.0)
+            Lambda1 = M_PI;
+        else
+            Lambda1 = acos(dot);
+    }
+
+    // Compute the TipInclination axis; Equation 18
+    vector3 hinge1 = OpenBabel::cross(helical_axis, direction_vectors1.GetColumn(2));
+    if (hinge1.length() > 0.000001)
+        hinge1 /= hinge1.length();
+
+    // Again compute TipInclination for the second base pair
+    double Lambda2 = acos(OpenBabel::dot(helical_axis, direction_vectors2.GetColumn(2)));
+    vector3 hinge2 = OpenBabel::cross(helical_axis, direction_vectors2.GetColumn(2));
+    if (hinge2.length() > 0.000001)
+        hinge2 /= hinge2.length();
+
+    // Compute Ti'; Equation 19
+    matrix3x3 direction_vectors1_h = rodrigues_formula(hinge1, -Lambda1) * direction_vectors1;
+    matrix3x3 direction_vectors2_h = rodrigues_formula(hinge2, -Lambda2) * direction_vectors2;
+
+    // Compute phi; Equation 20
+    double phi_double_prime = acos(OpenBabel::dot(hinge1, direction_vectors1_h.GetColumn(1)));
+    if (OpenBabel::dot(OpenBabel::cross(hinge1, direction_vectors1_h.GetColumn(1)), direction_vectors1_h.GetColumn(2)) > 0.0)
+        phi_double_prime = fabs(phi_double_prime);
+    else
+        phi_double_prime = -fabs(phi_double_prime);
+
+    // Compute tip and inclination; Equation 21
+    tip = Lambda1 * cos(phi_double_prime) / DEG_TO_RAD;
+    inclination = Lambda1 * sin(phi_double_prime) / DEG_TO_RAD;
+
+    // Get axes for the twist
+    vector3 t1 = direction_vectors1_h.GetColumn(1);
+    t1 = t1 - OpenBabel::dot(t1, helical_axis) * helical_axis;
+    t1 = t1 / t1.length();
+
+    vector3 t2 = direction_vectors2_h.GetColumn(1);
+    t2 = t2 - OpenBabel::dot(t2, helical_axis) * helical_axis;
+    t2 = t2 / t1.length();
+
+    // Compute twist; Equation 22
+    h_twist = fabs(acos(OpenBabel::dot(t1, t2))) / DEG_TO_RAD;
+    if (OpenBabel::dot(OpenBabel::cross(t1, t2), helical_axis) < 0.0)
+        h_twist *= -1.0;
+
+    // Compute translational parameters
+
+    t2 = origin2 - origin1;
+    // Compute rise; Equation 24
+    h_rise = OpenBabel::dot(t2, helical_axis);
+
+    t1 = t2 - h_rise * helical_axis;
+    t1 = t1 - OpenBabel::dot(t1, helical_axis) * helical_axis;
+
+    vector3 origin1_h;
+    if (fabs(h_twist) < 0.000001)
+        origin1_h = origin1 + 0.5 * t1;
+    else {
+        matrix3x3 temp = rodrigues_formula(helical_axis, M_PI/2.0 - h_twist*DEG_TO_RAD/2.0);
+        vector3 axis = temp*t1;
+        if (axis.length() > 0.0000001)
+            axis /= axis.length();
+        double s = 0.5 * t1.length() / sin(h_twist*DEG_TO_RAD / 2.0);
+        origin1_h = origin1 + s * axis;
+    }
+
+    vector3 origin2_h = origin1_h + h_rise + helical_axis;
+
+    // Compute x-displacement and y-displacement
+    t1 = origin1_h - origin1;
+    vector3 temp = OpenBabel::dot(t1, direction_vectors1_h.GetColumn(0));
+    x_displacement = -1.0 * (temp.x() + temp.y() + temp.z());
+
+    temp = OpenBabel::dot(t1, direction_vectors1_h.GetColumn(1));
+    y_displacement = -1.0 * (temp.x() + temp.y() + temp.z());
+
+    return;
+}
+
 void Backbone::deleteVectorAtom() {
     // Delete the extra atom that defines the vector connecting the backbone to the base
     // If it is already deleted, do nothing
