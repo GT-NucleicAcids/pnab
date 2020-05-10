@@ -10,7 +10,7 @@ using namespace PNAB;
 using namespace OpenBabel;
 
 void HelicalParameters::computeHelicalParameters() {
-    if (not is_helical) {
+    if (!is_helical) {
         vector<vector3> ref_frame = StepParametersToReferenceFrame();
         ReferenceFrameToHelicalParameters(ref_frame[0], ref_frame[1], ref_frame[2], ref_frame[3]);
     }
@@ -19,18 +19,18 @@ void HelicalParameters::computeHelicalParameters() {
 }
 
 vector3 HelicalParameters::getGlobalTranslationVec(bool is_base_pair, bool is_second_strand) {
-    if (not is_base_pair)
+    if (!is_base_pair)
         return vector3(x_displacement, y_displacement, 0);
-    else if (not is_second_strand)
+    else if (!is_second_strand)
         return vector3(0.5*shear, 0.5*stretch, 0);
     else
         return vector3(-0.5*shear, -0.5*stretch, 0);
 }
 
 vector3 HelicalParameters::getStepTranslationVec(unsigned n, bool is_base_pair, bool is_second_strand) {
-    if (not is_base_pair)
+    if (!is_base_pair)
         return vector3(0, 0, n * h_rise);
-    else if (not is_second_strand)
+    else if (!is_second_strand)
         return vector3(0, 0, 0.5*stagger);
     else
         return vector3(0, 0, -0.5*stagger);
@@ -39,9 +39,9 @@ vector3 HelicalParameters::getStepTranslationVec(unsigned n, bool is_base_pair, 
 
 matrix3x3 HelicalParameters::getGlobalRotationMatrix(bool is_base_pair, bool is_second_strand) {
     double angle1, angle2;
-    if (not is_base_pair)
+    if (!is_base_pair)
         angle1 = inclination * DEG_TO_RAD, angle2 = tip * DEG_TO_RAD;
-    else if (not is_second_strand)
+    else if (!is_second_strand)
         angle1 = 0.5 * buckle * DEG_TO_RAD, angle2 = 0.5 * propeller * DEG_TO_RAD;
     else
         angle1 = -0.5 * buckle * DEG_TO_RAD, angle2 = -0.5 * propeller * DEG_TO_RAD;
@@ -61,9 +61,9 @@ matrix3x3 HelicalParameters::getGlobalRotationMatrix(bool is_base_pair, bool is_
 
 matrix3x3 HelicalParameters::getStepRotationMatrix(unsigned n, bool is_base_pair, bool is_second_strand) {
     double angle;
-    if (not is_base_pair)
+    if (!is_base_pair)
         angle = n * h_twist * DEG_TO_RAD;
-    else if (not is_second_strand)
+    else if (!is_second_strand)
         angle = 0.5 * opening * DEG_TO_RAD, n = 1;
     else
         angle = -0.5 * opening * DEG_TO_RAD, n = 1;

@@ -50,6 +50,8 @@ def test_examples():
         run2.options['HelicalParameters']['is_helical'] = False
         run2.run()
 
-        if platform.system() == 'Linux' or run.options['RuntimeParameters']['search_algorithm'] == 'systematic search':
+        assert np.allclose(run1.results, run2.results, atol=0.4)
+
+        if platform.system() == 'Linux' or run1.options['RuntimeParameters']['search_algorithm'] == 'systematic search':
             assert np.allclose(run1.results, ref_output, atol=0.4)
             assert np.allclose(run2.results, ref_output, atol=0.4)
