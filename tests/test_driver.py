@@ -40,18 +40,45 @@ def test_examples():
     for f in examples:
         print("Testing ", f)
 
-        ref_output = np.genfromtxt(os.path.join('files', f.split('.')[0] + '.csv'), delimiter=',')
+        run = pnab.pNAB(f)
+        run.run()
 
-        run1 = pnab.pNAB(f)
-        run1.options['HelicalParameters']['is_helical'] = True
-        run1.run()
+        if platform.system() == 'Linux' or run.options['RuntimeParameters']['search_algorithm'] == 'systematic search':
+            ref_output = np.genfromtxt(os.path.join('files', f.split('.')[0] + '.csv'), delimiter=',')
+            assert np.allclose(run.results, ref_output, atol=1e-4)
 
-        run2 = pnab.pNAB(f)
-        run2.options['HelicalParameters']['is_helical'] = False
-        run2.run()
+def test_helical_parameters():
+    """
+    test the equivalence between helical and step parameters.
 
-        assert np.allclose(run1.results, run2.results, atol=0.4)
+    While the the two schemes are equivalent, numerical conversions from one scheme to the other may lead to 
+    solutions that are not exactly identical. We use a loose threshold for comparison
+    """
 
-        if platform.system() == 'Linux' or run1.options['RuntimeParameters']['search_algorithm'] == 'systematic search':
-            assert np.allclose(run1.results, ref_output, atol=0.4)
-            assert np.allclose(run2.results, ref_output, atol=0.4)
+    import pnab
+
+    examples = ['RNA.yaml', 'DNA.yaml', 'FRNA.yaml', 'LNA.yaml', 'CeNA.yaml',
+                'PNA.yaml', '5methylcytosine.yaml', 'ZP.yaml']
+
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+    for f in examples:
+        print("Testing the equivalence between helical and step parameters for ", f)
+
+        run = pnab.pNAB(f)
+        run.options['RuntimeParameters']['search_algorithm'] = 'random search'
+        run.options['RuntimeParameters']['num_steps'] = 1000000
+        run.options['RuntimeParameters']['max_distance'] = 1
+        run.options['RuntimeParameters']['energy_filter'] = [2, 4, 10, 100, 100]
+        run.options['RuntimeParameters']['strand'] = ['G', 'C']
+        run.options['RuntimeParameters']['num_candidates'] = 10
+
+        run.options['HelicalParameters']['is_helical'] = True
+        run.run()
+        results1 = run.results
+
+        run.options['HelicalParameters']['is_helical'] = False
+        run.run()
+        results2 = run.results
+
+        assert np.allclose(results1, results2, atol=1)
