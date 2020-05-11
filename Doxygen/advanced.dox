@@ -10,7 +10,7 @@ The C++ compiler in linux can also be installed using Conda.
 @code{.sh}
 conda install -c conda-forge gcc_linux-64 gxx_linux-64
 @endcode
-The code has been tested using the gcc 7.3 compiler in Linux and the clang 8.0 compiler in Mac.
+The code has been tested using the gcc 7.3 compiler in Linux, clang 8.0 compiler in Mac, and Visual Studio 2015/
 
 The code uses the pytest package for testing. To test that the code works, first install pytest:
 @code{.sh}
@@ -24,7 +24,7 @@ python -c "import pnab; pnab.test()"
 
 @section pybind11 Accessing the C++ Classes through Python
 All the code for manipulating the molecule and computing the energies is written in C++. The main C++ classes
-that are used for defining the options can be accessed in python. For most cases, it is sufficient to write
+that are used for defining the options can be accessed in python. It is sufficient to write
 an input file and call the program using this syntax:
 @code{.py}
 import pnab

@@ -128,13 +128,13 @@ The options are divided into four sections:
 - Runtime Parameters
 
 As shown in the above figure, specifying the backbone requires three parameters: A path to a file containing the three-dimesional
-structure of the backbone, two indices specifying the connection to the nucleobase, and two indices specifying the connetions
-to the adjacent backbones. The structure of the backbone can be uploaded. Optional parameters include the indices of fixed rotatable
+structure of the backbone, two indices specifying the connection to the nucleobase, and two indices specifying the connections
+to the adjacent backbones. The structure of the backbone can be uploaded, and many formats (e.g. PDB) are accepted. Optional parameters include the indices of fixed rotatable
 bonds. This is useful when the number of rotatable bonds in the backbone are large and the search space need to be limited to
 specific dihedral angles.
 
 
-Specifying the nucleobases may not be necessary. The program contains a library of the canonical nucelobases: adenine (A), guaninie (G), cytosine (C),
+Uploading the geometries for the nucleobases may not be necessary. The program contains a library of the canonical nucelobases: adenine (A), guaninie (G), cytosine (C),
 uracil (U), and thymine (T). It also contains two alternative nucleobases that can adopt the hexad geometry, namely, aminopyrimidine (R) and
 cyanuric acid (Y). If the user wants to construct a nucleic acid analog with alternative nucleobases, then the additional nucleobases must be defined as shown in the figure.
 The ZP.yaml example file shows how to define new nucleobases. The Z nucleobase is defined below.
@@ -167,7 +167,7 @@ The runtime parameters include the options for specifying the conformational sea
 @image html runtime_parameters1.png "Specifying the search algorithm and distance and energy thresholds."
 
 Various conformational search algorithms are available for sapmling the dihedral angles in the backbone. Each algorithm requires specific
-parameters. For exmaple, the Weighted Random Search requires values for the number of conformation search steps and the temperature used
+parameters. For exmaple, the Weighted Random Search algorithm requires values for the number of conformation search steps and the temperature used
 in the weighting procedure. The random number seed ensures the reproducibility of the run for a given computer platform. Of the available
 algorithms, only the systematic search algorithm is deterministic and reproducible across platforms. The conformation search procedure can
 be terminated after a specified number of candidates are are accepted.
@@ -407,7 +407,7 @@ Base modified_adenine:
 
 These lines will add the nucleobase @a modified_adenine to the library of available nucleobases. For the name of the base, you
 must not use any of the names already used in the library. Otherwise, your new base might be overwritten. The reserved names are the following:
-@a A, @a G, @a C, @a T, @a U, @a M, and @a Y. These names are case-insensitive.
+@a A, @a G, @a C, @a T, @a U, @a R, and @a Y. These names are case-insensitive.
 
 Now that you defined a new nucleobase, you can use its name when you specify the strand:
 @verbatim
@@ -460,7 +460,7 @@ print(run.prefix['1'])
 When multiple helical configurations are defined, e.g. by giving a range of values for the twist angle and asking for 5 configurations, the program
 runs these different helical configurations in parallel. The number of calculations that can be run in parallel depends on the available processors
 in the computer. By default, the program uses all available CPUs for parallel calculations. To use a different number, you can pass a keyword
-argumen to the @a run function:
+argument to the @a run function:
 @code{.py}
 run.run(number_of_cpus=1)
 @endcode

@@ -279,7 +279,7 @@ namespace PNAB {
         *
         * Outputs a 3x3 rotation matrix.
         *
-        * @param axis A unit vector defining the axis about which to rotate by angle theta
+        * @param axis_vector A unit vector defining the axis about which to rotate by angle theta
         * @param theta The angle at which to rotate about vector given by axis
         *
         * @return The new rotation matrix
