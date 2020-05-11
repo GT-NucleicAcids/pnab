@@ -99,9 +99,9 @@ RuntimeParameters:
   is_hexad: false
   max_distance: 0.8
   pair_A_U: true
-  search_algorithm: monte carlo search
+  search_algorithm: weighted random search
   num_steps: 100000000
-  monte_carlo_temperature: 300
+  weighting_temperature: 300
   num_candidates: 1
   seed: 0
   strand: GCGTAGCG
