@@ -48,7 +48,7 @@ before_test:
 
 test_script:
   - set BABEL_DATADIR=%CONDA_PREFIX%\share\openbabel
-  - pytest -s
+  - pytest -s -k test_helical
 
 cache:
   - C:\Miniconda3-x64\pkgs
