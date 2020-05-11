@@ -35,6 +35,9 @@ def test_examples():
     examples = ['RNA.yaml', 'DNA.yaml', 'FRNA.yaml', 'LNA.yaml', 'CeNA.yaml', 'PNA.yaml', '5methylcytosine.yaml',
                 'ZP.yaml', 'Hexad.yaml', 'Hexad_Antiparallel.yaml', 'adenine_cyanuric_acid.yaml']
 
+    if platform.system() != 'Linux':
+        examples = examples[:7]
+
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
     for f in examples:
