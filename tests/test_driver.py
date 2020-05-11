@@ -77,12 +77,10 @@ def test_helical_parameters():
         run.options['RuntimeParameters']['num_candidates'] = 10
 
         run.options['HelicalParameters']['is_helical'] = True
-        print(run.options)
         run.run()
         results1 = run.results
 
         run.options['HelicalParameters']['is_helical'] = False
-        print(run.options)
         run.run()
         results2 = run.results
 
