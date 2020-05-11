@@ -25,13 +25,22 @@ Base 2:
   pair_name: L
   align: false
 HelicalParameters:
-  inclination:
-  - 1.93
-  - 1.93
+  is_helical: true
+  x_displacement:
+  - -0.12
+  - -0.12
+  - 1
+  y_displacement:
+  - -0.03
+  - -0.03
   - 1
   h_rise:
   - 3.24
   - 3.24
+  - 1
+  inclination:
+  - 1.93
+  - 1.93
   - 1
   tip:
   - 0.90
@@ -41,25 +50,65 @@ HelicalParameters:
   - 35.78
   - 35.78
   - 1
-  x_displacement:
-  - -0.12
-  - -0.12
+  shift:
+  - -0.03
+  - -0.03
   - 1
-  y_displacement:
-  - -0.03
-  - -0.03
+  slide:
+  - 0.03
+  - 0.03
+  - 1
+  rise:
+  - 3.24
+  - 3.24
+  - 1
+  tilt:
+  - -0.55
+  - -0.55
+  - 1
+  roll:
+  - 1.19
+  - 1.19
+  - 1
+  twist:
+  - 35.76
+  - 35.76
+  - 1
+  shear:
+  - -0.01
+  - -0.01
+  - 1
+  stretch:
+  - -0.14
+  - -0.14
+  - 1
+  stagger:
+  - 0.16
+  - 0.16
+  - 1
+  buckle:
+  - 2.33
+  - 2.33
+  - 1
+  propeller:
+  - -10.99
+  - -10.99
+  - 1
+  opening:
+  - 0.47
+  - 0.47
   - 1
 RuntimeParameters:
   search_algorithm: weighted monte carlo search
-  num_candidates: 2
+  num_candidates: 1
   num_steps: 10000000
   monte_carlo_temperature: 300
   weighting_temperature: 300
   energy_filter:
-  - 1
-  - 2
-  - 4
-  - 30
+  - 0.5
+  - 2.5
+  - 4.0
+  - 50.0
   - 1000.0
   is_hexad: false
   build_strand:
@@ -76,6 +125,6 @@ RuntimeParameters:
   - true
   - true
   - true
-  max_distance: 0.2
+  max_distance: 0.8
   strand: CGLGAATTCKCG
   ff_type: MMFF94

@@ -29,6 +29,8 @@ namespace PNAB {
         Backbone backbone(py_backbone.file_path, py_backbone.interconnects, py_backbone.linker, py_backbone.fixed_bonds);
         Bases bases(py_bases);
 
+        hp.computeHelicalParameters();
+
         ConformationSearch search(runtime_params, backbone, hp,  bases, prefix, verbose);
         std::string output = search.run();
 
@@ -81,6 +83,19 @@ namespace PNAB {
             .def_readwrite("tip", &PNAB::HelicalParameters::tip)
             .def_readwrite("x_displacement", &PNAB::HelicalParameters::x_displacement)
             .def_readwrite("y_displacement", &PNAB::HelicalParameters::y_displacement)
+            .def_readwrite("twist", &PNAB::HelicalParameters::twist)
+            .def_readwrite("rise", &PNAB::HelicalParameters::rise)
+            .def_readwrite("roll", &PNAB::HelicalParameters::roll)
+            .def_readwrite("tilt", &PNAB::HelicalParameters::tilt)
+            .def_readwrite("slide", &PNAB::HelicalParameters::slide)
+            .def_readwrite("shift", &PNAB::HelicalParameters::shift)
+            .def_readwrite("buckle", &PNAB::HelicalParameters::buckle)
+            .def_readwrite("propeller", &PNAB::HelicalParameters::propeller)
+            .def_readwrite("opening", &PNAB::HelicalParameters::opening)
+            .def_readwrite("shear", &PNAB::HelicalParameters::shear)
+            .def_readwrite("stretch", &PNAB::HelicalParameters::stretch)
+            .def_readwrite("stagger", &PNAB::HelicalParameters::stagger)
+            .def_readwrite("is_helical", &PNAB::HelicalParameters::is_helical)
             ;
 
         py::class_<PNAB::Backbone>(m, "Backbone")

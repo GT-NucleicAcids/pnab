@@ -1,7 +1,8 @@
 <map id="PNAB::ConformationSearch" name="PNAB::ConformationSearch">
-<area shape="rect" id="node2" href="$classPNAB_1_1Backbone.html" title="Class for holding backbone information. " alt="" coords="34,5,159,32"/>
-<area shape="rect" id="node3" href="$classPNAB_1_1HelicalParameters.html" title="A class for holding values for all helical parameters. " alt="" coords="9,56,184,83"/>
-<area shape="rect" id="node4" href="$classPNAB_1_1RuntimeParameters.html" title="A class for holding necessary and optional runtime parameters for conformational searches. " alt="" coords="5,107,188,133"/>
+<area shape="rect" id="node1" title="A rotor search function used to find acceptable conformations of arbitrary backbone and helical param..." alt="" coords="341,107,528,133"/>
+<area shape="rect" id="node2" href="$classPNAB_1_1Backbone.html" title="Class for holding backbone information." alt="" coords="34,5,159,32"/>
+<area shape="rect" id="node3" href="$classPNAB_1_1HelicalParameters.html" title="A class for holding values for all helical parameters." alt="" coords="9,56,184,83"/>
+<area shape="rect" id="node4" href="$classPNAB_1_1RuntimeParameters.html" title="A class for holding necessary and optional runtime parameters for conformational searches." alt="" coords="5,107,188,133"/>
 <area shape="rect" id="node5" href="$classPNAB_1_1Bases.html" title="A class that contains a vector of all the defined bases and a funtion to return a base and the compli..." alt="" coords="45,157,149,184"/>
 <area shape="rect" id="node6" href="$classPNAB_1_1BaseUnit.html" title="Class to hold bases with backbones attached (nucleotides), along with associated necessary informatio..." alt="" coords="36,208,157,235"/>
 </map>

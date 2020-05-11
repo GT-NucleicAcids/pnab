@@ -70,7 +70,7 @@ namespace PNAB {
         ~Chain() {
             for (auto v : v_base_coords_vec_) {
                 for (auto i : v)
-                    delete i;
+                    delete[] i;
             }
         }
 

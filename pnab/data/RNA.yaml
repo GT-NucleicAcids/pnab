@@ -8,13 +8,18 @@ Backbone:
   - 13
   - 14
 HelicalParameters:
+  is_helical: true
+  x_displacement:
+  - -4.17
+  - -4.17
+  - 1
+  y_displacement:
+  - 0.0
+  - 0.0
+  - 1
   h_rise:
   - 2.65
   - 2.65
-  - 1
-  h_twist:
-  - 32.99
-  - 32.99
   - 1
   inclination:
   - 16.62
@@ -24,13 +29,57 @@ HelicalParameters:
   - 0.0
   - 0.0
   - 1
-  x_displacement:
-  - -4.17
-  - -4.17
+  h_twist:
+  - 32.99
+  - 32.99
   - 1
-  y_displacement:
+  shift:
+  - 0.00
+  - 0.00
+  - 1
+  slide:
+  - -1.55
+  - -1.55
+  - 1
+  rise:
+  - 3.20
+  - 3.20
+  - 1
+  tilt:
+  - 0.00
+  - 0.00
+  - 1
+  roll:
+  - 9.32
+  - 9.32
+  - 1
+  twist:
+  - 31.68
+  - 31.68
+  - 1
+  shear:
   - 0.0
   - 0.0
+  - 1
+  stretch:
+  - -0.14
+  - -0.14
+  - 1
+  stagger:
+  - -0.01
+  - -0.01
+  - 1
+  buckle:
+  - 0.0
+  - 0.0
+  - 1
+  propeller:
+  - -12.40
+  - -12.40
+  - 1
+  opening:
+  - 0.66
+  - 0.66
   - 1
 RuntimeParameters:
   build_strand:
@@ -41,18 +90,18 @@ RuntimeParameters:
   - false
   - false
   energy_filter:
-  - 1.0
-  - 2.0
+  - 0.5
+  - 2.5
   - 4.0
-  - 30.0
+  - 50.0
   - 1000
   ff_type: MMFF94
   is_hexad: false
-  max_distance: 0.2
+  max_distance: 0.8
   pair_A_U: true
   search_algorithm: weighted random search
   num_steps: 100000000
-  num_candidates: 2
+  num_candidates: 1
   weighting_temperature: 300
   seed: 0
   strand: AGAGAAGAUCUUCUCU

@@ -33,10 +33,10 @@ ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbo
     rng_.seed(runtime_params.seed);
 
     // Get the required translations and rotations
-    step_rot_ = helical_params_.getStepRotationOBMatrix(1);
-    glbl_rot_ = helical_params_.getGlobalRotationOBMatrix();
-    step_translate_ = helical_params_.getStepTranslationVec(1);
-    glbl_translate_ = helical_params_.getGlobalTranslationVec();
+    step_rot_ = helical_params_.getStepRotationMatrix(1, false, false);
+    glbl_rot_ = helical_params_.getGlobalRotationMatrix(false, false);
+    step_translate_ = helical_params_.getStepTranslationVec(1, false, false);
+    glbl_translate_ = helical_params_.getGlobalTranslationVec(false, false);
 
     // Get a base unit
     unit = BaseUnit(base_a, backbone_, runtime_params_.glycosidic_bond_distance);
@@ -442,7 +442,10 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
         // measure distance
         double cur_dist = measureDistance(coords, head, tail);
         // Accept step if the new distance is less than the previous distance
-        if (cur_dist < best_dist) {
+        // or the distance is less than 1.0 Angstroms. Minimizing the distance to 
+        // zero is not the goal. Rather, it is just a trick to get us close to a 
+        // reasonable bond length
+        if (cur_dist < best_dist || cur_dist < 1.0) {
             best_dist = cur_dist;
         }
 
@@ -659,14 +662,14 @@ double ConformationSearch::measureDistance(double *coords, unsigned head, unsign
     vector3 tail_coord(coords[ti], coords[ti + 1], coords[ti + 2]);
 
     // Perform the global rotation and translation for both the head and the tail
-    tail_coord += glbl_translate_;
     tail_coord *= glbl_rot_;
-    head_coord += glbl_translate_;
+    tail_coord += glbl_translate_;
     head_coord *= glbl_rot_;
+    head_coord += glbl_translate_;
     // Perform the step translation and rotation to get the coordinate for the tail
     // atom in the next nucleotide
-    tail_coord += step_translate_;
     tail_coord *= step_rot_;
+    tail_coord += step_translate_;
 
     // Return the distance
     return sqrt(head_coord.distSq(tail_coord));
@@ -704,13 +707,34 @@ void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
     conf_data.molecule.CloneData(pairdata);
     delete pairdata;
 
-    vector<string> labels = {"Helical Rise (Angstroms)", "X-Displacement (Angstroms)", "Y-Displacement (Angstrom)",
-                             "Helical Twist (degrees)", "Inclination (degrees)", "Tip (degrees)",
-                             "Distance (Angstroms)", "Bond Energy (kcal/mol)", "Angle Energy (kcal/mol)", "Torsion Energy (kcal/mol/nucleotide)",
-                             "Van der Waals Energy (kcal/mol/nucleotide)", "Total Energy (kcal/mol/nucleotide)"};
-    vector<double> data = {helical_params_.h_rise, helical_params_.x_displacement, helical_params_.y_displacement,
-                           helical_params_.h_twist, helical_params_.inclination, helical_params_.tip,
-                           conf_data.distance, conf_data.bondE, conf_data.angleE, conf_data.torsionE, conf_data.VDWE, conf_data.total_energy};
+    vector<string> labels;   
+    vector<double> data;
+    if (helical_params_.is_helical) {
+        labels = {"Helical Rise (Angstroms)", "X-Displacement (Angstroms)", "Y-Displacement (Angstrom)",
+                  "Helical Twist (degrees)", "Inclination (degrees)", "Tip (degrees)",
+                  };
+        data = {helical_params_.h_rise, helical_params_.x_displacement, helical_params_.y_displacement,
+                helical_params_.h_twist, helical_params_.inclination, helical_params_.tip};
+    }
+
+    else {
+        labels = {"Rise (Angstroms)", "Shift (Angstroms)", "Slide (Angstrom)",
+                  "Twist (degrees)", "Roll (degrees)", "Tilt (degrees)",
+                  };
+        data = {helical_params_.rise, helical_params_.shift, helical_params_.slide,
+                helical_params_.twist, helical_params_.roll, helical_params_.tilt};
+    }
+
+    vector<string> labels2 = {"Shear (Angstroms)", "Stretch (Angstroms)", "Stagger (Angstroms)", 
+                              "Buckle (degrees)", "Propeller (degrees)", "Opening (degrees)",
+                              "Distance (Angstroms)", "Bond Energy (kcal/mol)", "Angle Energy (kcal/mol)", "Torsion Energy (kcal/mol/nucleotide)",
+                              "Van der Waals Energy (kcal/mol/nucleotide)", "Total Energy (kcal/mol/nucleotide)"};
+    vector<double> data2 = {helical_params_.shear, helical_params_.stretch, helical_params_.stagger,
+                            helical_params_.buckle, helical_params_.propeller, helical_params_.opening,
+                            conf_data.distance, conf_data.bondE, conf_data.angleE, conf_data.torsionE, conf_data.VDWE, conf_data.total_energy};
+
+    labels.insert(labels.end(), labels2.begin(), labels2.end());
+    data.insert(data.end(), data2.begin(), data2.end());
 
     for (int i=0; i < rotor_vector.size(); i++) {
         labels.push_back("Dihedral " + to_string(i+1) + " (degrees)");
@@ -719,7 +743,7 @@ void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
         data.push_back(angle);
     }
 
-    for (int i=0; i < 12 + rotor_vector.size(); i++) {
+    for (int i=0; i < 18 + rotor_vector.size(); i++) {
         OBPairData *pairdata = new OBPairData;
         pairdata->SetAttribute("TITLE");
         pairdata->SetValue("    " + labels[i] + ": " + to_string(data[i]));

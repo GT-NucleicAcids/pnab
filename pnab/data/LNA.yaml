@@ -1,4 +1,3 @@
-# 2019-10-02 19:40:54
 Backbone:
   file_path: LNA_backbone.pdb
   fixed_bonds: []
@@ -9,13 +8,18 @@ Backbone:
   - 6
   - 7
 HelicalParameters:
+  is_helical: true
+  x_displacement:
+  - -6.58
+  - -6.58
+  - 1
+  y_displacement:
+  - -0.09
+  - -0.09
+  - 1
   h_rise:
   - 2.85
   - 2.85
-  - 1
-  h_twist:
-  - 25.96
-  - 25.96
   - 1
   inclination:
   - 9.08
@@ -25,13 +29,57 @@ HelicalParameters:
   - -2.29
   - -2.29
   - 1
-  x_displacement:
-  - -6.58
-  - -6.58
+  h_twist:
+  - 25.96
+  - 25.96
   - 1
-  y_displacement:
-  - -0.09
-  - -0.09
+  shift:
+  - 0.16
+  - 0.16
+  - 1
+  slide:
+  - -2.48
+  - -2.48
+  - 1
+  rise:
+  - 3.27
+  - 3.27
+  - 1
+  tilt:
+  - 1.02
+  - 1.02
+  - 1
+  roll:
+  - 4.06
+  - 4.06
+  - 1
+  twist:
+  - 25.63
+  - 25.63
+  - 1
+  shear:
+  - 0.36
+  - 0.36
+  - 1
+  stretch:
+  - -0.10
+  - -0.10
+  - 1
+  stagger:
+  - 0.0
+  - 0.0
+  - 1
+  buckle:
+  - 1.7
+  - 1.7
+  - 1
+  propeller:
+  - -7.57
+  - -7.57
+  - 1
+  opening:
+  - 1.66
+  - 1.66
   - 1
 RuntimeParameters:
   build_strand:
@@ -42,21 +90,20 @@ RuntimeParameters:
   - false
   - false
   energy_filter:
-  - 1.0
-  - 2.0
-  - 5.0
-  - 40.0
+  - 0.5
+  - 2.5
+  - 4.0
+  - 100.0
   - 1000.0
   ff_type: MMFF94
   is_hexad: false
-  max_distance: 0.2
-  pair_A_U: true
-  search_algorithm: monte carlo search
-  num_candidates: 2
-  num_steps: 10000000
-  monte_carlo_temperature: 300
+  max_distance: 0.8
+  pair_A_U: false
+  search_algorithm: systematic search
+  dihedral_step: 4
+  num_candidates: 10000
   seed: 0
-  strand: CCUCACC
+  strand: CCTCACC
   strand_orientation:
   - true
   - false

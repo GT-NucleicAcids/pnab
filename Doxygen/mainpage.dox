@@ -128,15 +128,16 @@ The options are divided into four sections:
 - Runtime Parameters
 
 As shown in the above figure, specifying the backbone requires three parameters: A path to a file containing the three-dimesional
-structure of the backbone, two indices specifying the connection to the nucleobase, and two indices specifying the connetions
-to the adjacent backbones. The structure of the backbone can be uploaded. Optional parameters include the indices of fixed rotatable
+structure of the backbone, two indices specifying the connection to the nucleobase, and two indices specifying the connections
+to the adjacent backbones. The structure of the backbone can be uploaded, and many formats (e.g. PDB) are accepted. Optional parameters include the indices of fixed rotatable
 bonds. This is useful when the number of rotatable bonds in the backbone are large and the search space need to be limited to
 specific dihedral angles.
 
 
-Specifying the nucleobases may not be necessary. The program contains a library of the canonical nucelobases: adenine (A), guaninie (G), cytosine (C),
+Uploading the geometries for the nucleobases may not be necessary. The program contains a library of the canonical nucelobases: adenine (A), guaninie (G), cytosine (C),
 uracil (U), and thymine (T). It also contains two alternative nucleobases that can adopt the hexad geometry, namely, aminopyrimidine (R) and
 cyanuric acid (Y). If the user wants to construct a nucleic acid analog with alternative nucleobases, then the additional nucleobases must be defined as shown in the figure.
+The ZP.yaml example file shows how to define new nucleobases. The Z nucleobase is defined below.
 
 @htmlonly <style>div.image img[src="nucleobases.png"]{width:1000px;}</style> @endhtmlonly 
 @image html nucleobases.png "Options for specifying the nucleobases."
@@ -154,9 +155,11 @@ The program cannot align the nucleobases to a hexad frame of reference.
 @htmlonly <style>div.image img[src="helical_parameters.png"]{width:1000px;}</style> @endhtmlonly
 @image html helical_parameters.png "Specifying the helical parameters."
 
-Six parameters specify the helical structure of the nucleic acid strands. Single values or multiple values can be specified in a range.
-When a range of values is specified, the values are uniformally spaced between, and including, the the end points, with the specified
-number of configurations.
+Six parameters specify the helical structure of the nucleic acid strands. Two equivalent schemes can be used according to whether
+a global helical frame or a local frame is used. Either scheme can be used for building the nucleic acid structure.
+Additional six parameters are used for speicifying the relative orientation of the bases in a base pair. All these options can be specified in the program.
+Single values or multiple values can be specified in a range. When a range of values is specified, the values are uniformally spaced between,
+and including, the the end points, with the specified number of configurations.
 
 The runtime parameters include the options for specifying the conformational search algorithm and structural parameters.
 
@@ -164,11 +167,14 @@ The runtime parameters include the options for specifying the conformational sea
 @image html runtime_parameters1.png "Specifying the search algorithm and distance and energy thresholds."
 
 Various conformational search algorithms are available for sapmling the dihedral angles in the backbone. Each algorithm requires specific
-parameters. For exmaple, Systematic Search algorithm requires specifying the step size. The distance and energy thresholds can be used
-to refine the generated structures and exclude unreasonable conformers. The distance threshold determines whether the conformer can adopt
-a periodic structure. It should be set to a small value, such as 0.2 Angstroms. The bond, angle, and torsional energies should also be
-set to small values. This can accelerate the search and eliminate structures with elongated bonds or strained angles. The van der Waals
-energy can be used to eliminate structures with significant steric clashes. However, it may vary much depending on the choice of the force
+parameters. For exmaple, the Weighted Random Search algorithm requires values for the number of conformation search steps and the temperature used
+in the weighting procedure. The random number seed ensures the reproducibility of the run for a given computer platform. Of the available
+algorithms, only the systematic search algorithm is deterministic and reproducible across platforms. The conformation search procedure can
+be terminated after a specified number of candidates are are accepted.
+The distance and energy thresholds can be used to refine the generated structures and exclude unreasonable conformers. The distance threshold
+determines whether the conformer can adopt a periodic structure. It should be set to a small value, such as 0.8 Angstroms. The bond, angle, and
+torsional energies should also be set to small values. This can accelerate the search and eliminate structures with elongated bonds or strained angles.
+The van der Waals energy can be used to eliminate structures with significant steric clashes. However, it may vary much depending on the choice of the force
 field. The total energy also varies significanly with the force field.
 
 @htmlonly <style>div.image img[src="runtime_parameters2.png"]{width:1000px;}</style> @endhtmlonly
@@ -199,7 +205,8 @@ The dropdown list contains all the accepted candidates ordered by the the total 
 the distance between between one terminal atom of the backbone and the periodic image of the other terminal atom in the adjacent backbone,
 the energy of the new bond and the new angles formed between two nucleotides, the energy of all rotatable bonds in the backbone, the van
 der Waals energy, and the total energy. These six terms correspond to distance and energy thresholds defined in the input options.
-Additionally, the output data include the values of the dihedral angles for the rotatable bonds.
+Additionally, the output data include the values of the dihedral angles for the rotatable bonds determined during the conformation
+search procedure.
 
 @section more Additional Examples
 The graphical user interface is essentially a tool for specifying the input options and visualizing the results.
@@ -211,7 +218,7 @@ Input files can also be generated using the graphical user interface.
 
 @verbatim
 Backbone:
-  file_path: rna_bb.pdb
+  file_path: RNA_backbone.pdb
   interconnects: # Backbone to backbone connection
   - 10
   - 1 
@@ -238,6 +245,7 @@ This specifies that the dihedral angle specified by atom indices 1 and 2 and the
 
 @verbatim
 HelicalParameters:
+  is_helical: true
   inclination:
   - 22.9 # Initial point in the range
   - 22.9 # Final point in the range
@@ -263,7 +271,10 @@ HelicalParameters:
   - -0.02
   - 1 
 @endverbatim
-This section specifies the helical parameters. The first value is the beginning of the range, the second value is the end of the range, and the third
+This section specifies the helical parameters. The @a is_helical keyword determines whether the helical parameters are used or whether the step parameters
+(i.e. shift, slide, rise, tilt, roll, twist). These are two equivalent schemes for describing the orienation of the nucleobases. When the @a is_helical
+value is true, any values specified for the step parameters will not be used. The base pair parameters (shear, stretch, stagger, buckle, propeller, opening)
+can be similarly specified. The first value is the beginning of the range, the second value is the end of the range, and the third
 value is the number of configurations in the range. If you want a specific single value, simply specify the same value for both the beginning and the end
 of the interval.
 
@@ -274,19 +285,19 @@ RuntimeParameters:
   seed: 0 # Seed for the random number generator
   search_algorithm: "weighted monte carlo search" # Search algorithm
   num_steps: 10000000 # Number of steps for backbone dihedral search
-  weighting_temperature: 298.0 # Temperature used in the weighting procedure for dihedral angles
-  monte_carlo_temperature: 298.0 # Temperature used in the Monte Carlo procedure
-  max_distance: 0.2 # Maximum distance between atom linkers in backbone
+  weighting_temperature: 300.0 # Temperature used in the weighting procedure for dihedral angles
+  monte_carlo_temperature: 300.0 # Temperature used in the Monte Carlo procedure
+  max_distance: 0.8 # Maximum distance between atom linkers in backbone
   ff_type: GAFF # Force field type
   energy_filter:
-  - 3.0 # Angle energy involving newly formed backbone bonds
-  - 3.0 # Bond energy involving newly formed backbone bonds
-  - 10.0 # Total torsional energy of rotatable bonds
+  - 1.0 # Bond energy involving newly formed backbone bonds
+  - 2.0 # Angle energy involving newly formed backbone bonds
+  - 4.0 # Total torsional energy of rotatable bonds
   - 0.0 # Total van der Waals energy
   - 10000000000.0 # Total Energy of the system
   strand: CGAUUUAGCG # Sequence of base names
   build_strand: # What strands to build
-  - true
+  - true  # Build one strand only
   - false
   - false
   - false
@@ -303,7 +314,7 @@ This section specifies the runtime parameters for the program. Other search algo
 @verbatim
   search_algorithm: "monte carlo search"
   num_steps: 10000000
-  monte_carlo_temperature: 298.0
+  monte_carlo_temperature: 300.0
 @endverbatim
 
 @verbatim
@@ -314,15 +325,15 @@ This section specifies the runtime parameters for the program. Other search algo
 @verbatim
   search_algorithm: "weighted random search"
   num_steps: 10000000
-  weighting_temperature: 298.0
+  weighting_temperature: 300.0
 @endverbatim
 
 @verbatim
   search_algorithm: "genetic algorithm search"
   num_steps: 1000
-  population_size: 1000
+  population_size: 10000
   mutation_rate: 0.75
-  crossover_rate: 0.75
+  crossover_rate: 0.25
 @endverbatim
 
 The example above shows how to build single-stranded RNA by using the keyword @a build_strand and setting the first
@@ -396,7 +407,7 @@ Base modified_adenine:
 
 These lines will add the nucleobase @a modified_adenine to the library of available nucleobases. For the name of the base, you
 must not use any of the names already used in the library. Otherwise, your new base might be overwritten. The reserved names are the following:
-@a A, @a G, @a C, @a T, @a U, @a M, and @a Y. These names are case-insensitive.
+@a A, @a G, @a C, @a T, @a U, @a R, and @a Y. These names are case-insensitive.
 
 Now that you defined a new nucleobase, you can use its name when you specify the strand:
 @verbatim
@@ -449,7 +460,7 @@ print(run.prefix['1'])
 When multiple helical configurations are defined, e.g. by giving a range of values for the twist angle and asking for 5 configurations, the program
 runs these different helical configurations in parallel. The number of calculations that can be run in parallel depends on the available processors
 in the computer. By default, the program uses all available CPUs for parallel calculations. To use a different number, you can pass a keyword
-argumen to the @a run function:
+argument to the @a run function:
 @code{.py}
 run.run(number_of_cpus=1)
 @endcode

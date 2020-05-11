@@ -16,14 +16,19 @@ Base 1:
   name: X
   pair_name: ''
 HelicalParameters:
+  is_helical: true
+  x_displacement:
+  - 0.0
+  - 0.0
+  - 1
+  y_displacement:
+  - 0.0
+  - 0.0
+  - 1
   h_rise:
   - 3.4
   - 3.4
   - 1
-  h_twist:
-  - -60.0
-  - 0.0
-  - 13
   inclination:
   - 0.0
   - 0.0
@@ -32,13 +37,57 @@ HelicalParameters:
   - 0.0
   - 0.0
   - 1
-  x_displacement:
+  h_twist:
+  - -60.0
   - 0.0
-  - 0.0
+  - 13
+  shift:
+  - 0
+  - 0
   - 1
-  y_displacement:
+  slide:
+  - 0
+  - 0
+  - 1
+  rise:
+  - 3.4
+  - 3.4
+  - 1
+  tilt:
+  - 0
+  - 0
+  - 1
+  roll:
+  - 0
+  - 0
+  - 1
+  twist:
+  - -60.0
   - 0.0
-  - 0.0
+  - 13
+  shear:
+  - 0
+  - 0
+  - 1
+  stretch:
+  - 0
+  - 0
+  - 1
+  stagger:
+  - 0
+  - 0
+  - 1
+  buckle:
+  - 0
+  - 0
+  - 1
+  propeller:
+  - 0
+  - 0
+  - 1
+  opening:
+  - 0
+  - 0
   - 1
 RuntimeParameters:
   build_strand:
@@ -49,10 +98,10 @@ RuntimeParameters:
   - true
   - false
   energy_filter:
-  - 1
-  - 2
-  - 4
-  - 10
+  - 0.5
+  - 2.5
+  - 4.0
+  - 10.0
   - 1000.0
   ff_type: GAFF
   is_hexad: true

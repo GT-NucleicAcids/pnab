@@ -86,6 +86,8 @@ ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, 
         orderResidues(&data.molecule);
     }
 
+    delete[] xyz;
+
     return data;
 }
 
@@ -509,12 +511,12 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
     // Reflection for both the duplex and the hexad
     matrix3x3 change_sign = {{1, 0, 0},{0, -1, 0}, {0, 0, -1}};
 
-    // Reflection that we can apply if we want the same orientation as that of 3DNA
-    matrix3x3 change_sign2 = {{-1, 0, 0},{0, 1, 0}, {0, 0, -1}};
+    //// Reflection that we can apply if we want the same orientation as that of 3DNA
+    //matrix3x3 change_sign2 = {{-1, 0, 0},{0, 1, 0}, {0, 0, -1}};
 
     // Get the global rotation and translations
-    auto g_rot = hp.getGlobalRotationOBMatrix();
-    auto g_trans = hp.getGlobalTranslationVec();
+    auto g_rot = hp.getGlobalRotationMatrix(false, false);
+    auto g_trans = hp.getGlobalTranslationVec(false, false);
     unsigned xyzI = 0, local_offset = 0, deleted_atom_index = 0;
 
     // Get the correct beginning index for the duplex and the hexad
@@ -528,8 +530,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
         auto n = num_bu_atoms[i];
         auto r = bb_start_index[i];
         // Get the step translation and rotation 
-        auto s_trans = hp.getStepTranslationVec(i);
-        auto s_rot   = hp.getStepRotationOBMatrix(i);
+        auto s_trans = hp.getStepTranslationVec(i, false, false);
+        auto s_rot   = hp.getStepRotationMatrix(i, false, false);
 
         // Set the coordinates for the nucleobases
         double *base_coords = base_coords_vec[i];
@@ -540,6 +542,11 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
             if (!strand_orientation_[chain_index])
                 v3 *= change_sign;
 
+            v3 *= hp.getStepRotationMatrix(1, true, (bool) chain_index);
+            v3 *= hp.getGlobalRotationMatrix(true, (bool) chain_index);
+            v3 += hp.getStepTranslationVec(1, true, (bool) chain_index);
+            v3 += hp.getGlobalTranslationVec(true, (bool) chain_index);
+            
             v3 *= g_rot;
             v3 += g_trans;
             v3 *= s_rot;
@@ -548,8 +555,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
             if (hexad_)
                 v3 *= z_rot;
 
-            // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
-            v3 *=  change_sign2;
+            //// Reflect to get the orientation that agrees with 3DNA for DNA/RNA
+            //v3 *=  change_sign2;
 
             v3.Get(xyz + xyzI);
             xyzI += 3;
@@ -565,6 +572,11 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                 if (!strand_orientation_[chain_index])
                      v3 *= change_sign;
 
+                v3 *= hp.getStepRotationMatrix(1, true, (bool) chain_index);
+                v3 *= hp.getGlobalRotationMatrix(true, (bool) chain_index);
+                v3 += hp.getStepTranslationVec(1, true, (bool) chain_index);
+                v3 += hp.getGlobalTranslationVec(true, (bool) chain_index);
+ 
                 v3 *= g_rot;
                 v3 += g_trans;
                 v3 *= s_rot;
@@ -573,8 +585,8 @@ void Chain::setCoordsForChain(double *xyz, double *conf, PNAB::HelicalParameters
                 if (hexad_)
                     v3 *= z_rot;
 
-                // Reflect to get the orientation that agrees with 3DNA for DNA/RNA
-                v3 *=  change_sign2;
+                //// Reflect to get the orientation that agrees with 3DNA for DNA/RNA
+                //v3 *=  change_sign2;
 
                 v3.Get(xyz + xyzI);
                 xyzI += 3;

@@ -10,13 +10,18 @@ Backbone:
   - 1
   - 11
 HelicalParameters:
+  is_helical: true
+  x_displacement:
+  - -7.78
+  - -7.78
+  - 1
+  y_displacement:
+  - -0.11
+  - -0.11
+  - 1
   h_rise:
   - 3.27
   - 3.27
-  - 1
-  h_twist:
-  - 19.43
-  - 19.43
   - 1
   inclination:
   - 0.72
@@ -26,13 +31,57 @@ HelicalParameters:
   - 0.41
   - 0.41
   - 1
-  x_displacement:
-  - -7.78
-  - -7.78
+  h_twist:
+  - 19.43
+  - 19.43
   - 1
-  y_displacement:
-  - -0.11
-  - -0.11
+  shift:
+  - 0.01
+  - 0.01
+  - 1
+  slide:
+  - -2.59
+  - -2.59
+  - 1
+  rise:
+  - 3.30
+  - 3.30
+  - 1
+  tilt:
+  - -0.14
+  - -0.14
+  - 1
+  roll:
+  - 0.24
+  - 0.24
+  - 1
+  twist:
+  - 19.43
+  - 19.43
+  - 1
+  shear:
+  - 0.02
+  - 0.02
+  - 1
+  stretch:
+  - -0.13
+  - -0.13
+  - 1
+  stagger:
+  - 0.12
+  - 0.12
+  - 1
+  buckle:
+  - -0.52
+  - -0.52
+  - 1
+  propeller:
+  - -3.37
+  - -3.37
+  - 1
+  opening:
+  - -0.37
+  - -0.37
   - 1
 RuntimeParameters:
   build_strand:
@@ -43,17 +92,18 @@ RuntimeParameters:
   - false
   - false
   energy_filter:
-  - 1.0
-  - 2.0
+  - 0.5
+  - 2.5
   - 6.0
-  - 5.0
+  - 50.0
   - 100000.0
   ff_type: GAFF
   is_hexad: false
-  max_distance: 0.2
+  max_distance: 0.8
   pair_A_U: false
-  search_algorithm: monte carlo search
+  search_algorithm: weighted monte carlo search
   monte_carlo_temperature: 300
+  weighting_temperature: 300
   num_steps: 10000000
   num_candidates: 1
   seed: 0

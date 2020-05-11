@@ -159,7 +159,11 @@ namespace PNAB {
     * @brief A class for holding values for all helical parameters
     *
     * The helical parameters are used for generating the geometries of the nucleobases in the strands.
-    * This class holds the value for six helical parameters and functions to generate the geometries.
+    * This class holds the value for six helical parameters (helical twist, inclination, tip, helical rise, x-displacement, and y-displacement).
+    * It can also compute the helical parameters given the step parameters (twist, roll, tilt, rise, slide, shift).
+    * Internally, when the step parameters are provided, the helical parameters are computed. The helical parameters are used for
+    * generating the geometries. This class also implements the base-pair parameters (buckle, propeller, opening, shear, stretch, and stagger).
+    * The class holds functions to generate the geometries.
     *
     * @sa Chain::setCoordsForChain
     * @sa ConformationSearch::measureDistance
@@ -172,7 +176,9 @@ namespace PNAB {
         *
         * This empty constructor can be used. After that, values for the member variables should be specified.
         */
-        HelicalParameters() : h_twist{0}, h_rise{0}, inclination{0}, tip{0}, x_displacement{0}, y_displacement{0} {};
+        HelicalParameters() : h_twist{0}, h_rise{0}, inclination{0}, tip{0}, x_displacement{0}, y_displacement{0},
+                              shift{0}, slide{0}, rise{0}, tilt{0}, roll{0}, twist{0},
+                              buckle{0}, propeller{0}, opening{0}, shear{0}, stretch{0}, stagger{0}, is_helical{true} {};
 
         //Helical parameters
         double     inclination,                         //!< @brief Inclination
@@ -180,61 +186,68 @@ namespace PNAB {
                    h_twist,                             //!< @brief Helical twist
                    x_displacement,                      //!< @brief X-Displacement
                    y_displacement,                      //!< @brief Y-Displacement
-                   h_rise;                              //!< @brief Helical rise
+                   h_rise,                              //!< @brief Helical rise
+                   shift,                               //!< @brief Shift
+                   slide,                               //!< @brief Slide
+                   rise,                                //!< @brief Rise
+                   tilt,                                //!< @brief Tilt
+                   roll,                                //!< @brief Roll
+                   twist,                               //!< @brief Twist
+                   buckle,                              //!< @brief Buckle
+                   propeller,                           //!< @brief Propeller twist
+                   opening,                             //!< @brief Opening
+                   shear,                               //!< @brief Shear
+                   stretch,                             //!< @brief Stretch
+                   stagger;                             //!< @brief Stagger
+        bool is_helical;                                //!< @brief Are the base parameters helical or step parameters
 
         /**
-        * @brief Get the global rotation matrix in the OpenBabel::matrix3x3 format
+        * @brief A function to compute the helical parameters. This should be called when the the step parameters are provided.
         *
-        * @returns The global rotation matrix
-        *
-        * @sa getGlobalRotationMatrix
+        * @sa is_helical
+        * @sa StepParametersToReferenceFrame
+        * @sa ReferenceFrameToHelicalParameters 
         */
-        OpenBabel::matrix3x3 getGlobalRotationOBMatrix() {
-            auto arr = getGlobalRotationMatrix();
-            return OpenBabel::matrix3x3(OpenBabel::vector3(arr[0], arr[1], arr[2]),
-                                        OpenBabel::vector3(arr[3], arr[4], arr[5]),
-                                        OpenBabel::vector3(arr[6], arr[7], arr[8]));
-        }
+        void computeHelicalParameters();
 
         /**
-        * @brief Get the global translation vector using the HelicalParameters::x_displacement and HelicalParameters::y_displacement
+        * @brief Get the global translation vector 
+        * 
+        * For the base step transformation, the HelicalParameters::x_displacement and HelicalParameters::y_displacement are used.
+        * For the base-pair transformation, the HelicalParameters::shear and HelicalParameters::stretch are used.
+        * The base pair parameters are divided by two and set to positive or negative values depending on which strand is being constructed.
+        *
+        * @param is_base_pair Whetehr the vector requested is for base-pair transformation
+        * @param is_second_strand Whether the strand being constructed is the second strand. Used only for base-pair parameters
         *
         * @returns The translation vector
         */
-        OpenBabel::vector3 getGlobalTranslationVec() {
-            return OpenBabel::vector3(x_displacement, y_displacement, 0);
-        }
+        OpenBabel::vector3 getGlobalTranslationVec(bool is_base_pair=false, bool is_second_strand=false);
 
         /**
-        * @brief Get the step rotation matrix in the OpenBabel::matrix3x3 format
+        * @brief Get the step translation vector
         *
-        * @param n The sequence of the nucleobase in the strand
+        * For the base step transformation, the HelicalParameters::h_rise is used.
+        * For the base-pair transformation, the HelicalParameters::stagger is used.
+        * The base pair parameters are divided by two and set to positive or negative values depending on which strand is being constructed.
         *
-        * @returns The step rotation matrix
-        *
-        * @sa getStepRotationMatrix
-        */
-        OpenBabel::matrix3x3 getStepRotationOBMatrix(unsigned n = 0) {
-            auto arr = getStepRotationMatrix(n);
-            return OpenBabel::matrix3x3(OpenBabel::vector3(arr[0], arr[1], arr[2]),
-                                        OpenBabel::vector3(arr[3], arr[4], arr[5]),
-                                        OpenBabel::vector3(arr[6], arr[7], arr[8]));
-        }
-
-        /**
-        * @brief Get the step translation vector using the HelicalParameters::h_rise
-        *
-        * @param n The sequence of the nucleobase in the strand
+        * @param n The sequence of the nucleobase in the strand. Used only for the base step transformation
+        * @param is_base_pair Whetehr the vector requested is for base-pair transformation
+        * @param is_second_strand Whether the strand being constructed is the second strand. Used only for base-pair parameters
         *
         * @returns The step translation vector
         */
-        OpenBabel::vector3 getStepTranslationVec(unsigned n = 0) {
-            return OpenBabel::vector3(0, 0, n * h_rise);
-        }
+        OpenBabel::vector3 getStepTranslationVec(unsigned n = 0, bool is_base_pair=false, bool is_second_strand=false);
 
-    private:
         /**
-        * @brief Get the global rotation matrix using the HelicalParameters::tip and HelicalParameters::inclination
+        * @brief Get the global rotation matrix
+        *
+        * For the base step transformation, the HelicalParameters::tip and HelicalParameters::inclination are used.
+        * For the base-pair transformation, the HelicalParameters::buckle and HelicalParameters::propeller are used.
+        * The base pair parameters are divided by two and set to positive or negative values depending on which strand is being constructed.
+        *
+        * @param is_base_pair Whetehr the vector requested is for base-pair transformation
+        * @param is_second_strand Whether the strand being constructed is the second strand. Used only for base-pair parameters
         *
         * @returns The global rotation matrix
         *
@@ -243,82 +256,68 @@ namespace PNAB {
 
         // Lu, X. J., El Hassan, M. A., & Hunter, C. A. (1997). Structure and conformation of helical nucleic acids:
         // rebuilding program (SCHNArP). Journal of molecular biology, 273(3), 681-691.
-        std::array<double, 9> getGlobalRotationMatrix() {
-            double eta = inclination * DEG_TO_RAD, theta = tip * DEG_TO_RAD;
-            double Lambda = sqrt(eta*eta + theta*theta);
-            
-            std::array<double, 3> axis;
-            if (Lambda != 0)
-                axis = {eta/Lambda, theta/Lambda, 0};
-            else
-               axis = {0, 1, 0};
-
-            return rodrigues_formula(axis, Lambda);
-        }
+        OpenBabel::matrix3x3 getGlobalRotationMatrix(bool is_base_pair=false, bool is_second_strand=false);
 
         /**
-        * @brief Get the step rotation matrix using the HelicalParameters::h_twist
+        * @brief Get the step rotation matrix
+        * 
+        * For the base step transformation, the HelicalParameters::twist is used.
+        * For the base-pair transformation, the HelicalParameters::opening is used.
+        * The base pair parameters are divided by two and set to positive or negative values depending on which strand is being constructed.
         *
-        * @param n The sequence of the nucleobase in the strand
+        * @param n The sequence of the nucleobase in the strand. Used only for the base step transformation
+        * @param is_base_pair Whetehr the vector requested is for base-pair transformation
+        * @param is_second_strand Whether the strand being constructed is the second strand. Used only for base-pair parameters
         *
         * @returns The step rotation matrix
-        *
-        * @sa matrix_mult
         */
-        std::array<double, 9> getStepRotationMatrix(unsigned n = 0) {
-            double Omega = h_twist * DEG_TO_RAD;
-            std::array<double, 9> m_mat {cos(Omega), -sin(Omega), 0, sin(Omega), cos(Omega), 0, 0, 0, 1};
-            std::array<double, 9> r_mat = {1, 0, 0, 0, 1, 0, 0, 0, 1};
-            for (int i = 0; i < n; ++i)
-                r_mat = matrix_mult(m_mat, r_mat);
+        OpenBabel::matrix3x3 getStepRotationMatrix(unsigned n = 0, bool is_base_pair=false, bool is_second_strand=false);
 
-            return r_mat;
-        };
-
-
+    private:
         /**
         * @brief Rodrigues rotation formula for rotating a vector in space
         *
-        * Outputs a 3x3 matrix in the form of a one dimensional array to be used
+        * Outputs a 3x3 rotation matrix.
         *
-        * @param axis A unit vector defining the axis about which to rotate by angle theta
+        * @param axis_vector A unit vector defining the axis about which to rotate by angle theta
         * @param theta The angle at which to rotate about vector given by axis
         *
         * @return The new rotation matrix
         */
-        std::array<double, 9> rodrigues_formula(std::array<double, 3> axis, double theta) {
-            std::array<double, 9> m{};
-            m[0] = cos(theta) + axis[0]*axis[0]*(1 - cos(theta));
-            m[1] = axis[0]*axis[1]*(1 - cos(theta)) - axis[2]*sin(theta);
-            m[2] = axis[1]*sin(theta) + axis[0]*axis[2]*(1 - cos(theta));
-            m[3] = axis[2]*sin(theta) + axis[0]*axis[1]*(1 - cos(theta));
-            m[4] = cos(theta) + axis[1]*axis[1]*(1 - cos(theta));
-            m[5] = -axis[0]*sin(theta) + axis[1]*axis[2]*(1 - cos(theta));
-            m[6] = -axis[1]*sin(theta) + axis[0]*axis[2]*(1 - cos(theta));
-            m[7] = axis[0]*sin(theta) + axis[1]*axis[2]*(1 - cos(theta));
-            m[8] = cos(theta) + axis[2]*axis[2]*(1 - cos(theta));
-
-            return m;
-        };
+        OpenBabel::matrix3x3 rodrigues_formula(OpenBabel::vector3 axis_vector, double theta);
 
         /**
-        * @brief Matrix multiplication function
+        * @brief Computes the origin and direction vectors given a set of step parameters
         *
-        * @param m1 Matrix 1
-        * @param m2 Matrix 2
+        * Outputs a list containing the new origin, and x, y, and z direction vectors. It uses the class member variables
+        * to access the step parameters.
         *
-        * @returns The matrix product
-        */
-        std::array<double, 9> matrix_mult(std::array<double, 9> m1, std::array<double, 9> m2) {
-            std::array<double, 9> out{};
+        * Reference: El Hassan, M. A., and C. R. Calladine. "The assessment of the geometry of dinucleotide steps
+        * in double-helical DNA; a new local calculation scheme." Journal of molecular biology 251.5 (1995): 648-664.
+        *
+        * @return The origin and direction vectors
+        *
+        * @sa ReferenceFrameToHelicalParameters
+        */ 
+        std::vector<OpenBabel::vector3> StepParametersToReferenceFrame();
+ 
+        /**
+        * @brief Computes the helical parameters given the origin and direction vectors of the second base
+        *
+        * This function computes the helical parameters and set the values for the appropriate member variables
+        *
+        * Reference: Lu, Xiang-Jun, M. A. El Hassan, and C. A. Hunter. "Structure and conformation of helical nucleic acids:
+        * analysis program (SCHNAaP)." Journal of molecular biology 273.3 (1997): 668-680.
+        *
+        * @param origin2 The coordinates of the origin of the second base pair
+        * @param x2 The x direction vector for the second base pair
+        * @param y2 The y direction vector for the second base pair
+        * @param z2 The z direction vector for the second base pair
+        *
+        * @sa StepParametersToReferenceFrame
+        */  
+        void ReferenceFrameToHelicalParameters(OpenBabel::vector3 origin2, OpenBabel::vector3 x2, OpenBabel::vector3 y2, OpenBabel::vector3 z2);
 
-            for (int i = 0; i < 3; ++i)
-                for (int j = 0; j < 3; ++j)
-                    for (int k = 0; k < 3; ++k)
-                        out[3*i + j] += m1[3*i + k]*m2[j + 3*k];
-
-            return out;
-        };
     };
 
     /**

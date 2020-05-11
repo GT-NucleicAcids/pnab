@@ -8,13 +8,18 @@ Backbone:
   - 12
   - 13
 HelicalParameters:
+  is_helical: true
+  x_displacement:
+  - -0.53
+  - -0.53
+  - 1
+  y_displacement:
+  - -0.04
+  - -0.04
+  - 1
   h_rise:
   - 3.26
   - 3.26
-  - 1
-  h_twist:
-  - 33.96
-  - 33.96
   - 1
   inclination:
   - 4.38
@@ -24,13 +29,57 @@ HelicalParameters:
   - 0.02
   - 0.02
   - 1
-  x_displacement:
-  - -0.53
-  - -0.53
+  h_twist:
+  - 33.96
+  - 33.96
   - 1
-  y_displacement:
-  - -0.04
-  - -0.04
+  shift:
+  - 0.02
+  - 0.02
+  - 1
+  slide:
+  - -0.07
+  - -0.07
+  - 1
+  rise:
+  - 3.27
+  - 3.27
+  - 1
+  tilt:
+  - -0.01
+  - -0.01
+  - 1
+  roll:
+  - 2.56
+  - 2.56
+  - 1
+  twist:
+  - 33.87
+  - 33.87
+  - 1
+  shear:
+  - -0.01
+  - -0.01
+  - 1
+  stretch:
+  - -0.05
+  - -0.05
+  - 1
+  stagger:
+  - 0.02
+  - 0.02
+  - 1
+  buckle:
+  - -0.66
+  - -0.66
+  - 1
+  propeller:
+  - -11.55
+  - -11.55
+  - 1
+  opening:
+  - 1.78
+  - 1.78
   - 1
 RuntimeParameters:
   build_strand:
@@ -41,21 +90,19 @@ RuntimeParameters:
   - false
   - false
   energy_filter:
-  - 1.0
-  - 2.0
-  - 4.0
-  - 30.0
+  - 0.5
+  - 2.5
+  - 5.0
+  - 70.0
   - 1000.0
   ff_type: MMFF94
   is_hexad: false
-  max_distance: 0.2
+  max_distance: 0.8
   pair_A_U: false
-  search_algorithm: genetic algorithm search
-  num_steps: 1000
-  crossover_rate: 0.25
-  mutation_rate: 0.75
-  population_size: 10000
-  num_candidates: 2
+  search_algorithm: monte carlo search
+  num_steps: 100000000
+  monte_carlo_temperature: 300
+  num_candidates: 1
   seed: 0
   strand: ACTACAATGTTGCAAT
   strand_orientation:
