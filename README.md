@@ -18,15 +18,6 @@ conda config --add channels conda-forge
 conda install -c alenaizan pnab
 ```
 
-## Compiling the Package in Linux
-If you prefer to compile the package, install miniconda or anaconda. Then,
-
-```
-git clone https://github.com/alenaizan/pnab.git
-cd pnab
-sh install.sh 
-```
-
 ## Documentations:
 Development version: [![docs latest](https://img.shields.io/badge/docs-latest-blue)](https://alenaizan.github.io/pnab/html/index.html)
 
