@@ -1,5 +1,6 @@
 Backbone:
   file_path: DNA_backbone.pdb
+  fixed_bonds: []
   interconnects:
   - 10
   - 1
