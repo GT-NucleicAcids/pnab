@@ -425,7 +425,7 @@ Bases::Bases(std::vector<Base> input_bases) {
         transform(pair_name.begin(), pair_name.end(), pair_name.begin(), ::tolower);
         bool pair_found = false;
         for (auto w : bases) {
-            if (w.getName().find(pair_name) != string::npos) {
+            if (w.getName() == pair_name) {
                 auto base_name = v.getName();
                 transform(base_name.begin(), base_name.end(), base_name.begin(), ::tolower);
                 name_base_map.insert(pair<string,Base>(v.getName(),w));
@@ -461,8 +461,9 @@ std::vector<Base> Bases::getComplimentBasesFromStrand(std::vector<std::string> s
         return compliment_bases;
     }
 
-    // If not all bases have complimentary bases, return empty vector
-    return vector<Base>();
+    // If not all bases have complimentary bases, raise an error
+    else
+        throw std::runtime_error("Not all bases have complimentary bases.");
 }
 
 BaseUnit::BaseUnit(Base base, Backbone backbone, double glycosidic_bond_distance) {
