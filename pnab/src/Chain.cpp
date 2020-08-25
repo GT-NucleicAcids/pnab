@@ -32,7 +32,11 @@ Chain::Chain(Bases bases, const Backbone &backbone, std::vector<std::string> str
 
     // Get the bases for the strand and the complimentary strand for duplexed and hexads
     auto bases_A = bases.getBasesFromStrand(strand);
-    auto bases_B = bases.getComplimentBasesFromStrand(strand);
+    // Check complimentary bases if the secondary strand in a duplex or secondary strands in a hexad are to be built
+    std::vector<Base> bases_B;
+    if (build_strand_[1] || build_strand_[3] || build_strand_[5]) {
+        bases_B = bases.getComplimentBasesFromStrand(strand);
+    }
     std::vector<std::vector<Base>> v_bases{bases_A, bases_B};
 
     n_chains_ = 0;
