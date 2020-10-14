@@ -46,6 +46,11 @@ def test_examples():
         run = pnab.pNAB(f)
         run.run()
 
-        if platform.system() == 'Linux' or run.options['RuntimeParameters']['search_algorithm'] == 'systematic search':
+        if platform.system() == 'Linux':
             ref_output = np.genfromtxt(os.path.join('files', f.split('.')[0] + '.csv'), delimiter=',')
             assert np.allclose(run.results, ref_output, atol=1e-4)
+        elif platform.system() == 'Windows':
+            ref_output = np.genfromtxt(os.path.join('files', f.split('.')[0] + '_windows.csv'), delimiter=',')
+            assert np.allclose(run.results, ref_output, atol=1e-4)
+
+            
