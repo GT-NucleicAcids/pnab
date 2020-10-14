@@ -1,0 +1,74 @@
+\hypertarget{advanced_compiling}{}\doxysubsection{Compiling and Testing the Package}\label{advanced_compiling}
+Clone the Git\+Hub repository at \href{https://github.com/alenaizan/pnab}{\texttt{ https\+://github.\+com/alenaizan/pnab}}. And compile the package. All the dependcies can be satisfied through conda. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{conda install -\/c conda-\/forge python numpy cmake openbabel eigen pybind11 pyyaml nglview}
+\end{DoxyCode}
+ The C++ compiler in linux can also be installed using Conda. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{conda install -\/c conda-\/forge gcc\_linux-\/64 gxx\_linux-\/64}
+\end{DoxyCode}
+ The code has been tested using the gcc 7.\+3 and 9.\+3 compilers in Linux, clang 8.\+0 compiler in Mac, and Visual Studio 2015/
+
+The code uses the pytest package for testing. To test that the code works, first install pytest\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{conda install pytest}
+\end{DoxyCode}
+
+
+Then, execute\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python -\/c "import pnab; pnab.test()"}
+\end{DoxyCode}
+\hypertarget{advanced_pybind11}{}\doxysubsection{Accessing the C++ Classes through Python}\label{advanced_pybind11}
+All the code for manipulating the molecule and computing the energies is written in C++. The main C++ classes that are used for defining the options can be accessed in python. It is sufficient to write an input file and call the program using this syntax\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{import} pnab}
+\DoxyCodeLine{}
+\DoxyCodeLine{run = pnab.pNAB(\textcolor{stringliteral}{'RNA.yaml'})}
+\DoxyCodeLine{run.run()}
+\end{DoxyCode}
+
+
+The advantage of this approach is that it performs basic validation of the user defined options. Additionally, for runs with multiple helical configurations, the independent configurations can be run in parallel using the {\itshape multiprocessing} library. This is managed internally by the python program. However, if the user wants to access the C++ classes directly through python, then this can be performed as follows\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{from} pnab \textcolor{keyword}{import} bind}
+\DoxyCodeLine{}
+\DoxyCodeLine{backbone = bind.Backbone()}
+\DoxyCodeLine{backbone.file\_path = \textcolor{stringliteral}{'rna\_bb.pdb'}}
+\DoxyCodeLine{backbone.interconnects = [10, 1]}
+\DoxyCodeLine{backbone.linker = [13, 14]}
+\DoxyCodeLine{}
+\DoxyCodeLine{base = bind.Base()}
+\DoxyCodeLine{base.file\_path = \textcolor{stringliteral}{'adenine.pdb'}}
+\DoxyCodeLine{base.code = \textcolor{stringliteral}{'A'}}
+\DoxyCodeLine{base.linker = [5, 11]}
+\DoxyCodeLine{base.name = \textcolor{stringliteral}{'Adenine'}}
+\DoxyCodeLine{base.pair\_name = \textcolor{stringliteral}{'Uracil'}}
+\DoxyCodeLine{bases = [base]}
+\DoxyCodeLine{}
+\DoxyCodeLine{hp = bind.HelicalParameters()}
+\DoxyCodeLine{hp.h\_twist = 32.39}
+\DoxyCodeLine{hp.h\_rise = 2.53}
+\DoxyCodeLine{hp.inclination = 22.9}
+\DoxyCodeLine{hp.tip = 0.08}
+\DoxyCodeLine{hp.x\_displacement = -\/4.54}
+\DoxyCodeLine{hp.y\_displacement = -\/0.02}
+\DoxyCodeLine{}
+\DoxyCodeLine{rp = bind.RuntimeParameters()}
+\DoxyCodeLine{rp.search\_algorithm = \textcolor{stringliteral}{'weighted random search'}}
+\DoxyCodeLine{rp.num\_steps = 1000000}
+\DoxyCodeLine{rp.ff\_type = \textcolor{stringliteral}{'GAFF'}}
+\DoxyCodeLine{rp.energy\_filter = [10000.0, 10000.0, 10000.0, 10000.0]}
+\DoxyCodeLine{rp.max\_distance = 0.2}
+\DoxyCodeLine{rp.strand = [\textcolor{stringliteral}{'Adenine'}]*5}
+\DoxyCodeLine{}
+\DoxyCodeLine{output = bind.run(rp, backbone, bases, hp, \textcolor{stringliteral}{'test'})}
+\DoxyCodeLine{print(output)}
+\end{DoxyCode}
+
+
+The output from the run is a string containing the data in C\+SV format.
+
+The C++ classes exposed to python are only for defining options and running the program. The other classes can be accessed through the C++ code. 

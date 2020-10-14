@@ -1,0 +1,259 @@
+\hypertarget{namespaceoptions}{}\doxysubsection{options Namespace Reference}
+\label{namespaceoptions}\index{options@{options}}
+
+
+A file for preparing, explaining and validating options.  
+
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceoptions_a102c859758e5252df46c1ca033137059}{validate\+\_\+all\+\_\+options}} (options)
+\begin{DoxyCompactList}\small\item\em A method to validate all options. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceoptions_ac2cfb5e38c48d3be15a781da0596b89f}{\+\_\+align\+\_\+nucleobase}} (base\+\_\+options)
+\begin{DoxyCompactList}\small\item\em Aligns the provided nucleobase to purine or pyrimidine in the nucleic acid base pair standard reference frame. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceoptions_a6996fd8f747ae4dfab86eea4ecdcb7dd}{\+\_\+validate\+\_\+input\+\_\+file}} (file\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Method to validate that the given file exists. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceoptions_ac614a632208b77a48644029f27aa4e59}{\+\_\+validate\+\_\+atom\+\_\+indices}} (indices)
+\begin{DoxyCompactList}\small\item\em Method to validate provided lists of atom indices. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceoptions_a246387350226298586d28cbcbc2fe24d}{\+\_\+validate\+\_\+helical\+\_\+parameters}} (hp\+\_\+i)
+\begin{DoxyCompactList}\small\item\em Method to validate provided helical parameters for each parameter. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceoptions_a2a64acc7874d13d35faa232b371aa41d}{\+\_\+validate\+\_\+energy\+\_\+filter}} (energy\+\_\+filter)
+\begin{DoxyCompactList}\small\item\em Method to validate provided energy filter. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceoptions_a782837e44e859b2599ecbcaffae2d5cd}{\+\_\+validate\+\_\+strand}} (strand)
+\begin{DoxyCompactList}\small\item\em Method to validate provided strand sequence. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceoptions_a0b5cce95af756bf3e7b9ff869e9db92c}{\+\_\+validate\+\_\+bool\+\_\+list}} (x)
+\begin{DoxyCompactList}\small\item\em Method to validate a list of bools. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+dictionary \mbox{\hyperlink{namespaceoptions_ac713404e5973898909787d2f50f5e42e}{\+\_\+options\+\_\+dict}} = \{\}
+\begin{DoxyCompactList}\small\item\em Nucleic acid builder options used in the driver. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+A file for preparing, explaining and validating options. 
+
+This option file defines a dictionary containing all the available options for the builder code. {\itshape \mbox{\hyperlink{namespaceoptions_ac713404e5973898909787d2f50f5e42e}{options.\+\_\+options\+\_\+dict}}} has three keys\+: Backbone, Helical\+Parameters, and Runtime\+Parameters. Each of these contains a dictionary of available options in each category. Each dictionary contains a short glossory that describe the option, a long glossory giving hints on how to use this option, a default value, and a validation scheme.
+
+This file also contains additional functions to help in the validation. 
+
+\doxysubsubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceoptions_ac2cfb5e38c48d3be15a781da0596b89f}\label{namespaceoptions_ac2cfb5e38c48d3be15a781da0596b89f}} 
+\index{options@{options}!\_align\_nucleobase@{\_align\_nucleobase}}
+\index{\_align\_nucleobase@{\_align\_nucleobase}!options@{options}}
+\doxyparagraph{\texorpdfstring{\_align\_nucleobase()}{\_align\_nucleobase()}}
+{\footnotesize\ttfamily def options.\+\_\+align\+\_\+nucleobase (\begin{DoxyParamCaption}\item[{}]{base\+\_\+options }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Aligns the provided nucleobase to purine or pyrimidine in the nucleic acid base pair standard reference frame. 
+
+This function aligns the provided nucleobase to either guanine if it has two rings or to uracil if it has one ring. The provided linker atoms that connect the base to the backbone are used for alignment. A third atom used in the alignment is determined by rearraning the atoms in the molecules using the canonical order. The function loops over all atoms in the provided nucleobase and the reference nucleobase and if two atoms have the same atomic number then these atoms are used for the alignment. A new file with the aligned nucleobase is created and used instead of the provided file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em base\+\_\+options} & (dict) The nucleobase options defined in the input file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespaceoptions_ac614a632208b77a48644029f27aa4e59}\label{namespaceoptions_ac614a632208b77a48644029f27aa4e59}} 
+\index{options@{options}!\_validate\_atom\_indices@{\_validate\_atom\_indices}}
+\index{\_validate\_atom\_indices@{\_validate\_atom\_indices}!options@{options}}
+\doxyparagraph{\texorpdfstring{\_validate\_atom\_indices()}{\_validate\_atom\_indices()}}
+{\footnotesize\ttfamily def options.\+\_\+validate\+\_\+atom\+\_\+indices (\begin{DoxyParamCaption}\item[{}]{indices }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to validate provided lists of atom indices. 
+
+Check whether the list has two atom indices
+
+
+\begin{DoxyParams}{Parameters}
+{\em indices} & (str$\vert$list) atom indices\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+indices after validation
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{namespaceoptions_a102c859758e5252df46c1ca033137059}{validate\+\_\+all\+\_\+options}} 
+
+\mbox{\hyperlink{namespaceoptions_ac713404e5973898909787d2f50f5e42e}{\+\_\+options\+\_\+dict}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{namespaceoptions_a0b5cce95af756bf3e7b9ff869e9db92c}\label{namespaceoptions_a0b5cce95af756bf3e7b9ff869e9db92c}} 
+\index{options@{options}!\_validate\_bool\_list@{\_validate\_bool\_list}}
+\index{\_validate\_bool\_list@{\_validate\_bool\_list}!options@{options}}
+\doxyparagraph{\texorpdfstring{\_validate\_bool\_list()}{\_validate\_bool\_list()}}
+{\footnotesize\ttfamily def options.\+\_\+validate\+\_\+bool\+\_\+list (\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to validate a list of bools. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & (list) list of bools\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+validated list of bools
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{namespaceoptions_a102c859758e5252df46c1ca033137059}{validate\+\_\+all\+\_\+options}} 
+
+\mbox{\hyperlink{namespaceoptions_ac713404e5973898909787d2f50f5e42e}{\+\_\+options\+\_\+dict}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{namespaceoptions_a2a64acc7874d13d35faa232b371aa41d}\label{namespaceoptions_a2a64acc7874d13d35faa232b371aa41d}} 
+\index{options@{options}!\_validate\_energy\_filter@{\_validate\_energy\_filter}}
+\index{\_validate\_energy\_filter@{\_validate\_energy\_filter}!options@{options}}
+\doxyparagraph{\texorpdfstring{\_validate\_energy\_filter()}{\_validate\_energy\_filter()}}
+{\footnotesize\ttfamily def options.\+\_\+validate\+\_\+energy\+\_\+filter (\begin{DoxyParamCaption}\item[{}]{energy\+\_\+filter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to validate provided energy filter. 
+
+Energy filter has five thresholds \mbox{[}bond, angle, torsion, van der Waals, total\mbox{]}
+
+
+\begin{DoxyParams}{Parameters}
+{\em energy\+\_\+filter} & (str$\vert$list) A list of five energy thresholds\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+energy\+\_\+filter after validation
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{namespaceoptions_a102c859758e5252df46c1ca033137059}{validate\+\_\+all\+\_\+options}} 
+
+\mbox{\hyperlink{namespaceoptions_ac713404e5973898909787d2f50f5e42e}{\+\_\+options\+\_\+dict}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{namespaceoptions_a246387350226298586d28cbcbc2fe24d}\label{namespaceoptions_a246387350226298586d28cbcbc2fe24d}} 
+\index{options@{options}!\_validate\_helical\_parameters@{\_validate\_helical\_parameters}}
+\index{\_validate\_helical\_parameters@{\_validate\_helical\_parameters}!options@{options}}
+\doxyparagraph{\texorpdfstring{\_validate\_helical\_parameters()}{\_validate\_helical\_parameters()}}
+{\footnotesize\ttfamily def options.\+\_\+validate\+\_\+helical\+\_\+parameters (\begin{DoxyParamCaption}\item[{}]{hp\+\_\+i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to validate provided helical parameters for each parameter. 
+
+Check whether the list has correct helical parameter specifications. The correct specifications are \mbox{[}initial value in a range, final value in a range, number of steps\mbox{]}. If a single value is provided, then we assume it is the only value in a range. if two values are provided, then we assume it is a range with one configuration.
+
+This specification is for internal use in the driver for generating multiple configurations and running them in parallel. The C++ code accepts a single value for each helical parameter.
+
+
+\begin{DoxyParams}{Parameters}
+{\em hp\+\_\+i} & (str$\vert$float$\vert$list) Specifications for helical parameter i\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+hp\+\_\+i after validation
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{namespaceoptions_a102c859758e5252df46c1ca033137059}{validate\+\_\+all\+\_\+options}} 
+
+\mbox{\hyperlink{namespaceoptions_ac713404e5973898909787d2f50f5e42e}{\+\_\+options\+\_\+dict}} 
+
+p\+N\+A\+B.\+p\+N\+A\+B.\+run 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{namespaceoptions_a6996fd8f747ae4dfab86eea4ecdcb7dd}\label{namespaceoptions_a6996fd8f747ae4dfab86eea4ecdcb7dd}} 
+\index{options@{options}!\_validate\_input\_file@{\_validate\_input\_file}}
+\index{\_validate\_input\_file@{\_validate\_input\_file}!options@{options}}
+\doxyparagraph{\texorpdfstring{\_validate\_input\_file()}{\_validate\_input\_file()}}
+{\footnotesize\ttfamily def options.\+\_\+validate\+\_\+input\+\_\+file (\begin{DoxyParamCaption}\item[{}]{file\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to validate that the given file exists. 
+
+Check whether the file exists or not. If it does not exist as it is, the function checks whether the file is in the \char`\"{}pnab/data\char`\"{} directory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+name} & (str) Path to a file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+file\+\_\+name after validation
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{namespaceoptions_a102c859758e5252df46c1ca033137059}{validate\+\_\+all\+\_\+options}} 
+
+\mbox{\hyperlink{namespaceoptions_ac713404e5973898909787d2f50f5e42e}{\+\_\+options\+\_\+dict}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{namespaceoptions_a782837e44e859b2599ecbcaffae2d5cd}\label{namespaceoptions_a782837e44e859b2599ecbcaffae2d5cd}} 
+\index{options@{options}!\_validate\_strand@{\_validate\_strand}}
+\index{\_validate\_strand@{\_validate\_strand}!options@{options}}
+\doxyparagraph{\texorpdfstring{\_validate\_strand()}{\_validate\_strand()}}
+{\footnotesize\ttfamily def options.\+\_\+validate\+\_\+strand (\begin{DoxyParamCaption}\item[{}]{strand }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to validate provided strand sequence. 
+
+We use F\+A\+S\+TA strings to specify the sequence in the strand. This is for use in the driver. The C++ code accepts base names with more than one letter. However, writing a F\+A\+S\+TA sequence is easier.
+
+The names of the bases are converted to upper case letters
+
+
+\begin{DoxyParams}{Parameters}
+{\em strand} & (str$\vert$list) F\+A\+S\+TA sequence of the strand\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+strand list after validation
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{namespaceoptions_a102c859758e5252df46c1ca033137059}{validate\+\_\+all\+\_\+options}} 
+
+\mbox{\hyperlink{namespaceoptions_ac713404e5973898909787d2f50f5e42e}{\+\_\+options\+\_\+dict}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{namespaceoptions_a102c859758e5252df46c1ca033137059}\label{namespaceoptions_a102c859758e5252df46c1ca033137059}} 
+\index{options@{options}!validate\_all\_options@{validate\_all\_options}}
+\index{validate\_all\_options@{validate\_all\_options}!options@{options}}
+\doxyparagraph{\texorpdfstring{validate\_all\_options()}{validate\_all\_options()}}
+{\footnotesize\ttfamily def options.\+validate\+\_\+all\+\_\+options (\begin{DoxyParamCaption}\item[{}]{options }\end{DoxyParamCaption})}
+
+
+
+A method to validate all options. 
+
+It loops over all available builder options and validates the user input. For options that have not been specified by the user, a default value is provided.
+
+
+\begin{DoxyParams}{Parameters}
+{\em options} & (dict) A dictionary containing all the user-\/defined options\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None; {\itshape options} is modified in place
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+p\+N\+A\+B.\+p\+N\+A\+B.\+\_\+\+\_\+init\+\_\+\+\_\+ 
+
+\mbox{\hyperlink{namespaceoptions_ac713404e5973898909787d2f50f5e42e}{\+\_\+options\+\_\+dict}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceoptions_ac713404e5973898909787d2f50f5e42e}\label{namespaceoptions_ac713404e5973898909787d2f50f5e42e}} 
+\index{options@{options}!\_options\_dict@{\_options\_dict}}
+\index{\_options\_dict@{\_options\_dict}!options@{options}}
+\doxyparagraph{\texorpdfstring{\_options\_dict}{\_options\_dict}}
+{\footnotesize\ttfamily dictionary options.\+\_\+options\+\_\+dict = \{\}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Nucleic acid builder options used in the driver. 
+
+This is an internal options dictionary to be used for listing, explaining and validating the options used in the code. All options here have corresponding options in the C++ code, except {\itshape \mbox{\hyperlink{namespaceoptions_ac713404e5973898909787d2f50f5e42e}{options.\+\_\+options\+\_\+dict}}}\mbox{[}\textquotesingle{}Runtime\+Parameters\textquotesingle{}\mbox{]}\mbox{[}\textquotesingle{}pair\+\_\+a\+\_\+u\textquotesingle{}\mbox{]}, which is used in the driver to override the default adenine-\/thymine pairing. \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{namespacejupyter__widgets_a95d6c00e9af03a9d71ab93a0f825dd5f}{jupyter\+\_\+widgets.\+builder()}} 
+
+\mbox{\hyperlink{classPNAB_1_1Backbone}{P\+N\+A\+B\+::\+Backbone}} 
+
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters}{P\+N\+A\+B\+::\+Helical\+Parameters}} 
+
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{P\+N\+A\+B\+::\+Runtime\+Parameters}} 
+\end{DoxySeeAlso}

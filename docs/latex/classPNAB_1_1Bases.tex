@@ -1,0 +1,173 @@
+\hypertarget{classPNAB_1_1Bases}{}\doxysubsection{P\+N\+AB\+::Bases Class Reference}
+\label{classPNAB_1_1Bases}\index{PNAB::Bases@{PNAB::Bases}}
+
+
+A class that contains a vector of all the defined bases and a funtion to return a base and the complimentary base for all the bases defined.  
+
+
+
+
+{\ttfamily \#include $<$Containers.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPNAB_1_1Bases_a4a50981d10161ac1420e29a458312feb}{Bases}} (std\+::vector$<$ \mbox{\hyperlink{classPNAB_1_1Base}{Base}} $>$ input\+\_\+bases)
+\begin{DoxyCompactList}\small\item\em Basic constructor for the \mbox{\hyperlink{classPNAB_1_1Bases}{Bases}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPNAB_1_1Bases_ac9a5cbb609e4106a5678df26cc06106c}{Bases}} ()
+\begin{DoxyCompactList}\small\item\em Empty constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPNAB_1_1Base}{P\+N\+A\+B\+::\+Base}} \mbox{\hyperlink{classPNAB_1_1Bases_a35aba1953c2dac0e78e0167853c7fbdc}{get\+Base\+From\+Name}} (std\+::string name)
+\begin{DoxyCompactList}\small\item\em Returns the \mbox{\hyperlink{classPNAB_1_1Base}{Base}} instance given the name of the base. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{classPNAB_1_1Base}{Base}} $>$ \mbox{\hyperlink{classPNAB_1_1Bases_ae267d4875a811cfc9e36226d41348dfc}{get\+Bases\+From\+Strand}} (std\+::vector$<$ std\+::string $>$ strand)
+\begin{DoxyCompactList}\small\item\em Returns the vector of the instances of \mbox{\hyperlink{classPNAB_1_1Base}{Base}} given the names of the bases in the strand. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{classPNAB_1_1Base}{Base}} $>$ \mbox{\hyperlink{classPNAB_1_1Bases_a9aae5b36f8d4e6eb03b63aeb6a031d92}{get\+Compliment\+Bases\+From\+Strand}} (std\+::vector$<$ std\+::string $>$ strand)
+\begin{DoxyCompactList}\small\item\em Returns the complimentary vector of the instances of \mbox{\hyperlink{classPNAB_1_1Base}{Base}} given the names of the bases in the strand. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{classPNAB_1_1Base}{Base}} $>$ \mbox{\hyperlink{classPNAB_1_1Bases_aab117f7ce23bd67f7fce03646013d064}{bases}}
+\begin{DoxyCompactList}\small\item\em The vector of bases. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPNAB_1_1Bases_a75fce9cbaba14d89efe81d616341d95f}{all\+\_\+bases\+\_\+pair}}
+\begin{DoxyCompactList}\small\item\em Whether all the bases in the strand have complimentary bases. \end{DoxyCompactList}\item 
+std\+::map$<$ std\+::string, \mbox{\hyperlink{classPNAB_1_1Base}{P\+N\+A\+B\+::\+Base}} $>$ \mbox{\hyperlink{classPNAB_1_1Bases_afc25ea14381aca8d5cbf7677fd8286a5}{name\+\_\+base\+\_\+map}}
+\begin{DoxyCompactList}\small\item\em A map of the names of the bases and the complimentary bases. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+A class that contains a vector of all the defined bases and a funtion to return a base and the complimentary base for all the bases defined. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Base}{Base}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPNAB_1_1Bases_a4a50981d10161ac1420e29a458312feb}\label{classPNAB_1_1Bases_a4a50981d10161ac1420e29a458312feb}} 
+\index{PNAB::Bases@{PNAB::Bases}!Bases@{Bases}}
+\index{Bases@{Bases}!PNAB::Bases@{PNAB::Bases}}
+\doxyparagraph{\texorpdfstring{Bases()}{Bases()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Bases\+::\+Bases (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classPNAB_1_1Base}{Base}} $>$}]{input\+\_\+bases }\end{DoxyParamCaption})}
+
+
+
+Basic constructor for the \mbox{\hyperlink{classPNAB_1_1Bases}{Bases}}. 
+
+The given bases are processed to create a vector of the defined bases and a vector of the complimentary bases. This calls \mbox{\hyperlink{classPNAB_1_1Base}{Base}} to make sure the given bases have Openbabel molecules
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+\_\+bases} & The vector containing the information about the bases needed \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPNAB_1_1Bases_ac9a5cbb609e4106a5678df26cc06106c}\label{classPNAB_1_1Bases_ac9a5cbb609e4106a5678df26cc06106c}} 
+\index{PNAB::Bases@{PNAB::Bases}!Bases@{Bases}}
+\index{Bases@{Bases}!PNAB::Bases@{PNAB::Bases}}
+\doxyparagraph{\texorpdfstring{Bases()}{Bases()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily P\+N\+A\+B\+::\+Bases\+::\+Bases (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Empty constructor. 
+
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPNAB_1_1Bases_a35aba1953c2dac0e78e0167853c7fbdc}\label{classPNAB_1_1Bases_a35aba1953c2dac0e78e0167853c7fbdc}} 
+\index{PNAB::Bases@{PNAB::Bases}!getBaseFromName@{getBaseFromName}}
+\index{getBaseFromName@{getBaseFromName}!PNAB::Bases@{PNAB::Bases}}
+\doxyparagraph{\texorpdfstring{getBaseFromName()}{getBaseFromName()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classPNAB_1_1Base}{P\+N\+A\+B\+::\+Base}} P\+N\+A\+B\+::\+Bases\+::get\+Base\+From\+Name (\begin{DoxyParamCaption}\item[{std\+::string}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the \mbox{\hyperlink{classPNAB_1_1Base}{Base}} instance given the name of the base. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & name of the base\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the base 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1Bases_ae267d4875a811cfc9e36226d41348dfc}\label{classPNAB_1_1Bases_ae267d4875a811cfc9e36226d41348dfc}} 
+\index{PNAB::Bases@{PNAB::Bases}!getBasesFromStrand@{getBasesFromStrand}}
+\index{getBasesFromStrand@{getBasesFromStrand}!PNAB::Bases@{PNAB::Bases}}
+\doxyparagraph{\texorpdfstring{getBasesFromStrand()}{getBasesFromStrand()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{classPNAB_1_1Base}{Base}} $>$ Bases\+::get\+Bases\+From\+Strand (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{strand }\end{DoxyParamCaption})}
+
+
+
+Returns the vector of the instances of \mbox{\hyperlink{classPNAB_1_1Base}{Base}} given the names of the bases in the strand. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em strand} & vector of base names in the strand\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of bases in the strand
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_a807f97333d7905a8e1655ee1cd091955}{Chain\+::\+Chain}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1Bases_a9aae5b36f8d4e6eb03b63aeb6a031d92}\label{classPNAB_1_1Bases_a9aae5b36f8d4e6eb03b63aeb6a031d92}} 
+\index{PNAB::Bases@{PNAB::Bases}!getComplimentBasesFromStrand@{getComplimentBasesFromStrand}}
+\index{getComplimentBasesFromStrand@{getComplimentBasesFromStrand}!PNAB::Bases@{PNAB::Bases}}
+\doxyparagraph{\texorpdfstring{getComplimentBasesFromStrand()}{getComplimentBasesFromStrand()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{classPNAB_1_1Base}{Base}} $>$ Bases\+::get\+Compliment\+Bases\+From\+Strand (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{strand }\end{DoxyParamCaption})}
+
+
+
+Returns the complimentary vector of the instances of \mbox{\hyperlink{classPNAB_1_1Base}{Base}} given the names of the bases in the strand. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em strand} & vector of base names in the strand\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of bases in the complimentary strand
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_a807f97333d7905a8e1655ee1cd091955}{Chain\+::\+Chain}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Member Data Documentation}
+\mbox{\Hypertarget{classPNAB_1_1Bases_a75fce9cbaba14d89efe81d616341d95f}\label{classPNAB_1_1Bases_a75fce9cbaba14d89efe81d616341d95f}} 
+\index{PNAB::Bases@{PNAB::Bases}!all\_bases\_pair@{all\_bases\_pair}}
+\index{all\_bases\_pair@{all\_bases\_pair}!PNAB::Bases@{PNAB::Bases}}
+\doxyparagraph{\texorpdfstring{all\_bases\_pair}{all\_bases\_pair}}
+{\footnotesize\ttfamily bool P\+N\+A\+B\+::\+Bases\+::all\+\_\+bases\+\_\+pair\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Whether all the bases in the strand have complimentary bases. 
+
+\mbox{\Hypertarget{classPNAB_1_1Bases_aab117f7ce23bd67f7fce03646013d064}\label{classPNAB_1_1Bases_aab117f7ce23bd67f7fce03646013d064}} 
+\index{PNAB::Bases@{PNAB::Bases}!bases@{bases}}
+\index{bases@{bases}!PNAB::Bases@{PNAB::Bases}}
+\doxyparagraph{\texorpdfstring{bases}{bases}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{classPNAB_1_1Base}{Base}}$>$ P\+N\+A\+B\+::\+Bases\+::bases\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The vector of bases. 
+
+\mbox{\Hypertarget{classPNAB_1_1Bases_afc25ea14381aca8d5cbf7677fd8286a5}\label{classPNAB_1_1Bases_afc25ea14381aca8d5cbf7677fd8286a5}} 
+\index{PNAB::Bases@{PNAB::Bases}!name\_base\_map@{name\_base\_map}}
+\index{name\_base\_map@{name\_base\_map}!PNAB::Bases@{PNAB::Bases}}
+\doxyparagraph{\texorpdfstring{name\_base\_map}{name\_base\_map}}
+{\footnotesize\ttfamily std\+::map$<$std\+::string, \mbox{\hyperlink{classPNAB_1_1Base}{P\+N\+A\+B\+::\+Base}}$>$ P\+N\+A\+B\+::\+Bases\+::name\+\_\+base\+\_\+map\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A map of the names of the bases and the complimentary bases. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Containers_8h}{Containers.\+h}}\item 
+\mbox{\hyperlink{Containers_8cpp}{Containers.\+cpp}}\end{DoxyCompactItemize}

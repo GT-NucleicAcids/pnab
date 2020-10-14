@@ -1,0 +1,2083 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.8)  14 OCT 2020 13:49
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**refman
+(./refman.tex
+LaTeX2e <2020-02-02> patch level 2
+L3 programming layer <2020-02-14>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count167
+\c@section=\count168
+\c@subsection=\count169
+\c@subsubsection=\count170
+\c@paragraph=\count171
+\c@subparagraph=\count172
+\c@figure=\count173
+\c@table=\count174
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Rollback for package 'array' requested -> date 2016-10-06.
+         Best approximation is the release introduced on 2016-10-06.
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array-2016-10-06.sty
+Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
+\col@sep=\dimen135
+\extrarowheight=\dimen136
+\NC@list=\toks14
+\extratabsurround=\skip49
+\backup@length=\skip50
+))
+(/usr/share/texlive/texmf-dist/tex/latex/base/fixltx2e.sty
+Package: fixltx2e 2016/12/29 v2.1a fixes to LaTeX (obsolete)
+Applying: [2015/01/01] Old fixltx2e package on input line 46.
+
+
+Package fixltx2e Warning: fixltx2e is not required with releases after 2015
+(fixltx2e)                All fixes are now in the LaTeX kernel.
+(fixltx2e)                See the latexrelease package for details.
+
+Already applied: [0000/00/00] Old fixltx2e package on input line 53.
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count175
+\calc@Bcount=\count176
+\calc@Adimen=\dimen137
+\calc@Bdimen=\dimen138
+\calc@Askip=\skip51
+\calc@Bskip=\skip52
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count177
+\calc@Cskip=\skip53
+) (./doxygen.sty
+Package: doxygen 
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/alltt.sty
+Package: alltt 1997/06/16 v2.0g defines alltt environment
+)
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count178
+\float@exts=\toks15
+\float@box=\box45
+\@float@everytoks=\toks16
+\@floatcapt=\box46
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2019/11/10 v1.5r LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks17
+\verbatim@line=\toks18
+\verbatim@in@stream=\read2
+)
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+)
+(/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+\everycr=\toks19
+\minrowclearance=\skip54
+)
+\rownum=\count179
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+(./longtable_doxygen.sty
+Package: longtable_doxygen 2014/10/28 v4.11 Multi-page Table package (DPC) - fr
+ozen version for doxygen
+\LTleft=\skip55
+\LTright=\skip56
+\LTpre=\skip57
+\LTpost=\skip58
+\LTchunksize=\count180
+\LTcapwidth=\dimen139
+\LT@head=\box47
+\LT@firsthead=\box48
+\LT@foot=\box49
+\LT@lastfoot=\box50
+\LT@cols=\count181
+\LT@rows=\count182
+\c@LT@tables=\count183
+\c@LT@chunks=\count184
+\LT@p@ftn=\toks20
+) (./tabu_doxygen.sty
+Package: tabu_doxygen 2011/02/26 v2.8 - flexible LaTeX tabulars (FC), frozen ve
+rsion for doxygen
+
+(/usr/share/texlive/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box51
+\sift@deathcycles=\count185
+\@vwid@loff=\dimen140
+\@vwid@roff=\dimen141
+)
+\c@taburow=\count186
+\tabu@nbcols=\count187
+\tabu@cnt=\count188
+\tabu@Xcol=\count189
+\tabu@alloc=\count190
+\tabu@nested=\count191
+\tabu@target=\dimen142
+\tabu@spreadtarget=\dimen143
+\tabu@naturalX=\dimen144
+\tabucolX=\dimen145
+\tabu@Xsum=\dimen146
+\extrarowdepth=\dimen147
+\abovetabulinesep=\dimen148
+\belowtabulinesep=\dimen149
+\tabustrutrule=\dimen150
+\tabu@thebody=\toks21
+\tabu@footnotes=\toks22
+\tabu@box=\box52
+\tabu@arstrutbox=\box53
+\tabu@hleads=\box54
+\tabu@vleads=\box55
+\tabu@cellskip=\skip59
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2020/01/13 v3.5 verbatim text (tvz,hv)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks23
+)
+\FV@CodeLineNo=\count192
+\FV@InFile=\read3
+\FV@TabBox=\box56
+\c@FancyVerbLine=\count193
+\FV@StepNumber=\count194
+\FV@OutFile=\write3
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
+\TX@col@width=\dimen151
+\TX@old@table=\dimen152
+\TX@old@col=\dimen153
+\TX@target=\dimen154
+\TX@delta=\dimen155
+\TX@cols=\count195
+\TX@ftn=\toks24
+)
+(/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2019/05/31 v2.5 Span multiple rows of a table
+\multirow@colwidth=\skip60
+\multirow@cntb=\count196
+\multirow@dima=\skip61
+\bigstrutjot=\dimen156
+)
+(/usr/share/texlive/texmf-dist/tex/latex/hanging/hanging.sty
+Package: hanging 2009/09/02 v1.2b hanging paragraphs and punctuation
+\h@ngcommawd=\skip62
+\h@ngfstopwd=\skip63
+\h@ngquotewd=\skip64
+\h@ngdquotewd=\skip65
+\h@ngquerywd=\skip66
+\h@ngexclwd=\skip67
+\h@ngcolonwd=\skip68
+\h@ngscolonwd=\skip69
+)
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/ifpdf.sty
+Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
+
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2019/11/07 v1.0c TeX engine tests
+))
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2019/01/04 v1.2 Adjusting TeX boxes (trim, clip, ...)
+
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks25
+\XKV@tempa@toks=\toks26
+)
+\XKV@depth=\count197
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2018/04/08 v1.1 Trim and clip general TeX material
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+)
+\Gin@req@height=\dimen157
+\Gin@req@width=\dimen158
+)
+(/usr/share/texlive/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box57
+)
+\tc@llx=\dimen159
+\tc@lly=\dimen160
+\tc@urx=\dimen161
+\tc@ury=\dimen162
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen163
+\adjbox@Height=\dimen164
+\adjbox@Depth=\dimen165
+\adjbox@Totalheight=\dimen166
+\adjbox@pwidth=\dimen167
+\adjbox@pheight=\dimen168
+\adjbox@pdepth=\dimen169
+\adjbox@ptotalheight=\dimen170
+
+(/usr/share/texlive/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
+\c@checkoddpage=\count198
+))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks27
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/stackengine/stackengine.sty
+Package: stackengine 2017/02/13 v4.01\ Stacking text and objects in convenient 
+ways
+
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count199
+)
+(/usr/share/texlive/texmf-dist/tex/generic/listofitems/listofitems.sty
+(/usr/share/texlive/texmf-dist/tex/generic/listofitems/listofitems.tex
+\loi_cnt_foreach_nest=\count266
+\loi_nestcnt=\count267
+)
+Package: listofitems 2019/08/21 v1.63 Grab items in lists using user-specified 
+sep char (CT)
+)
+\c@@stackindex=\count268
+\@boxshift=\skip70
+\stack@tmplength=\skip71
+\temp@stkl=\skip72
+\@stackedboxwidth=\skip73
+\@addedbox=\box58
+\@anchorbox=\box59
+\stackedbox=\box60
+\@centerbox=\box61
+\c@ROWcellindex@=\count269
+)
+(/usr/share/texlive/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box62
+\UL@hyphenbox=\box63
+\UL@skip=\skip74
+\UL@hook=\toks28
+\UL@height=\dimen171
+\UL@pe=\count270
+\UL@pixel=\dimen172
+\ULC@box=\box64
+Package: ulem 2019/11/18
+\ULdepth=\dimen173
+)
+\xrefbox=\box65
+\xreflength=\skip75
+\CodeWidthChar=\skip76
+\CodeHeightChar=\skip77
+\DoxyCodeWidth=\skip78
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks29
+\inpenc@posthook=\toks30
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/makeidx.sty
+Package: makeidx 2014/09/29 v1.0m Standard LaTeX package
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2019/12/09 v1.8y multicolumn formatting (FMi)
+\c@tracingmulticols=\count271
+\mult@box=\box66
+\multicol@leftmargin=\dimen174
+\c@unbalance=\count272
+\c@collectmore=\count273
+\doublecol@number=\count274
+\multicoltolerance=\count275
+\multicolpretolerance=\count276
+\full@width=\dimen175
+\page@free=\dimen176
+\premulticols=\dimen177
+\postmulticols=\dimen178
+\multicolsep=\skip79
+\multicolbaselineskip=\skip80
+\partial@page=\box67
+\last@line=\box68
+\maxbalancingoverflow=\dimen179
+\mult@rightbox=\box69
+\mult@grightbox=\box70
+\mult@gfirstbox=\box71
+\mult@firstbox=\box72
+\@tempa=\box73
+\@tempa=\box74
+\@tempa=\box75
+\@tempa=\box76
+\@tempa=\box77
+\@tempa=\box78
+\@tempa=\box79
+\@tempa=\box80
+\@tempa=\box81
+\@tempa=\box82
+\@tempa=\box83
+\@tempa=\box84
+\@tempa=\box85
+\@tempa=\box86
+\@tempa=\box87
+\@tempa=\box88
+\@tempa=\box89
+\@tempa=\box90
+\@tempa=\box91
+\@tempa=\box92
+\@tempa=\box93
+\@tempa=\box94
+\@tempa=\box95
+\@tempa=\box96
+\@tempa=\box97
+\@tempa=\box98
+\@tempa=\box99
+\@tempa=\box100
+\@tempa=\box101
+\@tempa=\box102
+\@tempa=\box103
+\@tempa=\box104
+\@tempa=\box105
+\@tempa=\box106
+\@tempa=\box107
+\@tempa=\box108
+\@tempa=\box109
+\c@minrows=\count277
+\c@columnbadness=\count278
+\c@finalcolumnbadness=\count279
+\last@try=\dimen180
+\multicolovershoot=\dimen181
+\multicolundershoot=\dimen182
+\mult@nat@firstbox=\box110
+\colbreak@box=\box111
+\mc@col@check@num=\count280
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+)
+(/usr/share/texlive/texmf-dist/tex/latex/wasysym/wasysym.sty
+Package: wasysym 2020/01/19 v2.4 Wasy-2 symbol support package
+\symwasy=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `wasy' in version `bold'
+(Font)                  U/wasy/m/n --> U/wasy/b/n on input line 93.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/ifxetex.sty
+Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
+)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty
+Package: helvet 2005/04/12 PSNFSS-v9.2a (WaS) 
+)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/courier.sty
+Package: courier 2005/04/12 PSNFSS-v9.2a (WaS) 
+)
+(/usr/share/texlive/texmf-dist/tex/latex/sectsty/sectsty.sty
+Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading sty
+les
+
+
+LaTeX Warning: Command \underbar  has changed.
+               Check if current package is valid.
+
+
+LaTeX Warning: Command \underline  has changed.
+               Check if current package is valid.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count281
+\Gm@cntv=\count282
+\c@Gm@tempcnt=\count283
+\Gm@bindingoffset=\dimen183
+\Gm@wd@mp=\dimen184
+\Gm@odd@mp=\dimen185
+\Gm@even@mp=\dimen186
+\Gm@layoutwidth=\dimen187
+\Gm@layoutheight=\dimen188
+\Gm@layouthoffset=\dimen189
+\Gm@layoutvoffset=\dimen190
+\Gm@dimlist=\toks31
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip81
+\f@nch@O@elh=\skip82
+\f@nch@O@erh=\skip83
+\f@nch@O@olh=\skip84
+\f@nch@O@orh=\skip85
+\f@nch@O@elf=\skip86
+\f@nch@O@erf=\skip87
+\f@nch@O@olf=\skip88
+\f@nch@O@orf=\skip89
+)
+(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip90
+\bibsep=\skip91
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count284
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tocloft/tocloft.sty
+Package: tocloft 2017/08/31 v2.3i parameterised ToC, etc., typesetting
+Package tocloft Info: The document has section divisions on input line 51.
+\cftparskip=\skip92
+\cftbeforetoctitleskip=\skip93
+\cftaftertoctitleskip=\skip94
+\cftbeforepartskip=\skip95
+\cftpartnumwidth=\skip96
+\cftpartindent=\skip97
+\cftbeforesecskip=\skip98
+\cftsecindent=\skip99
+\cftsecnumwidth=\skip100
+\cftbeforesubsecskip=\skip101
+\cftsubsecindent=\skip102
+\cftsubsecnumwidth=\skip103
+\cftbeforesubsubsecskip=\skip104
+\cftsubsubsecindent=\skip105
+\cftsubsubsecnumwidth=\skip106
+\cftbeforeparaskip=\skip107
+\cftparaindent=\skip108
+\cftparanumwidth=\skip109
+\cftbeforesubparaskip=\skip110
+\cftsubparaindent=\skip111
+\cftsubparanumwidth=\skip112
+\cftbeforeloftitleskip=\skip113
+\cftafterloftitleskip=\skip114
+\cftbeforefigskip=\skip115
+\cftfigindent=\skip116
+\cftfignumwidth=\skip117
+\c@lofdepth=\count285
+\c@lotdepth=\count286
+\cftbeforelottitleskip=\skip118
+\cftafterlottitleskip=\skip119
+\cftbeforetabskip=\skip120
+\cfttabindent=\skip121
+\cfttabnumwidth=\skip122
+)
+\@indexfile=\write4
+\openout4 = `refman.idx'.
+
+
+Writing index file refman.idx
+(/usr/share/texlive/texmf-dist/tex/latex/newunicodechar/newunicodechar.sty
+Package: newunicodechar 2018/04/08 v1.2 Defining Unicode characters
+)
+
+Package newunicodechar Warning: Redefining Unicode character on input line 113.
+
+
+
+Package newunicodechar Warning: Redefining Unicode character on input line 114.
+
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2020/01/14 v7.00d Hypertext links for LaTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2019/11/24 v0.31 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
+)
+\@linkdim=\dimen191
+\Hy@linkcounter=\count287
+\Hy@pagecounter=\count288
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2020/01/14 v7.00d Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+(/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count289
+\pdfmajorversion=\count290
+Package hyperref Info: Hyper figures OFF on input line 4547.
+Package hyperref Info: Link nesting OFF on input line 4552.
+Package hyperref Info: Hyper index ON on input line 4555.
+Package hyperref Info: Plain pages OFF on input line 4562.
+Package hyperref Info: Backreferencing ON on input line 4565.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4800.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/backref.sty
+Package: backref 2020/01/14 v1.40 Bibliographical back referencing
+
+(/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+
+(/usr/share/texlive/texmf-dist/tex/latex/atveryend/atveryend.sty
+Package: atveryend 2019-12-11 v1.11 Hooks at the very end of document (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+86.
+))
+\c@Hy@tempcnt=\count291
+
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip16
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5159.
+\XeTeXLinkMargin=\dimen192
+
+(/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+)
+\Fld@menulength=\count292
+\Field@Width=\dimen193
+\Fld@charsize=\dimen194
+Package hyperref Info: Hyper figures OFF on input line 6430.
+Package hyperref Info: Link nesting OFF on input line 6435.
+Package hyperref Info: Hyper index ON on input line 6438.
+Package hyperref Info: backreferencing ON on input line 6443.
+Package hyperref Info: Link coloring OFF on input line 6450.
+Package hyperref Info: Link coloring with OCG OFF on input line 6455.
+Package hyperref Info: PDF/A mode OFF on input line 6460.
+LaTeX Info: Redefining \ref on input line 6500.
+LaTeX Info: Redefining \pageref on input line 6504.
+
+(/usr/share/texlive/texmf-dist/tex/generic/atbegshi/atbegshi.sty
+Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
+)
+\Hy@abspage=\count293
+\c@Item=\count294
+\c@Hfootnote=\count295
+)
+Package hyperref Info: Driver: hpdftex.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2020/01/14 v7.00d Hyperref driver for pdfTeX
+\Fld@listcount=\count296
+\c@bookmark@seq@number=\count297
+\Hy@SectionHShift=\skip123
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 132.
+Package hyperref Info: Option `unicode' set `true' on input line 132.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2020/01/14 v7.00d Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2020/01/03 v3.4h Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2020/01/03 v1.8h caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 61.
+\captionmargin=\dimen195
+\captionmargin@=\dimen196
+\captionwidth=\dimen197
+\caption@tempdima=\dimen198
+\caption@indent=\dimen199
+\caption@parindent=\dimen256
+\caption@hangindent=\dimen257
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count298
+\c@continuedfloat=\count299
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: longtable package is loaded.
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2018/08/26 v1.4a longtable captions (AR)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/etoc/etoc.sty
+Package: etoc 2019/11/17 v1.09b Completely customisable TOCs (JFB)
+\Etoc@toctoks=\toks32
+\c@etoc@tocid=\count300
+\c@etoc@tocdepth=\count301
+\etoc@framed@titlebox=\box112
+\etoc@framed@contentsbox=\box113
+)
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
+File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count302
+\l__pdf_internal_box=\box114
+)
+(./refman.aux)
+\openout1 = `refman.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 147.
+LaTeX Font Info:    ... okay on input line 147.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 147.
+LaTeX Font Info:    ... okay on input line 147.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 147.
+LaTeX Font Info:    ... okay on input line 147.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 147.
+LaTeX Font Info:    ... okay on input line 147.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 147.
+LaTeX Font Info:    ... okay on input line 147.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 147.
+LaTeX Font Info:    ... okay on input line 147.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 147.
+LaTeX Font Info:    ... okay on input line 147.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 147.
+LaTeX Font Info:    ... okay on input line 147.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 147.
+LaTeX Font Info:    ... okay on input line 147.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 14
+7.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
+)
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 147.
+
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count303
+\scratchdimen=\dimen258
+\scratchbox=\box115
+\nofMPsegments=\count304
+\nofMParguments=\count305
+\everyMPshowfont=\toks33
+\MPscratchCnt=\count306
+\MPscratchDim=\dimen259
+\MPnumerator=\count307
+\makeMPintoPDFobject=\count308
+\everyMPtoPDFconversion=\toks34
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside 
+* h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=455.24411pt
+* \textheight=702.78308pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
+* \topmargin=-38.1381pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=121.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package backref Info: ** backref set up for natbib ** on input line 147.
+\AtBeginShipoutBox=\box116
+Package hyperref Info: Link coloring ON on input line 147.
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
+
+(/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count309
+)
+LaTeX Info: Redefining \ref on input line 147.
+LaTeX Info: Redefining \pageref on input line 147.
+LaTeX Info: Redefining \nameref on input line 147.
+
+(./refman.out) (./refman.out)
+\@outlinefile=\write5
+\openout5 = `refman.out'.
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+\Etoc@tf=\read4
+Package hyperref Info: Option `pageanchor' set `false' on input line 153.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 153.
+
+Package hyperref Info: Option `unicode' set `true' on input line 153.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 12.9599pt on input line 158.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 6.29996pt on input line 158.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 158
+.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 158
+.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for U+wasy on input line 15
+8.
+
+(/usr/share/texlive/texmf-dist/tex/latex/wasysym/uwasy.fd
+File: uwasy.fd 2020/01/19 v2.4 Wasy-2 symbol font definitions
+)
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 10.79993pt on input line 160.
+ [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+\tf@toc=\write6
+\openout6 = `refman.toc'.
+
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 8.99994pt on input line 165.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 6.29996pt on input line 165.
+ [1] [2]
+Package hyperref Info: Option `pageanchor' set `true' on input line 166.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 12.9599pt on input line 169.
+ (./index.tex
+LaTeX Font Info:    Trying to load font information for TS1+phv on input line 5
+.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd
+File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
+)
+LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 5.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 10.79993pt on input line 10.
+ [1] <./structures.png>
+<structures.png, id=587, 1059.83955pt x 725.5908pt>
+File: structures.png Graphic file (type png)
+<use structures.png>
+Package pdftex.def Info: structures.png  used on input line 15.
+(pdftex.def)             Requested size: 455.25314pt x 311.67688pt.
+ <./algorithm.png>
+<algorithm.png, id=588, 469.755pt x 1626.075pt>
+File: algorithm.png Graphic file (type png)
+<use algorithm.png>
+Package pdftex.def Info: algorithm.png  used on input line 23.
+(pdftex.def)             Requested size: 101.51144pt x 351.38577pt.
+
+Underfull \vbox (badness 3439) has occurred while \output is active []
+
+ [2])
+(./trying_and_installing.tex
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 2.
+
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+) [3]
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 8.99994pt on input line 13.
+
+Underfull \hbox (badness 10000) detected at line 13
+[][][]
+ []
+
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 34.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 8.99994pt on input line 34.
+ <./navigator.png>
+<navigator.png, id=613, 1265.72874pt x 761.84625pt>
+File: navigator.png Graphic file (type png)
+<use navigator.png>
+Package pdftex.def Info: navigator.png  used on input line 36.
+(pdftex.def)             Requested size: 455.2371pt x 274.0087pt.
+ <./navigator2.png>
+<navigator2.png, id=615, 677.53125pt x 404.51125pt>
+File: navigator2.png Graphic file (type png)
+<use navigator2.png>
+Package pdftex.def Info: navigator2.png  used on input line 41.
+(pdftex.def)             Requested size: 455.25653pt x 271.80501pt.
+ [4] <./jupyter.png>
+<jupyter.png, id=629, 1831.84375pt x 445.665pt>
+File: jupyter.png Graphic file (type png)
+<use jupyter.png>
+Package pdftex.def Info: jupyter.png  used on input line 48.
+(pdftex.def)             Requested size: 455.2485pt x 110.75635pt.
+ <./notebook.png>
+<notebook.png, id=631, 774.64406pt x 642.14906pt>
+File: notebook.png Graphic file (type png)
+<use notebook.png>
+Package pdftex.def Info: notebook.png  used on input line 62.
+(pdftex.def)             Requested size: 423.9043pt x 351.39977pt.
+
+Underfull \vbox (badness 2080) has occurred while \output is active []
+
+ [5]
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <7> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 66.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 6.29996pt on input line 66.
+)
+(./examples.tex
+File: notebook.png Graphic file (type png)
+<use notebook.png>
+Package pdftex.def Info: notebook.png  used on input line 4.
+(pdftex.def)             Requested size: 423.9043pt x 351.39977pt.
+ [6] <./nucleobases.png>
+<nucleobases.png, id=653, 626.34pt x 535.2497pt>
+File: nucleobases.png Graphic file (type png)
+<use nucleobases.png>
+Package pdftex.def Info: nucleobases.png  used on input line 25.
+(pdftex.def)             Requested size: 411.20663pt x 351.40375pt.
+ [7] <./helical_parameters.png>
+<helical_parameters.png, id=661, 1192.455pt x 760.8425pt>
+File: helical_parameters.png Graphic file (type png)
+<use helical_parameters.png>
+Package pdftex.def Info: helical_parameters.png  used on input line 34.
+(pdftex.def)             Requested size: 455.24828pt x 290.46985pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8] <./runtime_parameters1.png>
+<runtime_parameters1.png, id=669, 722.7pt x 641.39626pt>
+File: runtime_parameters1.png Graphic file (type png)
+<use runtime_parameters1.png>
+Package pdftex.def Info: runtime_parameters1.png  used on input line 45.
+(pdftex.def)             Requested size: 395.94237pt x 351.39886pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [9] <./runtime_parameters2.png>
+<runtime_parameters2.png, id=677, 715.17188pt x 287.57437pt>
+File: runtime_parameters2.png Graphic file (type png)
+<use runtime_parameters2.png>
+Package pdftex.def Info: runtime_parameters2.png  used on input line 54.
+(pdftex.def)             Requested size: 455.24217pt x 183.05527pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [10] <./output.png>
+<output.png, id=686, 898.85812pt x 589.4522pt>
+File: output.png Graphic file (type png)
+<use output.png>
+Package pdftex.def Info: output.png  used on input line 65.
+(pdftex.def)             Requested size: 455.2433pt x 298.53896pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [11]
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 7.19995pt on input line 76.
+
+[12] [13] [14] [15]) (./advanced.tex [16]) (./namespacedriver.tex
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 8.09995pt on input line 12.
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 12.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 8.09995pt on input line 12.
+ [17])
+(./namespacejupyter__widgets.tex [18]
+Underfull \hbox (badness 1067) in paragraph at lines 61--62
+[]\T1/phv/m/n/10 This file con-taints wid-gets for sepec-i-fy-ing op-tions in t
+he Jupyter note-book us-ing the ipy-wid-gets li-brary ([][]
+ []
+
+
+Underfull \hbox (badness 3343) in paragraph at lines 61--62
+\T1/pcr/m/n/10 https[]://github.[]com/jupyter-widgets/ipywidgets[][]\T1/phv/m/n
+/10 ). Us-ing Jupyter note-book is not nec-
+ []
+
+
+Underfull \hbox (badness 1270) in paragraph at lines 61--62
+\T1/phv/m/n/10 es-sary for us-ing the pro-gram, as the pro-gram can be run in a
+s a python script. How-ever, the wid-
+ []
+
+
+Underfull \hbox (badness 1158) in paragraph at lines 61--62
+\T1/phv/m/n/10 gets pro-vide a graph-i-cal user in-ter-face for mak-ing in-put 
+files, run-ning the code, and dis-play-ing the re-
+ []
+
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <8> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 79.
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <7> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 79.
+[19]
+Underfull \hbox (badness 10000) detected at line 92
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 130
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 133
+[][][]
+ []
+
+[20]
+Underfull \hbox (badness 10000) detected at line 157
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 160
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 186
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 189
+[][][]
+ []
+
+[21]
+Underfull \hbox (badness 10000) detected at line 210
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 213
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 233
+[][][]
+ []
+
+[22]
+Underfull \hbox (badness 10000) detected at line 257
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 260
+[][][]
+ []
+
+
+Underfull \hbox (badness 2401) in paragraph at lines 287--288
+[]\T1/phv/m/n/10 This func-tion ex-tracts the val-ues of all op-tions specifed 
+by the user. It ac-cess all the wid-gets in
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 289
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 292
+[][][]
+ []
+
+
+Overfull \vbox (9.03311pt too high) has occurred while \output is active []
+
+
+[23]
+Underfull \hbox (badness 10000) detected at line 320
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 323
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 364
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 367
+[][][]
+ []
+
+[24]
+Underfull \hbox (badness 10000) detected at line 393
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 417
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 420
+[][][]
+ []
+
+[25]
+Underfull \hbox (badness 10000) detected at line 450
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 453
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 481
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 482--483
+
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 485
+[][][]
+ []
+
+[26] [27]
+Underfull \hbox (badness 10000) detected at line 507
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 510
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 536
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 539
+[][][]
+ []
+
+
+Overfull \hbox (46.9588pt too wide) in paragraph at lines 554--555
+[]\T1/phv/m/n/10 If a file is up-loaded, it is writ-ten in the cur-rent work-in
+g di-rec-tory. Then, this func-tion calls []
+ []
+
+[28]
+Underfull \hbox (badness 10000) detected at line 563
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 566
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 586
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 589
+[][][]
+ []
+
+[29]
+Underfull \hbox (badness 10000) detected at line 611
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 614
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 621
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 641
+[][][]
+ []
+
+) (./namespaceoptions.tex [30] [31]
+Underfull \hbox (badness 10000) detected at line 76
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 79
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 99
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 102
+[][][]
+ []
+
+[32]
+Underfull \hbox (badness 10000) detected at line 124
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 127
+[][][]
+ []
+
+
+Overfull \hbox (1.97964pt too wide) in paragraph at lines 1--1
+[]\T1/phv/m/sl/10 hp[] 
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 151
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 154
+[][][]
+ []
+
+[33]
+Underfull \hbox (badness 10000) detected at line 178
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 181
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 205
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 208
+[][][]
+ []
+
+[34]
+Underfull \hbox (badness 10000) detected at line 230
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 233
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 251
+[][][]
+ []
+
+) (./namespacePNAB.tex [35]
+Underfull \hbox (badness 10000) detected at line 54
+[][][]
+ []
+
+[36]
+Underfull \hbox (badness 10000) detected at line 90
+[][][]
+ []
+
+) (./classPNAB_1_1Backbone.tex [37]
+Underfull \hbox (badness 10000) detected at line 67
+[][][]
+ []
+
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 7.19995pt on input line 79.
+[38]
+Underfull \hbox (badness 10000) detected at line 139
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 152
+[][][]
+ []
+
+[39]
+Underfull \hbox (badness 10000) detected at line 165
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 178
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 191
+[][][]
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [40])
+(./classPNAB_1_1Base.tex [41] [42]
+Underfull \hbox (badness 10000) detected at line 65
+[][][]
+ []
+
+[43]
+Underfull \hbox (badness 10000) detected at line 129
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 142
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 155
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 168
+[][][]
+ []
+
+[44]
+Underfull \hbox (badness 10000) detected at line 181
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 194
+[][][]
+ []
+
+[45]) (./classPNAB_1_1Bases.tex [46]
+Underfull \hbox (badness 10000) detected at line 39
+[][][]
+ []
+
+[47]
+Underfull \hbox (badness 10000) detected at line 90
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 108
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 111
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 118--119
+ \T1/phv/b/n/10 6.3.3.3 get-Com-pli-ment-Bas-es-From-Strand()[] \T1/pcr/m/n/8 s
+td[]::vector$\OML/cmm/m/it/8 <$ [] $>$ \T1/pcr/m/n/8 Bases[]::get[]Compliment[]
+Bases[]From[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 129
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 132
+[][][]
+ []
+
+[48]) (./classPNAB_1_1BaseUnit.tex [49]
+Underfull \hbox (badness 10000) detected at line 51
+[][][]
+ []
+
+[50]
+Underfull \hbox (badness 10000) in paragraph at lines 97--98
+ \T1/phv/b/n/10 6.4.3.1 get-Back-boneIn-dexRange()[] \T1/pcr/m/n/8 const std[]:
+:array$\OML/cmm/m/it/8 <$ \T1/pcr/m/n/8 std[]::size[]_[]t, 2 $\OML/cmm/m/it/8 >
+$ \T1/pcr/m/n/8 P[]N[]A[]B[]::[]Base[]Unit[]::get[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 103
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--111
+ \T1/phv/b/n/10 6.4.3.2 get-Back-boneLink-ers()[] \T1/pcr/m/n/8 const std[]::ar
+ray$\OML/cmm/m/it/8 <$ \T1/pcr/m/n/8 std[]::size[]_[]t, 2 $\OML/cmm/m/it/8 >$ \
+T1/pcr/m/n/8 P[]N[]A[]B[]::[]Base[]Unit[]::get[]Backbone[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 116
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 129
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--137
+ \T1/phv/b/n/10 6.4.3.4 get-Ba-seIn-dexRange()[] \T1/pcr/m/n/8 const std[]::arr
+ay$\OML/cmm/m/it/8 <$ \T1/pcr/m/n/8 std[]::size[]_[]t, 2 $\OML/cmm/m/it/8 >$ \T
+1/pcr/m/n/8 P[]N[]A[]B[]::[]Base[]Unit[]::get[]Base[]Index[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 142
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 149--150
+ \T1/phv/b/n/10 6.4.3.5 get-Fixed-Bonds()[] \T1/pcr/m/n/8 std[]::vector$\OML/cm
+m/m/it/8 <$\T1/pcr/m/n/8 std[]::vector$\OML/cmm/m/it/8 <$\T1/pcr/m/n/8 unsigned
+$\OML/cmm/m/it/8 >$ $>$ \T1/pcr/m/n/8 P[]N[]A[]B[]::[]Base[]Unit[]::get[]Fixed[
+]Bonds ( )
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 155
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 168
+[][][]
+ []
+
+[51]
+Underfull \hbox (badness 10000) in paragraph at lines 178--179
+ \T1/phv/b/n/10 6.4.4.1 back-bone_index_range[] \T1/pcr/m/n/8 std[]::array$\OML
+/cmm/m/it/8 <$ \T1/pcr/m/n/8 std[]::size[]_[]t, 2 $\OML/cmm/m/it/8 >$ \T1/pcr/m
+/n/8 P[]N[]A[]B[]::[]Base[]Unit[]::backbone[]_[]index[]_[]
+ []
+
+
+Overfull \hbox (20.1671pt too wide) in paragraph at lines 188--189
+ \T1/phv/b/n/10 6.4.4.2 back-bone_interconnects[] \T1/pcr/m/n/8 std[]::array$\O
+ML/cmm/m/it/8 <$ \T1/pcr/m/n/8 std[]::size[]_[]t, 2 $\OML/cmm/m/it/8 >$ \T1/pcr
+/m/n/8 P[]N[]A[]B[]::[]Base[]Unit[]::backbone[]_[]interconnects
+ []
+
+
+Overfull \hbox (15.92339pt too wide) in paragraph at lines 208--209
+ \T1/phv/b/n/10 6.4.4.4 base_index_range[] \T1/pcr/m/n/8 std[]::array$\OML/cmm/
+m/it/8 <$ \T1/pcr/m/n/8 std[]::size[]_[]t, 2 $\OML/cmm/m/it/8 >$ \T1/pcr/m/n/8 
+P[]N[]A[]B[]::[]Base[]Unit[]::base[]_[]index[]_[]range [private] 
+ []
+
+) (./classPNAB_1_1Chain.tex [52] [53] [54]
+Underfull \hbox (badness 10000) detected at line 94
+[][][]
+ []
+
+
+Overfull \vbox (52.51073pt too high) has occurred while \output is active []
+
+
+[55]
+Underfull \hbox (badness 10000) detected at line 141
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 180
+[][][]
+ []
+
+[56]
+Underfull \hbox (badness 10000) detected at line 206
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 209
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 239
+[][][]
+ []
+
+[57]
+Underfull \hbox (badness 10000) detected at line 275
+[][][]
+ []
+
+[58]
+Underfull \hbox (badness 10000) detected at line 319
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 349
+[][][]
+ []
+
+[59]
+Underfull \hbox (badness 10000) in paragraph at lines 373--374
+ \T1/phv/b/n/10 6.5.4.2 all_torsions_[] \T1/pcr/m/n/8 std[]::vector$\OML/cmm/m/
+it/8 <$\T1/pcr/m/n/8 std[]::vector$\OML/cmm/m/it/8 <$\T1/pcr/m/n/8 unsigned int
+$\OML/cmm/m/it/8 >$ $>$ \T1/pcr/m/n/8 P[]N[]A[]B[]::[]Chain[]::all[]_[]torsions
+[]_[]
+ []
+
+[60]
+Underfull \hbox (badness 10000) in paragraph at lines 503--504
+ \T1/phv/b/n/10 6.5.4.15 monomer_bb_index_range_[] \T1/pcr/m/n/8 std[]::array$\
+OML/cmm/m/it/8 <$\T1/pcr/m/n/8 unsigned, 2$\OML/cmm/m/it/8 >$ \T1/pcr/m/n/8 P[]
+N[]A[]B[]::[]Chain[]::monomer[]_[]bb[]_[]index[]_[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 543--544
+ \T1/phv/b/n/10 6.5.4.19 v_base_coords_vec_[] \T1/pcr/m/n/8 std[]::vector$\OML/
+cmm/m/it/8 <$\T1/pcr/m/n/8 std[]::vector$\OML/cmm/m/it/8 <$\T1/pcr/m/n/8 double
+$\OMS/cmsy/m/n/8 ^^C$$\OML/cmm/m/it/8 >$ $>$ \T1/pcr/m/n/8 P[]N[]A[]B[]::[]Chai
+n[]::v[]_[]base[]_[]coords[]_[]
+ []
+
+[61]
+Underfull \hbox (badness 10000) in paragraph at lines 553--554
+ \T1/phv/b/n/10 6.5.4.20 v_bb_start_index_[] \T1/pcr/m/n/8 std[]::vector$\OML/c
+mm/m/it/8 <$\T1/pcr/m/n/8 std[]::vector$\OML/cmm/m/it/8 <$\T1/pcr/m/n/8 unsigne
+d$\OML/cmm/m/it/8 >$ $>$ \T1/pcr/m/n/8 P[]N[]A[]B[]::[]Chain[]::v[]_[]bb[]_[]st
+art[]_[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 563--564
+ \T1/phv/b/n/10 6.5.4.21 v_chain_[] \T1/pcr/m/n/8 std[]::vector$\OML/cmm/m/it/8
+ <$\T1/pcr/m/n/8 Open[]Babel[]::[]O[]B[]Mol$\OML/cmm/m/it/8 >$ \T1/pcr/m/n/8 P[
+]N[]A[]B[]::[]Chain[]::v[]_[]chain[]_[] = std[]::vector$\OML/cmm/m/it/8 <$\T1/p
+cr/m/n/8 Open[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 573--574
+ \T1/phv/b/n/10 6.5.4.22 v_deleted_atoms_ids_[] \T1/pcr/m/n/8 std[]::vector$\OM
+L/cmm/m/it/8 <$\T1/pcr/m/n/8 std[]::vector$\OML/cmm/m/it/8 <$\T1/pcr/m/n/8 unsi
+gned$\OML/cmm/m/it/8 >$ $>$ \T1/pcr/m/n/8 P[]N[]A[]B[]::[]Chain[]::v[]_[]delete
+d[]_[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 583--584
+ \T1/phv/b/n/10 6.5.4.23 v_fixed_bonds[] \T1/pcr/m/n/8 std[]::vector$\OML/cmm/m
+/it/8 <$\T1/pcr/m/n/8 std[]::vector$\OML/cmm/m/it/8 <$\T1/pcr/m/n/8 std[]::vect
+or$\OML/cmm/m/it/8 <$\T1/pcr/m/n/8 unsigned$\OML/cmm/m/it/8 >$ $>$ $>$ \T1/pcr/
+m/n/8 P[]N[]A[]B[]::[]Chain[]::v[]_[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 593--594
+ \T1/phv/b/n/10 6.5.4.24 v_new_bond_ids_[] \T1/pcr/m/n/8 std[]::vector$\OML/cmm
+/m/it/8 <$\T1/pcr/m/n/8 std[]::vector$\OML/cmm/m/it/8 <$\T1/pcr/m/n/8 unsigned$
+\OML/cmm/m/it/8 >$ $>$ \T1/pcr/m/n/8 P[]N[]A[]B[]::[]Chain[]::v[]_[]new[]_[]bon
+d[]_[]ids[]_[] =
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 603--604
+ \T1/phv/b/n/10 6.5.4.25 v_num_bu_A_mol_atoms_[] \T1/pcr/m/n/8 std[]::vector$\O
+ML/cmm/m/it/8 <$\T1/pcr/m/n/8 std[]::vector$\OML/cmm/m/it/8 <$\T1/pcr/m/n/8 uns
+igned$\OML/cmm/m/it/8 >$ $>$ \T1/pcr/m/n/8 P[]N[]A[]B[]::[]Chain[]::v[]_[]num[]
+_[]bu[]
+ []
+
+[62]) (./classPNAB_1_1ConformationSearch.tex <./classPNAB_1_1ConformationSearch
+__coll__graph.pdf
+
+pdfTeX warning: pdflatex (file ./classPNAB_1_1ConformationSearch__coll__graph.p
+df): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<classPNAB_1_1ConformationSearch__coll__graph.pdf, id=1758, 501.875pt x 252.945
+pt>
+File: classPNAB_1_1ConformationSearch__coll__graph.pdf Graphic file (type pdf)
+<use classPNAB_1_1ConformationSearch__coll__graph.pdf>
+Package pdftex.def Info: classPNAB_1_1ConformationSearch__coll__graph.pdf  used
+ on input line 18.
+(pdftex.def)             Requested size: 350.0pt x 176.408pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+[][] \T1/phv/m/n/10 ([] &runtime[]_[]params, [] &back-bone,
+ []
+
+[63] [64] [65]
+Underfull \hbox (badness 10000) detected at line 136
+[][][]
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [66]
+Underfull \hbox (badness 10000) detected at line 208
+[][][]
+ []
+
+[67]
+Underfull \hbox (badness 10000) detected at line 242
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 245
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 271
+[][][]
+ []
+
+[68]
+Underfull \hbox (badness 10000) detected at line 322
+[][][]
+ []
+
+[69]
+Underfull \hbox (badness 10000) detected at line 360
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 363
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 384
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 395--396
+ \T1/phv/b/n/10 6.6.3.9 Weighted-Dis-tri-bu-tions()[] \T1/pcr/m/n/8 std[]::vect
+or$\OML/cmm/m/it/8 <$ \T1/pcr/m/n/8 std[]::piecewise[]_[]linear[]_[]distributio
+n$\OML/cmm/m/it/8 <$ \T1/pcr/m/n/8 double $\OML/cmm/m/it/8 >$ $>$
+ []
+
+[70]
+Underfull \hbox (badness 10000) detected at line 405
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 408
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 432--433
+ \T1/phv/b/n/10 6.6.4.2 back-bone_range_[] \T1/pcr/m/n/8 std[]::array$\OML/cmm/
+m/it/8 <$\T1/pcr/m/n/8 unsigned, 2$\OML/cmm/m/it/8 >$ \T1/pcr/m/n/8 P[]N[]A[]B[
+]::[]Conformation[]Search[]::backbone[]_[]range[]_[]
+ []
+
+[71]
+Underfull \hbox (badness 10000) in paragraph at lines 512--513
+ \T1/phv/b/n/10 6.6.4.10 he-li-cal_params_[] [] \T1/pcr/m/n/8 P[]N[]A[]B[]::[]C
+onformation[]Search[]::helical[]_[]params[]_[]
+ []
+
+[72]
+Underfull \hbox (badness 10000) in paragraph at lines 582--583
+ \T1/phv/b/n/10 6.6.4.17 ro-tor_vector[] \T1/pcr/m/n/8 std[]::vector$\OML/cmm/m
+/it/8 <$\T1/pcr/m/n/8 Open[]Babel[]::[]O[]B[]Rotor$\OMS/cmsy/m/n/8 ^^C$$\OML/cm
+m/m/it/8 >$ \T1/pcr/m/n/8 P[]N[]A[]B[]::[]Conformation[]Search[]::rotor[]_[]vec
+tor
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 592--593
+ \T1/phv/b/n/10 6.6.4.18 run-time_params_[] [] \T1/pcr/m/n/8 P[]N[]A[]B[]::[]Co
+nformation[]Search[]::runtime[]_[]params[]_[]
+ []
+
+[73]) (./structPNAB_1_1ConformerData.tex [74]
+Underfull \hbox (badness 10000) detected at line 51
+[][][]
+ []
+
+[75]
+Underfull \hbox (badness 10000) detected at line 78
+[][][]
+ []
+
+[76]) (./classPNAB_1_1HelicalParameters.tex [77] [78]
+Underfull \hbox (badness 10000) detected at line 84
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 115
+[][][]
+ []
+
+[79]
+Underfull \hbox (badness 10000) detected at line 141
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 144
+[][][]
+ []
+
+[80]
+Underfull \hbox (badness 10000) detected at line 166
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 190
+[][][]
+ []
+
+
+Overfull \vbox (34.52798pt too high) has occurred while \output is active []
+
+
+[81]
+Underfull \hbox (badness 10000) detected at line 214
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 221--222
+ \T1/phv/b/n/10 6.8.3.6 Ref-er-ence-Fram-e-To-He-li-cal-Pa-ram-e-ters()[] \T1/p
+cr/m/n/8 void Helical[]Parameters[]::[]Reference[]Frame[]To[]Helical[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 243
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 265
+[][][]
+ []
+
+[82]
+Underfull \hbox (badness 10000) detected at line 283
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 286
+[][][]
+ []
+
+[83] [84]) (./classdriver_1_1pNAB.tex <./classdriver_1_1pNAB__inherit__graph.pd
+f
+
+pdfTeX warning: pdflatex (file ./classdriver_1_1pNAB__inherit__graph.pdf): PDF 
+inclusion: multiple pdfs with page group included in a single page
+>
+<classdriver_1_1pNAB__inherit__graph.pdf, id=2245, 154.5775pt x 156.585pt>
+File: classdriver_1_1pNAB__inherit__graph.pdf Graphic file (type pdf)
+<use classdriver_1_1pNAB__inherit__graph.pdf>
+Package pdftex.def Info: classdriver_1_1pNAB__inherit__graph.pdf  used on input
+ line 14.
+(pdftex.def)             Requested size: 154.0pt x 156.01357pt.
+ <./classdriver_1_1pNAB__coll__graph.pdf
+
+pdfTeX warning: pdflatex (file ./classdriver_1_1pNAB__coll__graph.pdf): PDF inc
+lusion: multiple pdfs with page group included in a single page
+>
+<classdriver_1_1pNAB__coll__graph.pdf, id=2253, 154.5775pt x 156.585pt>
+File: classdriver_1_1pNAB__coll__graph.pdf Graphic file (type pdf)
+<use classdriver_1_1pNAB__coll__graph.pdf>
+Package pdftex.def Info: classdriver_1_1pNAB__coll__graph.pdf  used on input li
+ne 23.
+(pdftex.def)             Requested size: 154.0pt x 156.01357pt.
+ [85] [86]
+Overfull \vbox (5.84805pt too high) has occurred while \output is active []
+
+
+[87]
+Underfull \hbox (badness 10000) detected at line 109
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 134
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 137
+[][][]
+ []
+
+[88]
+Underfull \hbox (badness 10000) detected at line 159
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 162
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 190
+[][][]
+ []
+
+[89]
+Underfull \hbox (badness 10000) detected at line 238
+[][][]
+ []
+
+) (./classPNAB_1_1RuntimeParameters.tex [90]
+Underfull \hbox (badness 10000) detected at line 63
+[][][]
+ []
+
+[91]
+Underfull \hbox (badness 10000) detected at line 94
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 107
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 122
+[][][]
+ []
+
+[92]
+Underfull \hbox (badness 10000) detected at line 154
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 189
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 202
+[][][]
+ []
+
+[93]
+Underfull \hbox (badness 10000) detected at line 215
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 238
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 255
+[][][]
+ []
+
+[94]
+Underfull \hbox (badness 10000) detected at line 277
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 307
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 322
+[][][]
+ []
+
+) (./advanced_8dox.tex) (./binder_8cpp.tex <./binder_8cpp__incl.pdf
+
+pdfTeX warning: pdflatex (file ./binder_8cpp__incl.pdf): PDF inclusion: multipl
+e pdfs with page group included in a single page
+>
+<binder_8cpp__incl.pdf, id=2430, 1535.7375pt x 325.215pt>
+File: binder_8cpp__incl.pdf Graphic file (type pdf)
+<use binder_8cpp__incl.pdf>
+Package pdftex.def Info: binder_8cpp__incl.pdf  used on input line 17.
+(pdftex.def)             Requested size: 350.0pt x 74.11803pt.
+ [95]) (./Chain_8cpp.tex <./Chain_8cpp__incl.pdf
+
+pdfTeX warning: pdflatex (file ./Chain_8cpp__incl.pdf): PDF inclusion: multiple
+ pdfs with page group included in a single page
+>
+<Chain_8cpp__incl.pdf, id=2462, 1304.875pt x 269.005pt>
+File: Chain_8cpp__incl.pdf Graphic file (type pdf)
+<use Chain_8cpp__incl.pdf>
+Package pdftex.def Info: Chain_8cpp__incl.pdf  used on input line 13.
+(pdftex.def)             Requested size: 350.0pt x 72.15207pt.
+) (./Chain_8h.tex [96] <./Chain_8h__incl.pdf>
+<Chain_8h__incl.pdf, id=2487, 1304.875pt x 212.795pt>
+File: Chain_8h__incl.pdf Graphic file (type pdf)
+<use Chain_8h__incl.pdf>
+Package pdftex.def Info: Chain_8h__incl.pdf  used on input line 18.
+(pdftex.def)             Requested size: 350.0pt x 57.07552pt.
+ <./Chain_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./Chain_8h__dep__incl.pdf): PDF inclusion: multi
+ple pdfs with page group included in a single page
+>
+<Chain_8h__dep__incl.pdf, id=2502, 320.19624pt x 212.795pt>
+File: Chain_8h__dep__incl.pdf Graphic file (type pdf)
+<use Chain_8h__dep__incl.pdf>
+Package pdftex.def Info: Chain_8h__dep__incl.pdf  used on input line 25.
+(pdftex.def)             Requested size: 319.0pt x 212.0022pt.
+ [97]) (./ConformationSearch_8cpp.tex <./ConformationSearch_8cpp__incl.pdf>
+<ConformationSearch_8cpp__incl.pdf, id=2524, 1304.875pt x 325.215pt>
+File: ConformationSearch_8cpp__incl.pdf Graphic file (type pdf)
+<use ConformationSearch_8cpp__incl.pdf>
+Package pdftex.def Info: ConformationSearch_8cpp__incl.pdf  used on input line 
+15.
+(pdftex.def)             Requested size: 350.0pt x 87.22862pt.
+)
+(./ConformationSearch_8h.tex <./ConformationSearch_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./ConformationSearch_8h__incl.pdf): PDF inclusio
+n: multiple pdfs with page group included in a single page
+>
+<ConformationSearch_8h__incl.pdf, id=2539, 1304.875pt x 269.005pt>
+File: ConformationSearch_8h__incl.pdf Graphic file (type pdf)
+<use ConformationSearch_8h__incl.pdf>
+Package pdftex.def Info: ConformationSearch_8h__incl.pdf  used on input line 13
+.
+(pdftex.def)             Requested size: 350.0pt x 72.15207pt.
+ <./ConformationSearch_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./ConformationSearch_8h__dep__incl.pdf): PDF inc
+lusion: multiple pdfs with page group included in a single page
+>
+<ConformationSearch_8h__dep__incl.pdf, id=2554, 303.1325pt x 156.585pt>
+File: ConformationSearch_8h__dep__incl.pdf Graphic file (type pdf)
+<use ConformationSearch_8h__dep__incl.pdf>
+Package pdftex.def Info: ConformationSearch_8h__dep__incl.pdf  used on input li
+ne 20.
+(pdftex.def)             Requested size: 302.0pt x 156.00162pt.
+ [98]) (./Containers_8cpp.tex [99] <./Containers_8cpp__incl.pdf>
+<Containers_8cpp__incl.pdf, id=2586, 961.5925pt x 212.795pt>
+File: Containers_8cpp__incl.pdf Graphic file (type pdf)
+<use Containers_8cpp__incl.pdf>
+Package pdftex.def Info: Containers_8cpp__incl.pdf  used on input line 14.
+(pdftex.def)             Requested size: 350.0pt x 77.4536pt.
+)
+(./Containers_8h.tex <./Containers_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./Containers_8h__incl.pdf): PDF inclusion: multi
+ple pdfs with page group included in a single page
+>
+<Containers_8h__incl.pdf, id=2594, 961.5925pt x 156.585pt>
+File: Containers_8h__incl.pdf Graphic file (type pdf)
+<use Containers_8h__incl.pdf>
+Package pdftex.def Info: Containers_8h__incl.pdf  used on input line 20.
+(pdftex.def)             Requested size: 350.0pt x 56.99416pt.
+ <./Containers_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./Containers_8h__dep__incl.pdf): PDF inclusion: 
+multiple pdfs with page group included in a single page
+>
+<Containers_8h__dep__incl.pdf, id=2602, 364.36125pt x 269.005pt>
+File: Containers_8h__dep__incl.pdf Graphic file (type pdf)
+<use Containers_8h__dep__incl.pdf>
+Package pdftex.def Info: Containers_8h__dep__incl.pdf  used on input line 27.
+(pdftex.def)             Requested size: 350.0pt x 258.41014pt.
+ [100] [101]) (./driver_8py.tex) (./jupyter__widgets_8py.tex [102])
+(./mainpage_8dox.tex) (./options_8py.tex [103]) [104] (./refman.ind
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 12.9599pt on input line 1.
+ [105
+
+
+]
+[106] [107] [108] [109] [110] [111
+
+])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 221.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 221.
+ (./refman.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 221.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 221.
+Package rerunfilecheck Info: File `refman.out' has not changed.
+(rerunfilecheck)             Checksum: DD9CE6969C4940081065147DDA9B81F5;25058.
+ ) 
+Here is how much of TeX's memory you used:
+ 18014 strings out of 483183
+ 283251 string characters out of 5966292
+ 603448 words of memory out of 5000000
+ 31740 multiletter control sequences out of 15000+600000
+ 584499 words of font info for 97 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 55i,16n,96p,1630b,637s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/alenaizan/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000
+.600pk>{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+msy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/urw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic
+/uhvb8ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on refman.pdf (114 pages, 1323317 bytes).
+PDF statistics:
+ 3496 PDF objects out of 3580 (max. 8388607)
+ 3175 compressed objects within 32 object streams
+ 899 named destinations out of 1000 (max. 500000)
+ 1009 words of extra memory for PDF output out of 10000 (max. 10000000)
+

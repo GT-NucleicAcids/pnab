@@ -16,13 +16,15 @@ hexameric nucleic acid analogs. The following image shows a few example of nucle
 acid analogs that can be constructed by the program.
 
 @htmlonly <style>div.image img[src="structures.png"]{width:800px;}</style> @endhtmlonly
-@image html images/structures.png "Chemical structures of alternative nucleic acids. Panel (a) shows examples of alternative nucleic acid backbones. Panel (b) shows the canonical nucleobases and two examples of alternative nucleobases that can be incorporated into a nucleic acid duplex. Panel (c) shows the interaction between three adenine oligomers and an alternative nucleobase. Panel (d) shows the interaction between oligomers of two alternative nucleobases and the formation of a hexmeric structure. (LNA: locked nucleic acid; CeNA: cyclohexene nucleic acid; GNA: glycol nucleic acid; PNA: peptide nucleic acid; P: 6-amino-5-nitro-2(1H)-pyridone; Z: 2-amino-imidazo[1,2-a]-1,3,5-triazin-4(8H)-one; Y: cyanuric acid; R: aminopyrimidine)"
+@image html images/structures.png "Chemical structures of alternative nucleic acids. Panel (a) shows examples of alternative nucleic acid backbones. Panel (b) shows the canonical nucleobases and two examples of alternative nucleobases that can be incorporated into a nucleic acid duplex. Panel (c) shows the interaction between three adenine oligomers and an alternative nucleobase. Panel (d) shows the interaction between oligomers of two alternative nucleobases and the formation of a hexmeric structure. (LNA: locked nucleic acid; CeNA: cyclohexene nucleic acid; GNA: glycol nucleic acid; PNA: peptide nucleic acid; P: 6-amino-5-nitro-2(1H)-pyridone; Z: 2-amino-imidazo[1,2-a]-1,3,5-triazin-4(8H)-one; N: cyanuric acid; M: aminopyrimidine)"
+@image latex images/structures.png "Chemical structures of alternative nucleic acids. Panel (a) shows examples of alternative nucleic acid backbones. Panel (b) shows the canonical nucleobases and two examples of alternative nucleobases that can be incorporated into a nucleic acid duplex. Panel (c) shows the interaction between three adenine oligomers and an alternative nucleobase. Panel (d) shows the interaction between oligomers of two alternative nucleobases and the formation of a hexmeric structure. (LNA: locked nucleic acid; CeNA: cyclohexene nucleic acid; GNA: glycol nucleic acid; PNA: peptide nucleic acid; P: 6-amino-5-nitro-2(1H)-pyridone; Z: 2-amino-imidazo[1,2-a]-1,3,5-triazin-4(8H)-one; N: cyanuric acid; M: aminopyrimidine)"
 
 @section algorithm Algorithm
 The program builds nucleic acid according to the following algorithm:
 
 @htmlonly <style>div.image img[src="algorithm.png"]{width:300px;}</style> @endhtmlonly
 @image html images/algorithm.png "The algorithm for predicting alternative nucleic acid structures."
+@image latex images/algorithm.png "The algorithm for predicting alternative nucleic acid structures."
 
 @page trying_and_installing Trying Online or Installing 
 
@@ -72,15 +74,18 @@ jupyter notebook
 Alternatively, open @a Anaconda @a Navigator ([details](https://docs.anaconda.com/anaconda/navigator/getting-started/)):
 @htmlonly <style>div.image img[src="navigator.png"]{width:800px;}</style> @endhtmlonly 
 @image html navigator.png "Anaconda Navigator"
+@image latex navigator.png "Anaconda Navigator"
 In the Jupyter Notebook tab, click on @a Launch.
 If a browser does not open automatically, you may need to open it this way:
 @htmlonly <style>div.image img[src="navigator2.png"]{width:600px;}</style> @endhtmlonly
 @image html navigator2.png "Launching Jupyter Notebook"
+@image latex navigator2.png "Launching Jupyter Notebook"
 
 When a browser opens with the Jupyter page, it displays the folders in your computer. navigate to an appropriate folder
 or create a new folder if needed, then click on @a New > @a python @a 3
 @htmlonly <style>div.image img[src="jupyter.png"]{width:1000px;}</style> @endhtmlonly
 @image html jupyter.png "Creating a New Jupyter Notebook"
+@image latex jupyter.png "Creating a New Jupyter Notebook"
 
 This opens an empty notebook. Type the the following two lines in the first cell and run it. This should show
 the graphical user interface of the program.
@@ -91,6 +96,7 @@ pnab.builder()
 
 @htmlonly <style>div.image img[src="notebook.png"]{width:1000px;}</style> @endhtmlonly
 @image html notebook.png "Running the Graphical User Interface"
+@image latex notebook.png "Running the Graphical User Interface"
 
 @subsection script Using a Python Script
 The following python script would run the program to generate an RNA structure.
@@ -102,7 +108,7 @@ run = pnab.pNAB("RNA.yaml")
 run.run()
 @endcode
 
-To create your own input files, you can use the downloaded grahpical user interface or the online version.
+To create your own input files, you can use the installed grahpical user interface or the online version.
 Alternatively, you can write an input file using a text editor and run it. See the @ref examples section to
 learn the content of the input files.
 
@@ -117,6 +123,7 @@ Bring the mouse pointer to the question marks @a ? in front of each option to ge
 the option.
 @htmlonly <style>div.image img[src="notebook.png"]{width:1000px;}</style> @endhtmlonly
 @image html notebook.png "The graphical user interface."
+@image latex notebook.png "The graphical user interface."
 
 After choosing or uploading the input file, the graphical interface will display the backbone and nucleobase molecules and the
 other options.
@@ -135,12 +142,13 @@ specific dihedral angles.
 
 
 Uploading the geometries for the nucleobases may not be necessary. The program contains a library of the canonical nucelobases: adenine (A), guaninie (G), cytosine (C),
-uracil (U), and thymine (T). It also contains two alternative nucleobases that can adopt the hexad geometry, namely, aminopyrimidine (R) and
-cyanuric acid (Y). If the user wants to construct a nucleic acid analog with alternative nucleobases, then the additional nucleobases must be defined as shown in the figure.
+uracil (U), and thymine (T). It also contains two alternative nucleobases that can adopt the hexad geometry, namely, aminopyrimidine (M) and
+cyanuric acid (N). If the user wants to construct a nucleic acid analog with alternative nucleobases, then the additional nucleobases must be defined as shown in the figure.
 The ZP.yaml example file shows how to define new nucleobases. The Z nucleobase is defined below.
 
 @htmlonly <style>div.image img[src="nucleobases.png"]{width:1000px;}</style> @endhtmlonly 
 @image html nucleobases.png "Options for specifying the nucleobases."
+@image latex nucleobases.png "Options for specifying the nucleobases."
 
 To specify the nucleobases, a three-dimensional geometry of the nucleobases must be provided. Additionally, two indices of
 atoms connecting the nucleobase to the backbone must be specified. The up-to-three-letter code is used to identify the residue
@@ -154,6 +162,7 @@ The program cannot align the nucleobases to a hexad frame of reference.
 
 @htmlonly <style>div.image img[src="helical_parameters.png"]{width:1000px;}</style> @endhtmlonly
 @image html helical_parameters.png "Specifying the helical parameters."
+@image latex helical_parameters.png "Specifying the helical parameters."
 
 Six parameters specify the helical structure of the nucleic acid strands. Two equivalent schemes can be used according to whether
 a global helical frame or a local frame is used. Either scheme can be used for building the nucleic acid structure.
@@ -165,6 +174,7 @@ The runtime parameters include the options for specifying the conformational sea
 
 @htmlonly <style>div.image img[src="runtime_parameters1.png"]{width:1000px;}</style> @endhtmlonly
 @image html runtime_parameters1.png "Specifying the search algorithm and distance and energy thresholds."
+@image latex runtime_parameters1.png "Specifying the search algorithm and distance and energy thresholds."
 
 Various conformational search algorithms are available for sapmling the dihedral angles in the backbone. Each algorithm requires specific
 parameters. For exmaple, the Weighted Random Search algorithm requires values for the number of conformation search steps and the temperature used
@@ -179,6 +189,7 @@ field. The total energy also varies significanly with the force field.
 
 @htmlonly <style>div.image img[src="runtime_parameters2.png"]{width:1000px;}</style> @endhtmlonly
 @image html runtime_parameters2.png "Specifying the structural parameters."
+@image latex runtime_parameters2.png "Specifying the structural parameters."
 
 The sequence of nucleobases is written as a FASTA string of the one-letter codes of the nucleobases. It needs to be written for one
 strand only, while the sequence of other strands is determined by the pairing nucleobase. If building a new system, it might be advisable to start with a short
@@ -196,6 +207,7 @@ After it finishes, the program will display all the accepted candidates (if thei
 
 @htmlonly <style>div.image img[src="output.png"]{width:1000px;}</style> @endhtmlonly
 @image html output.png "Example Results"
+@image latex output.png "Example Results"
 
 The results are automatically downloaded as a zip file. Additionally, the output can be downloaded manually by clicking on
 @a Download @a Output. Note that downloading the output is only useful when the program is run in the cloud. When it is run locally
@@ -392,7 +404,7 @@ first nucleotide in the strand. The bond length is determined by the van der Waa
 be set manually by the user.
 
 The program has a library of predefined nueleobases. They include adenine, guanine, cytosine, thymine, and uracil. Additionally,
-there are two proto-nucleobases that are used for building the hexads, namely triaminopyrimidine and cyanuric acid. To define
+there are two proto-nucleobases that are used for building the hexads, namely aminopyrimidine and cyanuric acid. To define
 other nucleobases, add the following entries to the input file:
 @verbatim
 Base modified_adenine:
@@ -407,7 +419,7 @@ Base modified_adenine:
 
 These lines will add the nucleobase @a modified_adenine to the library of available nucleobases. For the name of the base, you
 must not use any of the names already used in the library. Otherwise, your new base might be overwritten. The reserved names are the following:
-@a A, @a G, @a C, @a T, @a U, @a R, and @a Y. These names are case-insensitive.
+@a A, @a G, @a C, @a T, @a U, @a N, and @a M. These names are case-insensitive.
 
 Now that you defined a new nucleobase, you can use its name when you specify the strand:
 @verbatim

@@ -1,0 +1,10 @@
+\_form#0:$(\frac{360.0}{\textrm{dihedral step}})^{\textrm{number of rotatable dihedrals}}$
+\_form#1:$exp(\frac{E}{k_{B}T})$
+\_form#2:$E$
+\_form#3:$k_{B}T$
+\_form#4:$E=-k(\textrm{currrent distance} - \textrm{previous distance})^2$
+\_form#5:$k$
+\_form#6:$^2$
+\_form#7:$\frac{exp(\frac{E_i}{k_{B}T})}{\sum_i exp(\frac{E_i}{k_{B}T})}$
+\_form#8:$E_i$
+\_form#9:$i$

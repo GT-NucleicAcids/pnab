@@ -1,0 +1,329 @@
+\hypertarget{classPNAB_1_1RuntimeParameters}{}\doxysubsection{P\+N\+AB\+::Runtime\+Parameters Class Reference}
+\label{classPNAB_1_1RuntimeParameters}\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+
+
+A class for holding necessary and optional runtime parameters for conformational searches.  
+
+
+
+
+{\ttfamily \#include $<$Containers.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a896f5a24ccc61552db246c593bdd09a7}{Runtime\+Parameters}} ()
+\begin{DoxyCompactList}\small\item\em Empty constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a5446a6022b09a0f71903f259b5b176f3}{energy\+\_\+filter}}
+\begin{DoxyCompactList}\small\item\em \mbox{[}max bond E, max angle E, max torsion E, max V\+DW E, max total E\mbox{]} \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a4895122ad2dfa91f25a04c1dffb4be98}{max\+\_\+distance}}
+\begin{DoxyCompactList}\small\item\em Maximum accepted distance (Angstrom) between head and tail of successive nucleotides. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aae9ac5c8604dd8f0bcf7cfbf3ddad627}{ff\+\_\+type}}
+\begin{DoxyCompactList}\small\item\em The type of the forcefield such as \char`\"{}\+G\+A\+F\+F\char`\"{} or \char`\"{}\+M\+M\+F\+F94\char`\"{}; available through Openbabel. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a47eaa10da717a345f3e4b84f1d1175ab}{search\+\_\+algorithm}}
+\begin{DoxyCompactList}\small\item\em The search algorithm. \end{DoxyCompactList}\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_afce1eb97e0219b2ecf63b6af7d97599d}{num\+\_\+steps}}
+\begin{DoxyCompactList}\small\item\em The number of points sampled in Monte Carlo and random searches and the number of generations in the genetic algorithm search. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a3bd3d03add754541d593eb633d981f83}{seed}}
+\item 
+double \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aa59b9fa26e595839c4819a581ba778aa}{dihedral\+\_\+step}}
+\begin{DoxyCompactList}\small\item\em The dihedral step size for systematic search (degrees) \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_af1a6690367b8c2b020e9574ed6e7054c}{weighting\+\_\+temperature}}
+\begin{DoxyCompactList}\small\item\em The temperature used to compute the weighted probability for weighted Monte Carlo and weighted random searches. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_ac8d891edc1807b19ec5366b2c358a931}{monte\+\_\+carlo\+\_\+temperature}}
+\begin{DoxyCompactList}\small\item\em The temperature used in the Monte Carlo acceptance and rejection procedure. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_afc0368c268229b4bbddb1b89cd7f1c30}{mutation\+\_\+rate}}
+\begin{DoxyCompactList}\small\item\em The mutation rate in the genetic algorithm search. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_afba9c7b7013290f173faca84df845dce}{crossover\+\_\+rate}}
+\begin{DoxyCompactList}\small\item\em The crossover rate in the genetic algorithm search. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a8a9443df812cea45b695b7bfe1893e25}{population\+\_\+size}}
+\begin{DoxyCompactList}\small\item\em The population size in the genetic algorithm search. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aafb7029e648b888202195393aaa5179a}{strand}}
+\begin{DoxyCompactList}\small\item\em The names of each base used in the strand. \end{DoxyCompactList}\item 
+std\+::vector$<$ bool $>$ \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a755a1bcd73b84ccbbd2d9822fb0ede1e}{build\+\_\+strand}}
+\begin{DoxyCompactList}\small\item\em Defines whether to build a given strand. \end{DoxyCompactList}\item 
+std\+::vector$<$ bool $>$ \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aa5ffe42dbad68706b2ba1361fdd547f6}{strand\+\_\+orientation}}
+\begin{DoxyCompactList}\small\item\em Defines strand orientation for each strand in the hexad. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aabae2cf8ab4a60cc40bdfb5173910867}{is\+\_\+hexad}}
+\begin{DoxyCompactList}\small\item\em Defines whether the 60 degrees rotation for hexads is performed. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a6b2a98cd7796c30abefb5f4cbef45684}{glycosidic\+\_\+bond\+\_\+distance}}
+\begin{DoxyCompactList}\small\item\em Set a user-\/defined glycosidic bond distance (in Angstroms). If zero (default), sets the distance based on van der Waals radii. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a6de3cf83055adb82a46601324c2339bd}{num\+\_\+candidates}}
+\begin{DoxyCompactList}\small\item\em Quit after finding the specified number of accepted candidates. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+A class for holding necessary and optional runtime parameters for conformational searches. 
+
+The runtime parameters are used for building the strands and during the conformational search.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain}{Chain}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch}{Conformation\+Search}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_a896f5a24ccc61552db246c593bdd09a7}\label{classPNAB_1_1RuntimeParameters_a896f5a24ccc61552db246c593bdd09a7}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!RuntimeParameters@{RuntimeParameters}}
+\index{RuntimeParameters@{RuntimeParameters}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{RuntimeParameters()}{RuntimeParameters()}}
+{\footnotesize\ttfamily P\+N\+A\+B\+::\+Runtime\+Parameters\+::\+Runtime\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Empty constructor. 
+
+This empty constructor can be used. After that, values for the member variables should be specified. 
+
+\doxysubsubsection{Member Data Documentation}
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_a755a1bcd73b84ccbbd2d9822fb0ede1e}\label{classPNAB_1_1RuntimeParameters_a755a1bcd73b84ccbbd2d9822fb0ede1e}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!build\_strand@{build\_strand}}
+\index{build\_strand@{build\_strand}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{build\_strand}{build\_strand}}
+{\footnotesize\ttfamily std\+::vector$<$bool$>$ P\+N\+A\+B\+::\+Runtime\+Parameters\+::build\+\_\+strand}
+
+
+
+Defines whether to build a given strand. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_a807f97333d7905a8e1655ee1cd091955}{Chain\+::\+Chain}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_afba9c7b7013290f173faca84df845dce}\label{classPNAB_1_1RuntimeParameters_afba9c7b7013290f173faca84df845dce}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!crossover\_rate@{crossover\_rate}}
+\index{crossover\_rate@{crossover\_rate}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{crossover\_rate}{crossover\_rate}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Runtime\+Parameters\+::crossover\+\_\+rate}
+
+
+
+The crossover rate in the genetic algorithm search. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a4ff01c48376901bcf73758b1a013f3c1}{Conformation\+Search\+::\+Genetic\+Algorithm\+Search}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_aa59b9fa26e595839c4819a581ba778aa}\label{classPNAB_1_1RuntimeParameters_aa59b9fa26e595839c4819a581ba778aa}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!dihedral\_step@{dihedral\_step}}
+\index{dihedral\_step@{dihedral\_step}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{dihedral\_step}{dihedral\_step}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Runtime\+Parameters\+::dihedral\+\_\+step}
+
+
+
+The dihedral step size for systematic search (degrees) 
+
+The number of steps will be $(\frac{360.0}{\textrm{dihedral step}})^{\textrm{number of rotatable dihedrals}}$.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_aff736ed299af34e42e6a87db109e336b}{Conformation\+Search\+::\+Systematic\+Search}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_a5446a6022b09a0f71903f259b5b176f3}\label{classPNAB_1_1RuntimeParameters_a5446a6022b09a0f71903f259b5b176f3}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!energy\_filter@{energy\_filter}}
+\index{energy\_filter@{energy\_filter}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{energy\_filter}{energy\_filter}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ P\+N\+A\+B\+::\+Runtime\+Parameters\+::energy\+\_\+filter}
+
+
+
+\mbox{[}max bond E, max angle E, max torsion E, max V\+DW E, max total E\mbox{]} 
+
+\begin{DoxyVerb} - Maximum accepted energy for newly formed bonds in the backbone (kcal/mol/bond)
+ - Maximum accepted energy for newly formed angles in the backbone (kcal/mol/angle)
+ - Maximum accepted torsional energy for rotatable bonds (kcal/mol/nucleotide)
+ - Maximum accepted van der Waals energy (kcal/mol/nucleotide)
+ - Maximum accepted total energy (kcal/mol/nucleotide)
+
+ @sa Chain::generateConformerData
+ @sa Chain::fillConformerEnergyData
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_aae9ac5c8604dd8f0bcf7cfbf3ddad627}\label{classPNAB_1_1RuntimeParameters_aae9ac5c8604dd8f0bcf7cfbf3ddad627}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!ff\_type@{ff\_type}}
+\index{ff\_type@{ff\_type}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{ff\_type}{ff\_type}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Runtime\+Parameters\+::ff\+\_\+type}
+
+
+
+The type of the forcefield such as \char`\"{}\+G\+A\+F\+F\char`\"{} or \char`\"{}\+M\+M\+F\+F94\char`\"{}; available through Openbabel. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_a807f97333d7905a8e1655ee1cd091955}{Chain\+::\+Chain}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_a6b2a98cd7796c30abefb5f4cbef45684}\label{classPNAB_1_1RuntimeParameters_a6b2a98cd7796c30abefb5f4cbef45684}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!glycosidic\_bond\_distance@{glycosidic\_bond\_distance}}
+\index{glycosidic\_bond\_distance@{glycosidic\_bond\_distance}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{glycosidic\_bond\_distance}{glycosidic\_bond\_distance}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Runtime\+Parameters\+::glycosidic\+\_\+bond\+\_\+distance}
+
+
+
+Set a user-\/defined glycosidic bond distance (in Angstroms). If zero (default), sets the distance based on van der Waals radii. 
+
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_aabae2cf8ab4a60cc40bdfb5173910867}\label{classPNAB_1_1RuntimeParameters_aabae2cf8ab4a60cc40bdfb5173910867}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!is\_hexad@{is\_hexad}}
+\index{is\_hexad@{is\_hexad}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{is\_hexad}{is\_hexad}}
+{\footnotesize\ttfamily bool P\+N\+A\+B\+::\+Runtime\+Parameters\+::is\+\_\+hexad}
+
+
+
+Defines whether the 60 degrees rotation for hexads is performed. 
+
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_a4895122ad2dfa91f25a04c1dffb4be98}\label{classPNAB_1_1RuntimeParameters_a4895122ad2dfa91f25a04c1dffb4be98}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!max\_distance@{max\_distance}}
+\index{max\_distance@{max\_distance}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{max\_distance}{max\_distance}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Runtime\+Parameters\+::max\+\_\+distance}
+
+
+
+Maximum accepted distance (Angstrom) between head and tail of successive nucleotides. 
+
+This distance is used to quickly screen rotamers. The algorithm searches for backbone candidates that are periodic in terms of the helical structure. Thus, the terminal atoms in adjacent candidates must be within a small distance to allow for a bond to form. This distance is recommended to be less than 0.\+1 Angstroms. The extra terminal atom in the adjacent nucleotide is then removed.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a1b7bbc60c2acc830297c1f97249f20da}{Conformation\+Search\+::measure\+Distance}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_ac8d891edc1807b19ec5366b2c358a931}\label{classPNAB_1_1RuntimeParameters_ac8d891edc1807b19ec5366b2c358a931}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!monte\_carlo\_temperature@{monte\_carlo\_temperature}}
+\index{monte\_carlo\_temperature@{monte\_carlo\_temperature}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{monte\_carlo\_temperature}{monte\_carlo\_temperature}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Runtime\+Parameters\+::monte\+\_\+carlo\+\_\+temperature}
+
+
+
+The temperature used in the Monte Carlo acceptance and rejection procedure. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a98d430672f8fc022c17dc1188edf465c}{Conformation\+Search\+::\+Monte\+Carlo\+Search}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_afc0368c268229b4bbddb1b89cd7f1c30}\label{classPNAB_1_1RuntimeParameters_afc0368c268229b4bbddb1b89cd7f1c30}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!mutation\_rate@{mutation\_rate}}
+\index{mutation\_rate@{mutation\_rate}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{mutation\_rate}{mutation\_rate}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Runtime\+Parameters\+::mutation\+\_\+rate}
+
+
+
+The mutation rate in the genetic algorithm search. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a4ff01c48376901bcf73758b1a013f3c1}{Conformation\+Search\+::\+Genetic\+Algorithm\+Search}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_a6de3cf83055adb82a46601324c2339bd}\label{classPNAB_1_1RuntimeParameters_a6de3cf83055adb82a46601324c2339bd}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!num\_candidates@{num\_candidates}}
+\index{num\_candidates@{num\_candidates}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{num\_candidates}{num\_candidates}}
+{\footnotesize\ttfamily unsigned int P\+N\+A\+B\+::\+Runtime\+Parameters\+::num\+\_\+candidates}
+
+
+
+Quit after finding the specified number of accepted candidates. 
+
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_afce1eb97e0219b2ecf63b6af7d97599d}\label{classPNAB_1_1RuntimeParameters_afce1eb97e0219b2ecf63b6af7d97599d}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!num\_steps@{num\_steps}}
+\index{num\_steps@{num\_steps}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{num\_steps}{num\_steps}}
+{\footnotesize\ttfamily std\+::size\+\_\+t P\+N\+A\+B\+::\+Runtime\+Parameters\+::num\+\_\+steps}
+
+
+
+The number of points sampled in Monte Carlo and random searches and the number of generations in the genetic algorithm search. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a98d430672f8fc022c17dc1188edf465c}{Conformation\+Search\+::\+Monte\+Carlo\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_ad52e77cb571044efcdf2750bf54232c4}{Conformation\+Search\+::\+Random\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a4ff01c48376901bcf73758b1a013f3c1}{Conformation\+Search\+::\+Genetic\+Algorithm\+Search}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_a8a9443df812cea45b695b7bfe1893e25}\label{classPNAB_1_1RuntimeParameters_a8a9443df812cea45b695b7bfe1893e25}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!population\_size@{population\_size}}
+\index{population\_size@{population\_size}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{population\_size}{population\_size}}
+{\footnotesize\ttfamily int P\+N\+A\+B\+::\+Runtime\+Parameters\+::population\+\_\+size}
+
+
+
+The population size in the genetic algorithm search. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a4ff01c48376901bcf73758b1a013f3c1}{Conformation\+Search\+::\+Genetic\+Algorithm\+Search}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_a47eaa10da717a345f3e4b84f1d1175ab}\label{classPNAB_1_1RuntimeParameters_a47eaa10da717a345f3e4b84f1d1175ab}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!search\_algorithm@{search\_algorithm}}
+\index{search\_algorithm@{search\_algorithm}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{search\_algorithm}{search\_algorithm}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Runtime\+Parameters\+::search\+\_\+algorithm}
+
+
+
+The search algorithm. 
+
+There are six search algorithms\+:
+\begin{DoxyItemize}
+\item Systematic search
+\item Monte Carlo search
+\item Weighted Monte Carlo search
+\item Random search
+\item Weighted random search
+\item Genetic algorithm search
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch}{Conformation\+Search}} 
+\end{DoxySeeAlso}
+
+\end{DoxyItemize}\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_a3bd3d03add754541d593eb633d981f83}\label{classPNAB_1_1RuntimeParameters_a3bd3d03add754541d593eb633d981f83}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!seed@{seed}}
+\index{seed@{seed}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{seed}{seed}}
+{\footnotesize\ttfamily unsigned int P\+N\+A\+B\+::\+Runtime\+Parameters\+::seed}
+
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_aafb7029e648b888202195393aaa5179a}\label{classPNAB_1_1RuntimeParameters_aafb7029e648b888202195393aaa5179a}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!strand@{strand}}
+\index{strand@{strand}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{strand}{strand}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::string$>$ P\+N\+A\+B\+::\+Runtime\+Parameters\+::strand}
+
+
+
+The names of each base used in the strand. 
+
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_aa5ffe42dbad68706b2ba1361fdd547f6}\label{classPNAB_1_1RuntimeParameters_aa5ffe42dbad68706b2ba1361fdd547f6}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!strand\_orientation@{strand\_orientation}}
+\index{strand\_orientation@{strand\_orientation}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{strand\_orientation}{strand\_orientation}}
+{\footnotesize\ttfamily std\+::vector$<$bool$>$ P\+N\+A\+B\+::\+Runtime\+Parameters\+::strand\+\_\+orientation}
+
+
+
+Defines strand orientation for each strand in the hexad. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_a441ef4ae7dc91a981c97c37383e0b012}{Chain\+::set\+Coords\+For\+Chain}} 
+
+\mbox{\hyperlink{classPNAB_1_1Chain_a441ef4ae7dc91a981c97c37383e0b012}{Chain\+::set\+Coords\+For\+Chain}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1RuntimeParameters_af1a6690367b8c2b020e9574ed6e7054c}\label{classPNAB_1_1RuntimeParameters_af1a6690367b8c2b020e9574ed6e7054c}} 
+\index{PNAB::RuntimeParameters@{PNAB::RuntimeParameters}!weighting\_temperature@{weighting\_temperature}}
+\index{weighting\_temperature@{weighting\_temperature}!PNAB::RuntimeParameters@{PNAB::RuntimeParameters}}
+\doxyparagraph{\texorpdfstring{weighting\_temperature}{weighting\_temperature}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Runtime\+Parameters\+::weighting\+\_\+temperature}
+
+
+
+The temperature used to compute the weighted probability for weighted Monte Carlo and weighted random searches. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a7e396684f6a8e58aca2b45dcb1f2b7d2}{Conformation\+Search\+::\+Weighted\+Distributions}} 
+\end{DoxySeeAlso}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Containers_8h}{Containers.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,487 @@
+\hypertarget{classPNAB_1_1HelicalParameters}{}\doxysubsection{P\+N\+AB\+::Helical\+Parameters Class Reference}
+\label{classPNAB_1_1HelicalParameters}\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+
+
+A class for holding values for all helical parameters.  
+
+
+
+
+{\ttfamily \#include $<$Containers.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters_a331192d8d4cbda7ea487f8b1cccb1a20}{Helical\+Parameters}} ()
+\begin{DoxyCompactList}\small\item\em Empty constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a94fe22c3337a513d0fcbceaebfb2ec52}{compute\+Helical\+Parameters}} ()
+\begin{DoxyCompactList}\small\item\em A function to compute the helical parameters. This should be called when the the step parameters are provided. \end{DoxyCompactList}\item 
+Open\+Babel\+::vector3 \mbox{\hyperlink{classPNAB_1_1HelicalParameters_ab38756e06d521c707c751228bee9db19}{get\+Global\+Translation\+Vec}} (bool is\+\_\+base\+\_\+pair=false, bool is\+\_\+second\+\_\+strand=false)
+\begin{DoxyCompactList}\small\item\em Get the global translation vector. \end{DoxyCompactList}\item 
+Open\+Babel\+::vector3 \mbox{\hyperlink{classPNAB_1_1HelicalParameters_acd6caf662c191c6e4b13baea7c9b8aff}{get\+Step\+Translation\+Vec}} (unsigned n=0, bool is\+\_\+base\+\_\+pair=false, bool is\+\_\+second\+\_\+strand=false)
+\begin{DoxyCompactList}\small\item\em Get the step translation vector. \end{DoxyCompactList}\item 
+Open\+Babel\+::matrix3x3 \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aab2b64a5c1689de4272bfbdf380dffac}{get\+Global\+Rotation\+Matrix}} (bool is\+\_\+base\+\_\+pair=false, bool is\+\_\+second\+\_\+strand=false)
+\begin{DoxyCompactList}\small\item\em Get the global rotation matrix. \end{DoxyCompactList}\item 
+Open\+Babel\+::matrix3x3 \mbox{\hyperlink{classPNAB_1_1HelicalParameters_acf5516be29ecaf9053f0b0bfe41f3224}{get\+Step\+Rotation\+Matrix}} (unsigned n=0, bool is\+\_\+base\+\_\+pair=false, bool is\+\_\+second\+\_\+strand=false)
+\begin{DoxyCompactList}\small\item\em Get the step rotation matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a529b025b4a71a8bf0f900597d685ca39}{inclination}}
+\begin{DoxyCompactList}\small\item\em Inclination. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a4a93b19a33ba624d977f7c2c7c1c6dd8}{tip}}
+\begin{DoxyCompactList}\small\item\em Tip. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_adbaf2c8e89d841d39ef78b28d5be7b57}{h\+\_\+twist}}
+\begin{DoxyCompactList}\small\item\em Helical twist. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_ac7832fd16ebcb13f486eb47b772ac910}{x\+\_\+displacement}}
+\begin{DoxyCompactList}\small\item\em X-\/\+Displacement. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_ad33317484602581a94293d16b89d228a}{y\+\_\+displacement}}
+\begin{DoxyCompactList}\small\item\em Y-\/\+Displacement. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aa79d2e49034a5a0a4dcf7e776c1e024c}{h\+\_\+rise}}
+\begin{DoxyCompactList}\small\item\em Helical rise. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a397f662138c865956b18cd5c69ae5ed1}{shift}}
+\begin{DoxyCompactList}\small\item\em Shift. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a3c68bfcbc396f1b86bb402d6606accde}{slide}}
+\begin{DoxyCompactList}\small\item\em Slide. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a68f88c70fa1fe3014fbadf123f52530c}{rise}}
+\begin{DoxyCompactList}\small\item\em Rise. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a0b720d0bfad633f2cb2e292241bad6a1}{tilt}}
+\begin{DoxyCompactList}\small\item\em Tilt. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a90ccffc84194abde36261965a535eca1}{roll}}
+\begin{DoxyCompactList}\small\item\em Roll. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a8d07b11ed2734eb3f76d56b27a180b9f}{twist}}
+\begin{DoxyCompactList}\small\item\em Twist. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aa8dbe6611266bf939575fceb687d2887}{buckle}}
+\begin{DoxyCompactList}\small\item\em Buckle. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aee4ddfe7b3e350d840dbdce64f140d49}{propeller}}
+\begin{DoxyCompactList}\small\item\em Propeller twist. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a3df719c24a333a4032dfe37344440160}{opening}}
+\begin{DoxyCompactList}\small\item\em Opening. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aed9148214d0e46fc148c62d2c2cecf17}{shear}}
+\begin{DoxyCompactList}\small\item\em Shear. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_ae7b6909b7082e28fee9f6e9707f3c8e3}{stretch}}
+\begin{DoxyCompactList}\small\item\em Stretch. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aa6ffce4de284ea1c8728cda24fbbce89}{stagger}}
+\begin{DoxyCompactList}\small\item\em Stagger. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPNAB_1_1HelicalParameters_ad699cb3c45bc6c2e728d835e5c7b2dd1}{is\+\_\+helical}}
+\begin{DoxyCompactList}\small\item\em Are the base parameters helical or step parameters. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Open\+Babel\+::matrix3x3 \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a518e995f45d64ec69c26a9775ea8fa53}{rodrigues\+\_\+formula}} (Open\+Babel\+::vector3 axis\+\_\+vector, double theta)
+\begin{DoxyCompactList}\small\item\em Rodrigues rotation formula for rotating a vector in space. \end{DoxyCompactList}\item 
+std\+::vector$<$ Open\+Babel\+::vector3 $>$ \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a44bd4621695b58b2cfe38d5126dd80b8}{Step\+Parameters\+To\+Reference\+Frame}} ()
+\begin{DoxyCompactList}\small\item\em Computes the origin and direction vectors given a set of step parameters. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a9122eaa6760bc96451d19de275d99e0f}{Reference\+Frame\+To\+Helical\+Parameters}} (Open\+Babel\+::vector3 origin2, Open\+Babel\+::vector3 x2, Open\+Babel\+::vector3 y2, Open\+Babel\+::vector3 z2)
+\begin{DoxyCompactList}\small\item\em Computes the helical parameters given the origin and direction vectors of the second base. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+A class for holding values for all helical parameters. 
+
+The helical parameters are used for generating the geometries of the nucleobases in the strands. This class holds the value for six helical parameters (helical twist, inclination, tip, helical rise, x-\/displacement, and y-\/displacement). It can also compute the helical parameters given the step parameters (twist, roll, tilt, rise, slide, shift). Internally, when the step parameters are provided, the helical parameters are computed. The helical parameters are used for generating the geometries. This class also implements the base-\/pair parameters (buckle, propeller, opening, shear, stretch, and stagger). The class holds functions to generate the geometries.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_a441ef4ae7dc91a981c97c37383e0b012}{Chain\+::set\+Coords\+For\+Chain}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a1b7bbc60c2acc830297c1f97249f20da}{Conformation\+Search\+::measure\+Distance}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a331192d8d4cbda7ea487f8b1cccb1a20}\label{classPNAB_1_1HelicalParameters_a331192d8d4cbda7ea487f8b1cccb1a20}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!HelicalParameters@{HelicalParameters}}
+\index{HelicalParameters@{HelicalParameters}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{HelicalParameters()}{HelicalParameters()}}
+{\footnotesize\ttfamily P\+N\+A\+B\+::\+Helical\+Parameters\+::\+Helical\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Empty constructor. 
+
+This empty constructor can be used. After that, values for the member variables should be specified. 
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a94fe22c3337a513d0fcbceaebfb2ec52}\label{classPNAB_1_1HelicalParameters_a94fe22c3337a513d0fcbceaebfb2ec52}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!computeHelicalParameters@{computeHelicalParameters}}
+\index{computeHelicalParameters@{computeHelicalParameters}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{computeHelicalParameters()}{computeHelicalParameters()}}
+{\footnotesize\ttfamily void Helical\+Parameters\+::compute\+Helical\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+A function to compute the helical parameters. This should be called when the the step parameters are provided. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters_ad699cb3c45bc6c2e728d835e5c7b2dd1}{is\+\_\+helical}} 
+
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters_a44bd4621695b58b2cfe38d5126dd80b8}{Step\+Parameters\+To\+Reference\+Frame}} 
+
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters_a9122eaa6760bc96451d19de275d99e0f}{Reference\+Frame\+To\+Helical\+Parameters}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_aab2b64a5c1689de4272bfbdf380dffac}\label{classPNAB_1_1HelicalParameters_aab2b64a5c1689de4272bfbdf380dffac}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!getGlobalRotationMatrix@{getGlobalRotationMatrix}}
+\index{getGlobalRotationMatrix@{getGlobalRotationMatrix}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{getGlobalRotationMatrix()}{getGlobalRotationMatrix()}}
+{\footnotesize\ttfamily matrix3x3 Helical\+Parameters\+::get\+Global\+Rotation\+Matrix (\begin{DoxyParamCaption}\item[{bool}]{is\+\_\+base\+\_\+pair = {\ttfamily false},  }\item[{bool}]{is\+\_\+second\+\_\+strand = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Get the global rotation matrix. 
+
+For the base step transformation, the \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a4a93b19a33ba624d977f7c2c7c1c6dd8}{Helical\+Parameters\+::tip}} and \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a529b025b4a71a8bf0f900597d685ca39}{Helical\+Parameters\+::inclination}} are used. For the base-\/pair transformation, the \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aa8dbe6611266bf939575fceb687d2887}{Helical\+Parameters\+::buckle}} and \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aee4ddfe7b3e350d840dbdce64f140d49}{Helical\+Parameters\+::propeller}} are used. The base pair parameters are divided by two and set to positive or negative values depending on which strand is being constructed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+\_\+base\+\_\+pair} & Whetehr the vector requested is for base-\/pair transformation \\
+\hline
+{\em is\+\_\+second\+\_\+strand} & Whether the strand being constructed is the second strand. Used only for base-\/pair parameters\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The global rotation matrix
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters_a518e995f45d64ec69c26a9775ea8fa53}{rodrigues\+\_\+formula}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_ab38756e06d521c707c751228bee9db19}\label{classPNAB_1_1HelicalParameters_ab38756e06d521c707c751228bee9db19}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!getGlobalTranslationVec@{getGlobalTranslationVec}}
+\index{getGlobalTranslationVec@{getGlobalTranslationVec}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{getGlobalTranslationVec()}{getGlobalTranslationVec()}}
+{\footnotesize\ttfamily vector3 Helical\+Parameters\+::get\+Global\+Translation\+Vec (\begin{DoxyParamCaption}\item[{bool}]{is\+\_\+base\+\_\+pair = {\ttfamily false},  }\item[{bool}]{is\+\_\+second\+\_\+strand = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Get the global translation vector. 
+
+For the base step transformation, the \mbox{\hyperlink{classPNAB_1_1HelicalParameters_ac7832fd16ebcb13f486eb47b772ac910}{Helical\+Parameters\+::x\+\_\+displacement}} and \mbox{\hyperlink{classPNAB_1_1HelicalParameters_ad33317484602581a94293d16b89d228a}{Helical\+Parameters\+::y\+\_\+displacement}} are used. For the base-\/pair transformation, the \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aed9148214d0e46fc148c62d2c2cecf17}{Helical\+Parameters\+::shear}} and \mbox{\hyperlink{classPNAB_1_1HelicalParameters_ae7b6909b7082e28fee9f6e9707f3c8e3}{Helical\+Parameters\+::stretch}} are used. The base pair parameters are divided by two and set to positive or negative values depending on which strand is being constructed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+\_\+base\+\_\+pair} & Whetehr the vector requested is for base-\/pair transformation \\
+\hline
+{\em is\+\_\+second\+\_\+strand} & Whether the strand being constructed is the second strand. Used only for base-\/pair parameters\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The translation vector 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_acf5516be29ecaf9053f0b0bfe41f3224}\label{classPNAB_1_1HelicalParameters_acf5516be29ecaf9053f0b0bfe41f3224}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!getStepRotationMatrix@{getStepRotationMatrix}}
+\index{getStepRotationMatrix@{getStepRotationMatrix}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{getStepRotationMatrix()}{getStepRotationMatrix()}}
+{\footnotesize\ttfamily matrix3x3 Helical\+Parameters\+::get\+Step\+Rotation\+Matrix (\begin{DoxyParamCaption}\item[{unsigned}]{n = {\ttfamily 0},  }\item[{bool}]{is\+\_\+base\+\_\+pair = {\ttfamily false},  }\item[{bool}]{is\+\_\+second\+\_\+strand = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Get the step rotation matrix. 
+
+For the base step transformation, the \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a8d07b11ed2734eb3f76d56b27a180b9f}{Helical\+Parameters\+::twist}} is used. For the base-\/pair transformation, the \mbox{\hyperlink{classPNAB_1_1HelicalParameters_a3df719c24a333a4032dfe37344440160}{Helical\+Parameters\+::opening}} is used. The base pair parameters are divided by two and set to positive or negative values depending on which strand is being constructed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & The sequence of the nucleobase in the strand. Used only for the base step transformation \\
+\hline
+{\em is\+\_\+base\+\_\+pair} & Whetehr the vector requested is for base-\/pair transformation \\
+\hline
+{\em is\+\_\+second\+\_\+strand} & Whether the strand being constructed is the second strand. Used only for base-\/pair parameters\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The step rotation matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_acd6caf662c191c6e4b13baea7c9b8aff}\label{classPNAB_1_1HelicalParameters_acd6caf662c191c6e4b13baea7c9b8aff}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!getStepTranslationVec@{getStepTranslationVec}}
+\index{getStepTranslationVec@{getStepTranslationVec}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{getStepTranslationVec()}{getStepTranslationVec()}}
+{\footnotesize\ttfamily vector3 Helical\+Parameters\+::get\+Step\+Translation\+Vec (\begin{DoxyParamCaption}\item[{unsigned}]{n = {\ttfamily 0},  }\item[{bool}]{is\+\_\+base\+\_\+pair = {\ttfamily false},  }\item[{bool}]{is\+\_\+second\+\_\+strand = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Get the step translation vector. 
+
+For the base step transformation, the \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aa79d2e49034a5a0a4dcf7e776c1e024c}{Helical\+Parameters\+::h\+\_\+rise}} is used. For the base-\/pair transformation, the \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aa6ffce4de284ea1c8728cda24fbbce89}{Helical\+Parameters\+::stagger}} is used. The base pair parameters are divided by two and set to positive or negative values depending on which strand is being constructed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & The sequence of the nucleobase in the strand. Used only for the base step transformation \\
+\hline
+{\em is\+\_\+base\+\_\+pair} & Whetehr the vector requested is for base-\/pair transformation \\
+\hline
+{\em is\+\_\+second\+\_\+strand} & Whether the strand being constructed is the second strand. Used only for base-\/pair parameters\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The step translation vector 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a9122eaa6760bc96451d19de275d99e0f}\label{classPNAB_1_1HelicalParameters_a9122eaa6760bc96451d19de275d99e0f}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!ReferenceFrameToHelicalParameters@{ReferenceFrameToHelicalParameters}}
+\index{ReferenceFrameToHelicalParameters@{ReferenceFrameToHelicalParameters}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{ReferenceFrameToHelicalParameters()}{ReferenceFrameToHelicalParameters()}}
+{\footnotesize\ttfamily void Helical\+Parameters\+::\+Reference\+Frame\+To\+Helical\+Parameters (\begin{DoxyParamCaption}\item[{Open\+Babel\+::vector3}]{origin2,  }\item[{Open\+Babel\+::vector3}]{x2,  }\item[{Open\+Babel\+::vector3}]{y2,  }\item[{Open\+Babel\+::vector3}]{z2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Computes the helical parameters given the origin and direction vectors of the second base. 
+
+This function computes the helical parameters and set the values for the appropriate member variables
+
+Reference\+: Lu, Xiang-\/\+Jun, M. A. El Hassan, and C. A. Hunter. \char`\"{}\+Structure and conformation of helical nucleic acids\+:
+analysis program (\+S\+C\+H\+N\+Aa\+P).\char`\"{} Journal of molecular biology 273.\+3 (1997)\+: 668-\/680.
+
+
+\begin{DoxyParams}{Parameters}
+{\em origin2} & The coordinates of the origin of the second base pair \\
+\hline
+{\em x2} & The x direction vector for the second base pair \\
+\hline
+{\em y2} & The y direction vector for the second base pair \\
+\hline
+{\em z2} & The z direction vector for the second base pair\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters_a44bd4621695b58b2cfe38d5126dd80b8}{Step\+Parameters\+To\+Reference\+Frame}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a518e995f45d64ec69c26a9775ea8fa53}\label{classPNAB_1_1HelicalParameters_a518e995f45d64ec69c26a9775ea8fa53}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!rodrigues\_formula@{rodrigues\_formula}}
+\index{rodrigues\_formula@{rodrigues\_formula}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{rodrigues\_formula()}{rodrigues\_formula()}}
+{\footnotesize\ttfamily matrix3x3 Helical\+Parameters\+::rodrigues\+\_\+formula (\begin{DoxyParamCaption}\item[{Open\+Babel\+::vector3}]{axis\+\_\+vector,  }\item[{double}]{theta }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Rodrigues rotation formula for rotating a vector in space. 
+
+Outputs a 3x3 rotation matrix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em axis\+\_\+vector} & A unit vector defining the axis about which to rotate by angle theta \\
+\hline
+{\em theta} & The angle at which to rotate about vector given by axis\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The new rotation matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a44bd4621695b58b2cfe38d5126dd80b8}\label{classPNAB_1_1HelicalParameters_a44bd4621695b58b2cfe38d5126dd80b8}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!StepParametersToReferenceFrame@{StepParametersToReferenceFrame}}
+\index{StepParametersToReferenceFrame@{StepParametersToReferenceFrame}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{StepParametersToReferenceFrame()}{StepParametersToReferenceFrame()}}
+{\footnotesize\ttfamily vector$<$ vector3 $>$ Helical\+Parameters\+::\+Step\+Parameters\+To\+Reference\+Frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Computes the origin and direction vectors given a set of step parameters. 
+
+Outputs a list containing the new origin, and x, y, and z direction vectors. It uses the class member variables to access the step parameters.
+
+Reference\+: El Hassan, M. A., and C. R. Calladine. \char`\"{}\+The assessment of the geometry of dinucleotide steps
+in double-\/helical D\+N\+A; a new local calculation scheme.\char`\"{} Journal of molecular biology 251.\+5 (1995)\+: 648-\/664.
+
+\begin{DoxyReturn}{Returns}
+The origin and direction vectors
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters_a9122eaa6760bc96451d19de275d99e0f}{Reference\+Frame\+To\+Helical\+Parameters}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Member Data Documentation}
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_aa8dbe6611266bf939575fceb687d2887}\label{classPNAB_1_1HelicalParameters_aa8dbe6611266bf939575fceb687d2887}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!buckle@{buckle}}
+\index{buckle@{buckle}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{buckle}{buckle}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::buckle}
+
+
+
+Buckle. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_aa79d2e49034a5a0a4dcf7e776c1e024c}\label{classPNAB_1_1HelicalParameters_aa79d2e49034a5a0a4dcf7e776c1e024c}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!h\_rise@{h\_rise}}
+\index{h\_rise@{h\_rise}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{h\_rise}{h\_rise}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::h\+\_\+rise}
+
+
+
+Helical rise. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_adbaf2c8e89d841d39ef78b28d5be7b57}\label{classPNAB_1_1HelicalParameters_adbaf2c8e89d841d39ef78b28d5be7b57}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!h\_twist@{h\_twist}}
+\index{h\_twist@{h\_twist}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{h\_twist}{h\_twist}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::h\+\_\+twist}
+
+
+
+Helical twist. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a529b025b4a71a8bf0f900597d685ca39}\label{classPNAB_1_1HelicalParameters_a529b025b4a71a8bf0f900597d685ca39}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!inclination@{inclination}}
+\index{inclination@{inclination}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{inclination}{inclination}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::inclination}
+
+
+
+Inclination. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_ad699cb3c45bc6c2e728d835e5c7b2dd1}\label{classPNAB_1_1HelicalParameters_ad699cb3c45bc6c2e728d835e5c7b2dd1}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!is\_helical@{is\_helical}}
+\index{is\_helical@{is\_helical}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{is\_helical}{is\_helical}}
+{\footnotesize\ttfamily bool P\+N\+A\+B\+::\+Helical\+Parameters\+::is\+\_\+helical}
+
+
+
+Are the base parameters helical or step parameters. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a3df719c24a333a4032dfe37344440160}\label{classPNAB_1_1HelicalParameters_a3df719c24a333a4032dfe37344440160}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!opening@{opening}}
+\index{opening@{opening}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{opening}{opening}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::opening}
+
+
+
+Opening. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_aee4ddfe7b3e350d840dbdce64f140d49}\label{classPNAB_1_1HelicalParameters_aee4ddfe7b3e350d840dbdce64f140d49}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!propeller@{propeller}}
+\index{propeller@{propeller}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{propeller}{propeller}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::propeller}
+
+
+
+Propeller twist. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a68f88c70fa1fe3014fbadf123f52530c}\label{classPNAB_1_1HelicalParameters_a68f88c70fa1fe3014fbadf123f52530c}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!rise@{rise}}
+\index{rise@{rise}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{rise}{rise}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::rise}
+
+
+
+Rise. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a90ccffc84194abde36261965a535eca1}\label{classPNAB_1_1HelicalParameters_a90ccffc84194abde36261965a535eca1}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!roll@{roll}}
+\index{roll@{roll}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{roll}{roll}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::roll}
+
+
+
+Roll. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_aed9148214d0e46fc148c62d2c2cecf17}\label{classPNAB_1_1HelicalParameters_aed9148214d0e46fc148c62d2c2cecf17}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!shear@{shear}}
+\index{shear@{shear}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{shear}{shear}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::shear}
+
+
+
+Shear. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a397f662138c865956b18cd5c69ae5ed1}\label{classPNAB_1_1HelicalParameters_a397f662138c865956b18cd5c69ae5ed1}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!shift@{shift}}
+\index{shift@{shift}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{shift}{shift}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::shift}
+
+
+
+Shift. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a3c68bfcbc396f1b86bb402d6606accde}\label{classPNAB_1_1HelicalParameters_a3c68bfcbc396f1b86bb402d6606accde}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!slide@{slide}}
+\index{slide@{slide}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{slide}{slide}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::slide}
+
+
+
+Slide. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_aa6ffce4de284ea1c8728cda24fbbce89}\label{classPNAB_1_1HelicalParameters_aa6ffce4de284ea1c8728cda24fbbce89}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!stagger@{stagger}}
+\index{stagger@{stagger}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{stagger}{stagger}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::stagger}
+
+
+
+Stagger. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_ae7b6909b7082e28fee9f6e9707f3c8e3}\label{classPNAB_1_1HelicalParameters_ae7b6909b7082e28fee9f6e9707f3c8e3}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!stretch@{stretch}}
+\index{stretch@{stretch}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{stretch}{stretch}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::stretch}
+
+
+
+Stretch. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a0b720d0bfad633f2cb2e292241bad6a1}\label{classPNAB_1_1HelicalParameters_a0b720d0bfad633f2cb2e292241bad6a1}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!tilt@{tilt}}
+\index{tilt@{tilt}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{tilt}{tilt}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::tilt}
+
+
+
+Tilt. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a4a93b19a33ba624d977f7c2c7c1c6dd8}\label{classPNAB_1_1HelicalParameters_a4a93b19a33ba624d977f7c2c7c1c6dd8}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!tip@{tip}}
+\index{tip@{tip}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{tip}{tip}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::tip}
+
+
+
+Tip. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_a8d07b11ed2734eb3f76d56b27a180b9f}\label{classPNAB_1_1HelicalParameters_a8d07b11ed2734eb3f76d56b27a180b9f}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!twist@{twist}}
+\index{twist@{twist}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{twist}{twist}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::twist}
+
+
+
+Twist. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_ac7832fd16ebcb13f486eb47b772ac910}\label{classPNAB_1_1HelicalParameters_ac7832fd16ebcb13f486eb47b772ac910}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!x\_displacement@{x\_displacement}}
+\index{x\_displacement@{x\_displacement}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{x\_displacement}{x\_displacement}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::x\+\_\+displacement}
+
+
+
+X-\/\+Displacement. 
+
+\mbox{\Hypertarget{classPNAB_1_1HelicalParameters_ad33317484602581a94293d16b89d228a}\label{classPNAB_1_1HelicalParameters_ad33317484602581a94293d16b89d228a}} 
+\index{PNAB::HelicalParameters@{PNAB::HelicalParameters}!y\_displacement@{y\_displacement}}
+\index{y\_displacement@{y\_displacement}!PNAB::HelicalParameters@{PNAB::HelicalParameters}}
+\doxyparagraph{\texorpdfstring{y\_displacement}{y\_displacement}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Helical\+Parameters\+::y\+\_\+displacement}
+
+
+
+Y-\/\+Displacement. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Containers_8h}{Containers.\+h}}\item 
+\mbox{\hyperlink{Containers_8cpp}{Containers.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,208 @@
+\hypertarget{structPNAB_1_1ConformerData}{}\doxysubsection{P\+N\+AB\+::Conformer\+Data Struct Reference}
+\label{structPNAB_1_1ConformerData}\index{PNAB::ConformerData@{PNAB::ConformerData}}
+
+
+Class to contain important information for an individual conformer.  
+
+
+
+
+{\ttfamily \#include $<$Containers.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{structPNAB_1_1ConformerData_a85f3660f3ff251605100df7fab5381cf}{operator$<$}} (const \mbox{\hyperlink{structPNAB_1_1ConformerData}{Conformer\+Data}} \&cd) const
+\begin{DoxyCompactList}\small\item\em Used for simple sorting based on total energy of the conformer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Open\+Babel\+::\+O\+B\+Mol \mbox{\hyperlink{structPNAB_1_1ConformerData_a196427b30df740df17a0b8054a13af5c}{molecule}}
+\begin{DoxyCompactList}\small\item\em The openbabel O\+B\+Mol object for the conformer. \end{DoxyCompactList}\item 
+double $\ast$ \mbox{\hyperlink{structPNAB_1_1ConformerData_aaf93560c639a5e132078ba95fc4d3c9e}{monomer\+\_\+coord}}
+\begin{DoxyCompactList}\small\item\em Pointer to array containing coordinates of a single monomer. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{structPNAB_1_1ConformerData_a79c37ab99ca7608086416e6acc4a18ae}{distance}}
+\begin{DoxyCompactList}\small\item\em distance between interconnects in \mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} for adjacent \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{structPNAB_1_1ConformerData_a0d539a82d3d07fbf7f2aaabf00f6e393}{bondE}}
+\begin{DoxyCompactList}\small\item\em Energy of newly formed bonds in the backbone divided by the length of the strand -\/1. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{structPNAB_1_1ConformerData_a81716b6191d9d5deeedd3a8a179fcb35}{angleE}}
+\begin{DoxyCompactList}\small\item\em Energy of newly formed angles in the backbone divided by the length of the strand -\/1. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{structPNAB_1_1ConformerData_a092cf077118d81e95534fa260b2a77d3}{torsionE}}
+\begin{DoxyCompactList}\small\item\em Energy of all rotatable torsions divided by the length of the strand. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{structPNAB_1_1ConformerData_a4a97e77918c517a45bc9c3aad779c1d9}{V\+D\+WE}}
+\begin{DoxyCompactList}\small\item\em Total van Der Wals Energy divided by the length of the strand. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{structPNAB_1_1ConformerData_a2205f8052e83b674252587435a18e1ac}{total\+\_\+energy}}
+\begin{DoxyCompactList}\small\item\em Total energy of the conformation divided by divided by the length of the strand. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{structPNAB_1_1ConformerData_a6d16a0a87c834d049f0fb473e8aef588}{rmsd}}
+\begin{DoxyCompactList}\small\item\em Root-\/mean square distance relative to lowest energy conformer. \end{DoxyCompactList}\item 
+std\+::size\+\_\+t \mbox{\hyperlink{structPNAB_1_1ConformerData_a1ccf24f70e67379b2a7d408cad11c119}{index}}
+\begin{DoxyCompactList}\small\item\em The index of the conformer. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structPNAB_1_1ConformerData_a7e134cdfc7817d78ec2b4b4675e14a85}{accepted}}
+\begin{DoxyCompactList}\small\item\em Is the energy of the conformer less than the thresholds. \end{DoxyCompactList}\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{structPNAB_1_1ConformerData_a3dc46e58d820557960f915b6c716346f}{dihedral\+\_\+angles}}
+\begin{DoxyCompactList}\small\item\em The values of the rotatable dihedral angles in the conformer in degrees. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Class to contain important information for an individual conformer. 
+
+It includes detailed information about the energy components important for distinguishing between different conformers. It also includes the value of the R\+M\+SD relative to the best candidate. If the conformer satisfies the distance and energy thresholds, then it is saved. It also contains the openbabel O\+B\+Mol object for the accepted candidates
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_ad739566234b023be04bc2f2f2a5c7194}{Chain\+::generate\+Conformer\+Data}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a78e485c16429926686e12ccf48df35ba}{Conformation\+Search\+::report\+Data}} 
+
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a5446a6022b09a0f71903f259b5b176f3}{Runtime\+Parameters\+::energy\+\_\+filter}} 
+
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a4895122ad2dfa91f25a04c1dffb4be98}{Runtime\+Parameters\+::max\+\_\+distance}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_a85f3660f3ff251605100df7fab5381cf}\label{structPNAB_1_1ConformerData_a85f3660f3ff251605100df7fab5381cf}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily bool P\+N\+A\+B\+::\+Conformer\+Data\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structPNAB_1_1ConformerData}{Conformer\+Data}} \&}]{cd }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Used for simple sorting based on total energy of the conformer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cd} & The \mbox{\hyperlink{structPNAB_1_1ConformerData}{Conformer\+Data}} element to compare current element to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the other \mbox{\hyperlink{structPNAB_1_1ConformerData}{Conformer\+Data}} has greater total energy, false otherwise 
+\end{DoxyReturn}
+
+
+\doxysubsubsection{Member Data Documentation}
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_a7e134cdfc7817d78ec2b4b4675e14a85}\label{structPNAB_1_1ConformerData_a7e134cdfc7817d78ec2b4b4675e14a85}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!accepted@{accepted}}
+\index{accepted@{accepted}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{accepted}{accepted}}
+{\footnotesize\ttfamily bool P\+N\+A\+B\+::\+Conformer\+Data\+::accepted}
+
+
+
+Is the energy of the conformer less than the thresholds. 
+
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_a81716b6191d9d5deeedd3a8a179fcb35}\label{structPNAB_1_1ConformerData_a81716b6191d9d5deeedd3a8a179fcb35}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!angleE@{angleE}}
+\index{angleE@{angleE}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{angleE}{angleE}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Conformer\+Data\+::angleE}
+
+
+
+Energy of newly formed angles in the backbone divided by the length of the strand -\/1. 
+
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_a0d539a82d3d07fbf7f2aaabf00f6e393}\label{structPNAB_1_1ConformerData_a0d539a82d3d07fbf7f2aaabf00f6e393}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!bondE@{bondE}}
+\index{bondE@{bondE}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{bondE}{bondE}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Conformer\+Data\+::bondE}
+
+
+
+Energy of newly formed bonds in the backbone divided by the length of the strand -\/1. 
+
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_a3dc46e58d820557960f915b6c716346f}\label{structPNAB_1_1ConformerData_a3dc46e58d820557960f915b6c716346f}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!dihedral\_angles@{dihedral\_angles}}
+\index{dihedral\_angles@{dihedral\_angles}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{dihedral\_angles}{dihedral\_angles}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ P\+N\+A\+B\+::\+Conformer\+Data\+::dihedral\+\_\+angles}
+
+
+
+The values of the rotatable dihedral angles in the conformer in degrees. 
+
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_a79c37ab99ca7608086416e6acc4a18ae}\label{structPNAB_1_1ConformerData_a79c37ab99ca7608086416e6acc4a18ae}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!distance@{distance}}
+\index{distance@{distance}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{distance}{distance}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Conformer\+Data\+::distance}
+
+
+
+distance between interconnects in \mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} for adjacent \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} 
+
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_a1ccf24f70e67379b2a7d408cad11c119}\label{structPNAB_1_1ConformerData_a1ccf24f70e67379b2a7d408cad11c119}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!index@{index}}
+\index{index@{index}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{index}{index}}
+{\footnotesize\ttfamily std\+::size\+\_\+t P\+N\+A\+B\+::\+Conformer\+Data\+::index}
+
+
+
+The index of the conformer. 
+
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_a196427b30df740df17a0b8054a13af5c}\label{structPNAB_1_1ConformerData_a196427b30df740df17a0b8054a13af5c}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!molecule@{molecule}}
+\index{molecule@{molecule}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{molecule}{molecule}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Mol P\+N\+A\+B\+::\+Conformer\+Data\+::molecule}
+
+
+
+The openbabel O\+B\+Mol object for the conformer. 
+
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_aaf93560c639a5e132078ba95fc4d3c9e}\label{structPNAB_1_1ConformerData_aaf93560c639a5e132078ba95fc4d3c9e}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!monomer\_coord@{monomer\_coord}}
+\index{monomer\_coord@{monomer\_coord}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{monomer\_coord}{monomer\_coord}}
+{\footnotesize\ttfamily double$\ast$ P\+N\+A\+B\+::\+Conformer\+Data\+::monomer\+\_\+coord}
+
+
+
+Pointer to array containing coordinates of a single monomer. 
+
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_a6d16a0a87c834d049f0fb473e8aef588}\label{structPNAB_1_1ConformerData_a6d16a0a87c834d049f0fb473e8aef588}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!rmsd@{rmsd}}
+\index{rmsd@{rmsd}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{rmsd}{rmsd}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Conformer\+Data\+::rmsd}
+
+
+
+Root-\/mean square distance relative to lowest energy conformer. 
+
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_a092cf077118d81e95534fa260b2a77d3}\label{structPNAB_1_1ConformerData_a092cf077118d81e95534fa260b2a77d3}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!torsionE@{torsionE}}
+\index{torsionE@{torsionE}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{torsionE}{torsionE}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Conformer\+Data\+::torsionE}
+
+
+
+Energy of all rotatable torsions divided by the length of the strand. 
+
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_a2205f8052e83b674252587435a18e1ac}\label{structPNAB_1_1ConformerData_a2205f8052e83b674252587435a18e1ac}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!total\_energy@{total\_energy}}
+\index{total\_energy@{total\_energy}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{total\_energy}{total\_energy}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Conformer\+Data\+::total\+\_\+energy}
+
+
+
+Total energy of the conformation divided by divided by the length of the strand. 
+
+\mbox{\Hypertarget{structPNAB_1_1ConformerData_a4a97e77918c517a45bc9c3aad779c1d9}\label{structPNAB_1_1ConformerData_a4a97e77918c517a45bc9c3aad779c1d9}} 
+\index{PNAB::ConformerData@{PNAB::ConformerData}!VDWE@{VDWE}}
+\index{VDWE@{VDWE}!PNAB::ConformerData@{PNAB::ConformerData}}
+\doxyparagraph{\texorpdfstring{VDWE}{VDWE}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Conformer\+Data\+::\+V\+D\+WE}
+
+
+
+Total van Der Wals Energy divided by the length of the strand. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Containers_8h}{Containers.\+h}}\end{DoxyCompactItemize}

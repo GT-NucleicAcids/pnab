@@ -1,0 +1,265 @@
+\hypertarget{classdriver_1_1pNAB}{}\doxysubsection{driver.\+p\+N\+AB Class Reference}
+\label{classdriver_1_1pNAB}\index{driver.pNAB@{driver.pNAB}}
+
+
+The proto-\/\+Nucleic Acid Builder main python class.  
+
+
+
+
+Inheritance diagram for driver.\+p\+N\+AB\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{classdriver_1_1pNAB__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for driver.\+p\+N\+AB\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{classdriver_1_1pNAB__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classdriver_1_1pNAB_a59f03f9a16a4fd08ea70499bfa76e628}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, file\+\_\+path)
+\begin{DoxyCompactList}\small\item\em The constructor for the \mbox{\hyperlink{classdriver_1_1pNAB}{p\+N\+AB}} run. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{classdriver_1_1pNAB_aeec15fb1ee0c33d517d16314e8487192}{run}} (self, number\+\_\+of\+\_\+cpus=None, verbose=True)
+\begin{DoxyCompactList}\small\item\em Prepare helical configurations and run them in parallel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classdriver_1_1pNAB_acb3362c775d3241f94f33f98113ed254}{options}}
+\begin{DoxyCompactList}\small\item\em Validated options dictionary for the \mbox{\hyperlink{classdriver_1_1pNAB}{p\+N\+AB}} run. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdriver_1_1pNAB_a5d30a94551d36981c519d6b5b851272c}{header}}
+\begin{DoxyCompactList}\small\item\em A string comma-\/separated header for the results used in the generated C\+SV files. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdriver_1_1pNAB_ab71546409b3f03b123ea9f544311d93c}{prefix}}
+\begin{DoxyCompactList}\small\item\em A dictionary of the sequence of the run and the corresponding helical configuration For runs that have ranges of values for the helical parameters, this dictionary provides a mapping between the sequence of the run and the helical parameters. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdriver_1_1pNAB_a19cbd7ab9ec24e9e7bb5d6112c7f52f4}{results}}
+\begin{DoxyCompactList}\small\item\em A numpy array containing the results of all the candidates. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classdriver_1_1pNAB_af28c6c9a6a1a33d95fb686191cf09408}{\+\_\+run}} (self, config)
+\begin{DoxyCompactList}\small\item\em Function to run one helical configuration. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{classdriver_1_1pNAB_a381c741d27e204bf621f70ae4b057658}{\+\_\+single\+\_\+result}} (self, \mbox{\hyperlink{classdriver_1_1pNAB_a19cbd7ab9ec24e9e7bb5d6112c7f52f4}{results}})
+\begin{DoxyCompactList}\small\item\em Write results to disk for each helical configuration as it finishe. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classdriver_1_1pNAB_a6bba8b6a7e74dcbcc3c827983161cbf7}{\+\_\+options}}
+\item 
+\mbox{\hyperlink{classdriver_1_1pNAB_a0cca6b378320c9311e24fcc4514061c7}{\+\_\+verbose}}
+\begin{DoxyCompactList}\small\item\em Whether to print progress report to the screen. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdriver_1_1pNAB_ae42f0a47341fadf70b3e7964721a69ee}{\+\_\+is\+\_\+helical}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+The proto-\/\+Nucleic Acid Builder main python class. 
+
+A class that contains methods to create a \mbox{\hyperlink{classdriver_1_1pNAB}{p\+N\+AB}} run. It validates input, runs it, and save results.
+
+Examples\+: Use the code to get R\+NA and D\+NA candidates. This uses the provided example files in the \char`\"{}pnab/data\char`\"{} directory. The results are in three files\+:
+
+1) results.\+csv\+: Contains all the results for all the helical configurations requested in the run.
+
+2) prefix.\+yaml\+: Containts a dictionary of the sequence of the run and the corresponding helical configuration (useful when a range of values is given for the helical parameters).
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{import} pnab}
+\DoxyCodeLine{}
+\DoxyCodeLine{run = pnab.pNAB(\textcolor{stringliteral}{'RNA.yaml'})}
+\DoxyCodeLine{run.run()}
+\end{DoxyCode}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{import} pnab}
+\DoxyCodeLine{}
+\DoxyCodeLine{run = pnab.pNAB(\textcolor{stringliteral}{'DNA.yaml'})}
+\DoxyCodeLine{run.run()}
+\end{DoxyCode}
+ 
+
+\doxysubsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classdriver_1_1pNAB_a59f03f9a16a4fd08ea70499bfa76e628}\label{classdriver_1_1pNAB_a59f03f9a16a4fd08ea70499bfa76e628}} 
+\index{driver.pNAB@{driver.pNAB}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!driver.pNAB@{driver.pNAB}}
+\doxyparagraph{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def driver.\+p\+N\+A\+B.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{file\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+The constructor for the \mbox{\hyperlink{classdriver_1_1pNAB}{p\+N\+AB}} run. 
+
+The constructor takes an input file as an argument and initialize a new instance. The input file uses a Y\+A\+ML format for specifying the run options. This input file can be generated using the graphical user interface created in {\itshape \mbox{\hyperlink{namespacejupyter__widgets}{jupyter\+\_\+widgets}}}. Additionally, there are a few example files in the \char`\"{}pnab/data\char`\"{} directory. The constructor creates the {\itshape p\+N\+A\+B.\+p\+N\+A\+B.\+options} attribute which contains a dictionary of all the defined options.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+path} & (str) Path to a file containing the user-\/defined input. This function tries to find the file in the current working directory. If it does not exist, it looks for the file in the \char`\"{}pnab/data\char`\"{} directory\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{namespacejupyter__widgets}{jupyter\+\_\+widgets}} 
+
+\mbox{\hyperlink{namespaceoptions_a102c859758e5252df46c1ca033137059}{options.\+validate\+\_\+all\+\_\+options}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classdriver_1_1pNAB_af28c6c9a6a1a33d95fb686191cf09408}\label{classdriver_1_1pNAB_af28c6c9a6a1a33d95fb686191cf09408}} 
+\index{driver.pNAB@{driver.pNAB}!\_run@{\_run}}
+\index{\_run@{\_run}!driver.pNAB@{driver.pNAB}}
+\doxyparagraph{\texorpdfstring{\_run()}{\_run()}}
+{\footnotesize\ttfamily def driver.\+p\+N\+A\+B.\+\_\+run (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{config }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Function to run one helical configuration. 
+
+Setup the options to call the C++ code using the pybind11 bind class in {\itshape \mbox{\hyperlink{binder_8cpp}{binder.\+cpp}}}. After the run finishes, it returns the results for processing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em config} & (list) a list containing two entries\+: the list of helical parameter values for this configuration, and a string index for the sequnce of the run\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+results \mbox{[}prefix, header, result\mbox{]} A list containing the index of the run, a string describing the helical configuration, and a numpy array of the results
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classdriver_1_1pNAB_aeec15fb1ee0c33d517d16314e8487192}{run}} 
+
+\mbox{\hyperlink{classdriver_1_1pNAB_a381c741d27e204bf621f70ae4b057658}{\+\_\+single\+\_\+result}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classdriver_1_1pNAB_a381c741d27e204bf621f70ae4b057658}\label{classdriver_1_1pNAB_a381c741d27e204bf621f70ae4b057658}} 
+\index{driver.pNAB@{driver.pNAB}!\_single\_result@{\_single\_result}}
+\index{\_single\_result@{\_single\_result}!driver.pNAB@{driver.pNAB}}
+\doxyparagraph{\texorpdfstring{\_single\_result()}{\_single\_result()}}
+{\footnotesize\ttfamily def driver.\+p\+N\+A\+B.\+\_\+single\+\_\+result (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{results }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Write results to disk for each helical configuration as it finishe. 
+
+Two files are written\+: \char`\"{}prefix.\+yaml\char`\"{} contains a dictionary of the sequence of the run and the corresponding helical configuration \char`\"{}results.\+csv\char`\"{} contains the information on the accepted candidates for all of configurations
+
+
+\begin{DoxyParams}{Parameters}
+{\em results} & (list) The return value of {\itshape p\+N\+A\+B.\+p\+N\+A\+B.\+\_\+run} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None; writing to output files
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classdriver_1_1pNAB_af28c6c9a6a1a33d95fb686191cf09408}{\+\_\+run}} 
+
+\mbox{\hyperlink{classdriver_1_1pNAB_aeec15fb1ee0c33d517d16314e8487192}{run}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classdriver_1_1pNAB_aeec15fb1ee0c33d517d16314e8487192}\label{classdriver_1_1pNAB_aeec15fb1ee0c33d517d16314e8487192}} 
+\index{driver.pNAB@{driver.pNAB}!run@{run}}
+\index{run@{run}!driver.pNAB@{driver.pNAB}}
+\doxyparagraph{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily def driver.\+p\+N\+A\+B.\+run (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{number\+\_\+of\+\_\+cpus = {\ttfamily None},  }\item[{}]{verbose = {\ttfamily True} }\end{DoxyParamCaption})}
+
+
+
+Prepare helical configurations and run them in parallel. 
+
+This function first copies the user-\/defined options to an internal options dictionary (self.\+\_\+options). Next, self.\+\_\+options is validated through a call to {\itshape \mbox{\hyperlink{namespaceoptions_a102c859758e5252df46c1ca033137059}{options.\+validate\+\_\+all\+\_\+options}}} to validate all the options for the backbone parameters, helical parameters, and runtime parameters. Then, it adds the library of all the defined nucleobases. The nucleobases are defined in the \char`\"{}pnab/data\char`\"{} directory. Whether to pair adenine with thymine (default) or uracil is determined here by the {\itshape p\+N\+A\+B.\+p\+N\+A\+B.\+options}\mbox{[}\textquotesingle{}Runtime\+Parameters\textquotesingle{}\mbox{]}\mbox{[}\textquotesingle{}pair\+\_\+\+A\+\_\+U\textquotesingle{}\mbox{]}.
+
+If a single value is given for a helical parameter (e.\+g. helical twist), then that value is used. If a range of values is given, then equally spaced values in the range will be used. The number of configurations is determined by the third value in {\itshape p\+N\+A\+B.\+p\+N\+A\+B.\+options}. The various helical configurations are run in parallel using the multiprocessing library.
+
+This function writes three output files\+: \char`\"{}results.\+csv\char`\"{} and \char`\"{}prefix.\+yaml\char`\"{}. It renames any existing files with these names by prepending enough \char`\"{}\+\_\+\char`\"{}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em number\+\_\+of\+\_\+cpus} & Number of C\+P\+Us to use for parallel computations of different helical configurations, defaults to all cores \\
+\hline
+{\em verbose} & Whether to print progress report to the screen, default to True\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None; output files are written 
+\end{DoxyReturn}
+
+
+\doxysubsubsection{Member Data Documentation}
+\mbox{\Hypertarget{classdriver_1_1pNAB_ae42f0a47341fadf70b3e7964721a69ee}\label{classdriver_1_1pNAB_ae42f0a47341fadf70b3e7964721a69ee}} 
+\index{driver.pNAB@{driver.pNAB}!\_is\_helical@{\_is\_helical}}
+\index{\_is\_helical@{\_is\_helical}!driver.pNAB@{driver.pNAB}}
+\doxyparagraph{\texorpdfstring{\_is\_helical}{\_is\_helical}}
+{\footnotesize\ttfamily driver.\+p\+N\+A\+B.\+\_\+is\+\_\+helical\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classdriver_1_1pNAB_a6bba8b6a7e74dcbcc3c827983161cbf7}\label{classdriver_1_1pNAB_a6bba8b6a7e74dcbcc3c827983161cbf7}} 
+\index{driver.pNAB@{driver.pNAB}!\_options@{\_options}}
+\index{\_options@{\_options}!driver.pNAB@{driver.pNAB}}
+\doxyparagraph{\texorpdfstring{\_options}{\_options}}
+{\footnotesize\ttfamily driver.\+p\+N\+A\+B.\+\_\+options\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classdriver_1_1pNAB_a0cca6b378320c9311e24fcc4514061c7}\label{classdriver_1_1pNAB_a0cca6b378320c9311e24fcc4514061c7}} 
+\index{driver.pNAB@{driver.pNAB}!\_verbose@{\_verbose}}
+\index{\_verbose@{\_verbose}!driver.pNAB@{driver.pNAB}}
+\doxyparagraph{\texorpdfstring{\_verbose}{\_verbose}}
+{\footnotesize\ttfamily driver.\+p\+N\+A\+B.\+\_\+verbose\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Whether to print progress report to the screen. 
+
+\mbox{\Hypertarget{classdriver_1_1pNAB_a5d30a94551d36981c519d6b5b851272c}\label{classdriver_1_1pNAB_a5d30a94551d36981c519d6b5b851272c}} 
+\index{driver.pNAB@{driver.pNAB}!header@{header}}
+\index{header@{header}!driver.pNAB@{driver.pNAB}}
+\doxyparagraph{\texorpdfstring{header}{header}}
+{\footnotesize\ttfamily driver.\+p\+N\+A\+B.\+header}
+
+
+
+A string comma-\/separated header for the results used in the generated C\+SV files. 
+
+\mbox{\Hypertarget{classdriver_1_1pNAB_acb3362c775d3241f94f33f98113ed254}\label{classdriver_1_1pNAB_acb3362c775d3241f94f33f98113ed254}} 
+\index{driver.pNAB@{driver.pNAB}!options@{options}}
+\index{options@{options}!driver.pNAB@{driver.pNAB}}
+\doxyparagraph{\texorpdfstring{options}{options}}
+{\footnotesize\ttfamily driver.\+p\+N\+A\+B.\+options}
+
+
+
+Validated options dictionary for the \mbox{\hyperlink{classdriver_1_1pNAB}{p\+N\+AB}} run. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{namespaceoptions_a102c859758e5252df46c1ca033137059}{options.\+validate\+\_\+all\+\_\+options}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classdriver_1_1pNAB_ab71546409b3f03b123ea9f544311d93c}\label{classdriver_1_1pNAB_ab71546409b3f03b123ea9f544311d93c}} 
+\index{driver.pNAB@{driver.pNAB}!prefix@{prefix}}
+\index{prefix@{prefix}!driver.pNAB@{driver.pNAB}}
+\doxyparagraph{\texorpdfstring{prefix}{prefix}}
+{\footnotesize\ttfamily driver.\+p\+N\+A\+B.\+prefix}
+
+
+
+A dictionary of the sequence of the run and the corresponding helical configuration For runs that have ranges of values for the helical parameters, this dictionary provides a mapping between the sequence of the run and the helical parameters. 
+
+\mbox{\Hypertarget{classdriver_1_1pNAB_a19cbd7ab9ec24e9e7bb5d6112c7f52f4}\label{classdriver_1_1pNAB_a19cbd7ab9ec24e9e7bb5d6112c7f52f4}} 
+\index{driver.pNAB@{driver.pNAB}!results@{results}}
+\index{results@{results}!driver.pNAB@{driver.pNAB}}
+\doxyparagraph{\texorpdfstring{results}{results}}
+{\footnotesize\ttfamily driver.\+p\+N\+A\+B.\+results}
+
+
+
+A numpy array containing the results of all the candidates. 
+
+The columns in the array correspond to the entries in {\itshape p\+N\+A\+B.\+p\+N\+A\+B.\+header} and the helical configurations correspond to those in {\itshape p\+N\+A\+B.\+p\+N\+A\+B.\+prefix} 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{driver_8py}{driver.\+py}}\end{DoxyCompactItemize}

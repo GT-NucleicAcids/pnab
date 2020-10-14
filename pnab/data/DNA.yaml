@@ -10,76 +10,76 @@ Backbone:
 HelicalParameters:
   is_helical: true
   x_displacement:
-  - -0.53
-  - -0.53
+  - 0.49
+  - 0.49
   - 1
   y_displacement:
-  - -0.04
-  - -0.04
+  - 0.01
+  - 0.01
   - 1
   h_rise:
-  - 3.26
-  - 3.26
+  - 3.37
+  - 3.37
   - 1
   inclination:
-  - 4.38
-  - 4.38
+  - 2.76
+  - 2.76
   - 1
   tip:
-  - 0.02
-  - 0.02
+  - 0.0
+  - 0.0
   - 1
   h_twist:
-  - 33.96
-  - 33.96
+  - 36.0
+  - 36.0
   - 1
   shift:
-  - 0.02
-  - 0.02
+  - 0.0
+  - 0.0
   - 1
   slide:
-  - -0.07
-  - -0.07
+  - 0.45
+  - 0.45
   - 1
   rise:
-  - 3.27
-  - 3.27
+  - 3.36
+  - 3.36
   - 1
   tilt:
-  - -0.01
-  - -0.01
+  - 0.0
+  - 0.0
   - 1
   roll:
-  - 2.56
-  - 2.56
+  - 1.71
+  - 1.71
   - 1
   twist:
-  - 33.87
-  - 33.87
+  - 35.96
+  - 35.96
   - 1
   shear:
-  - -0.01
-  - -0.01
+  - 0.03
+  - 0.03
   - 1
   stretch:
-  - -0.05
-  - -0.05
+  - -0.1
+  - -0.1
   - 1
   stagger:
-  - 0.02
-  - 0.02
+  - 0.09
+  - 0.09
   - 1
   buckle:
-  - -0.66
-  - -0.66
+  - -0.04
+  - -0.04
   - 1
   propeller:
-  - -11.55
-  - -11.55
+  - -15.13
+  - -15.13
   - 1
   opening:
-  - 1.78
-  - 1.78
+  - -1.87
+  - -1.87
   - 1
 RuntimeParameters:
   build_strand:
@@ -102,9 +102,9 @@ RuntimeParameters:
   search_algorithm: monte carlo search
   num_steps: 100000000
   monte_carlo_temperature: 300
-  num_candidates: 1
+  num_candidates: 2
   seed: 0
-  strand: ACTACAATGTTGCAAT
+  strand: AAAAAAAAAA
   strand_orientation:
   - true
   - false

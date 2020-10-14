@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['neworigin_328',['newOrigin',['../namespacebase__step__to__helical.html#aad034f7442666759fa57eb53c9878f80',1,'base_step_to_helical']]]
+  ['operator_3c_309',['operator&lt;',['../structPNAB_1_1ConformerData.html#a85f3660f3ff251605100df7fab5381cf',1,'PNAB::ConformerData']]],
+  ['orderresidues_310',['orderResidues',['../classPNAB_1_1Chain.html#a0c581f8e6ac44d4d4d5772c93a3be4fe',1,'PNAB::Chain']]]
 ];

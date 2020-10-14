@@ -1,0 +1,653 @@
+\hypertarget{classPNAB_1_1ConformationSearch}{}\doxysubsection{P\+N\+AB\+::Conformation\+Search Class Reference}
+\label{classPNAB_1_1ConformationSearch}\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+
+
+A rotor search function used to find acceptable conformations of arbitrary backbone and helical parameter combinations. The main class of the proto-\/\+Nucleic Acid Builder.  
+
+
+
+
+{\ttfamily \#include $<$Conformation\+Search.\+h$>$}
+
+
+
+Collaboration diagram for P\+N\+AB\+::Conformation\+Search\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classPNAB_1_1ConformationSearch__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_aa8fb93aba77a04fa41bdb648667b6118}{Conformation\+Search}} (\mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{P\+N\+A\+B\+::\+Runtime\+Parameters}} \&runtime\+\_\+params, \mbox{\hyperlink{classPNAB_1_1Backbone}{P\+N\+A\+B\+::\+Backbone}} \&backbone, \mbox{\hyperlink{classPNAB_1_1HelicalParameters}{P\+N\+A\+B\+::\+Helical\+Parameters}} \&helical\+\_\+params, \mbox{\hyperlink{classPNAB_1_1Bases}{P\+N\+A\+B\+::\+Bases}} bases, std\+::string prefix=\char`\"{}test\char`\"{}, bool verbose=true)
+\begin{DoxyCompactList}\small\item\em Constructor for the conformation search class. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a75ab7fa537fc2e65664a8840edfdf83b}{run}} ()
+\begin{DoxyCompactList}\small\item\em A function to call the appropriate search algorithm using the provided \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a47eaa10da717a345f3e4b84f1d1175ab}{Runtime\+Parameters\+::search\+\_\+algorithm}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classPNAB_1_1ConformationSearch_aff736ed299af34e42e6a87db109e336b}{Systematic\+Search}} ()
+\begin{DoxyCompactList}\small\item\em Given a step size, the algorithm exhaustively searches over all the rotatable dihedral angles in the backbone. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1ConformationSearch_ad52e77cb571044efcdf2750bf54232c4}{Random\+Search}} (bool weighted)
+\begin{DoxyCompactList}\small\item\em The algorithm randomly changes all the dihedral angles in the backbone and evaluates whether they are acceptable. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a98d430672f8fc022c17dc1188edf465c}{Monte\+Carlo\+Search}} (bool weighted)
+\begin{DoxyCompactList}\small\item\em The algorithm utilizes the Metropolis Monte Carlo scheme to improve the choice of the dihedral angle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a4ff01c48376901bcf73758b1a013f3c1}{Genetic\+Algorithm\+Search}} ()
+\begin{DoxyCompactList}\small\item\em This algorithm utilizes the genetic algorihtm procedure to improve the choice of the dihedral angle. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::piecewise\+\_\+linear\+\_\+distribution$<$ double $>$ $>$ \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a7e396684f6a8e58aca2b45dcb1f2b7d2}{Weighted\+Distributions}} ()
+\begin{DoxyCompactList}\small\item\em Produces weighted distributions for each rotatable dihedral angle in the backbone. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a1b7bbc60c2acc830297c1f97249f20da}{measure\+Distance}} (double $\ast$\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a460891946a43dbe553e9ec56e2ca3cc7}{coords}}, unsigned \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a97890c1e28ac451dd0a33332929a8384}{head}}, unsigned \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a2f7611fb7bc03a4193dca86db300ee9b}{tail}})
+\begin{DoxyCompactList}\small\item\em Compute the distance between the head backbone atom and the tail backbone atom of the next nucleotide. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a78e485c16429926686e12ccf48df35ba}{report\+Data}} (\mbox{\hyperlink{structPNAB_1_1ConformerData}{P\+N\+A\+B\+::\+Conformer\+Data}} \&conf\+\_\+data)
+\begin{DoxyCompactList}\small\item\em A function to report the data on the accepted candidates. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a02eb6b556cdebf2b0e66842751c27be4}{print\+Progress}} (std\+::size\+\_\+t search\+\_\+index, std\+::size\+\_\+t search\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Prints the percentage of search completed and the best accepted candidate. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classPNAB_1_1ConformationSearch_ac2a7fa4d5b361f7a60816e424132738b}{verbose\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Whether to print progress report to screen. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{P\+N\+A\+B\+::\+Runtime\+Parameters}} \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a05385f7642d0c027a3740a0427b3c952}{runtime\+\_\+params\+\_\+}}
+\begin{DoxyCompactList}\small\item\em The runtime parameters instance, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{Runtime\+Parameters}}. \end{DoxyCompactList}\item 
+std\+::array$<$ unsigned, 2 $>$ \mbox{\hyperlink{classPNAB_1_1ConformationSearch_aef47607633178113e99db645c79ee4cf}{backbone\+\_\+range\+\_\+}}
+\begin{DoxyCompactList}\small\item\em The \mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} index range for the first nucleotide. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPNAB_1_1Backbone}{P\+N\+A\+B\+::\+Backbone}} \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a32701f699583ed2dc2e61c1bfdacc35e}{backbone\+\_\+}}
+\begin{DoxyCompactList}\small\item\em The backbone molecule. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters}{P\+N\+A\+B\+::\+Helical\+Parameters}} \mbox{\hyperlink{classPNAB_1_1ConformationSearch_afbde900f0f44ea77f818cc9d28ab2dd3}{helical\+\_\+params\+\_\+}}
+\begin{DoxyCompactList}\small\item\em the helical parameters \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPNAB_1_1Bases}{P\+N\+A\+B\+::\+Bases}} \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a2c863ecfd419da9d099ef8b14ce2779e}{bases\+\_\+}}
+\begin{DoxyCompactList}\small\item\em the list of the defined bases \end{DoxyCompactList}\item 
+std\+::mt19937\+\_\+64 \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a3371928146032cd0805c3c46e98985c7}{rng\+\_\+}}
+\begin{DoxyCompactList}\small\item\em A random number generator. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classPNAB_1_1ConformationSearch_ab3359f926a0d4394aa633e643a9884e2}{number\+\_\+of\+\_\+candidates}} = 0
+\begin{DoxyCompactList}\small\item\em The number of accepted candiates. \end{DoxyCompactList}\item 
+Open\+Babel\+::matrix3x3 \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a126f3544b6103177a47481f499272c79}{step\+\_\+rot\+\_\+}}
+\begin{DoxyCompactList}\small\item\em The step rotation matrix, \mbox{\hyperlink{classPNAB_1_1HelicalParameters_acf5516be29ecaf9053f0b0bfe41f3224}{Helical\+Parameters\+::get\+Step\+Rotation\+Matrix}}. \end{DoxyCompactList}\item 
+Open\+Babel\+::matrix3x3 \mbox{\hyperlink{classPNAB_1_1ConformationSearch_ae81f71fd0d5dea1a4f9d7aaf122f6ce2}{glbl\+\_\+rot\+\_\+}}
+\begin{DoxyCompactList}\small\item\em The global rotation matrix, \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aab2b64a5c1689de4272bfbdf380dffac}{Helical\+Parameters\+::get\+Global\+Rotation\+Matrix}}. \end{DoxyCompactList}\item 
+Open\+Babel\+::vector3 \mbox{\hyperlink{classPNAB_1_1ConformationSearch_abfc0ede7734ce5b8481d2c93bccd1db1}{step\+\_\+translate\+\_\+}}
+\begin{DoxyCompactList}\small\item\em The step translation vector, \mbox{\hyperlink{classPNAB_1_1HelicalParameters_acd6caf662c191c6e4b13baea7c9b8aff}{Helical\+Parameters\+::get\+Step\+Translation\+Vec}}. \end{DoxyCompactList}\item 
+Open\+Babel\+::vector3 \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a35490d8c862b89aed9b4c8d2d9bf359c}{glbl\+\_\+translate\+\_\+}}
+\begin{DoxyCompactList}\small\item\em The global translation vector, \mbox{\hyperlink{classPNAB_1_1HelicalParameters_ab38756e06d521c707c751228bee9db19}{Helical\+Parameters\+::get\+Global\+Translation\+Vec}}. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Conversion \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a37899834efd346baf028af9b2e74465a}{conv\+\_\+}}
+\begin{DoxyCompactList}\small\item\em An openbabel conversion object used to write accepted candidates. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a664ceb75b5462883ab2531dbb883c8eb}{monomer\+\_\+num\+\_\+coords\+\_\+}}
+\begin{DoxyCompactList}\small\item\em 3$\ast$\+The number of atoms in the first nucleotide \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a07c1f84d5410c7c20adf3b6410e8d8ca}{prefix\+\_\+}}
+\begin{DoxyCompactList}\small\item\em A string to prepend the name of the accepted backbone candidates. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a29dc1e7adf1e1958a462185bd07c6425}{unit}}
+\begin{DoxyCompactList}\small\item\em The nucleotide unit for the first nucleotide in the strand. Used for searching for conformations. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Mol \mbox{\hyperlink{classPNAB_1_1ConformationSearch_abc14e84f2cab4d6fd7abdbedb3e656b6}{bu\+\_\+a\+\_\+mol}}
+\begin{DoxyCompactList}\small\item\em The molecule of the first nucleotide. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a97890c1e28ac451dd0a33332929a8384}{head}}
+\begin{DoxyCompactList}\small\item\em The first terminal atom in the backbone. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a2f7611fb7bc03a4193dca86db300ee9b}{tail}}
+\begin{DoxyCompactList}\small\item\em The second terminal atom in the backbone. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1ConformationSearch_af2afc5cb952a05bd568f5775a15ba34c}{output\+\_\+string}}
+\begin{DoxyCompactList}\small\item\em A string in C\+SV format containing the properties of the accepted candidates. \end{DoxyCompactList}\item 
+double $\ast$ \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a460891946a43dbe553e9ec56e2ca3cc7}{coords}}
+\begin{DoxyCompactList}\small\item\em The coordinates of the first nucleotide. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Rotor\+List \mbox{\hyperlink{classPNAB_1_1ConformationSearch_af4e2546b32cd541c944cc110898405ff}{rl}}
+\begin{DoxyCompactList}\small\item\em The list of the all rotatable dihedral angles in the backbone. \end{DoxyCompactList}\item 
+std\+::vector$<$ Open\+Babel\+::\+O\+B\+Rotor $\ast$ $>$ \mbox{\hyperlink{classPNAB_1_1ConformationSearch_a844beb9d993fdca6869a8a66a417e7b6}{rotor\+\_\+vector}}
+\begin{DoxyCompactList}\small\item\em A vector of dihedral angles to be rotated in the search. Excludes fixed angles. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+A rotor search function used to find acceptable conformations of arbitrary backbone and helical parameter combinations. The main class of the proto-\/\+Nucleic Acid Builder. 
+
+The general algorithm follows the following steps\+:
+\begin{DoxyEnumerate}
+\item Define the input parameters\+:
+\begin{DoxyItemize}
+\item The three-\/dimensional structure of the backbone, the atoms that form the connection to the base, and the two atoms (head and tail) that link the backbone with two adjacent backbones.
+\item The helical configuration of the nucleobases.
+\item The runtime parameters\+:
+\begin{DoxyItemize}
+\item The specific search algorithm (see below).
+\item The distance and energy thresholds (see below).
+\item The sequence of the nucleobases and whether the system is single-\/stranded, a duplex, or a hexad.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item Connect the backbone with the first nucleobase in the sequence.
+\item Fix all the bond distances, bond angles, and the rigid dihedral angles in the backbone. Fix all the atoms of the nucleobase.
+\item Change the dihdedal angles in the backbone using one of the search algorithm.
+\item Translate and rotate the tail atom of the backbone using the given helical parameters.
+\item Measure the distance between the head and the tail atoms of the backbone.
+\item If the distance is greater than the distance threshold, go to 4. Else, proceed.
+\item Arrange the nucleobases using the given helical parameters. Replicate the backbone structure across all the nucleotides.
+\item Evaluate various energy terms for the system.
+\item If the energy terms are less than the energy thresholds, save the structure. Else, reject the structure.
+\item Repeat steps 4-\/10 or quit.
+\end{DoxyEnumerate}
+
+The various search algorithm differ in the implementation of step 4. Four classes of search algorithms are implemented here, namely\+:
+\begin{DoxyItemize}
+\item Systematic Search
+\item Random Search
+\item Monte Carlo Search
+\item Genetic Algorithm Search
+\end{DoxyItemize}
+
+Details on the specific implementation of each algorithm are discussed below.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_aff736ed299af34e42e6a87db109e336b}{Systematic\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_ad52e77cb571044efcdf2750bf54232c4}{Random\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a98d430672f8fc022c17dc1188edf465c}{Monte\+Carlo\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a4ff01c48376901bcf73758b1a013f3c1}{Genetic\+Algorithm\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters}{Helical\+Parameters}} 
+
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{Runtime\+Parameters}} 
+
+\mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} 
+
+\mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} 
+
+\mbox{\hyperlink{classPNAB_1_1Chain}{Chain}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_aa8fb93aba77a04fa41bdb648667b6118}\label{classPNAB_1_1ConformationSearch_aa8fb93aba77a04fa41bdb648667b6118}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!ConformationSearch@{ConformationSearch}}
+\index{ConformationSearch@{ConformationSearch}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{ConformationSearch()}{ConformationSearch()}}
+{\footnotesize\ttfamily Conformation\+Search\+::\+Conformation\+Search (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{P\+N\+A\+B\+::\+Runtime\+Parameters}} \&}]{runtime\+\_\+params,  }\item[{\mbox{\hyperlink{classPNAB_1_1Backbone}{P\+N\+A\+B\+::\+Backbone}} \&}]{backbone,  }\item[{\mbox{\hyperlink{classPNAB_1_1HelicalParameters}{P\+N\+A\+B\+::\+Helical\+Parameters}} \&}]{helical\+\_\+params,  }\item[{\mbox{\hyperlink{classPNAB_1_1Bases}{P\+N\+A\+B\+::\+Bases}}}]{bases,  }\item[{std\+::string}]{prefix = {\ttfamily \char`\"{}test\char`\"{}},  }\item[{bool}]{verbose = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+Constructor for the conformation search class. 
+
+The constructor takes the input parameters and constructs a single nucleotide. Then, it determines the rotatable dihedral angles in the backbone.
+
+
+\begin{DoxyParams}{Parameters}
+{\em runtime\+\_\+params} & Series of parameters that control how the search algorithm runs \\
+\hline
+{\em backbone} & The backbone molecule over which the algorithm searches \\
+\hline
+{\em helical\+\_\+params} & The geometric parameters constraining the possible conformations of the backbone \\
+\hline
+{\em bases} & List of defined bases that serves of as the library used for building the strand \\
+\hline
+{\em prefix} & A string to prepend the name of the accepted backbone candidates \\
+\hline
+{\em verbose} & Whether to print progress report to screen \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a4ff01c48376901bcf73758b1a013f3c1}\label{classPNAB_1_1ConformationSearch_a4ff01c48376901bcf73758b1a013f3c1}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!GeneticAlgorithmSearch@{GeneticAlgorithmSearch}}
+\index{GeneticAlgorithmSearch@{GeneticAlgorithmSearch}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{GeneticAlgorithmSearch()}{GeneticAlgorithmSearch()}}
+{\footnotesize\ttfamily void Conformation\+Search\+::\+Genetic\+Algorithm\+Search (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+This algorithm utilizes the genetic algorihtm procedure to improve the choice of the dihedral angle. 
+
+In the genetic algorithm search, a population of rotamers is initialized with random dihedral angles. At each iteration (or generation), certain rotamers (parents) are chosen for reproduction based on their fitness. The offsprings are generated by allowing the two parents to exchange (crossover) one dihedral angle. Then, a random mutation (or a new value for the dihedral angle) may be introduced for one dihedral angle. The new population consisting of the offsprings then follow the same procedure. The algorithm finishes after the specified number of generations. The length of the search is proportional to the number of generations multiplied by the size of the population.
+
+The fitness of the individuals is computed as the inverse of the distance between the head atom of the backbone and the tail atom of the adjacent backbone. The individuals in the population are ranked by their fitness score, and the probability of choosing individuals for mating is proportional to their ranking.
+
+The exchange of the dihedral angles between the parents and the introduction of new dihedral angles is determined by the crossover and mutation probabilities.
+
+The algorithm significantly accelerates the finding of dihedral angles that satisfy the distance threshold. However, the distance threshold only indicates that the candidate backbone configuration can form a periodic structure. It does not indicates whether the backbone configuration is low or high in energy. Therefore, introducing mutations with higher probability is useful in preventing the formation of a homogeneous population that has low distances but high energies.
+
+The probability of choosing a random angle between 0 and 360\textdegree{} is uniform.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_afce1eb97e0219b2ecf63b6af7d97599d}{Runtime\+Parameters\+::num\+\_\+steps}} 
+
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a8a9443df812cea45b695b7bfe1893e25}{Runtime\+Parameters\+::population\+\_\+size}} 
+
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_afba9c7b7013290f173faca84df845dce}{Runtime\+Parameters\+::crossover\+\_\+rate}} 
+
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_afc0368c268229b4bbddb1b89cd7f1c30}{Runtime\+Parameters\+::mutation\+\_\+rate}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a1b7bbc60c2acc830297c1f97249f20da}{measure\+Distance}} 
+
+\mbox{\hyperlink{classPNAB_1_1Chain_ad739566234b023be04bc2f2f2a5c7194}{Chain\+::generate\+Conformer\+Data}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a1b7bbc60c2acc830297c1f97249f20da}\label{classPNAB_1_1ConformationSearch_a1b7bbc60c2acc830297c1f97249f20da}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!measureDistance@{measureDistance}}
+\index{measureDistance@{measureDistance}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{measureDistance()}{measureDistance()}}
+{\footnotesize\ttfamily double Conformation\+Search\+::measure\+Distance (\begin{DoxyParamCaption}\item[{double $\ast$}]{coords,  }\item[{unsigned}]{head,  }\item[{unsigned}]{tail }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Compute the distance between the head backbone atom and the tail backbone atom of the next nucleotide. 
+
+This function applies the global translation and rotation to both the head and the tail atoms of the first nucleotide. Then, it applies the step translation and rotation to the tail atom to get its coordinates in the second nucleotide. Then, it computes the distance between the two atoms. This function is called by all the search algorithms.
+
+
+\begin{DoxyParams}{Parameters}
+{\em coords} & The coordinates of the first nucleotide \\
+\hline
+{\em head} & The index of the first terminal atom in the backbone of the first nucleotide \\
+\hline
+{\em tail} & The index of the second terminal atom the backbone of the first nucleotide\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The distance between the two atoms in Angstroms
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a4895122ad2dfa91f25a04c1dffb4be98}{Runtime\+Parameters\+::max\+\_\+distance}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch}{Conformation\+Search}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a98d430672f8fc022c17dc1188edf465c}\label{classPNAB_1_1ConformationSearch_a98d430672f8fc022c17dc1188edf465c}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!MonteCarloSearch@{MonteCarloSearch}}
+\index{MonteCarloSearch@{MonteCarloSearch}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{MonteCarloSearch()}{MonteCarloSearch()}}
+{\footnotesize\ttfamily void Conformation\+Search\+::\+Monte\+Carlo\+Search (\begin{DoxyParamCaption}\item[{bool}]{weighted }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The algorithm utilizes the Metropolis Monte Carlo scheme to improve the choice of the dihedral angle. 
+
+At every iteration, this algorithm randomly chooses two dihedrals and set them to random values. If the new configuration decreases the distance between the head atom of the backbone and the tail atom of the adjacent backbone or if the new distance is less than 1 Angstrom, this step is accepted. If the new configuration does not decrease the distance, the step is provisionally accpeted if a random number between 0 and 1 is less than $exp(\frac{E}{k_{B}T})$, where $E$ is a penalty term based on the distance, and $k_{B}T$ is the Boltzmann constant multiplied by the temperature. If the step is provisionally accepted, the system is constructed and the energy terms of the system are computed. If the energy terms are higher than the thresholds, the step is finally rejected. The algorithm finishes after the specified number of iterations.
+
+The penalty term $E$ is given by $E=-k(\textrm{currrent distance} - \textrm{previous distance})^2$. $k$ is a bond stretching constant fixed at 300 kcal/mol/\+Angstrom $^2$. The temperature controls how agressively the algorithm should provisionally accept or reject steps. An infinite temperature will reduce the algorithm to a random search with two dihedral angles changed at every step.
+
+The algorithm significantly accelerates the finding of dihedral angles that satisfy the distance threshold. However, the distance threshold only indicates that the candidate backbone configuration can form a periodic structure. It does not indicates whether the backbone configuration is low or high in energy. Therefore, the ultimate criteria for accepting or rejecting a step, if the distance is not decreased in the step, is whether it satisfies the energy thresholds.
+
+The probability of choosing a random angle between 0 and 360\textdegree{} can be uniform or can be weighted. See the description in Weighted\+Distributions for an explanation on the weighting scheme for the dihedral angles. 
+\begin{DoxyParams}{Parameters}
+{\em weighted} & Whether to use a weighted distribution for the dihedral angles\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_afce1eb97e0219b2ecf63b6af7d97599d}{Runtime\+Parameters\+::num\+\_\+steps}} 
+
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_af1a6690367b8c2b020e9574ed6e7054c}{Runtime\+Parameters\+::weighting\+\_\+temperature}} 
+
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_ac8d891edc1807b19ec5366b2c358a931}{Runtime\+Parameters\+::monte\+\_\+carlo\+\_\+temperature}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a7e396684f6a8e58aca2b45dcb1f2b7d2}{Weighted\+Distributions}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a1b7bbc60c2acc830297c1f97249f20da}{measure\+Distance}} 
+
+\mbox{\hyperlink{classPNAB_1_1Chain_ad739566234b023be04bc2f2f2a5c7194}{Chain\+::generate\+Conformer\+Data}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a02eb6b556cdebf2b0e66842751c27be4}\label{classPNAB_1_1ConformationSearch_a02eb6b556cdebf2b0e66842751c27be4}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!printProgress@{printProgress}}
+\index{printProgress@{printProgress}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{printProgress()}{printProgress()}}
+{\footnotesize\ttfamily void Conformation\+Search\+::print\+Progress (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{search\+\_\+index,  }\item[{std\+::size\+\_\+t}]{search\+\_\+size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Prints the percentage of search completed and the best accepted candidate. 
+
+Prints to the standard output the percentage of the search completed, the name of the P\+DB file containing the best accepted candidte, its distance and energy, and the number of accepted candidates.
+
+
+\begin{DoxyParams}{Parameters}
+{\em search\+\_\+index} & The step number in the search \\
+\hline
+{\em search\+\_\+size} & The total number of steps \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_ad52e77cb571044efcdf2750bf54232c4}\label{classPNAB_1_1ConformationSearch_ad52e77cb571044efcdf2750bf54232c4}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!RandomSearch@{RandomSearch}}
+\index{RandomSearch@{RandomSearch}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{RandomSearch()}{RandomSearch()}}
+{\footnotesize\ttfamily void Conformation\+Search\+::\+Random\+Search (\begin{DoxyParamCaption}\item[{bool}]{weighted }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The algorithm randomly changes all the dihedral angles in the backbone and evaluates whether they are acceptable. 
+
+At every iteration, this algorithm sets all the dihedral angles in the backbone to random values. This algorithm is purely random and each iteration is completely independent from the previous iteration. This algorithm can sample the dihedral angle space much faster than the Systemtic Search algorithm. Therefore, it may find an acceptable candidate faster. However, it is not deterministic. As each iteration is completely independent, this algorithm does not become trapped in unfavorable configurations. Nevertheless, the search does not improve with time. The algorithm finishes after the specified number of iterations.
+
+The probability of choosing a random angle between 0 and 360\textdegree{} can be uniform or can be weighted. See the description in Weighted\+Distributions for an explanation on the weighting scheme for the dihedral angles.
+
+
+\begin{DoxyParams}{Parameters}
+{\em weighted} & Whether to use a weighted distribution for the dihedral angles\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_afce1eb97e0219b2ecf63b6af7d97599d}{Runtime\+Parameters\+::num\+\_\+steps}} 
+
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_af1a6690367b8c2b020e9574ed6e7054c}{Runtime\+Parameters\+::weighting\+\_\+temperature}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a7e396684f6a8e58aca2b45dcb1f2b7d2}{Weighted\+Distributions}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a1b7bbc60c2acc830297c1f97249f20da}{measure\+Distance}} 
+
+\mbox{\hyperlink{classPNAB_1_1Chain_ad739566234b023be04bc2f2f2a5c7194}{Chain\+::generate\+Conformer\+Data}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a78e485c16429926686e12ccf48df35ba}\label{classPNAB_1_1ConformationSearch_a78e485c16429926686e12ccf48df35ba}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!reportData@{reportData}}
+\index{reportData@{reportData}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{reportData()}{reportData()}}
+{\footnotesize\ttfamily void Conformation\+Search\+::report\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structPNAB_1_1ConformerData}{P\+N\+A\+B\+::\+Conformer\+Data}} \&}]{conf\+\_\+data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A function to report the data on the accepted candidates. 
+
+This function saves the structure of each accepted candidate in P\+DB format. It also reports the properties of the candidates, ordered by their total energies, in a string with the C\+SV format. This is called by all search algorithms when a candidate is accepted. The \mbox{\hyperlink{classPNAB_1_1ConformationSearch_af2afc5cb952a05bd568f5775a15ba34c}{Conformation\+Search\+::output\+\_\+string}} variable is updated.
+
+
+\begin{DoxyParams}{Parameters}
+{\em conf\+\_\+data} & The properties of the accepted candiate \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a75ab7fa537fc2e65664a8840edfdf83b}\label{classPNAB_1_1ConformationSearch_a75ab7fa537fc2e65664a8840edfdf83b}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!run@{run}}
+\index{run@{run}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily std\+::string Conformation\+Search\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+A function to call the appropriate search algorithm using the provided \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a47eaa10da717a345f3e4b84f1d1175ab}{Runtime\+Parameters\+::search\+\_\+algorithm}}. 
+
+\begin{DoxyReturn}{Returns}
+A string in C\+SV format containing the properties of the accepted candidates. The structure of the accepted candidates are saved as P\+DB files.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_aff736ed299af34e42e6a87db109e336b}{Systematic\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_ad52e77cb571044efcdf2750bf54232c4}{Random\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a98d430672f8fc022c17dc1188edf465c}{Monte\+Carlo\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a4ff01c48376901bcf73758b1a013f3c1}{Genetic\+Algorithm\+Search}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_aff736ed299af34e42e6a87db109e336b}\label{classPNAB_1_1ConformationSearch_aff736ed299af34e42e6a87db109e336b}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!SystematicSearch@{SystematicSearch}}
+\index{SystematicSearch@{SystematicSearch}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{SystematicSearch()}{SystematicSearch()}}
+{\footnotesize\ttfamily void Conformation\+Search\+::\+Systematic\+Search (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Given a step size, the algorithm exhaustively searches over all the rotatable dihedral angles in the backbone. 
+
+The systematic search algorithm works by exhaustively rotating all the dihedral angles between 0 and 360\textdegree{} using the given step size. This is the simplest search algorithm. However, it is the most time-\/consuming as the time grows exponentially with the number of rotatable bonds. The number of steps required for the search is $(\frac{360.0}{\textrm{dihedral step}})^{\textrm{number of rotatable dihedrals}}$. This algorithm is deterministic and reproducible. It is guranteed to find an acceptable candidate, if any exists, to within the given resolution. This algorithm can be used to validate the results of the other algorithms and to determine whether the other algorithms found all the families of the acceptable candidates.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aa59b9fa26e595839c4819a581ba778aa}{Runtime\+Parameters\+::dihedral\+\_\+step}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a1b7bbc60c2acc830297c1f97249f20da}{measure\+Distance}} 
+
+\mbox{\hyperlink{classPNAB_1_1Chain_ad739566234b023be04bc2f2f2a5c7194}{Chain\+::generate\+Conformer\+Data}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a7e396684f6a8e58aca2b45dcb1f2b7d2}\label{classPNAB_1_1ConformationSearch_a7e396684f6a8e58aca2b45dcb1f2b7d2}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!WeightedDistributions@{WeightedDistributions}}
+\index{WeightedDistributions@{WeightedDistributions}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{WeightedDistributions()}{WeightedDistributions()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::piecewise\+\_\+linear\+\_\+distribution$<$ double $>$ $>$ Conformation\+Search\+::\+Weighted\+Distributions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Produces weighted distributions for each rotatable dihedral angle in the backbone. 
+
+Instead of using a uniform distrbution for the dihedral angles between 0 and 360\textdegree{}, this function generates weighted distributions for each rotatable dihedral angle in the backbone. The energy of each dihedral angle in isolation is computed every 5\textdegree{}. Then, the probability for a given angle is computed as the $\frac{exp(\frac{E_i}{k_{B}T})}{\sum_i exp(\frac{E_i}{k_{B}T})}$, where $E_i$ is the dihedral energy at angle $i$. The probability in each interval is the linear interpolation of the probabilities at the limits of the interval. The temperature controls how agressively the algorithm should weight the dihedral angles. An infinite temperature will reduce the probabilities to uniformly random distributions.
+
+This weighting scheme is useful in increasing the sampling of the dihedral angles where the energy of the dihedral angle is low. However, the energy of the dihedral angle in isolation does not necessarily mean the nucleotide energy is going to be low. This weighting scheme may improve the search if the acceptable candidates adopt structures where the dihedral angles are not strained. However, it may worsen the search if the unstrained dihedral angles do not produce low-\/energy candidates.
+
+\begin{DoxyReturn}{Returns}
+A vector of the weighted distributions for each rotatable dihedral angle
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters_af1a6690367b8c2b020e9574ed6e7054c}{Runtime\+Parameters\+::weighting\+\_\+temperature}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_ad52e77cb571044efcdf2750bf54232c4}{Random\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a98d430672f8fc022c17dc1188edf465c}{Monte\+Carlo\+Search}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Member Data Documentation}
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a32701f699583ed2dc2e61c1bfdacc35e}\label{classPNAB_1_1ConformationSearch_a32701f699583ed2dc2e61c1bfdacc35e}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!backbone\_@{backbone\_}}
+\index{backbone\_@{backbone\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{backbone\_}{backbone\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classPNAB_1_1Backbone}{P\+N\+A\+B\+::\+Backbone}} P\+N\+A\+B\+::\+Conformation\+Search\+::backbone\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The backbone molecule. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_aef47607633178113e99db645c79ee4cf}\label{classPNAB_1_1ConformationSearch_aef47607633178113e99db645c79ee4cf}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!backbone\_range\_@{backbone\_range\_}}
+\index{backbone\_range\_@{backbone\_range\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{backbone\_range\_}{backbone\_range\_}}
+{\footnotesize\ttfamily std\+::array$<$unsigned, 2$>$ P\+N\+A\+B\+::\+Conformation\+Search\+::backbone\+\_\+range\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The \mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} index range for the first nucleotide. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a2c863ecfd419da9d099ef8b14ce2779e}\label{classPNAB_1_1ConformationSearch_a2c863ecfd419da9d099ef8b14ce2779e}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!bases\_@{bases\_}}
+\index{bases\_@{bases\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{bases\_}{bases\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classPNAB_1_1Bases}{P\+N\+A\+B\+::\+Bases}} P\+N\+A\+B\+::\+Conformation\+Search\+::bases\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+the list of the defined bases 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_abc14e84f2cab4d6fd7abdbedb3e656b6}\label{classPNAB_1_1ConformationSearch_abc14e84f2cab4d6fd7abdbedb3e656b6}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!bu\_a\_mol@{bu\_a\_mol}}
+\index{bu\_a\_mol@{bu\_a\_mol}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{bu\_a\_mol}{bu\_a\_mol}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Mol P\+N\+A\+B\+::\+Conformation\+Search\+::bu\+\_\+a\+\_\+mol\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The molecule of the first nucleotide. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a37899834efd346baf028af9b2e74465a}\label{classPNAB_1_1ConformationSearch_a37899834efd346baf028af9b2e74465a}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!conv\_@{conv\_}}
+\index{conv\_@{conv\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{conv\_}{conv\_}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Conversion P\+N\+A\+B\+::\+Conformation\+Search\+::conv\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+An openbabel conversion object used to write accepted candidates. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a460891946a43dbe553e9ec56e2ca3cc7}\label{classPNAB_1_1ConformationSearch_a460891946a43dbe553e9ec56e2ca3cc7}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!coords@{coords}}
+\index{coords@{coords}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{coords}{coords}}
+{\footnotesize\ttfamily double$\ast$ P\+N\+A\+B\+::\+Conformation\+Search\+::coords\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The coordinates of the first nucleotide. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_ae81f71fd0d5dea1a4f9d7aaf122f6ce2}\label{classPNAB_1_1ConformationSearch_ae81f71fd0d5dea1a4f9d7aaf122f6ce2}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!glbl\_rot\_@{glbl\_rot\_}}
+\index{glbl\_rot\_@{glbl\_rot\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{glbl\_rot\_}{glbl\_rot\_}}
+{\footnotesize\ttfamily Open\+Babel\+::matrix3x3 P\+N\+A\+B\+::\+Conformation\+Search\+::glbl\+\_\+rot\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The global rotation matrix, \mbox{\hyperlink{classPNAB_1_1HelicalParameters_aab2b64a5c1689de4272bfbdf380dffac}{Helical\+Parameters\+::get\+Global\+Rotation\+Matrix}}. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a35490d8c862b89aed9b4c8d2d9bf359c}\label{classPNAB_1_1ConformationSearch_a35490d8c862b89aed9b4c8d2d9bf359c}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!glbl\_translate\_@{glbl\_translate\_}}
+\index{glbl\_translate\_@{glbl\_translate\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{glbl\_translate\_}{glbl\_translate\_}}
+{\footnotesize\ttfamily Open\+Babel\+::vector3 P\+N\+A\+B\+::\+Conformation\+Search\+::glbl\+\_\+translate\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The global translation vector, \mbox{\hyperlink{classPNAB_1_1HelicalParameters_ab38756e06d521c707c751228bee9db19}{Helical\+Parameters\+::get\+Global\+Translation\+Vec}}. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a97890c1e28ac451dd0a33332929a8384}\label{classPNAB_1_1ConformationSearch_a97890c1e28ac451dd0a33332929a8384}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!head@{head}}
+\index{head@{head}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{head}{head}}
+{\footnotesize\ttfamily unsigned P\+N\+A\+B\+::\+Conformation\+Search\+::head\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The first terminal atom in the backbone. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_afbde900f0f44ea77f818cc9d28ab2dd3}\label{classPNAB_1_1ConformationSearch_afbde900f0f44ea77f818cc9d28ab2dd3}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!helical\_params\_@{helical\_params\_}}
+\index{helical\_params\_@{helical\_params\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{helical\_params\_}{helical\_params\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classPNAB_1_1HelicalParameters}{P\+N\+A\+B\+::\+Helical\+Parameters}} P\+N\+A\+B\+::\+Conformation\+Search\+::helical\+\_\+params\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+the helical parameters 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a664ceb75b5462883ab2531dbb883c8eb}\label{classPNAB_1_1ConformationSearch_a664ceb75b5462883ab2531dbb883c8eb}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!monomer\_num\_coords\_@{monomer\_num\_coords\_}}
+\index{monomer\_num\_coords\_@{monomer\_num\_coords\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{monomer\_num\_coords\_}{monomer\_num\_coords\_}}
+{\footnotesize\ttfamily unsigned P\+N\+A\+B\+::\+Conformation\+Search\+::monomer\+\_\+num\+\_\+coords\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+3$\ast$\+The number of atoms in the first nucleotide 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_ab3359f926a0d4394aa633e643a9884e2}\label{classPNAB_1_1ConformationSearch_ab3359f926a0d4394aa633e643a9884e2}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!number\_of\_candidates@{number\_of\_candidates}}
+\index{number\_of\_candidates@{number\_of\_candidates}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{number\_of\_candidates}{number\_of\_candidates}}
+{\footnotesize\ttfamily int P\+N\+A\+B\+::\+Conformation\+Search\+::number\+\_\+of\+\_\+candidates = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The number of accepted candiates. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_af2afc5cb952a05bd568f5775a15ba34c}\label{classPNAB_1_1ConformationSearch_af2afc5cb952a05bd568f5775a15ba34c}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!output\_string@{output\_string}}
+\index{output\_string@{output\_string}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{output\_string}{output\_string}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Conformation\+Search\+::output\+\_\+string\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A string in C\+SV format containing the properties of the accepted candidates. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a07c1f84d5410c7c20adf3b6410e8d8ca}\label{classPNAB_1_1ConformationSearch_a07c1f84d5410c7c20adf3b6410e8d8ca}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!prefix\_@{prefix\_}}
+\index{prefix\_@{prefix\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{prefix\_}{prefix\_}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Conformation\+Search\+::prefix\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A string to prepend the name of the accepted backbone candidates. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_af4e2546b32cd541c944cc110898405ff}\label{classPNAB_1_1ConformationSearch_af4e2546b32cd541c944cc110898405ff}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!rl@{rl}}
+\index{rl@{rl}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{rl}{rl}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Rotor\+List P\+N\+A\+B\+::\+Conformation\+Search\+::rl\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The list of the all rotatable dihedral angles in the backbone. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a3371928146032cd0805c3c46e98985c7}\label{classPNAB_1_1ConformationSearch_a3371928146032cd0805c3c46e98985c7}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!rng\_@{rng\_}}
+\index{rng\_@{rng\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{rng\_}{rng\_}}
+{\footnotesize\ttfamily std\+::mt19937\+\_\+64 P\+N\+A\+B\+::\+Conformation\+Search\+::rng\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A random number generator. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a844beb9d993fdca6869a8a66a417e7b6}\label{classPNAB_1_1ConformationSearch_a844beb9d993fdca6869a8a66a417e7b6}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!rotor\_vector@{rotor\_vector}}
+\index{rotor\_vector@{rotor\_vector}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{rotor\_vector}{rotor\_vector}}
+{\footnotesize\ttfamily std\+::vector$<$Open\+Babel\+::\+O\+B\+Rotor$\ast$$>$ P\+N\+A\+B\+::\+Conformation\+Search\+::rotor\+\_\+vector\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector of dihedral angles to be rotated in the search. Excludes fixed angles. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a05385f7642d0c027a3740a0427b3c952}\label{classPNAB_1_1ConformationSearch_a05385f7642d0c027a3740a0427b3c952}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!runtime\_params\_@{runtime\_params\_}}
+\index{runtime\_params\_@{runtime\_params\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{runtime\_params\_}{runtime\_params\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{P\+N\+A\+B\+::\+Runtime\+Parameters}} P\+N\+A\+B\+::\+Conformation\+Search\+::runtime\+\_\+params\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The runtime parameters instance, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{Runtime\+Parameters}}. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a126f3544b6103177a47481f499272c79}\label{classPNAB_1_1ConformationSearch_a126f3544b6103177a47481f499272c79}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!step\_rot\_@{step\_rot\_}}
+\index{step\_rot\_@{step\_rot\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{step\_rot\_}{step\_rot\_}}
+{\footnotesize\ttfamily Open\+Babel\+::matrix3x3 P\+N\+A\+B\+::\+Conformation\+Search\+::step\+\_\+rot\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The step rotation matrix, \mbox{\hyperlink{classPNAB_1_1HelicalParameters_acf5516be29ecaf9053f0b0bfe41f3224}{Helical\+Parameters\+::get\+Step\+Rotation\+Matrix}}. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_abfc0ede7734ce5b8481d2c93bccd1db1}\label{classPNAB_1_1ConformationSearch_abfc0ede7734ce5b8481d2c93bccd1db1}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!step\_translate\_@{step\_translate\_}}
+\index{step\_translate\_@{step\_translate\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{step\_translate\_}{step\_translate\_}}
+{\footnotesize\ttfamily Open\+Babel\+::vector3 P\+N\+A\+B\+::\+Conformation\+Search\+::step\+\_\+translate\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The step translation vector, \mbox{\hyperlink{classPNAB_1_1HelicalParameters_acd6caf662c191c6e4b13baea7c9b8aff}{Helical\+Parameters\+::get\+Step\+Translation\+Vec}}. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a2f7611fb7bc03a4193dca86db300ee9b}\label{classPNAB_1_1ConformationSearch_a2f7611fb7bc03a4193dca86db300ee9b}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!tail@{tail}}
+\index{tail@{tail}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{tail}{tail}}
+{\footnotesize\ttfamily unsigned P\+N\+A\+B\+::\+Conformation\+Search\+::tail\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The second terminal atom in the backbone. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_a29dc1e7adf1e1958a462185bd07c6425}\label{classPNAB_1_1ConformationSearch_a29dc1e7adf1e1958a462185bd07c6425}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!unit@{unit}}
+\index{unit@{unit}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{unit}{unit}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} P\+N\+A\+B\+::\+Conformation\+Search\+::unit\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The nucleotide unit for the first nucleotide in the strand. Used for searching for conformations. 
+
+\mbox{\Hypertarget{classPNAB_1_1ConformationSearch_ac2a7fa4d5b361f7a60816e424132738b}\label{classPNAB_1_1ConformationSearch_ac2a7fa4d5b361f7a60816e424132738b}} 
+\index{PNAB::ConformationSearch@{PNAB::ConformationSearch}!verbose\_@{verbose\_}}
+\index{verbose\_@{verbose\_}!PNAB::ConformationSearch@{PNAB::ConformationSearch}}
+\doxyparagraph{\texorpdfstring{verbose\_}{verbose\_}}
+{\footnotesize\ttfamily bool P\+N\+A\+B\+::\+Conformation\+Search\+::verbose\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Whether to print progress report to screen. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ConformationSearch_8h}{Conformation\+Search.\+h}}\item 
+\mbox{\hyperlink{ConformationSearch_8cpp}{Conformation\+Search.\+cpp}}\end{DoxyCompactItemize}
