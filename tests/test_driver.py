@@ -35,7 +35,7 @@ def test_examples():
     examples = ['RNA.yaml', 'DNA.yaml', 'FRNA.yaml', 'LNA.yaml', 'CeNA.yaml', 'PNA.yaml', '5methylcytosine.yaml',
                 'ZP.yaml', 'Hexad.yaml', 'Hexad_Antiparallel.yaml', 'adenine_cyanuric_acid.yaml']
 
-    if platform.system() != 'Linux':
+    if platform.system() != 'Linux': # test times in other platforms exceed allowed limit for travis CI and appveyor
         examples = examples[:7]
 
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
@@ -48,9 +48,9 @@ def test_examples():
 
         if platform.system() == 'Linux':
             ref_output = np.genfromtxt(os.path.join('files', f.split('.')[0] + '.csv'), delimiter=',')
-            assert np.allclose(run.results, ref_output, atol=1e-4)
         elif platform.system() == 'Windows':
             ref_output = np.genfromtxt(os.path.join('files', f.split('.')[0] + '_windows.csv'), delimiter=',')
-            assert np.allclose(run.results, ref_output, atol=1e-4)
-
+        elif platform.system() == 'Darwin':
+            ref_output = np.genfromtxt(os.path.join('files', f.split('.')[0] + '_mac.csv'), delimiter=',')
             
+        assert np.allclose(run.results, ref_output, atol=1e-4)
