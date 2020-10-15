@@ -10,7 +10,7 @@ The C++ compiler in linux can also be installed using Conda.
 @code{.sh}
 conda install -c conda-forge gcc_linux-64 gxx_linux-64
 @endcode
-The code has been tested using the gcc 7.3 compiler in Linux, clang 8.0 compiler in Mac, and Visual Studio 2015/
+The code has been tested using the gcc 7.3 and 9.3 compilers in Linux, clang 8.0 and 10.0 compilers in Mac, and Visual Studio 2015/
 
 The code uses the pytest package for testing. To test that the code works, first install pytest:
 @code{.sh}

@@ -1,0 +1,614 @@
+\hypertarget{classPNAB_1_1Chain}{}\doxysubsection{P\+N\+AB\+::Chain Class Reference}
+\label{classPNAB_1_1Chain}\index{PNAB::Chain@{PNAB::Chain}}
+
+
+A class for building nucleic acid strands and evaluating their energies.  
+
+
+
+
+{\ttfamily \#include $<$Chain.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPNAB_1_1Chain_a807f97333d7905a8e1655ee1cd091955}{Chain}} (\mbox{\hyperlink{classPNAB_1_1Bases}{P\+N\+A\+B\+::\+Bases}} bases, const \mbox{\hyperlink{classPNAB_1_1Backbone}{P\+N\+A\+B\+::\+Backbone}} \&backbone, std\+::vector$<$ std\+::string $>$ strand, std\+::string ff\+\_\+type, std\+::array$<$ unsigned, 2 $>$ \&range, bool hexad, std\+::vector$<$ bool $>$ build\+\_\+strand=\{true, false, false, false, false, false\}, std\+::vector$<$ bool $>$ strand\+\_\+orientation=\{true, true, true, true, true, true\}, double glycosidic\+\_\+bond\+\_\+distance=0.\+0)
+\begin{DoxyCompactList}\small\item\em Constructor for the chain class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPNAB_1_1Chain_a23b7b9a89e0b75b3e9ccecd415736bd6}{$\sim$\+Chain}} ()
+\begin{DoxyCompactList}\small\item\em Destructor for the chain class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structPNAB_1_1ConformerData}{P\+N\+A\+B\+::\+Conformer\+Data}} \mbox{\hyperlink{classPNAB_1_1Chain_ad739566234b023be04bc2f2f2a5c7194}{generate\+Conformer\+Data}} (double $\ast$xyz, \mbox{\hyperlink{classPNAB_1_1HelicalParameters}{P\+N\+A\+B\+::\+Helical\+Parameters}} \&hp, std\+::vector$<$ double $>$ energy\+\_\+filter)
+\begin{DoxyCompactList}\small\item\em Generate structure and energy data for nucleic acid conformers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classPNAB_1_1Chain_a90545e6bcc5afe97098cafff38551833}{fill\+Conformer\+Energy\+Data}} (double $\ast$xyz, \mbox{\hyperlink{structPNAB_1_1ConformerData}{P\+N\+A\+B\+::\+Conformer\+Data}} \&conf\+\_\+data, std\+::vector$<$ double $>$ energy\+\_\+filter)
+\begin{DoxyCompactList}\small\item\em Computes the energy terms for the candidate system and determines whether it satisfies the energy thresholds. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1Chain_a07c0d2802edfc258047e85be262f48e1}{setup\+Chain}} (std\+::vector$<$ \mbox{\hyperlink{classPNAB_1_1Base}{P\+N\+A\+B\+::\+Base}} $>$ \&strand, Open\+Babel\+::\+O\+B\+Mol \&chain, std\+::vector$<$ unsigned $>$ \&new\+\_\+bond\+\_\+ids, std\+::vector$<$ unsigned $>$ \&deleted\+\_\+atoms\+\_\+ids, std\+::vector$<$ unsigned $>$ \&num\+\_\+base\+\_\+unit\+\_\+atoms, std\+::vector$<$ unsigned $>$ \&bb\+\_\+start\+\_\+index, std\+::vector$<$ double $\ast$ $>$ \&base\+\_\+coords\+\_\+vec, std\+::vector$<$ std\+::vector$<$ unsigned $>$$>$ \&fixed\+\_\+bonds\+\_\+vec, const \mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} \&backbone, unsigned chain\+\_\+index)
+\begin{DoxyCompactList}\small\item\em Creates the molecule for each strand in the system. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1Chain_aed5f0151f2450acf05a8bec298c5ae86}{setup\+F\+F\+Constraints}} (Open\+Babel\+::\+O\+B\+Mol \&chain, std\+::vector$<$ unsigned $>$ \&new\+\_\+bond\+\_\+ids, std\+::vector$<$ std\+::vector$<$ unsigned $>$$>$ \&fixed\+\_\+bonds\+\_\+vec, unsigned offset=0)
+\begin{DoxyCompactList}\small\item\em Determines the terms that should be ignored during the computation of the bond, angle, and torsional energies. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1Chain_a441ef4ae7dc91a981c97c37383e0b012}{set\+Coords\+For\+Chain}} (double $\ast$xyz, double $\ast$conf, \mbox{\hyperlink{classPNAB_1_1HelicalParameters}{P\+N\+A\+B\+::\+Helical\+Parameters}} \&hp, std\+::vector$<$ unsigned $>$ \&num\+\_\+bu\+\_\+atoms, std\+::vector$<$ unsigned $>$ \&bb\+\_\+start\+\_\+index, std\+::vector$<$ double $\ast$ $>$ \&base\+\_\+coords\+\_\+vec, std\+::vector$<$ unsigned $>$ \&deleted\+\_\+atoms\+\_\+ids, unsigned chain\+\_\+index)
+\begin{DoxyCompactList}\small\item\em Set the coordinates for each strand in the system. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1Chain_a0c581f8e6ac44d4d4d5772c93a3be4fe}{order\+Residues}} (Open\+Babel\+::\+O\+B\+Mol $\ast$molecule)
+\begin{DoxyCompactList}\small\item\em Orders the residues in the molecules correctly. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ Open\+Babel\+::\+O\+B\+Mol $>$ \mbox{\hyperlink{classPNAB_1_1Chain_a5706adefcb5d9a96e05fd0d544a349c1}{v\+\_\+chain\+\_\+}} = std\+::vector$<$Open\+Babel\+::\+O\+B\+Mol$>$(6)
+\begin{DoxyCompactList}\small\item\em A vector of Open\+Babel\+::\+O\+B\+Mol containing the molecules for each strand in the system. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Mol \mbox{\hyperlink{classPNAB_1_1Chain_a10c066182c6b386c6b9f2be83d98858b}{combined\+\_\+chain\+\_\+}}
+\begin{DoxyCompactList}\small\item\em An Open\+Babel\+::\+O\+B\+Mol molecule containing the structure of the whole system. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ unsigned $>$ $>$ \mbox{\hyperlink{classPNAB_1_1Chain_aa5ca69498dccdf40890ba2f0931982a4}{v\+\_\+new\+\_\+bond\+\_\+ids\+\_\+}} = std\+::vector$<$std\+::vector$<$unsigned$>$$>$(6)
+\begin{DoxyCompactList}\small\item\em a vector containing a vector of the I\+Ds of the atoms forming new bonds between the nucleotides in each strand \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ unsigned $>$ $>$ \mbox{\hyperlink{classPNAB_1_1Chain_afc100ef84a6d8204fe543cb9cc82818e}{v\+\_\+deleted\+\_\+atoms\+\_\+ids\+\_\+}} = std\+::vector$<$std\+::vector$<$unsigned$>$$>$(6)
+\begin{DoxyCompactList}\small\item\em A vector containing a vector of the I\+Ds of the atoms deleted in each strand because of the formation of new bonds. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ unsigned $>$ $>$ \mbox{\hyperlink{classPNAB_1_1Chain_a18d3cfb1466428d3ad1cf3edee33a92d}{v\+\_\+num\+\_\+bu\+\_\+\+A\+\_\+mol\+\_\+atoms\+\_\+}} = std\+::vector$<$std\+::vector$<$unsigned$>$$>$(6)
+\begin{DoxyCompactList}\small\item\em A vector containing a vector of the number of atoms in each \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} for each strand. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ std\+::vector$<$ unsigned $>$ $>$ $>$ \mbox{\hyperlink{classPNAB_1_1Chain_a9cdb51b38704374b35312023a221274e}{v\+\_\+fixed\+\_\+bonds}} = std\+::vector$<$std\+::vector$<$std\+::vector$<$unsigned$>$$>$$>$(6)
+\begin{DoxyCompactList}\small\item\em A vector containing the indices of fixed rotatable bonds for each strad. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ double $\ast$ $>$ $>$ \mbox{\hyperlink{classPNAB_1_1Chain_a783408161ffc0cfb5486b22a009bcc10}{v\+\_\+base\+\_\+coords\+\_\+vec\+\_\+}} = std\+::vector$<$std\+::vector$<$double$\ast$$>$$>$(6)
+\begin{DoxyCompactList}\small\item\em A vector containing a vector the coordinates of each nucleotide in each strand. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{classPNAB_1_1Chain_a1bb973da7c538278da12a394c270feb9}{chain\+\_\+length\+\_\+}}
+\begin{DoxyCompactList}\small\item\em The number of nucleotides in the strand. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{classPNAB_1_1Chain_a8b37d7864108eecab6baf31a49529a11}{n\+\_\+chains\+\_\+}}
+\begin{DoxyCompactList}\small\item\em The number of strands in the system. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPNAB_1_1Chain_abc4d1c711d31de794b6fe91794ec6fed}{is\+K\+C\+A\+L\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Whether the energy computed by openbabel is in kcal/mol. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPNAB_1_1Chain_a3b225a1ec22787e808be2ee740eed03a}{hexad\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Whether we are building a hexad, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aabae2cf8ab4a60cc40bdfb5173910867}{Runtime\+Parameters\+::is\+\_\+hexad}}. \end{DoxyCompactList}\item 
+std\+::vector$<$ bool $>$ \mbox{\hyperlink{classPNAB_1_1Chain_acf64d4319751b80acc3a2048a5f8c5ac}{strand\+\_\+orientation\+\_\+}}
+\begin{DoxyCompactList}\small\item\em A vector containing the orientation of each strand in the hexad, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aa5ffe42dbad68706b2ba1361fdd547f6}{Runtime\+Parameters\+::strand\+\_\+orientation}}. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPNAB_1_1Chain_a272e58a631e7be5c212b1b3822418f1a}{glycosidic\+\_\+bond\+\_\+distance\+\_\+}}
+\begin{DoxyCompactList}\small\item\em The distance of the glycosidic bond, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a6b2a98cd7796c30abefb5f4cbef45684}{Runtime\+Parameters\+::glycosidic\+\_\+bond\+\_\+distance}}. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Force\+Field $\ast$ \mbox{\hyperlink{classPNAB_1_1Chain_a8ba0453fbd479f84b5a1c3d361fdf3e4}{p\+F\+F\+\_\+}}
+\begin{DoxyCompactList}\small\item\em The openbabel force field. Used to compute the energy of the system. \end{DoxyCompactList}\item 
+std\+::array$<$ unsigned, 2 $>$ \mbox{\hyperlink{classPNAB_1_1Chain_a9d8cf40aff2ec9b9a5c7f5718ad34346}{monomer\+\_\+bb\+\_\+index\+\_\+range\+\_\+}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} index range for the first nucleotide. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ unsigned $>$ $>$ \mbox{\hyperlink{classPNAB_1_1Chain_a9279c32e9e5c6c2ce9ecd0faa1cf4d0a}{v\+\_\+bb\+\_\+start\+\_\+index\+\_\+}} = std\+::vector$<$std\+::vector$<$unsigned$>$$>$(6)
+\begin{DoxyCompactList}\small\item\em A vector containing a vector of the starting indices of the backbone atoms in the \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} for each strand. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1Chain_abc01e0e4b95ef180915dc0d85f69fb87}{ff\+\_\+type\+\_\+}}
+\begin{DoxyCompactList}\small\item\em The force field type (e.\+g. \char`\"{}\+G\+A\+F\+F\char`\"{}), \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aae9ac5c8604dd8f0bcf7cfbf3ddad627}{Runtime\+Parameters\+::ff\+\_\+type}}. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ unsigned int $>$ $>$ \mbox{\hyperlink{classPNAB_1_1Chain_a554312484e3ede3f0c49d3998596de71}{all\+\_\+angles\+\_\+}}
+\begin{DoxyCompactList}\small\item\em A vector of the vector of atom indices forming all the angles for which we need to compute the energy. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ unsigned int $>$ $>$ \mbox{\hyperlink{classPNAB_1_1Chain_ad54545ea40d395e8eedc188f8c7f00b7}{all\+\_\+torsions\+\_\+}}
+\begin{DoxyCompactList}\small\item\em A vector of the vector of atom indices forming all the torsions for which we need to compute the energy. \end{DoxyCompactList}\item 
+std\+::vector$<$ bool $>$ \mbox{\hyperlink{classPNAB_1_1Chain_a11484b2b4a243434ddda3038120fa297}{is\+\_\+fixed\+\_\+bond}}
+\begin{DoxyCompactList}\small\item\em A vector containing whether the torsional energy term is for a fixed rotatable bond or not. \end{DoxyCompactList}\item 
+std\+::vector$<$ bool $>$ \mbox{\hyperlink{classPNAB_1_1Chain_ab4a9d6aba108de4ebf77278c8c55a466}{build\+\_\+strand\+\_\+}}
+\begin{DoxyCompactList}\small\item\em A vector containing whether a given strand should be built. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+F\+F\+Constraints \mbox{\hyperlink{classPNAB_1_1Chain_aa87a36d58d7663a274a23c575f9687a5}{constraints\+Bond\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Setting all atoms not forming the new bond between the first two nucleotides to be ignored during bond energy computation. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+F\+F\+Constraints \mbox{\hyperlink{classPNAB_1_1Chain_a5ca300dbc8085b9a8c99652961feb928}{constraints\+Ang\+\_\+}}
+\begin{DoxyCompactList}\small\item\em An empty constraint object for angles; Energy groups are used for the angle terms. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+F\+F\+Constraints \mbox{\hyperlink{classPNAB_1_1Chain_a5473da4a436fba71516f82929c502bf6}{constraints\+Tor\+\_\+}}
+\begin{DoxyCompactList}\small\item\em An empty constraint object for torsions; Energy groups are used for the torsion terms. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+F\+F\+Constraints \mbox{\hyperlink{classPNAB_1_1Chain_ac321568f85e5844ef410a7ce4891fd50}{constraints\+Tot\+\_\+}}
+\begin{DoxyCompactList}\small\item\em An empty constraint object for van der Waals and total energy terms. No ignored atoms in these computations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+A class for building nucleic acid strands and evaluating their energies. 
+
+The class creates the strands by connecting the nucleotides created in the \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} class. It forms bonds between the nucleotides for the given sequence of the nucleobases, and creates duplex or hexad systems if requested. The class also contains functions for computing the energy terms for the system and checking whether the candidates are accepted. Several functions in the class identifies the proper energy terms to be computed for the system (e.\+g. bond and angle energies).
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch}{Conformation\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters}{Helical\+Parameters}} 
+
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{Runtime\+Parameters}} 
+
+\mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} 
+
+\mbox{\hyperlink{classPNAB_1_1Bases}{Bases}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPNAB_1_1Chain_a807f97333d7905a8e1655ee1cd091955}\label{classPNAB_1_1Chain_a807f97333d7905a8e1655ee1cd091955}} 
+\index{PNAB::Chain@{PNAB::Chain}!Chain@{Chain}}
+\index{Chain@{Chain}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{Chain()}{Chain()}}
+{\footnotesize\ttfamily Chain\+::\+Chain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classPNAB_1_1Bases}{P\+N\+A\+B\+::\+Bases}}}]{bases,  }\item[{const \mbox{\hyperlink{classPNAB_1_1Backbone}{P\+N\+A\+B\+::\+Backbone}} \&}]{backbone,  }\item[{std\+::vector$<$ std\+::string $>$}]{strand,  }\item[{std\+::string}]{ff\+\_\+type,  }\item[{std\+::array$<$ unsigned, 2 $>$ \&}]{range,  }\item[{bool}]{hexad,  }\item[{std\+::vector$<$ bool $>$}]{build\+\_\+strand = {\ttfamily \{true,~false,~false,~false,~false,~false\}},  }\item[{std\+::vector$<$ bool $>$}]{strand\+\_\+orientation = {\ttfamily \{true,~true,~true,~true,~true,~true\}},  }\item[{double}]{glycosidic\+\_\+bond\+\_\+distance = {\ttfamily 0.0} }\end{DoxyParamCaption})}
+
+
+
+Constructor for the chain class. 
+
+The constructor performs several tasks. It creates an Open\+Babel\+::\+Force\+Field object and check that it works as expected. It identifies whether we are working with the canonical nucleobases or with the hexad. For double-\/stranded and hexad systems, it checks whether the user provided correct comlimentary bases. After all these checks, it proceeds to setup the requested molecules. The constructor does not put correct coordinates for the molecules, but creates the topology of each strand in the system. The constructor also identifies the atoms that should be ignored when computing the separate energies (e.\+g. bond energy) for the backbone candidates.
+
+
+\begin{DoxyParams}{Parameters}
+{\em bases} & A vector of the all the defined bases, \\
+\hline
+{\em backbone} & The backbone \\
+\hline
+{\em strand} & A vector of the names of all bases in the strand, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aafb7029e648b888202195393aaa5179a}{Runtime\+Parameters\+::strand}} \\
+\hline
+{\em ff\+\_\+type} & The force field type, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aae9ac5c8604dd8f0bcf7cfbf3ddad627}{Runtime\+Parameters\+::ff\+\_\+type}} \\
+\hline
+{\em range} & \mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} index range for the first nucleotide \\
+\hline
+{\em hexad} & Defines whether the 60 degrees rotation for hexads is performed, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aabae2cf8ab4a60cc40bdfb5173910867}{Runtime\+Parameters\+::is\+\_\+hexad}} \\
+\hline
+{\em build\+\_\+strand} & Defines whether to build a given strand, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a755a1bcd73b84ccbbd2d9822fb0ede1e}{Runtime\+Parameters\+::build\+\_\+strand}} \\
+\hline
+{\em strand\+\_\+orientation} & The orientation of each strand in the hexad, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aa5ffe42dbad68706b2ba1361fdd547f6}{Runtime\+Parameters\+::strand\+\_\+orientation}} \\
+\hline
+{\em glycosidic\+\_\+bond\+\_\+distance} & The distance of the glycosidic bond, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a6b2a98cd7796c30abefb5f4cbef45684}{Runtime\+Parameters\+::glycosidic\+\_\+bond\+\_\+distance}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_a07c0d2802edfc258047e85be262f48e1}{setup\+Chain}} 
+
+\mbox{\hyperlink{classPNAB_1_1Chain_aed5f0151f2450acf05a8bec298c5ae86}{setup\+F\+F\+Constraints}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1Chain_a23b7b9a89e0b75b3e9ccecd415736bd6}\label{classPNAB_1_1Chain_a23b7b9a89e0b75b3e9ccecd415736bd6}} 
+\index{PNAB::Chain@{PNAB::Chain}!````~Chain@{$\sim$Chain}}
+\index{````~Chain@{$\sim$Chain}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{$\sim$Chain()}{~Chain()}}
+{\footnotesize\ttfamily P\+N\+A\+B\+::\+Chain\+::$\sim$\+Chain (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Destructor for the chain class. 
+
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPNAB_1_1Chain_a90545e6bcc5afe97098cafff38551833}\label{classPNAB_1_1Chain_a90545e6bcc5afe97098cafff38551833}} 
+\index{PNAB::Chain@{PNAB::Chain}!fillConformerEnergyData@{fillConformerEnergyData}}
+\index{fillConformerEnergyData@{fillConformerEnergyData}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{fillConformerEnergyData()}{fillConformerEnergyData()}}
+{\footnotesize\ttfamily void Chain\+::fill\+Conformer\+Energy\+Data (\begin{DoxyParamCaption}\item[{double $\ast$}]{xyz,  }\item[{\mbox{\hyperlink{structPNAB_1_1ConformerData}{P\+N\+A\+B\+::\+Conformer\+Data}} \&}]{conf\+\_\+data,  }\item[{std\+::vector$<$ double $>$}]{energy\+\_\+filter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Computes the energy terms for the candidate system and determines whether it satisfies the energy thresholds. 
+
+This function uses openbabel to compute the energy for the candidate systems. See the description in setup\+F\+F\+Constraints for the bond, angle, and torsional energies terms. The van der Waals and total energy terms of the systems are computed without any constraints. The energy terms are computed sequentially as follows\+: bond, angle, torsion, van der Waals, and total energies. If any one of the energy terms does not satisfy the energy thresholds defined in \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a5446a6022b09a0f71903f259b5b176f3}{Runtime\+Parameters\+::energy\+\_\+filter}}, then the candidate is rejected, and we do not proceed to compute the additional energy terms.
+
+
+\begin{DoxyParams}{Parameters}
+{\em xyz} & The coordinates of the whole system \\
+\hline
+{\em conf\+\_\+data} & An object that will hold the values of the energy terms, the coordinates, and whether it is accepted. \\
+\hline
+{\em energy\+\_\+filter} & The energy thresholds for the system, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a5446a6022b09a0f71903f259b5b176f3}{Runtime\+Parameters\+::energy\+\_\+filter}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_ad739566234b023be04bc2f2f2a5c7194}{generate\+Conformer\+Data}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1Chain_ad739566234b023be04bc2f2f2a5c7194}\label{classPNAB_1_1Chain_ad739566234b023be04bc2f2f2a5c7194}} 
+\index{PNAB::Chain@{PNAB::Chain}!generateConformerData@{generateConformerData}}
+\index{generateConformerData@{generateConformerData}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{generateConformerData()}{generateConformerData()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structPNAB_1_1ConformerData}{Conformer\+Data}} Chain\+::generate\+Conformer\+Data (\begin{DoxyParamCaption}\item[{double $\ast$}]{xyz,  }\item[{\mbox{\hyperlink{classPNAB_1_1HelicalParameters}{P\+N\+A\+B\+::\+Helical\+Parameters}} \&}]{hp,  }\item[{std\+::vector$<$ double $>$}]{energy\+\_\+filter }\end{DoxyParamCaption})}
+
+
+
+Generate structure and energy data for nucleic acid conformers. 
+
+After the conformation search finds a candidate that satisfies the distance threshold, this function is called with the coordinates of the backbone candidate to build the full system and computes its energy properties.
+
+This function calls \mbox{\hyperlink{classPNAB_1_1Chain_a441ef4ae7dc91a981c97c37383e0b012}{Chain\+::set\+Coords\+For\+Chain}} and \mbox{\hyperlink{classPNAB_1_1Chain_a90545e6bcc5afe97098cafff38551833}{Chain\+::fill\+Conformer\+Energy\+Data}} to setup the coordinates and compute the energies, respectively.
+
+
+\begin{DoxyParams}{Parameters}
+{\em xyz} & The coordinates of the backbone candidate that satisfied the distance threshold \\
+\hline
+{\em hp} & An instance of \mbox{\hyperlink{classPNAB_1_1HelicalParameters}{Helical\+Parameters}} that contains the helical structure data and functions \\
+\hline
+{\em energy\+\_\+filter} & The energy thresholds for the system, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a5446a6022b09a0f71903f259b5b176f3}{Runtime\+Parameters\+::energy\+\_\+filter}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The conformer energy data, \mbox{\hyperlink{structPNAB_1_1ConformerData}{Conformer\+Data}}, containing whether the candidate is accepted
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_a441ef4ae7dc91a981c97c37383e0b012}{set\+Coords\+For\+Chain}} 
+
+\mbox{\hyperlink{classPNAB_1_1Chain_a90545e6bcc5afe97098cafff38551833}{fill\+Conformer\+Energy\+Data}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_ad52e77cb571044efcdf2750bf54232c4}{Conformation\+Search\+::\+Random\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a98d430672f8fc022c17dc1188edf465c}{Conformation\+Search\+::\+Monte\+Carlo\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_aff736ed299af34e42e6a87db109e336b}{Conformation\+Search\+::\+Systematic\+Search}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch_a4ff01c48376901bcf73758b1a013f3c1}{Conformation\+Search\+::\+Genetic\+Algorithm\+Search}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1Chain_a0c581f8e6ac44d4d4d5772c93a3be4fe}\label{classPNAB_1_1Chain_a0c581f8e6ac44d4d4d5772c93a3be4fe}} 
+\index{PNAB::Chain@{PNAB::Chain}!orderResidues@{orderResidues}}
+\index{orderResidues@{orderResidues}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{orderResidues()}{orderResidues()}}
+{\footnotesize\ttfamily void Chain\+::order\+Residues (\begin{DoxyParamCaption}\item[{Open\+Babel\+::\+O\+B\+Mol $\ast$}]{molecule }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Orders the residues in the molecules correctly. 
+
+This function reverses the order of residues in inverted strands.
+
+
+\begin{DoxyParams}{Parameters}
+{\em molecule} & The O\+B\+Mol object of the system which will get the correct order\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_ad739566234b023be04bc2f2f2a5c7194}{generate\+Conformer\+Data}} 
+
+\mbox{\hyperlink{structPNAB_1_1ConformerData}{P\+N\+A\+B\+::\+Conformer\+Data}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1Chain_a441ef4ae7dc91a981c97c37383e0b012}\label{classPNAB_1_1Chain_a441ef4ae7dc91a981c97c37383e0b012}} 
+\index{PNAB::Chain@{PNAB::Chain}!setCoordsForChain@{setCoordsForChain}}
+\index{setCoordsForChain@{setCoordsForChain}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{setCoordsForChain()}{setCoordsForChain()}}
+{\footnotesize\ttfamily void Chain\+::set\+Coords\+For\+Chain (\begin{DoxyParamCaption}\item[{double $\ast$}]{xyz,  }\item[{double $\ast$}]{conf,  }\item[{\mbox{\hyperlink{classPNAB_1_1HelicalParameters}{P\+N\+A\+B\+::\+Helical\+Parameters}} \&}]{hp,  }\item[{std\+::vector$<$ unsigned $>$ \&}]{num\+\_\+bu\+\_\+atoms,  }\item[{std\+::vector$<$ unsigned $>$ \&}]{bb\+\_\+start\+\_\+index,  }\item[{std\+::vector$<$ double $\ast$ $>$ \&}]{base\+\_\+coords\+\_\+vec,  }\item[{std\+::vector$<$ unsigned $>$ \&}]{deleted\+\_\+atoms\+\_\+ids,  }\item[{unsigned}]{chain\+\_\+index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Set the coordinates for each strand in the system. 
+
+This function set the coordinates for each nucleotide in the strand. For D\+N\+A-\/ and R\+N\+A-\/ like systems, this function can generate anti-\/parallel strands. For hexad systems, it can generate any combination of the parallel and anti-\/parallel strands.
+
+
+\begin{DoxyParams}{Parameters}
+{\em xyz} & An array that will get the coordinates of the strands \\
+\hline
+{\em conf} & An array containing the coordinates of one backbone determined by the search algorithms \\
+\hline
+{\em hp} & An instance of \mbox{\hyperlink{classPNAB_1_1HelicalParameters}{Helical\+Parameters}} which has the helical parameters and functions to generate the coordinates \\
+\hline
+{\em num\+\_\+bu\+\_\+atoms} & The number of atoms in each \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} \\
+\hline
+{\em bb\+\_\+start\+\_\+index} & A vector containing the starting indices of the backbone atoms in the \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} \\
+\hline
+{\em base\+\_\+coords\+\_\+vec} & A vector containing the coordinates of each one of the nucleotides \\
+\hline
+{\em deleted\+\_\+atoms\+\_\+ids} & A vector containing the indices of the atoms deleted because of the bonding between the nucleotides \\
+\hline
+{\em chain\+\_\+index} & The index of the strand in the system\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_a07c0d2802edfc258047e85be262f48e1}{setup\+Chain}} 
+
+\mbox{\hyperlink{classPNAB_1_1Chain_ad739566234b023be04bc2f2f2a5c7194}{generate\+Conformer\+Data}} 
+
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters}{Helical\+Parameters}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch}{Conformation\+Search}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1Chain_a07c0d2802edfc258047e85be262f48e1}\label{classPNAB_1_1Chain_a07c0d2802edfc258047e85be262f48e1}} 
+\index{PNAB::Chain@{PNAB::Chain}!setupChain@{setupChain}}
+\index{setupChain@{setupChain}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{setupChain()}{setupChain()}}
+{\footnotesize\ttfamily void Chain\+::setup\+Chain (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classPNAB_1_1Base}{P\+N\+A\+B\+::\+Base}} $>$ \&}]{strand,  }\item[{Open\+Babel\+::\+O\+B\+Mol \&}]{chain,  }\item[{std\+::vector$<$ unsigned $>$ \&}]{new\+\_\+bond\+\_\+ids,  }\item[{std\+::vector$<$ unsigned $>$ \&}]{deleted\+\_\+atoms\+\_\+ids,  }\item[{std\+::vector$<$ unsigned $>$ \&}]{num\+\_\+base\+\_\+unit\+\_\+atoms,  }\item[{std\+::vector$<$ unsigned $>$ \&}]{bb\+\_\+start\+\_\+index,  }\item[{std\+::vector$<$ double $\ast$ $>$ \&}]{base\+\_\+coords\+\_\+vec,  }\item[{std\+::vector$<$ std\+::vector$<$ unsigned $>$$>$ \&}]{fixed\+\_\+bonds\+\_\+vec,  }\item[{const \mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} \&}]{backbone,  }\item[{unsigned}]{chain\+\_\+index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Creates the molecule for each strand in the system. 
+
+This function creates the topology (makes and removes bonds) for each strand in the system. It also determines the indices for all the fixed rotatable bonds in the system.
+
+
+\begin{DoxyParams}{Parameters}
+{\em strand} & The list of bases in the strand \\
+\hline
+{\em chain} & An empty openbabel molecule to be populated with the topology of the strand \\
+\hline
+{\em new\+\_\+bond\+\_\+ids} & An empty vector to be populated with the indices of the atoms forming bonds between the nucleotides \\
+\hline
+{\em deleted\+\_\+atoms\+\_\+ids} & An empty vector to be populated with the indices of the atoms deleted because of the bonding between the nucleotides \\
+\hline
+{\em num\+\_\+base\+\_\+unit\+\_\+atoms} & An empty vector to be populated with the number of atoms in each \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} \\
+\hline
+{\em bb\+\_\+start\+\_\+index} & An empty vector to be populated with the starting index of the backbone atoms in the \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} \\
+\hline
+{\em base\+\_\+coords\+\_\+vec} & An empty vector to be populated with the coordinates of each one of the nucleotides \\
+\hline
+{\em fixed\+\_\+bonds\+\_\+vec} & An empty vector to be populated with the indices of fixed bonds in each one of the nucleotides \\
+\hline
+{\em backbone} & An instance of the \mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} class \\
+\hline
+{\em chain\+\_\+index} & The index of the chain\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_a807f97333d7905a8e1655ee1cd091955}{Chain\+::\+Chain}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classPNAB_1_1Chain_aed5f0151f2450acf05a8bec298c5ae86}\label{classPNAB_1_1Chain_aed5f0151f2450acf05a8bec298c5ae86}} 
+\index{PNAB::Chain@{PNAB::Chain}!setupFFConstraints@{setupFFConstraints}}
+\index{setupFFConstraints@{setupFFConstraints}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{setupFFConstraints()}{setupFFConstraints()}}
+{\footnotesize\ttfamily void Chain\+::setup\+F\+F\+Constraints (\begin{DoxyParamCaption}\item[{Open\+Babel\+::\+O\+B\+Mol \&}]{chain,  }\item[{std\+::vector$<$ unsigned $>$ \&}]{new\+\_\+bond\+\_\+ids,  }\item[{std\+::vector$<$ std\+::vector$<$ unsigned $>$$>$ \&}]{fixed\+\_\+bonds\+\_\+vec,  }\item[{unsigned}]{offset = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Determines the terms that should be ignored during the computation of the bond, angle, and torsional energies. 
+
+For the bond energy, we consider only the one new bond that is formed between the first and second nucleobases in the system. This bond energy is the same for all new bonds, so we do not need to compute it for all of them.
+
+For the angle energy, we consider all the new angles that are formed between the first and second nucleobases in the system. This angle energy is the same for all new bonds, so we do not need to compute it for all of them.
+
+For the torsional energy, we consider all the rotatable bonds in all the nucleobases. There will be some redundant calculations, as some torsional angles will be the same. This code also identifies whether a rotatable torsional angle is fixed or not. For the identified torsional angles, we do not include any torsional angle that runs between the residues, as these are not rotated in the search procedure.
+
+
+\begin{DoxyParams}{Parameters}
+{\em chain} & The openbabel molecule that contain the topology of the strand \\
+\hline
+{\em new\+\_\+bond\+\_\+ids} & A vector containing the indices of the atoms forming bonds between the nucleotides \\
+\hline
+{\em fixed\+\_\+bonds\+\_\+vec} & A vector containing the indices of fixed bonds in each one of the nucleotides \\
+\hline
+{\em offset} & The number of atoms that have been processed previously. Used to set correct indices for all the strands.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Chain_a807f97333d7905a8e1655ee1cd091955}{Chain\+::\+Chain}} 
+
+\mbox{\hyperlink{classPNAB_1_1Chain_a07c0d2802edfc258047e85be262f48e1}{setup\+Chain}} 
+
+\mbox{\hyperlink{classPNAB_1_1Chain_a90545e6bcc5afe97098cafff38551833}{fill\+Conformer\+Energy\+Data}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Member Data Documentation}
+\mbox{\Hypertarget{classPNAB_1_1Chain_a554312484e3ede3f0c49d3998596de71}\label{classPNAB_1_1Chain_a554312484e3ede3f0c49d3998596de71}} 
+\index{PNAB::Chain@{PNAB::Chain}!all\_angles\_@{all\_angles\_}}
+\index{all\_angles\_@{all\_angles\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{all\_angles\_}{all\_angles\_}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$unsigned int$>$ $>$ P\+N\+A\+B\+::\+Chain\+::all\+\_\+angles\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector of the vector of atom indices forming all the angles for which we need to compute the energy. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_ad54545ea40d395e8eedc188f8c7f00b7}\label{classPNAB_1_1Chain_ad54545ea40d395e8eedc188f8c7f00b7}} 
+\index{PNAB::Chain@{PNAB::Chain}!all\_torsions\_@{all\_torsions\_}}
+\index{all\_torsions\_@{all\_torsions\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{all\_torsions\_}{all\_torsions\_}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$unsigned int$>$ $>$ P\+N\+A\+B\+::\+Chain\+::all\+\_\+torsions\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector of the vector of atom indices forming all the torsions for which we need to compute the energy. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_ab4a9d6aba108de4ebf77278c8c55a466}\label{classPNAB_1_1Chain_ab4a9d6aba108de4ebf77278c8c55a466}} 
+\index{PNAB::Chain@{PNAB::Chain}!build\_strand\_@{build\_strand\_}}
+\index{build\_strand\_@{build\_strand\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{build\_strand\_}{build\_strand\_}}
+{\footnotesize\ttfamily std\+::vector$<$bool$>$ P\+N\+A\+B\+::\+Chain\+::build\+\_\+strand\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector containing whether a given strand should be built. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a1bb973da7c538278da12a394c270feb9}\label{classPNAB_1_1Chain_a1bb973da7c538278da12a394c270feb9}} 
+\index{PNAB::Chain@{PNAB::Chain}!chain\_length\_@{chain\_length\_}}
+\index{chain\_length\_@{chain\_length\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{chain\_length\_}{chain\_length\_}}
+{\footnotesize\ttfamily unsigned P\+N\+A\+B\+::\+Chain\+::chain\+\_\+length\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The number of nucleotides in the strand. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a10c066182c6b386c6b9f2be83d98858b}\label{classPNAB_1_1Chain_a10c066182c6b386c6b9f2be83d98858b}} 
+\index{PNAB::Chain@{PNAB::Chain}!combined\_chain\_@{combined\_chain\_}}
+\index{combined\_chain\_@{combined\_chain\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{combined\_chain\_}{combined\_chain\_}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Mol P\+N\+A\+B\+::\+Chain\+::combined\+\_\+chain\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+An Open\+Babel\+::\+O\+B\+Mol molecule containing the structure of the whole system. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a5ca300dbc8085b9a8c99652961feb928}\label{classPNAB_1_1Chain_a5ca300dbc8085b9a8c99652961feb928}} 
+\index{PNAB::Chain@{PNAB::Chain}!constraintsAng\_@{constraintsAng\_}}
+\index{constraintsAng\_@{constraintsAng\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{constraintsAng\_}{constraintsAng\_}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+F\+F\+Constraints P\+N\+A\+B\+::\+Chain\+::constraints\+Ang\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+An empty constraint object for angles; Energy groups are used for the angle terms. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_aa87a36d58d7663a274a23c575f9687a5}\label{classPNAB_1_1Chain_aa87a36d58d7663a274a23c575f9687a5}} 
+\index{PNAB::Chain@{PNAB::Chain}!constraintsBond\_@{constraintsBond\_}}
+\index{constraintsBond\_@{constraintsBond\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{constraintsBond\_}{constraintsBond\_}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+F\+F\+Constraints P\+N\+A\+B\+::\+Chain\+::constraints\+Bond\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Setting all atoms not forming the new bond between the first two nucleotides to be ignored during bond energy computation. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a5473da4a436fba71516f82929c502bf6}\label{classPNAB_1_1Chain_a5473da4a436fba71516f82929c502bf6}} 
+\index{PNAB::Chain@{PNAB::Chain}!constraintsTor\_@{constraintsTor\_}}
+\index{constraintsTor\_@{constraintsTor\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{constraintsTor\_}{constraintsTor\_}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+F\+F\+Constraints P\+N\+A\+B\+::\+Chain\+::constraints\+Tor\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+An empty constraint object for torsions; Energy groups are used for the torsion terms. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_ac321568f85e5844ef410a7ce4891fd50}\label{classPNAB_1_1Chain_ac321568f85e5844ef410a7ce4891fd50}} 
+\index{PNAB::Chain@{PNAB::Chain}!constraintsTot\_@{constraintsTot\_}}
+\index{constraintsTot\_@{constraintsTot\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{constraintsTot\_}{constraintsTot\_}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+F\+F\+Constraints P\+N\+A\+B\+::\+Chain\+::constraints\+Tot\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+An empty constraint object for van der Waals and total energy terms. No ignored atoms in these computations. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_abc01e0e4b95ef180915dc0d85f69fb87}\label{classPNAB_1_1Chain_abc01e0e4b95ef180915dc0d85f69fb87}} 
+\index{PNAB::Chain@{PNAB::Chain}!ff\_type\_@{ff\_type\_}}
+\index{ff\_type\_@{ff\_type\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{ff\_type\_}{ff\_type\_}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Chain\+::ff\+\_\+type\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The force field type (e.\+g. \char`\"{}\+G\+A\+F\+F\char`\"{}), \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aae9ac5c8604dd8f0bcf7cfbf3ddad627}{Runtime\+Parameters\+::ff\+\_\+type}}. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a272e58a631e7be5c212b1b3822418f1a}\label{classPNAB_1_1Chain_a272e58a631e7be5c212b1b3822418f1a}} 
+\index{PNAB::Chain@{PNAB::Chain}!glycosidic\_bond\_distance\_@{glycosidic\_bond\_distance\_}}
+\index{glycosidic\_bond\_distance\_@{glycosidic\_bond\_distance\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{glycosidic\_bond\_distance\_}{glycosidic\_bond\_distance\_}}
+{\footnotesize\ttfamily double P\+N\+A\+B\+::\+Chain\+::glycosidic\+\_\+bond\+\_\+distance\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The distance of the glycosidic bond, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_a6b2a98cd7796c30abefb5f4cbef45684}{Runtime\+Parameters\+::glycosidic\+\_\+bond\+\_\+distance}}. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a3b225a1ec22787e808be2ee740eed03a}\label{classPNAB_1_1Chain_a3b225a1ec22787e808be2ee740eed03a}} 
+\index{PNAB::Chain@{PNAB::Chain}!hexad\_@{hexad\_}}
+\index{hexad\_@{hexad\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{hexad\_}{hexad\_}}
+{\footnotesize\ttfamily bool P\+N\+A\+B\+::\+Chain\+::hexad\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Whether we are building a hexad, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aabae2cf8ab4a60cc40bdfb5173910867}{Runtime\+Parameters\+::is\+\_\+hexad}}. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a11484b2b4a243434ddda3038120fa297}\label{classPNAB_1_1Chain_a11484b2b4a243434ddda3038120fa297}} 
+\index{PNAB::Chain@{PNAB::Chain}!is\_fixed\_bond@{is\_fixed\_bond}}
+\index{is\_fixed\_bond@{is\_fixed\_bond}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{is\_fixed\_bond}{is\_fixed\_bond}}
+{\footnotesize\ttfamily std\+::vector$<$bool$>$ P\+N\+A\+B\+::\+Chain\+::is\+\_\+fixed\+\_\+bond\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector containing whether the torsional energy term is for a fixed rotatable bond or not. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_abc4d1c711d31de794b6fe91794ec6fed}\label{classPNAB_1_1Chain_abc4d1c711d31de794b6fe91794ec6fed}} 
+\index{PNAB::Chain@{PNAB::Chain}!isKCAL\_@{isKCAL\_}}
+\index{isKCAL\_@{isKCAL\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{isKCAL\_}{isKCAL\_}}
+{\footnotesize\ttfamily bool P\+N\+A\+B\+::\+Chain\+::is\+K\+C\+A\+L\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Whether the energy computed by openbabel is in kcal/mol. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a9d8cf40aff2ec9b9a5c7f5718ad34346}\label{classPNAB_1_1Chain_a9d8cf40aff2ec9b9a5c7f5718ad34346}} 
+\index{PNAB::Chain@{PNAB::Chain}!monomer\_bb\_index\_range\_@{monomer\_bb\_index\_range\_}}
+\index{monomer\_bb\_index\_range\_@{monomer\_bb\_index\_range\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{monomer\_bb\_index\_range\_}{monomer\_bb\_index\_range\_}}
+{\footnotesize\ttfamily std\+::array$<$unsigned, 2$>$ P\+N\+A\+B\+::\+Chain\+::monomer\+\_\+bb\+\_\+index\+\_\+range\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+\mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} index range for the first nucleotide. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a8b37d7864108eecab6baf31a49529a11}\label{classPNAB_1_1Chain_a8b37d7864108eecab6baf31a49529a11}} 
+\index{PNAB::Chain@{PNAB::Chain}!n\_chains\_@{n\_chains\_}}
+\index{n\_chains\_@{n\_chains\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{n\_chains\_}{n\_chains\_}}
+{\footnotesize\ttfamily unsigned P\+N\+A\+B\+::\+Chain\+::n\+\_\+chains\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The number of strands in the system. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a8ba0453fbd479f84b5a1c3d361fdf3e4}\label{classPNAB_1_1Chain_a8ba0453fbd479f84b5a1c3d361fdf3e4}} 
+\index{PNAB::Chain@{PNAB::Chain}!pFF\_@{pFF\_}}
+\index{pFF\_@{pFF\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{pFF\_}{pFF\_}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Force\+Field$\ast$ P\+N\+A\+B\+::\+Chain\+::p\+F\+F\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The openbabel force field. Used to compute the energy of the system. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_acf64d4319751b80acc3a2048a5f8c5ac}\label{classPNAB_1_1Chain_acf64d4319751b80acc3a2048a5f8c5ac}} 
+\index{PNAB::Chain@{PNAB::Chain}!strand\_orientation\_@{strand\_orientation\_}}
+\index{strand\_orientation\_@{strand\_orientation\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{strand\_orientation\_}{strand\_orientation\_}}
+{\footnotesize\ttfamily std\+::vector$<$bool$>$ P\+N\+A\+B\+::\+Chain\+::strand\+\_\+orientation\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector containing the orientation of each strand in the hexad, \mbox{\hyperlink{classPNAB_1_1RuntimeParameters_aa5ffe42dbad68706b2ba1361fdd547f6}{Runtime\+Parameters\+::strand\+\_\+orientation}}. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a783408161ffc0cfb5486b22a009bcc10}\label{classPNAB_1_1Chain_a783408161ffc0cfb5486b22a009bcc10}} 
+\index{PNAB::Chain@{PNAB::Chain}!v\_base\_coords\_vec\_@{v\_base\_coords\_vec\_}}
+\index{v\_base\_coords\_vec\_@{v\_base\_coords\_vec\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{v\_base\_coords\_vec\_}{v\_base\_coords\_vec\_}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$double$\ast$$>$ $>$ P\+N\+A\+B\+::\+Chain\+::v\+\_\+base\+\_\+coords\+\_\+vec\+\_\+ = std\+::vector$<$std\+::vector$<$double$\ast$$>$$>$(6)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector containing a vector the coordinates of each nucleotide in each strand. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a9279c32e9e5c6c2ce9ecd0faa1cf4d0a}\label{classPNAB_1_1Chain_a9279c32e9e5c6c2ce9ecd0faa1cf4d0a}} 
+\index{PNAB::Chain@{PNAB::Chain}!v\_bb\_start\_index\_@{v\_bb\_start\_index\_}}
+\index{v\_bb\_start\_index\_@{v\_bb\_start\_index\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{v\_bb\_start\_index\_}{v\_bb\_start\_index\_}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$unsigned$>$ $>$ P\+N\+A\+B\+::\+Chain\+::v\+\_\+bb\+\_\+start\+\_\+index\+\_\+ = std\+::vector$<$std\+::vector$<$unsigned$>$$>$(6)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector containing a vector of the starting indices of the backbone atoms in the \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} for each strand. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a5706adefcb5d9a96e05fd0d544a349c1}\label{classPNAB_1_1Chain_a5706adefcb5d9a96e05fd0d544a349c1}} 
+\index{PNAB::Chain@{PNAB::Chain}!v\_chain\_@{v\_chain\_}}
+\index{v\_chain\_@{v\_chain\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{v\_chain\_}{v\_chain\_}}
+{\footnotesize\ttfamily std\+::vector$<$Open\+Babel\+::\+O\+B\+Mol$>$ P\+N\+A\+B\+::\+Chain\+::v\+\_\+chain\+\_\+ = std\+::vector$<$Open\+Babel\+::\+O\+B\+Mol$>$(6)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector of Open\+Babel\+::\+O\+B\+Mol containing the molecules for each strand in the system. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_afc100ef84a6d8204fe543cb9cc82818e}\label{classPNAB_1_1Chain_afc100ef84a6d8204fe543cb9cc82818e}} 
+\index{PNAB::Chain@{PNAB::Chain}!v\_deleted\_atoms\_ids\_@{v\_deleted\_atoms\_ids\_}}
+\index{v\_deleted\_atoms\_ids\_@{v\_deleted\_atoms\_ids\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{v\_deleted\_atoms\_ids\_}{v\_deleted\_atoms\_ids\_}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$unsigned$>$ $>$ P\+N\+A\+B\+::\+Chain\+::v\+\_\+deleted\+\_\+atoms\+\_\+ids\+\_\+ = std\+::vector$<$std\+::vector$<$unsigned$>$$>$(6)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector containing a vector of the I\+Ds of the atoms deleted in each strand because of the formation of new bonds. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a9cdb51b38704374b35312023a221274e}\label{classPNAB_1_1Chain_a9cdb51b38704374b35312023a221274e}} 
+\index{PNAB::Chain@{PNAB::Chain}!v\_fixed\_bonds@{v\_fixed\_bonds}}
+\index{v\_fixed\_bonds@{v\_fixed\_bonds}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{v\_fixed\_bonds}{v\_fixed\_bonds}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$std\+::vector$<$unsigned$>$ $>$ $>$ P\+N\+A\+B\+::\+Chain\+::v\+\_\+fixed\+\_\+bonds = std\+::vector$<$std\+::vector$<$std\+::vector$<$unsigned$>$$>$$>$(6)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector containing the indices of fixed rotatable bonds for each strad. 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_aa5ca69498dccdf40890ba2f0931982a4}\label{classPNAB_1_1Chain_aa5ca69498dccdf40890ba2f0931982a4}} 
+\index{PNAB::Chain@{PNAB::Chain}!v\_new\_bond\_ids\_@{v\_new\_bond\_ids\_}}
+\index{v\_new\_bond\_ids\_@{v\_new\_bond\_ids\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{v\_new\_bond\_ids\_}{v\_new\_bond\_ids\_}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$unsigned$>$ $>$ P\+N\+A\+B\+::\+Chain\+::v\+\_\+new\+\_\+bond\+\_\+ids\+\_\+ = std\+::vector$<$std\+::vector$<$unsigned$>$$>$(6)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+a vector containing a vector of the I\+Ds of the atoms forming new bonds between the nucleotides in each strand 
+
+\mbox{\Hypertarget{classPNAB_1_1Chain_a18d3cfb1466428d3ad1cf3edee33a92d}\label{classPNAB_1_1Chain_a18d3cfb1466428d3ad1cf3edee33a92d}} 
+\index{PNAB::Chain@{PNAB::Chain}!v\_num\_bu\_A\_mol\_atoms\_@{v\_num\_bu\_A\_mol\_atoms\_}}
+\index{v\_num\_bu\_A\_mol\_atoms\_@{v\_num\_bu\_A\_mol\_atoms\_}!PNAB::Chain@{PNAB::Chain}}
+\doxyparagraph{\texorpdfstring{v\_num\_bu\_A\_mol\_atoms\_}{v\_num\_bu\_A\_mol\_atoms\_}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$unsigned$>$ $>$ P\+N\+A\+B\+::\+Chain\+::v\+\_\+num\+\_\+bu\+\_\+\+A\+\_\+mol\+\_\+atoms\+\_\+ = std\+::vector$<$std\+::vector$<$unsigned$>$$>$(6)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector containing a vector of the number of atoms in each \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} for each strand. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Chain_8h}{Chain.\+h}}\item 
+\mbox{\hyperlink{Chain_8cpp}{Chain.\+cpp}}\end{DoxyCompactItemize}

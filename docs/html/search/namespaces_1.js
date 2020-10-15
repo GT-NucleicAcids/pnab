@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['driver_254',['driver',['../namespacedriver.html',1,'']]]
+  ['jupyter_5fwidgets_239',['jupyter_widgets',['../namespacejupyter__widgets.html',1,'']]]
 ];

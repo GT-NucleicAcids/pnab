@@ -1,0 +1,239 @@
+\hypertarget{classPNAB_1_1BaseUnit}{}\doxysubsection{P\+N\+AB\+::Base\+Unit Class Reference}
+\label{classPNAB_1_1BaseUnit}\index{PNAB::BaseUnit@{PNAB::BaseUnit}}
+
+
+Class to hold bases with backbones attached (nucleotides), along with associated necessary information.  
+
+
+
+
+{\ttfamily \#include $<$Containers.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPNAB_1_1BaseUnit_a2270e3aee0d845c63db0cc1a8a3ae179}{Base\+Unit}} (\mbox{\hyperlink{classPNAB_1_1Base}{Base}} b, \mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} backbone, double glycosidic\+\_\+bond\+\_\+distance=0.\+0)
+\item 
+\mbox{\hyperlink{classPNAB_1_1BaseUnit_afe424dcfdfea4394d8ef277fc13af7f7}{Base\+Unit}} ()
+\begin{DoxyCompactList}\small\item\em Empty constructor. \end{DoxyCompactList}\item 
+const Open\+Babel\+::\+O\+B\+Mol \mbox{\hyperlink{classPNAB_1_1BaseUnit_afb63d103ec3bea33e69ce03480190ef4}{get\+Mol}} ()
+\begin{DoxyCompactList}\small\item\em Returns the nucleotide molecule, \mbox{\hyperlink{classPNAB_1_1BaseUnit_a2725c8ef7e46081aeed39f6abd1bba6e}{Base\+Unit\+::unit}}. \end{DoxyCompactList}\item 
+const std\+::array$<$ std\+::size\+\_\+t, 2 $>$ \mbox{\hyperlink{classPNAB_1_1BaseUnit_ac46697994e7c0bc9b84faf4bb0e65b49}{get\+Base\+Index\+Range}} ()
+\begin{DoxyCompactList}\small\item\em Returns the indices for the begining and end of the nucleobase atom indices, \mbox{\hyperlink{classPNAB_1_1BaseUnit_afbd0f61b5312b434fe8a50533585cc43}{Base\+Unit\+::base\+\_\+index\+\_\+range}}. \end{DoxyCompactList}\item 
+const std\+::array$<$ std\+::size\+\_\+t, 2 $>$ \mbox{\hyperlink{classPNAB_1_1BaseUnit_a082916afe402574da8fb6782a2666fa7}{get\+Backbone\+Index\+Range}} ()
+\begin{DoxyCompactList}\small\item\em Returns the indices for the begining and end of the backbone atom indices, \mbox{\hyperlink{classPNAB_1_1BaseUnit_a9d0ebccc652fcedb08291e72992fd598}{Base\+Unit\+::backbone\+\_\+index\+\_\+range}}. \end{DoxyCompactList}\item 
+const std\+::array$<$ std\+::size\+\_\+t, 2 $>$ \mbox{\hyperlink{classPNAB_1_1BaseUnit_adaf38abacd48181db0ce63e567cfac68}{get\+Backbone\+Linkers}} ()
+\begin{DoxyCompactList}\small\item\em Returns the indices for atoms where the backbone connects, \mbox{\hyperlink{classPNAB_1_1BaseUnit_a1d1b455cdd0004eccd776c1d1ee51037}{Base\+Unit\+::backbone\+\_\+interconnects}}. \end{DoxyCompactList}\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classPNAB_1_1BaseUnit_ac694c1aee22c4e35f3ce1e61276d061c}{get\+Base\+Connect\+Index}} ()
+\begin{DoxyCompactList}\small\item\em Returns the index of the atom where the nucleobase connects to the backbone, \mbox{\hyperlink{classPNAB_1_1BaseUnit_ae02cf71fa111c135b671fa37de346f0f}{Base\+Unit\+::base\+\_\+connect\+\_\+index}}. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ unsigned $>$ $>$ \mbox{\hyperlink{classPNAB_1_1BaseUnit_a96d302f6284ea2010ea0924856cbff2e}{get\+Fixed\+Bonds}} ()
+\begin{DoxyCompactList}\small\item\em Returns a vector of the pair of indices for fixed rotatable dihedrals in the backbone, \mbox{\hyperlink{classPNAB_1_1BaseUnit_af7d4e35429e2e9214dcfb4c558fb8897}{Base\+Unit\+::fixed\+\_\+bonds}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Open\+Babel\+::\+O\+B\+Mol \mbox{\hyperlink{classPNAB_1_1BaseUnit_a2725c8ef7e46081aeed39f6abd1bba6e}{unit}}
+\begin{DoxyCompactList}\small\item\em Holds molecule containing base with backbone attached. \end{DoxyCompactList}\item 
+std\+::array$<$ std\+::size\+\_\+t, 2 $>$ \mbox{\hyperlink{classPNAB_1_1BaseUnit_afbd0f61b5312b434fe8a50533585cc43}{base\+\_\+index\+\_\+range}}
+\begin{DoxyCompactList}\small\item\em Range of indices of the unit that are a part of the base, \mbox{[}start, stop\mbox{]}. \end{DoxyCompactList}\item 
+std\+::array$<$ std\+::size\+\_\+t, 2 $>$ \mbox{\hyperlink{classPNAB_1_1BaseUnit_a9d0ebccc652fcedb08291e72992fd598}{backbone\+\_\+index\+\_\+range}}
+\begin{DoxyCompactList}\small\item\em Range of indices of the unit that are a part of the backbone, \mbox{[}start, stop\mbox{]}. \end{DoxyCompactList}\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classPNAB_1_1BaseUnit_ae02cf71fa111c135b671fa37de346f0f}{base\+\_\+connect\+\_\+index}}
+\begin{DoxyCompactList}\small\item\em Atom index where backbone connects to base (the base atom) \end{DoxyCompactList}\item 
+std\+::array$<$ std\+::size\+\_\+t, 2 $>$ \mbox{\hyperlink{classPNAB_1_1BaseUnit_a1d1b455cdd0004eccd776c1d1ee51037}{backbone\+\_\+interconnects}}
+\begin{DoxyCompactList}\small\item\em Atom indices defining where backbone connects. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ unsigned $>$ $>$ \mbox{\hyperlink{classPNAB_1_1BaseUnit_af7d4e35429e2e9214dcfb4c558fb8897}{fixed\+\_\+bonds}}
+\begin{DoxyCompactList}\small\item\em Indices of fixed bonds in dihedral search. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Class to hold bases with backbones attached (nucleotides), along with associated necessary information. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Base}{Base}} 
+
+\mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} 
+
+\mbox{\hyperlink{classPNAB_1_1Chain_a07c0d2802edfc258047e85be262f48e1}{Chain\+::setup\+Chain}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch}{Conformation\+Search}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_a2270e3aee0d845c63db0cc1a8a3ae179}\label{classPNAB_1_1BaseUnit_a2270e3aee0d845c63db0cc1a8a3ae179}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!BaseUnit@{BaseUnit}}
+\index{BaseUnit@{BaseUnit}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{BaseUnit()}{BaseUnit()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Base\+Unit\+::\+Base\+Unit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classPNAB_1_1Base}{Base}}}]{b,  }\item[{\mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}}}]{backbone,  }\item[{double}]{glycosidic\+\_\+bond\+\_\+distance = {\ttfamily 0.0} }\end{DoxyParamCaption})}
+
+Constructor for the base unit
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & \mbox{\hyperlink{classPNAB_1_1Base}{Base}} instance \\
+\hline
+{\em backbone} & \mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} instance \\
+\hline
+{\em glycosidic\+\_\+bond\+\_\+distance} & The glycosidic bond distance. If zero (default), set it by using the van der Waals radii \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_afe424dcfdfea4394d8ef277fc13af7f7}\label{classPNAB_1_1BaseUnit_afe424dcfdfea4394d8ef277fc13af7f7}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!BaseUnit@{BaseUnit}}
+\index{BaseUnit@{BaseUnit}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{BaseUnit()}{BaseUnit()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily P\+N\+A\+B\+::\+Base\+Unit\+::\+Base\+Unit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Empty constructor. 
+
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_a082916afe402574da8fb6782a2666fa7}\label{classPNAB_1_1BaseUnit_a082916afe402574da8fb6782a2666fa7}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!getBackboneIndexRange@{getBackboneIndexRange}}
+\index{getBackboneIndexRange@{getBackboneIndexRange}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{getBackboneIndexRange()}{getBackboneIndexRange()}}
+{\footnotesize\ttfamily const std\+::array$<$ std\+::size\+\_\+t, 2 $>$ P\+N\+A\+B\+::\+Base\+Unit\+::get\+Backbone\+Index\+Range (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the indices for the begining and end of the backbone atom indices, \mbox{\hyperlink{classPNAB_1_1BaseUnit_a9d0ebccc652fcedb08291e72992fd598}{Base\+Unit\+::backbone\+\_\+index\+\_\+range}}. 
+
+\begin{DoxyReturn}{Returns}
+The indices for the limits of the backbone 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_adaf38abacd48181db0ce63e567cfac68}\label{classPNAB_1_1BaseUnit_adaf38abacd48181db0ce63e567cfac68}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!getBackboneLinkers@{getBackboneLinkers}}
+\index{getBackboneLinkers@{getBackboneLinkers}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{getBackboneLinkers()}{getBackboneLinkers()}}
+{\footnotesize\ttfamily const std\+::array$<$ std\+::size\+\_\+t, 2 $>$ P\+N\+A\+B\+::\+Base\+Unit\+::get\+Backbone\+Linkers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the indices for atoms where the backbone connects, \mbox{\hyperlink{classPNAB_1_1BaseUnit_a1d1b455cdd0004eccd776c1d1ee51037}{Base\+Unit\+::backbone\+\_\+interconnects}}. 
+
+\begin{DoxyReturn}{Returns}
+The indices for atoms where the backbone connects 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_ac694c1aee22c4e35f3ce1e61276d061c}\label{classPNAB_1_1BaseUnit_ac694c1aee22c4e35f3ce1e61276d061c}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!getBaseConnectIndex@{getBaseConnectIndex}}
+\index{getBaseConnectIndex@{getBaseConnectIndex}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{getBaseConnectIndex()}{getBaseConnectIndex()}}
+{\footnotesize\ttfamily std\+::size\+\_\+t P\+N\+A\+B\+::\+Base\+Unit\+::get\+Base\+Connect\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the index of the atom where the nucleobase connects to the backbone, \mbox{\hyperlink{classPNAB_1_1BaseUnit_ae02cf71fa111c135b671fa37de346f0f}{Base\+Unit\+::base\+\_\+connect\+\_\+index}}. 
+
+\begin{DoxyReturn}{Returns}
+The nucleobase index connecting to the backbone 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_ac46697994e7c0bc9b84faf4bb0e65b49}\label{classPNAB_1_1BaseUnit_ac46697994e7c0bc9b84faf4bb0e65b49}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!getBaseIndexRange@{getBaseIndexRange}}
+\index{getBaseIndexRange@{getBaseIndexRange}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{getBaseIndexRange()}{getBaseIndexRange()}}
+{\footnotesize\ttfamily const std\+::array$<$ std\+::size\+\_\+t, 2 $>$ P\+N\+A\+B\+::\+Base\+Unit\+::get\+Base\+Index\+Range (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the indices for the begining and end of the nucleobase atom indices, \mbox{\hyperlink{classPNAB_1_1BaseUnit_afbd0f61b5312b434fe8a50533585cc43}{Base\+Unit\+::base\+\_\+index\+\_\+range}}. 
+
+\begin{DoxyReturn}{Returns}
+The indices for the limits of the nucleobases 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_a96d302f6284ea2010ea0924856cbff2e}\label{classPNAB_1_1BaseUnit_a96d302f6284ea2010ea0924856cbff2e}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!getFixedBonds@{getFixedBonds}}
+\index{getFixedBonds@{getFixedBonds}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{getFixedBonds()}{getFixedBonds()}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$unsigned$>$ $>$ P\+N\+A\+B\+::\+Base\+Unit\+::get\+Fixed\+Bonds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns a vector of the pair of indices for fixed rotatable dihedrals in the backbone, \mbox{\hyperlink{classPNAB_1_1BaseUnit_af7d4e35429e2e9214dcfb4c558fb8897}{Base\+Unit\+::fixed\+\_\+bonds}}. 
+
+\begin{DoxyReturn}{Returns}
+The indices of the fixed rotatable dihedrals 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_afb63d103ec3bea33e69ce03480190ef4}\label{classPNAB_1_1BaseUnit_afb63d103ec3bea33e69ce03480190ef4}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!getMol@{getMol}}
+\index{getMol@{getMol}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{getMol()}{getMol()}}
+{\footnotesize\ttfamily const Open\+Babel\+::\+O\+B\+Mol P\+N\+A\+B\+::\+Base\+Unit\+::get\+Mol (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the nucleotide molecule, \mbox{\hyperlink{classPNAB_1_1BaseUnit_a2725c8ef7e46081aeed39f6abd1bba6e}{Base\+Unit\+::unit}}. 
+
+\begin{DoxyReturn}{Returns}
+The nucleotide molecule 
+\end{DoxyReturn}
+
+
+\doxysubsubsection{Member Data Documentation}
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_a9d0ebccc652fcedb08291e72992fd598}\label{classPNAB_1_1BaseUnit_a9d0ebccc652fcedb08291e72992fd598}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!backbone\_index\_range@{backbone\_index\_range}}
+\index{backbone\_index\_range@{backbone\_index\_range}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{backbone\_index\_range}{backbone\_index\_range}}
+{\footnotesize\ttfamily std\+::array$<$ std\+::size\+\_\+t, 2 $>$ P\+N\+A\+B\+::\+Base\+Unit\+::backbone\+\_\+index\+\_\+range\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Range of indices of the unit that are a part of the backbone, \mbox{[}start, stop\mbox{]}. 
+
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_a1d1b455cdd0004eccd776c1d1ee51037}\label{classPNAB_1_1BaseUnit_a1d1b455cdd0004eccd776c1d1ee51037}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!backbone\_interconnects@{backbone\_interconnects}}
+\index{backbone\_interconnects@{backbone\_interconnects}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{backbone\_interconnects}{backbone\_interconnects}}
+{\footnotesize\ttfamily std\+::array$<$ std\+::size\+\_\+t, 2 $>$ P\+N\+A\+B\+::\+Base\+Unit\+::backbone\+\_\+interconnects\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Atom indices defining where backbone connects. 
+
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_ae02cf71fa111c135b671fa37de346f0f}\label{classPNAB_1_1BaseUnit_ae02cf71fa111c135b671fa37de346f0f}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!base\_connect\_index@{base\_connect\_index}}
+\index{base\_connect\_index@{base\_connect\_index}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{base\_connect\_index}{base\_connect\_index}}
+{\footnotesize\ttfamily std\+::size\+\_\+t P\+N\+A\+B\+::\+Base\+Unit\+::base\+\_\+connect\+\_\+index\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Atom index where backbone connects to base (the base atom) 
+
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_afbd0f61b5312b434fe8a50533585cc43}\label{classPNAB_1_1BaseUnit_afbd0f61b5312b434fe8a50533585cc43}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!base\_index\_range@{base\_index\_range}}
+\index{base\_index\_range@{base\_index\_range}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{base\_index\_range}{base\_index\_range}}
+{\footnotesize\ttfamily std\+::array$<$ std\+::size\+\_\+t, 2 $>$ P\+N\+A\+B\+::\+Base\+Unit\+::base\+\_\+index\+\_\+range\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Range of indices of the unit that are a part of the base, \mbox{[}start, stop\mbox{]}. 
+
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_af7d4e35429e2e9214dcfb4c558fb8897}\label{classPNAB_1_1BaseUnit_af7d4e35429e2e9214dcfb4c558fb8897}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!fixed\_bonds@{fixed\_bonds}}
+\index{fixed\_bonds@{fixed\_bonds}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{fixed\_bonds}{fixed\_bonds}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$unsigned$>$ $>$ P\+N\+A\+B\+::\+Base\+Unit\+::fixed\+\_\+bonds\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Indices of fixed bonds in dihedral search. 
+
+\mbox{\Hypertarget{classPNAB_1_1BaseUnit_a2725c8ef7e46081aeed39f6abd1bba6e}\label{classPNAB_1_1BaseUnit_a2725c8ef7e46081aeed39f6abd1bba6e}} 
+\index{PNAB::BaseUnit@{PNAB::BaseUnit}!unit@{unit}}
+\index{unit@{unit}!PNAB::BaseUnit@{PNAB::BaseUnit}}
+\doxyparagraph{\texorpdfstring{unit}{unit}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Mol P\+N\+A\+B\+::\+Base\+Unit\+::unit\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Holds molecule containing base with backbone attached. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Containers_8h}{Containers.\+h}}\item 
+\mbox{\hyperlink{Containers_8cpp}{Containers.\+cpp}}\end{DoxyCompactItemize}

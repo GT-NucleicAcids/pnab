@@ -1,6 +1,6 @@
 #!/bin/bash
 
-conda create -n pnab -c conda-forge python numpy cmake openbabel eigen \
+conda create -n pnab -c conda-forge python=3.7 numpy cmake openbabel eigen \
     pybind11 pyyaml nglview gcc_linux-64 gxx_linux-64 pytest graphviz
 
 source activate pnab
@@ -14,7 +14,7 @@ cp bind.*so ../pnab
 cd ..
 
 # install
-SP_DIR=$CONDA_PREFIX/lib/python3.8/site-packages
+SP_DIR=$CONDA_PREFIX/lib/python3.7/site-packages
 cp -R pnab ${SP_DIR}
 cp -R tests ${SP_DIR}/pnab
 cp build/bind.*.so ${SP_DIR}/pnab

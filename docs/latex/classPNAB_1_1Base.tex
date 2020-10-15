@@ -1,0 +1,285 @@
+\hypertarget{classPNAB_1_1Base}{}\doxysubsection{P\+N\+AB\+::Base Class Reference}
+\label{classPNAB_1_1Base}\index{PNAB::Base@{PNAB::Base}}
+
+
+Class to fully define bases (i.\+e. Adenine, Cytosine)  
+
+
+
+
+{\ttfamily \#include $<$Containers.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPNAB_1_1Base_adb421c6e6647e51e38e5ca023e0907e1}{Base}} ()
+\begin{DoxyCompactList}\small\item\em Empty constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPNAB_1_1Base_a89c0d0fb5407f945de7d62ae052c7cd1}{Base}} (std\+::string \mbox{\hyperlink{classPNAB_1_1Base_a6255670abed6414be81a63c503f6c0e5}{name}}, std\+::string \mbox{\hyperlink{classPNAB_1_1Base_a07c7ee332ffcfff95ee80fb66e227c11}{code}}, std\+::string \mbox{\hyperlink{classPNAB_1_1Base_a814418b9019953a34fd1ff613e963902}{file\+\_\+path}}, std\+::array$<$ std\+::size\+\_\+t, 2 $>$ \mbox{\hyperlink{classPNAB_1_1Base_a4034f69fe79c5411adb1dff18c04d5a4}{linker}}, std\+::string \mbox{\hyperlink{classPNAB_1_1Base_a090017a3c9306b01710eedfdeb860b92}{pair\+\_\+name}}=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em Create \mbox{\hyperlink{classPNAB_1_1Base}{Base}} from basic set of parameters. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Atom $\ast$ \mbox{\hyperlink{classPNAB_1_1Base_a1526505659878bf2b843ac43458da878}{get\+Linker}} ()
+\begin{DoxyCompactList}\small\item\em Gives the atom of the base that connects directly to the backbone, \mbox{\hyperlink{classPNAB_1_1Base_a4034f69fe79c5411adb1dff18c04d5a4}{Base\+::linker}}\mbox{[}0\mbox{]}. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Atom $\ast$ \mbox{\hyperlink{classPNAB_1_1Base_a23374546670c6732dd8b9944173c03d4}{get\+Vector}} ()
+\begin{DoxyCompactList}\small\item\em Gives the (most likely hydrogen) atom of the base connected to the atom from \mbox{\hyperlink{classPNAB_1_1Base_a1526505659878bf2b843ac43458da878}{get\+Linker()}} which defines how the base connects, \mbox{\hyperlink{classPNAB_1_1Base_a4034f69fe79c5411adb1dff18c04d5a4}{Base\+::linker}}\mbox{[}1\mbox{]}. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Mol \mbox{\hyperlink{classPNAB_1_1Base_a29b4534133bb277040f20c75ad29487c}{get\+Molecule}} ()
+\begin{DoxyCompactList}\small\item\em Returns a copy of the base molecule, \mbox{\hyperlink{classPNAB_1_1Base_a6bc9d0f5f5cf74c318356d80ea1d971e}{Base\+::base}}. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1Base_a06f95e06dceb50347ac9ef5c25a0ff25}{get\+Code}} ()
+\begin{DoxyCompactList}\small\item\em Gives the three-\/letter code of the base, \mbox{\hyperlink{classPNAB_1_1Base_a07c7ee332ffcfff95ee80fb66e227c11}{Base\+::code}}. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1Base_a2376b606b4f1001f3bd23991390457ac}{get\+Name}} ()
+\begin{DoxyCompactList}\small\item\em Gives the full name of the base, \mbox{\hyperlink{classPNAB_1_1Base_a6255670abed6414be81a63c503f6c0e5}{Base\+::name}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1Base_a7af3ca13846e0d6d994ba715b5bb8d1c}{delete\+Vector\+Atom}} ()
+\begin{DoxyCompactList}\small\item\em Deletes the atom from \mbox{\hyperlink{classPNAB_1_1Base_a23374546670c6732dd8b9944173c03d4}{get\+Vector()}} safely. If the atom is already deleted, nothing happens. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1Base_a45a030ab7fa9eb2f527505f13d8d2e7b}{get\+Base\+Pair\+Name}} ()
+\begin{DoxyCompactList}\small\item\em Get the name of the pair base, \mbox{\hyperlink{classPNAB_1_1Base_a090017a3c9306b01710eedfdeb860b92}{Base\+::pair\+\_\+name}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1Base_a6255670abed6414be81a63c503f6c0e5}{name}}
+\begin{DoxyCompactList}\small\item\em Full name of base (i.\+e. \char`\"{}\+Adenine\char`\"{} or just \char`\"{}\+A\char`\"{}) \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1Base_a07c7ee332ffcfff95ee80fb66e227c11}{code}}
+\begin{DoxyCompactList}\small\item\em Three character code to define base (\char`\"{}\+Adenine\char`\"{}\+: \char`\"{}\+A\+D\+E\char`\"{}) \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1Base_a090017a3c9306b01710eedfdeb860b92}{pair\+\_\+name}}
+\begin{DoxyCompactList}\small\item\em Name of the pair base. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1Base_a814418b9019953a34fd1ff613e963902}{file\+\_\+path}}
+\begin{DoxyCompactList}\small\item\em Path to a file containing the base. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Mol \mbox{\hyperlink{classPNAB_1_1Base_a6bc9d0f5f5cf74c318356d80ea1d971e}{base}}
+\begin{DoxyCompactList}\small\item\em The O\+B\+Mol defining the base. \end{DoxyCompactList}\item 
+std\+::array$<$ std\+::size\+\_\+t, 2 $>$ \mbox{\hyperlink{classPNAB_1_1Base_a4034f69fe79c5411adb1dff18c04d5a4}{linker}}
+\begin{DoxyCompactList}\small\item\em Holds indices for atoms forming a vector to connect to backbone \{linker, hydrogen\}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classPNAB_1_1Base_a1c0f2ff41b280f1d9aa440402004cb35}{validate}} ()
+\begin{DoxyCompactList}\small\item\em Does some basic sanity checks (such as whether or not the indices of the atom are within the range of the molecule). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classPNAB_1_1Base_a6646285384f2e327e84d2609bbbf43bc}{vector\+\_\+atom\+\_\+deleted}}
+\begin{DoxyCompactList}\small\item\em Whether or not the \mbox{\hyperlink{classPNAB_1_1Base_a23374546670c6732dd8b9944173c03d4}{get\+Vector()}} atom was deleted. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Class to fully define bases (i.\+e. Adenine, Cytosine) 
+
+This class holds information on the molecular structure of one nucleobase and the bond that it should form with the backbone. This class also has functions to manipulate the nucleobase and gets information about it.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1Bases}{Bases}} 
+
+\mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPNAB_1_1Base_adb421c6e6647e51e38e5ca023e0907e1}\label{classPNAB_1_1Base_adb421c6e6647e51e38e5ca023e0907e1}} 
+\index{PNAB::Base@{PNAB::Base}!Base@{Base}}
+\index{Base@{Base}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{Base()}{Base()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily P\+N\+A\+B\+::\+Base\+::\+Base (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Empty constructor. 
+
+This empty constructor can be used. After that, values for the member variables should be specified. \mbox{\Hypertarget{classPNAB_1_1Base_a89c0d0fb5407f945de7d62ae052c7cd1}\label{classPNAB_1_1Base_a89c0d0fb5407f945de7d62ae052c7cd1}} 
+\index{PNAB::Base@{PNAB::Base}!Base@{Base}}
+\index{Base@{Base}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{Base()}{Base()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Base\+::\+Base (\begin{DoxyParamCaption}\item[{std\+::string}]{name,  }\item[{std\+::string}]{code,  }\item[{std\+::string}]{file\+\_\+path,  }\item[{std\+::array$<$ std\+::size\+\_\+t, 2 $>$}]{linker,  }\item[{std\+::string}]{pair\+\_\+name = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+Create \mbox{\hyperlink{classPNAB_1_1Base}{Base}} from basic set of parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & name of the base \\
+\hline
+{\em code} & three-\/letter code \\
+\hline
+{\em file\+\_\+path} & path to the backbone file \\
+\hline
+{\em linker} & indices for atoms forming the vector connecting to the backbone \\
+\hline
+{\em pair\+\_\+name} & Name of the pairing base \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPNAB_1_1Base_a7af3ca13846e0d6d994ba715b5bb8d1c}\label{classPNAB_1_1Base_a7af3ca13846e0d6d994ba715b5bb8d1c}} 
+\index{PNAB::Base@{PNAB::Base}!deleteVectorAtom@{deleteVectorAtom}}
+\index{deleteVectorAtom@{deleteVectorAtom}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{deleteVectorAtom()}{deleteVectorAtom()}}
+{\footnotesize\ttfamily void P\+N\+A\+B\+::\+Base\+::delete\+Vector\+Atom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Deletes the atom from \mbox{\hyperlink{classPNAB_1_1Base_a23374546670c6732dd8b9944173c03d4}{get\+Vector()}} safely. If the atom is already deleted, nothing happens. 
+
+\mbox{\Hypertarget{classPNAB_1_1Base_a45a030ab7fa9eb2f527505f13d8d2e7b}\label{classPNAB_1_1Base_a45a030ab7fa9eb2f527505f13d8d2e7b}} 
+\index{PNAB::Base@{PNAB::Base}!getBasePairName@{getBasePairName}}
+\index{getBasePairName@{getBasePairName}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{getBasePairName()}{getBasePairName()}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Base\+::get\+Base\+Pair\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the name of the pair base, \mbox{\hyperlink{classPNAB_1_1Base_a090017a3c9306b01710eedfdeb860b92}{Base\+::pair\+\_\+name}}. 
+
+\begin{DoxyReturn}{Returns}
+Pair name 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1Base_a06f95e06dceb50347ac9ef5c25a0ff25}\label{classPNAB_1_1Base_a06f95e06dceb50347ac9ef5c25a0ff25}} 
+\index{PNAB::Base@{PNAB::Base}!getCode@{getCode}}
+\index{getCode@{getCode}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{getCode()}{getCode()}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Base\+::get\+Code (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gives the three-\/letter code of the base, \mbox{\hyperlink{classPNAB_1_1Base_a07c7ee332ffcfff95ee80fb66e227c11}{Base\+::code}}. 
+
+\begin{DoxyReturn}{Returns}
+The code of the base 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1Base_a1526505659878bf2b843ac43458da878}\label{classPNAB_1_1Base_a1526505659878bf2b843ac43458da878}} 
+\index{PNAB::Base@{PNAB::Base}!getLinker@{getLinker}}
+\index{getLinker@{getLinker}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{getLinker()}{getLinker()}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Atom$\ast$ P\+N\+A\+B\+::\+Base\+::get\+Linker (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gives the atom of the base that connects directly to the backbone, \mbox{\hyperlink{classPNAB_1_1Base_a4034f69fe79c5411adb1dff18c04d5a4}{Base\+::linker}}\mbox{[}0\mbox{]}. 
+
+\begin{DoxyReturn}{Returns}
+A pointer to the atom that connects to the backbone 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1Base_a29b4534133bb277040f20c75ad29487c}\label{classPNAB_1_1Base_a29b4534133bb277040f20c75ad29487c}} 
+\index{PNAB::Base@{PNAB::Base}!getMolecule@{getMolecule}}
+\index{getMolecule@{getMolecule}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{getMolecule()}{getMolecule()}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Mol P\+N\+A\+B\+::\+Base\+::get\+Molecule (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns a copy of the base molecule, \mbox{\hyperlink{classPNAB_1_1Base_a6bc9d0f5f5cf74c318356d80ea1d971e}{Base\+::base}}. 
+
+\begin{DoxyReturn}{Returns}
+A copy of the base molecule 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1Base_a2376b606b4f1001f3bd23991390457ac}\label{classPNAB_1_1Base_a2376b606b4f1001f3bd23991390457ac}} 
+\index{PNAB::Base@{PNAB::Base}!getName@{getName}}
+\index{getName@{getName}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Base\+::get\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gives the full name of the base, \mbox{\hyperlink{classPNAB_1_1Base_a6255670abed6414be81a63c503f6c0e5}{Base\+::name}}. 
+
+\begin{DoxyReturn}{Returns}
+The full name of the base 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1Base_a23374546670c6732dd8b9944173c03d4}\label{classPNAB_1_1Base_a23374546670c6732dd8b9944173c03d4}} 
+\index{PNAB::Base@{PNAB::Base}!getVector@{getVector}}
+\index{getVector@{getVector}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{getVector()}{getVector()}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Atom$\ast$ P\+N\+A\+B\+::\+Base\+::get\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gives the (most likely hydrogen) atom of the base connected to the atom from \mbox{\hyperlink{classPNAB_1_1Base_a1526505659878bf2b843ac43458da878}{get\+Linker()}} which defines how the base connects, \mbox{\hyperlink{classPNAB_1_1Base_a4034f69fe79c5411adb1dff18c04d5a4}{Base\+::linker}}\mbox{[}1\mbox{]}. 
+
+\begin{DoxyReturn}{Returns}
+A pointer to the atom forming the vector connecting to the backbone 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1Base_a1c0f2ff41b280f1d9aa440402004cb35}\label{classPNAB_1_1Base_a1c0f2ff41b280f1d9aa440402004cb35}} 
+\index{PNAB::Base@{PNAB::Base}!validate@{validate}}
+\index{validate@{validate}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily void Base\+::validate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Does some basic sanity checks (such as whether or not the indices of the atom are within the range of the molecule). 
+
+
+
+\doxysubsubsection{Member Data Documentation}
+\mbox{\Hypertarget{classPNAB_1_1Base_a6bc9d0f5f5cf74c318356d80ea1d971e}\label{classPNAB_1_1Base_a6bc9d0f5f5cf74c318356d80ea1d971e}} 
+\index{PNAB::Base@{PNAB::Base}!base@{base}}
+\index{base@{base}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{base}{base}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Mol P\+N\+A\+B\+::\+Base\+::base}
+
+
+
+The O\+B\+Mol defining the base. 
+
+\mbox{\Hypertarget{classPNAB_1_1Base_a07c7ee332ffcfff95ee80fb66e227c11}\label{classPNAB_1_1Base_a07c7ee332ffcfff95ee80fb66e227c11}} 
+\index{PNAB::Base@{PNAB::Base}!code@{code}}
+\index{code@{code}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{code}{code}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Base\+::code}
+
+
+
+Three character code to define base (\char`\"{}\+Adenine\char`\"{}\+: \char`\"{}\+A\+D\+E\char`\"{}) 
+
+\mbox{\Hypertarget{classPNAB_1_1Base_a814418b9019953a34fd1ff613e963902}\label{classPNAB_1_1Base_a814418b9019953a34fd1ff613e963902}} 
+\index{PNAB::Base@{PNAB::Base}!file\_path@{file\_path}}
+\index{file\_path@{file\_path}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{file\_path}{file\_path}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Base\+::file\+\_\+path}
+
+
+
+Path to a file containing the base. 
+
+\mbox{\Hypertarget{classPNAB_1_1Base_a4034f69fe79c5411adb1dff18c04d5a4}\label{classPNAB_1_1Base_a4034f69fe79c5411adb1dff18c04d5a4}} 
+\index{PNAB::Base@{PNAB::Base}!linker@{linker}}
+\index{linker@{linker}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{linker}{linker}}
+{\footnotesize\ttfamily std\+::array$<$std\+::size\+\_\+t, 2 $>$ P\+N\+A\+B\+::\+Base\+::linker}
+
+
+
+Holds indices for atoms forming a vector to connect to backbone \{linker, hydrogen\}. 
+
+\mbox{\Hypertarget{classPNAB_1_1Base_a6255670abed6414be81a63c503f6c0e5}\label{classPNAB_1_1Base_a6255670abed6414be81a63c503f6c0e5}} 
+\index{PNAB::Base@{PNAB::Base}!name@{name}}
+\index{name@{name}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Base\+::name}
+
+
+
+Full name of base (i.\+e. \char`\"{}\+Adenine\char`\"{} or just \char`\"{}\+A\char`\"{}) 
+
+\mbox{\Hypertarget{classPNAB_1_1Base_a090017a3c9306b01710eedfdeb860b92}\label{classPNAB_1_1Base_a090017a3c9306b01710eedfdeb860b92}} 
+\index{PNAB::Base@{PNAB::Base}!pair\_name@{pair\_name}}
+\index{pair\_name@{pair\_name}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{pair\_name}{pair\_name}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Base\+::pair\+\_\+name}
+
+
+
+Name of the pair base. 
+
+\mbox{\Hypertarget{classPNAB_1_1Base_a6646285384f2e327e84d2609bbbf43bc}\label{classPNAB_1_1Base_a6646285384f2e327e84d2609bbbf43bc}} 
+\index{PNAB::Base@{PNAB::Base}!vector\_atom\_deleted@{vector\_atom\_deleted}}
+\index{vector\_atom\_deleted@{vector\_atom\_deleted}!PNAB::Base@{PNAB::Base}}
+\doxyparagraph{\texorpdfstring{vector\_atom\_deleted}{vector\_atom\_deleted}}
+{\footnotesize\ttfamily bool P\+N\+A\+B\+::\+Base\+::vector\+\_\+atom\+\_\+deleted\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Whether or not the \mbox{\hyperlink{classPNAB_1_1Base_a23374546670c6732dd8b9944173c03d4}{get\+Vector()}} atom was deleted. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Containers_8h}{Containers.\+h}}\item 
+\mbox{\hyperlink{Containers_8cpp}{Containers.\+cpp}}\end{DoxyCompactItemize}

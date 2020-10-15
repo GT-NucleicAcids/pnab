@@ -1,0 +1,92 @@
+\hypertarget{namespacePNAB}{}\doxysubsection{P\+N\+AB Namespace Reference}
+\label{namespacePNAB}\index{PNAB@{PNAB}}
+
+
+The \mbox{\hyperlink{namespacePNAB}{P\+N\+AB}} name space contains all the C++ classes and functions for the proto-\/\+Nucleic Acid Builder.  
+
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}}
+\begin{DoxyCompactList}\small\item\em Class for holding backbone information. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classPNAB_1_1Base}{Base}}
+\begin{DoxyCompactList}\small\item\em Class to fully define bases (i.\+e. Adenine, Cytosine) \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classPNAB_1_1Bases}{Bases}}
+\begin{DoxyCompactList}\small\item\em A class that contains a vector of all the defined bases and a funtion to return a base and the complimentary base for all the bases defined. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}}
+\begin{DoxyCompactList}\small\item\em Class to hold bases with backbones attached (nucleotides), along with associated necessary information. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classPNAB_1_1Chain}{Chain}}
+\begin{DoxyCompactList}\small\item\em A class for building nucleic acid strands and evaluating their energies. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classPNAB_1_1ConformationSearch}{Conformation\+Search}}
+\begin{DoxyCompactList}\small\item\em A rotor search function used to find acceptable conformations of arbitrary backbone and helical parameter combinations. The main class of the proto-\/\+Nucleic Acid Builder. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structPNAB_1_1ConformerData}{Conformer\+Data}}
+\begin{DoxyCompactList}\small\item\em Class to contain important information for an individual conformer. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classPNAB_1_1HelicalParameters}{Helical\+Parameters}}
+\begin{DoxyCompactList}\small\item\em A class for holding values for all helical parameters. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{Runtime\+Parameters}}
+\begin{DoxyCompactList}\small\item\em A class for holding necessary and optional runtime parameters for conformational searches. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{namespacePNAB_a4d9601f4af77d277613f5f36fc4b69cd}{run}} (\mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{P\+N\+A\+B\+::\+Runtime\+Parameters}} runtime\+\_\+params, \mbox{\hyperlink{classPNAB_1_1Backbone}{P\+N\+A\+B\+::\+Backbone}} \&py\+\_\+backbone, std\+::vector$<$ \mbox{\hyperlink{classPNAB_1_1Base}{P\+N\+A\+B\+::\+Base}} $>$ py\+\_\+bases, \mbox{\hyperlink{classPNAB_1_1HelicalParameters}{P\+N\+A\+B\+::\+Helical\+Parameters}} hp, std\+::string prefix=\char`\"{}run\char`\"{}, bool verbose=true)
+\begin{DoxyCompactList}\small\item\em A wrapper function to run the search algorithm code from python. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacePNAB_a9d333acf22672ea38e2d327ea34f0eb7}{P\+Y\+B\+I\+N\+D11\+\_\+\+M\+O\+D\+U\+LE}} (bind, m)
+\begin{DoxyCompactList}\small\item\em Exports certain classes to python to allow the user to run the code from python. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+The \mbox{\hyperlink{namespacePNAB}{P\+N\+AB}} name space contains all the C++ classes and functions for the proto-\/\+Nucleic Acid Builder. 
+
+\doxysubsubsection{Function Documentation}
+\mbox{\Hypertarget{namespacePNAB_a9d333acf22672ea38e2d327ea34f0eb7}\label{namespacePNAB_a9d333acf22672ea38e2d327ea34f0eb7}} 
+\index{PNAB@{PNAB}!PYBIND11\_MODULE@{PYBIND11\_MODULE}}
+\index{PYBIND11\_MODULE@{PYBIND11\_MODULE}!PNAB@{PNAB}}
+\doxyparagraph{\texorpdfstring{PYBIND11\_MODULE()}{PYBIND11\_MODULE()}}
+{\footnotesize\ttfamily P\+N\+A\+B\+::\+P\+Y\+B\+I\+N\+D11\+\_\+\+M\+O\+D\+U\+LE (\begin{DoxyParamCaption}\item[{bind}]{,  }\item[{m}]{ }\end{DoxyParamCaption})}
+
+
+
+Exports certain classes to python to allow the user to run the code from python. 
+
+This pybind11 scheme exports only the input runtime, helical, base, and backbone parameters. It exports a single run funtion that can be called from python to run the code.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{Runtime\+Parameters}} 
+
+\mbox{\hyperlink{classPNAB_1_1HelicalParameters}{Helical\+Parameters}} 
+
+\mbox{\hyperlink{classPNAB_1_1Base}{Base}} 
+
+\mbox{\hyperlink{classPNAB_1_1Backbone}{Backbone}} 
+
+\mbox{\hyperlink{namespacePNAB_a4d9601f4af77d277613f5f36fc4b69cd}{run}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{namespacePNAB_a4d9601f4af77d277613f5f36fc4b69cd}\label{namespacePNAB_a4d9601f4af77d277613f5f36fc4b69cd}} 
+\index{PNAB@{PNAB}!run@{run}}
+\index{run@{run}!PNAB@{PNAB}}
+\doxyparagraph{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::run (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classPNAB_1_1RuntimeParameters}{P\+N\+A\+B\+::\+Runtime\+Parameters}}}]{runtime\+\_\+params,  }\item[{\mbox{\hyperlink{classPNAB_1_1Backbone}{P\+N\+A\+B\+::\+Backbone}} \&}]{py\+\_\+backbone,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classPNAB_1_1Base}{P\+N\+A\+B\+::\+Base}} $>$}]{py\+\_\+bases,  }\item[{\mbox{\hyperlink{classPNAB_1_1HelicalParameters}{P\+N\+A\+B\+::\+Helical\+Parameters}}}]{hp,  }\item[{std\+::string}]{prefix = {\ttfamily \char`\"{}run\char`\"{}},  }\item[{bool}]{verbose = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+A wrapper function to run the search algorithm code from python. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em runtime\+\_\+params} & The runtime parameters defined in the python script \\
+\hline
+{\em py\+\_\+backbone} & The backbone defined in the python script \\
+\hline
+{\em py\+\_\+bases} & A vector of the bases defined in the python script \\
+\hline
+{\em hp} & The helical parameters defined in the python script \\
+\hline
+{\em prefix} & A string the prepends the names of the output P\+DB files, default to \char`\"{}run\char`\"{} \\
+\hline
+{\em verbose} & Whether to print progress report to screen, default to true\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A C\+SV string containing the properties of the accepted candidates 
+\end{DoxyReturn}

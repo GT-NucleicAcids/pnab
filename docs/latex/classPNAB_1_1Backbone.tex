@@ -1,0 +1,302 @@
+\hypertarget{classPNAB_1_1Backbone}{}\doxysubsection{P\+N\+AB\+::Backbone Class Reference}
+\label{classPNAB_1_1Backbone}\index{PNAB::Backbone@{PNAB::Backbone}}
+
+
+Class for holding backbone information.  
+
+
+
+
+{\ttfamily \#include $<$Containers.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPNAB_1_1Backbone_a92fa14698f3ba334cb5add14f6bb5a3f}{Backbone}} ()
+\begin{DoxyCompactList}\small\item\em Empty constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPNAB_1_1Backbone_a0fed37a05a009eeec3396734dc6efb87}{Backbone}} (std\+::string \mbox{\hyperlink{classPNAB_1_1Backbone_ade48da3609adfb46a2a8aa642d8e1de9}{file\+\_\+path}}, std\+::array$<$ unsigned, 2 $>$ \mbox{\hyperlink{classPNAB_1_1Backbone_a9937e6ef2e6f1e454a105eca6ff1cba4}{interconnects}}, std\+::array$<$ unsigned, 2 $>$ \mbox{\hyperlink{classPNAB_1_1Backbone_a013ad05f203b1ec4a09e069a14b77f75}{linker}}, std\+::vector$<$ std\+::vector$<$ unsigned $>$$>$ \mbox{\hyperlink{classPNAB_1_1Backbone_acf5d615b70b3f4e0929a9d27235500e5}{fixed\+\_\+bonds}}=\{\})
+\begin{DoxyCompactList}\small\item\em Constructor for the backbone unit. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Atom $\ast$ \mbox{\hyperlink{classPNAB_1_1Backbone_a82e36d4be301ad84cd15680bd0898fc4}{get\+Head}} ()
+\begin{DoxyCompactList}\small\item\em Gives the pointer to an atom that is the head from \mbox{\hyperlink{classPNAB_1_1Backbone_a9937e6ef2e6f1e454a105eca6ff1cba4}{Backbone\+::interconnects}}\{head, tail\}. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Atom $\ast$ \mbox{\hyperlink{classPNAB_1_1Backbone_ace2292cbacc6b52adafcb4d22d03f0ef}{get\+Tail}} ()
+\begin{DoxyCompactList}\small\item\em Gives the pointer to an atom that is the tail from \mbox{\hyperlink{classPNAB_1_1Backbone_a9937e6ef2e6f1e454a105eca6ff1cba4}{Backbone\+::interconnects}}\{head, tail\}. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Atom $\ast$ \mbox{\hyperlink{classPNAB_1_1Backbone_a7eb24f86c5013a7b14ba9a57933a16e5}{get\+Linker}} ()
+\begin{DoxyCompactList}\small\item\em Get the first \mbox{\hyperlink{classPNAB_1_1Backbone_a013ad05f203b1ec4a09e069a14b77f75}{Backbone\+::linker}} atom pointer. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Atom $\ast$ \mbox{\hyperlink{classPNAB_1_1Backbone_ad02278cef6fb2d74c030637f129fac4e}{get\+Vector}} ()
+\begin{DoxyCompactList}\small\item\em Get the second \mbox{\hyperlink{classPNAB_1_1Backbone_a013ad05f203b1ec4a09e069a14b77f75}{Backbone\+::linker}} atom pointer (which is probably a hydrogen) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1Backbone_a35c7fde42b7575d81d1c16a4fae8688f}{center}} ()
+\begin{DoxyCompactList}\small\item\em Centers the molecule. Basically just an alias of the Center() function from Open\+Babel. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1Backbone_ac0f8dfd5ad1b4bf415841e1d504b8d0f}{rotate}} (double $\ast$rot)
+\begin{DoxyCompactList}\small\item\em Rotates the molecule by a matrix. Basically just an alias of the Rotate() function from Open\+Babel. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1Backbone_af3d5a638380994b9cc73fd0e1ba47fa2}{translate}} (Open\+Babel\+::vector3 vec)
+\begin{DoxyCompactList}\small\item\em Translates the molecule by a vector. Basically just an alias of the Translate() function from Open\+Babel. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Mol \mbox{\hyperlink{classPNAB_1_1Backbone_a88aba22d04e8e86e11ea2a5c3e1c4966}{get\+Molecule}} ()
+\begin{DoxyCompactList}\small\item\em Gives a copy of the molecule in the backbone, \mbox{\hyperlink{classPNAB_1_1Backbone_a0d213e1fc4bf64766f7442b647194407}{Backbone\+::backbone}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPNAB_1_1Backbone_a1fe02a78c656fdb96b554e248b997e41}{delete\+Vector\+Atom}} ()
+\begin{DoxyCompactList}\small\item\em Deletes the atom from \mbox{\hyperlink{classPNAB_1_1Backbone_ad02278cef6fb2d74c030637f129fac4e}{get\+Vector()}} safely. If the atom is already deleted, nothing happens. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::array$<$ unsigned, 2 $>$ \mbox{\hyperlink{classPNAB_1_1Backbone_a9937e6ef2e6f1e454a105eca6ff1cba4}{interconnects}}
+\begin{DoxyCompactList}\small\item\em The atom indices that define the periodic conditions between backbones \{ head, tail \}. \end{DoxyCompactList}\item 
+std\+::array$<$ unsigned, 2 $>$ \mbox{\hyperlink{classPNAB_1_1Backbone_a013ad05f203b1ec4a09e069a14b77f75}{linker}}
+\begin{DoxyCompactList}\small\item\em The atom indices used to align and connect backbone to base in the nucleotide. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ unsigned $>$ $>$ \mbox{\hyperlink{classPNAB_1_1Backbone_acf5d615b70b3f4e0929a9d27235500e5}{fixed\+\_\+bonds}}
+\begin{DoxyCompactList}\small\item\em A vector containing pairs of indices defining fixed rotatable bonds during dihedral search. \end{DoxyCompactList}\item 
+Open\+Babel\+::\+O\+B\+Mol \mbox{\hyperlink{classPNAB_1_1Backbone_a0d213e1fc4bf64766f7442b647194407}{backbone}}
+\begin{DoxyCompactList}\small\item\em The molecule for the backbone. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPNAB_1_1Backbone_ade48da3609adfb46a2a8aa642d8e1de9}{file\+\_\+path}}
+\begin{DoxyCompactList}\small\item\em The path to the file containing the molecule. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classPNAB_1_1Backbone_a054c8423149e37d44c6023dd2ace3081}{validate}} ()
+\begin{DoxyCompactList}\small\item\em Does some basic sanity checks (such as whether or not the indices of the atom are within the range of the molecule) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classPNAB_1_1Backbone_a77c14d86ad99aa2bb4f16f7cc3c61514}{vector\+\_\+atom\+\_\+deleted}}
+\begin{DoxyCompactList}\small\item\em Whether or not the atom from \mbox{\hyperlink{classPNAB_1_1Backbone_ad02278cef6fb2d74c030637f129fac4e}{get\+Vector()}} has been deleted. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Class for holding backbone information. 
+
+The backbone here refers to the backbone in a single nucleotide. This class holds information on the molecular structure of the backbone and the bonds that the backbone form with the nucleobases and the adjacent backbones. This class also has functions to manipulate the backbone.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classPNAB_1_1BaseUnit}{Base\+Unit}} 
+
+\mbox{\hyperlink{classPNAB_1_1ConformationSearch}{Conformation\+Search}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPNAB_1_1Backbone_a92fa14698f3ba334cb5add14f6bb5a3f}\label{classPNAB_1_1Backbone_a92fa14698f3ba334cb5add14f6bb5a3f}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!Backbone@{Backbone}}
+\index{Backbone@{Backbone}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{Backbone()}{Backbone()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily P\+N\+A\+B\+::\+Backbone\+::\+Backbone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Empty constructor. 
+
+This empty constructor can be used. After that, values for the member variables should be specified. \mbox{\Hypertarget{classPNAB_1_1Backbone_a0fed37a05a009eeec3396734dc6efb87}\label{classPNAB_1_1Backbone_a0fed37a05a009eeec3396734dc6efb87}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!Backbone@{Backbone}}
+\index{Backbone@{Backbone}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{Backbone()}{Backbone()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Backbone\+::\+Backbone (\begin{DoxyParamCaption}\item[{std\+::string}]{file\+\_\+path,  }\item[{std\+::array$<$ unsigned, 2 $>$}]{interconnects,  }\item[{std\+::array$<$ unsigned, 2 $>$}]{linker,  }\item[{std\+::vector$<$ std\+::vector$<$ unsigned $>$$>$}]{fixed\+\_\+bonds = {\ttfamily \{\}} }\end{DoxyParamCaption})}
+
+
+
+Constructor for the backbone unit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+path} & The path to the file containing the molecule. \\
+\hline
+{\em interconnects} & The atom indices that define the periodic conditions between backbones \{ head, tail \}. \\
+\hline
+{\em linker} & The atom indices used to align and connect backbone to base in the nucleotide. \\
+\hline
+{\em fixed\+\_\+bonds} & A vector containing pairs of indices defining fixed rotatable bonds during dihedral search. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPNAB_1_1Backbone_a35c7fde42b7575d81d1c16a4fae8688f}\label{classPNAB_1_1Backbone_a35c7fde42b7575d81d1c16a4fae8688f}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!center@{center}}
+\index{center@{center}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{center()}{center()}}
+{\footnotesize\ttfamily void P\+N\+A\+B\+::\+Backbone\+::center (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Centers the molecule. Basically just an alias of the Center() function from Open\+Babel. 
+
+\mbox{\Hypertarget{classPNAB_1_1Backbone_a1fe02a78c656fdb96b554e248b997e41}\label{classPNAB_1_1Backbone_a1fe02a78c656fdb96b554e248b997e41}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!deleteVectorAtom@{deleteVectorAtom}}
+\index{deleteVectorAtom@{deleteVectorAtom}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{deleteVectorAtom()}{deleteVectorAtom()}}
+{\footnotesize\ttfamily void Backbone\+::delete\+Vector\+Atom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Deletes the atom from \mbox{\hyperlink{classPNAB_1_1Backbone_ad02278cef6fb2d74c030637f129fac4e}{get\+Vector()}} safely. If the atom is already deleted, nothing happens. 
+
+\mbox{\Hypertarget{classPNAB_1_1Backbone_a82e36d4be301ad84cd15680bd0898fc4}\label{classPNAB_1_1Backbone_a82e36d4be301ad84cd15680bd0898fc4}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!getHead@{getHead}}
+\index{getHead@{getHead}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{getHead()}{getHead()}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Atom$\ast$ P\+N\+A\+B\+::\+Backbone\+::get\+Head (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gives the pointer to an atom that is the head from \mbox{\hyperlink{classPNAB_1_1Backbone_a9937e6ef2e6f1e454a105eca6ff1cba4}{Backbone\+::interconnects}}\{head, tail\}. 
+
+\begin{DoxyReturn}{Returns}
+The atom pointer from the backbone O\+B\+Mol object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1Backbone_a7eb24f86c5013a7b14ba9a57933a16e5}\label{classPNAB_1_1Backbone_a7eb24f86c5013a7b14ba9a57933a16e5}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!getLinker@{getLinker}}
+\index{getLinker@{getLinker}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{getLinker()}{getLinker()}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Atom$\ast$ P\+N\+A\+B\+::\+Backbone\+::get\+Linker (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the first \mbox{\hyperlink{classPNAB_1_1Backbone_a013ad05f203b1ec4a09e069a14b77f75}{Backbone\+::linker}} atom pointer. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to the atom that is the one linking to the \mbox{\hyperlink{classPNAB_1_1Base}{Base}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1Backbone_a88aba22d04e8e86e11ea2a5c3e1c4966}\label{classPNAB_1_1Backbone_a88aba22d04e8e86e11ea2a5c3e1c4966}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!getMolecule@{getMolecule}}
+\index{getMolecule@{getMolecule}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{getMolecule()}{getMolecule()}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Mol P\+N\+A\+B\+::\+Backbone\+::get\+Molecule (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gives a copy of the molecule in the backbone, \mbox{\hyperlink{classPNAB_1_1Backbone_a0d213e1fc4bf64766f7442b647194407}{Backbone\+::backbone}}. 
+
+\begin{DoxyReturn}{Returns}
+A copy of the backbone molecule 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1Backbone_ace2292cbacc6b52adafcb4d22d03f0ef}\label{classPNAB_1_1Backbone_ace2292cbacc6b52adafcb4d22d03f0ef}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!getTail@{getTail}}
+\index{getTail@{getTail}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{getTail()}{getTail()}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Atom$\ast$ P\+N\+A\+B\+::\+Backbone\+::get\+Tail (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gives the pointer to an atom that is the tail from \mbox{\hyperlink{classPNAB_1_1Backbone_a9937e6ef2e6f1e454a105eca6ff1cba4}{Backbone\+::interconnects}}\{head, tail\}. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to the atom for the tail 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1Backbone_ad02278cef6fb2d74c030637f129fac4e}\label{classPNAB_1_1Backbone_ad02278cef6fb2d74c030637f129fac4e}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!getVector@{getVector}}
+\index{getVector@{getVector}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{getVector()}{getVector()}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Atom$\ast$ P\+N\+A\+B\+::\+Backbone\+::get\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the second \mbox{\hyperlink{classPNAB_1_1Backbone_a013ad05f203b1ec4a09e069a14b77f75}{Backbone\+::linker}} atom pointer (which is probably a hydrogen) 
+
+\begin{DoxyReturn}{Returns}
+Pointer to the atom that defines the vector from the backbone to the base 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPNAB_1_1Backbone_ac0f8dfd5ad1b4bf415841e1d504b8d0f}\label{classPNAB_1_1Backbone_ac0f8dfd5ad1b4bf415841e1d504b8d0f}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!rotate@{rotate}}
+\index{rotate@{rotate}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{rotate()}{rotate()}}
+{\footnotesize\ttfamily void P\+N\+A\+B\+::\+Backbone\+::rotate (\begin{DoxyParamCaption}\item[{double $\ast$}]{rot }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Rotates the molecule by a matrix. Basically just an alias of the Rotate() function from Open\+Babel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rot} & The matrix by which to rotate the molecule \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPNAB_1_1Backbone_af3d5a638380994b9cc73fd0e1ba47fa2}\label{classPNAB_1_1Backbone_af3d5a638380994b9cc73fd0e1ba47fa2}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!translate@{translate}}
+\index{translate@{translate}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{translate()}{translate()}}
+{\footnotesize\ttfamily void P\+N\+A\+B\+::\+Backbone\+::translate (\begin{DoxyParamCaption}\item[{Open\+Babel\+::vector3}]{vec }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Translates the molecule by a vector. Basically just an alias of the Translate() function from Open\+Babel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec} & The vector by which to translate the molecule \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classPNAB_1_1Backbone_a054c8423149e37d44c6023dd2ace3081}\label{classPNAB_1_1Backbone_a054c8423149e37d44c6023dd2ace3081}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!validate@{validate}}
+\index{validate@{validate}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily void Backbone\+::validate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Does some basic sanity checks (such as whether or not the indices of the atom are within the range of the molecule) 
+
+
+
+\doxysubsubsection{Member Data Documentation}
+\mbox{\Hypertarget{classPNAB_1_1Backbone_a0d213e1fc4bf64766f7442b647194407}\label{classPNAB_1_1Backbone_a0d213e1fc4bf64766f7442b647194407}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!backbone@{backbone}}
+\index{backbone@{backbone}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{backbone}{backbone}}
+{\footnotesize\ttfamily Open\+Babel\+::\+O\+B\+Mol P\+N\+A\+B\+::\+Backbone\+::backbone}
+
+
+
+The molecule for the backbone. 
+
+\mbox{\Hypertarget{classPNAB_1_1Backbone_ade48da3609adfb46a2a8aa642d8e1de9}\label{classPNAB_1_1Backbone_ade48da3609adfb46a2a8aa642d8e1de9}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!file\_path@{file\_path}}
+\index{file\_path@{file\_path}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{file\_path}{file\_path}}
+{\footnotesize\ttfamily std\+::string P\+N\+A\+B\+::\+Backbone\+::file\+\_\+path}
+
+
+
+The path to the file containing the molecule. 
+
+\mbox{\Hypertarget{classPNAB_1_1Backbone_acf5d615b70b3f4e0929a9d27235500e5}\label{classPNAB_1_1Backbone_acf5d615b70b3f4e0929a9d27235500e5}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!fixed\_bonds@{fixed\_bonds}}
+\index{fixed\_bonds@{fixed\_bonds}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{fixed\_bonds}{fixed\_bonds}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$unsigned$>$ $>$ P\+N\+A\+B\+::\+Backbone\+::fixed\+\_\+bonds}
+
+
+
+A vector containing pairs of indices defining fixed rotatable bonds during dihedral search. 
+
+\mbox{\Hypertarget{classPNAB_1_1Backbone_a9937e6ef2e6f1e454a105eca6ff1cba4}\label{classPNAB_1_1Backbone_a9937e6ef2e6f1e454a105eca6ff1cba4}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!interconnects@{interconnects}}
+\index{interconnects@{interconnects}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{interconnects}{interconnects}}
+{\footnotesize\ttfamily std\+::array$<$unsigned , 2$>$ P\+N\+A\+B\+::\+Backbone\+::interconnects}
+
+
+
+The atom indices that define the periodic conditions between backbones \{ head, tail \}. 
+
+\mbox{\Hypertarget{classPNAB_1_1Backbone_a013ad05f203b1ec4a09e069a14b77f75}\label{classPNAB_1_1Backbone_a013ad05f203b1ec4a09e069a14b77f75}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!linker@{linker}}
+\index{linker@{linker}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{linker}{linker}}
+{\footnotesize\ttfamily std\+::array$<$unsigned , 2$>$ P\+N\+A\+B\+::\+Backbone\+::linker}
+
+
+
+The atom indices used to align and connect backbone to base in the nucleotide. 
+
+\mbox{\Hypertarget{classPNAB_1_1Backbone_a77c14d86ad99aa2bb4f16f7cc3c61514}\label{classPNAB_1_1Backbone_a77c14d86ad99aa2bb4f16f7cc3c61514}} 
+\index{PNAB::Backbone@{PNAB::Backbone}!vector\_atom\_deleted@{vector\_atom\_deleted}}
+\index{vector\_atom\_deleted@{vector\_atom\_deleted}!PNAB::Backbone@{PNAB::Backbone}}
+\doxyparagraph{\texorpdfstring{vector\_atom\_deleted}{vector\_atom\_deleted}}
+{\footnotesize\ttfamily bool P\+N\+A\+B\+::\+Backbone\+::vector\+\_\+atom\+\_\+deleted\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Whether or not the atom from \mbox{\hyperlink{classPNAB_1_1Backbone_ad02278cef6fb2d74c030637f129fac4e}{get\+Vector()}} has been deleted. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Containers_8h}{Containers.\+h}}\item 
+\mbox{\hyperlink{Containers_8cpp}{Containers.\+cpp}}\end{DoxyCompactItemize}

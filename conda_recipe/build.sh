@@ -29,4 +29,5 @@ cd ..
 cp -R pnab ${SP_DIR}
 cp build/bind.*.so ${SP_DIR}/pnab
 cp -R tests ${SP_DIR}/pnab
+cp -R docs/latex/refman.pdf ${SP_DIR}/pnab
 ls -l ${SP_DIR}/pnab

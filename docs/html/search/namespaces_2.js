@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['jupyter_5fwidgets_255',['jupyter_widgets',['../namespacejupyter__widgets.html',1,'']]]
+  ['options_240',['options',['../namespaceoptions.html',1,'']]]
 ];

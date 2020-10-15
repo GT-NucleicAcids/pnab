@@ -1,10 +1,10 @@
 package:
   name: pnab
-  version: "1.0.0"
+  version: "1.1.2"
 
 source:
   git_url: https://github.com/alenaizan/pnab.git
-  git_tag: v1.0.0
+  git_tag: v1.1.2
 
 build:
   number: 0
@@ -16,16 +16,15 @@ requirements:
     - cmake
   host:
     - eigen
-    - openbabel {{ openbabel }}
-    - pybind11 {{ pybind11 }}
-    - python {{ python }}
-    - ipywidgets {{ ipywidgets }}
+    - python
+    - openbabel
+    - pybind11
   run:
+    - python {{ python }}
     - numpy
-    - {{ pin_compatible('openbabel', max_pin='x.x') }}
-    - {{ pin_compatible('python', max_pin='x.x') }}
-    - {{ pin_compatible('ipywidgets', min_pin='x.x', max_pin='x.x') }}
-    - nglview
+    - openbabel >=3
+    - ipywidgets >=7.5
+    - nglview >=2.7
     - pyyaml
 
 test:

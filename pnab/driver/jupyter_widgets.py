@@ -438,7 +438,7 @@ def bases(param):
     display(widgets.HTML(value='<H3>Bases</H3>'))
     display(widgets.HTML(value=('These bases are already defined:' +
                                '<br> Adenine (A), Guanine (G), Cytosine (C), Uracil (U), Thymine (T), ' +
-                               'Cyanuric Acid (Y), and aminopyrimidine (R)')))
+                               'Cyanuric Acid (N), and aminopyrimidine (M)')))
 
     num_defined_bases = len([k for k in param if 'Base' in k]) - 1 # Subtract the item from the main options
     w = widgets.interactive(add_base, param=widgets.fixed(param), number_of_bases=widgets.BoundedIntText(value=num_defined_bases, min=0,
@@ -465,7 +465,7 @@ def helical_parameters(param):
     display(widgets.HTML(value='<H3>Helical Parameters</H3>'))
 
     # Display an image showing the helical parameters for DNA and RNA
-    display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.jpeg'), width=800))
+    display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.png'), width=800))
 
     param_dict = {}
     # Add widget to the widgets dictionary
