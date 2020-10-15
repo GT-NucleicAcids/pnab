@@ -11,12 +11,13 @@
 The proto-Nucleic Acid Builder is a program for modeling the 3D strucutres of DNA, RNA, and nucleic acid analogs. Nucleic acids with alternative backbones or nucleobases can be constructed by the program by supplying the 3D structure of isolated backbones or nucleobases. The program can perform a helical parameter search and backbone conformation search and find reasonable nucleic acid structures. Geometric and energetic criteria are used to evaluate candidate structures. The program is written in C++ and Python, and has a graphical user interface. The program is available for the Linux, MacOS, and Windows platforms. 
 ![image](Doxygen/images/output.png)
 
-## Installing the Package Using the conda package manager
+## Installing the Pre-compiled Package Using the conda package manager
 To install the conda package, first install miniconda/anaconda. Then,
 ```
-conda config --add channels conda-forge
-conda install -c alenaizan pnab
+conda install -c alenaizan -c conda-forge pnab
 ```
+## Compiling the Package
+The files `install.sh` and `install.bat` provide example scripts for compiling the package for the Linux and Windows platforms. 
 
 ## Documentations:
 Development version: [![docs latest](https://img.shields.io/badge/docs-latest-blue)](https://alenaizan.github.io/pnab/html/index.html)
