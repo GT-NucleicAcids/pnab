@@ -1,7 +1,7 @@
 var searchData=
 [
   ['inclination_116',['inclination',['../classPNAB_1_1HelicalParameters.html#a529b025b4a71a8bf0f900597d685ca39',1,'PNAB::HelicalParameters']]],
-  ['index_117',['index',['../structPNAB_1_1ConformerData.html#a1ccf24f70e67379b2a7d408cad11c119',1,'PNAB::ConformerData']]],
+  ['index_117',['index',['../structPNAB_1_1ConformerData.html#a1ccf24f70e67379b2a7d408cad11c119',1,'PNAB::ConformerData::index()'],['../index.html',1,'(Global Namespace)']]],
   ['init_5fworker_118',['init_worker',['../namespacedriver.html#a3fd793a8699c4bae9c13a6b7a2f40d5a',1,'driver']]],
   ['input_5foptions_119',['input_options',['../namespacejupyter__widgets.html#ab004b06e329f2db000c5868549e2bca7',1,'jupyter_widgets']]],
   ['interconnects_120',['interconnects',['../classPNAB_1_1Backbone.html#a9937e6ef2e6f1e454a105eca6ff1cba4',1,'PNAB::Backbone']]],

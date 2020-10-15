@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>The Proto-Nucleic-Acid Builder (pNAB): Advanced Manual</title>
+<title>The proto-Nucleic-Acid Builder (pNAB): Advanced Manual</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,7 +28,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">The Proto-Nucleic-Acid Builder (pNAB)
+   <div id="projectname">The proto-Nucleic-Acid Builder (pNAB)
    </div>
   </td>
  </tr>
@@ -68,7 +68,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="index.html">index</a></li>  </ul>
+<li class="navelem"><a class="el" href="index.html">Introduction</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="PageDoc"><div class="header">
@@ -80,7 +80,7 @@ $(function() {
 Compiling and Testing the Package</h1>
 <p>Clone the GitHub repository at <a href="https://github.com/alenaizan/pnab">https://github.com/alenaizan/pnab</a>. And compile the package. All the dependcies can be satisfied through conda. </p><div class="fragment"><div class="line">conda install -c conda-forge python numpy cmake openbabel eigen pybind11 pyyaml nglview</div>
 </div><!-- fragment --><p> The C++ compiler in linux can also be installed using Conda. </p><div class="fragment"><div class="line">conda install -c conda-forge gcc_linux-64 gxx_linux-64</div>
-</div><!-- fragment --><p> The code has been tested using the gcc 7.3 and 9.3 compilers in Linux, clang 8.0 compiler in Mac, and Visual Studio 2015/</p>
+</div><!-- fragment --><p> The code has been tested using the gcc 7.3 and 9.3 compilers in Linux, clang 8.0 and 10.0 compilers in Mac, and Visual Studio 2015/</p>
 <p>The code uses the pytest package for testing. To test that the code works, first install pytest: </p><div class="fragment"><div class="line">conda install pytest</div>
 </div><!-- fragment --><p>Then, execute: </p><div class="fragment"><div class="line">python -c &quot;import pnab; pnab.test()&quot;</div>
 </div><!-- fragment --><h1><a class="anchor" id="pybind11"></a>

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.8)  14 OCT 2020 13:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.8)  15 OCT 2020 09:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2046,12 +2046,12 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 221.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 221.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 221.
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: DD9CE6969C4940081065147DDA9B81F5;25058.
+(rerunfilecheck)             Checksum: 98606B7FDFA6AFA25A05E27A971BDE29;25070.
  ) 
 Here is how much of TeX's memory you used:
  18014 strings out of 483183
  283251 string characters out of 5966292
- 603448 words of memory out of 5000000
+ 604460 words of memory out of 5000000
  31740 multiletter control sequences out of 15000+600000
  584499 words of font info for 97 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -2074,7 +2074,7 @@ fonts/type1/urw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic
 /uhvb8ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on refman.pdf (114 pages, 1323317 bytes).
+Output written on refman.pdf (114 pages, 1323309 bytes).
 PDF statistics:
  3496 PDF objects out of 3580 (max. 8388607)
  3175 compressed objects within 32 object streams
