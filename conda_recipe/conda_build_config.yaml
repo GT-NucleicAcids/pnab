@@ -7,16 +7,6 @@ CONDA_BUILD_SYSROOT:
 cxx_compiler:
     - gxx                              # [linux]
     - clangxx                          # [osx]
-cxx_compiler_version:
-    - 7.3.0                            # [linux]
-    - 8.0.0                            # [osx]
-
-openbabel:
-    - 3.0.0
-pybind11:
-    - 2.4.3
-ipywidgets:
-    - 7.5.1
 python:
     - 3.8
     - 3.7

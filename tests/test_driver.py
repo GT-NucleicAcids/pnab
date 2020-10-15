@@ -36,7 +36,7 @@ def test_examples():
                 'ZP.yaml', 'Hexad.yaml', 'Hexad_Antiparallel.yaml', 'adenine_cyanuric_acid.yaml']
 
     if platform.system() != 'Linux': # test times in other platforms exceed allowed limit for travis CI and appveyor
-        examples = examples[:9]
+        examples = examples[:7]
 
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
