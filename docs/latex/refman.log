@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.8)  15 OCT 2020 09:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.8)  15 OCT 2020 13:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -862,11 +862,11 @@ LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 10.79993pt on input line 10.
  [1] <./structures.png>
-<structures.png, id=587, 1059.83955pt x 725.5908pt>
+<structures.png, id=587, 4416.5pt x 3024.29875pt>
 File: structures.png Graphic file (type png)
 <use structures.png>
 Package pdftex.def Info: structures.png  used on input line 15.
-(pdftex.def)             Requested size: 455.25314pt x 311.67688pt.
+(pdftex.def)             Requested size: 455.22133pt x 311.72314pt.
  <./algorithm.png>
 <algorithm.png, id=588, 469.755pt x 1626.075pt>
 File: algorithm.png Graphic file (type png)
@@ -874,7 +874,7 @@ File: algorithm.png Graphic file (type png)
 Package pdftex.def Info: algorithm.png  used on input line 23.
 (pdftex.def)             Requested size: 101.51144pt x 351.38577pt.
 
-Underfull \vbox (badness 3439) has occurred while \output is active []
+Underfull \vbox (badness 3525) has occurred while \output is active []
 
  [2])
 (./trying_and_installing.tex
@@ -2051,7 +2051,7 @@ Package rerunfilecheck Info: File `refman.out' has not changed.
 Here is how much of TeX's memory you used:
  18014 strings out of 483183
  283251 string characters out of 5966292
- 604460 words of memory out of 5000000
+ 603460 words of memory out of 5000000
  31740 multiletter control sequences out of 15000+600000
  584499 words of font info for 97 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -2074,7 +2074,7 @@ fonts/type1/urw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic
 /uhvb8ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on refman.pdf (114 pages, 1323309 bytes).
+Output written on refman.pdf (114 pages, 1390738 bytes).
 PDF statistics:
  3496 PDF objects out of 3580 (max. 8388607)
  3175 compressed objects within 32 object streams
