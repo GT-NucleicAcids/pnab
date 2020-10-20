@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.8)  20 OCT 2020 17:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.8)  20 OCT 2020 19:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -885,48 +885,48 @@ LaTeX Font Info:    Trying to load font information for T1+pcr on input line 2.
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ) [3]
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 8.99994pt on input line 13.
+(Font)              scaled to size 8.99994pt on input line 14.
 
-Underfull \hbox (badness 10000) detected at line 13
+Underfull \hbox (badness 10000) detected at line 14
 [][][]
  []
 
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 34.
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 35.
 LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
-(Font)              scaled to size 8.99994pt on input line 34.
+(Font)              scaled to size 8.99994pt on input line 35.
  <./navigator.png>
 <navigator.png, id=613, 1265.72874pt x 761.84625pt>
 File: navigator.png Graphic file (type png)
 <use navigator.png>
-Package pdftex.def Info: navigator.png  used on input line 36.
+Package pdftex.def Info: navigator.png  used on input line 37.
 (pdftex.def)             Requested size: 455.2371pt x 274.0087pt.
  <./navigator2.png>
 <navigator2.png, id=615, 677.53125pt x 404.51125pt>
 File: navigator2.png Graphic file (type png)
 <use navigator2.png>
-Package pdftex.def Info: navigator2.png  used on input line 41.
+Package pdftex.def Info: navigator2.png  used on input line 42.
 (pdftex.def)             Requested size: 455.25653pt x 271.80501pt.
  [4] <./jupyter.png>
 <jupyter.png, id=629, 1831.84375pt x 445.665pt>
 File: jupyter.png Graphic file (type png)
 <use jupyter.png>
-Package pdftex.def Info: jupyter.png  used on input line 48.
+Package pdftex.def Info: jupyter.png  used on input line 49.
 (pdftex.def)             Requested size: 455.2485pt x 110.75635pt.
  <./notebook.png>
 <notebook.png, id=631, 774.64406pt x 642.14906pt>
 File: notebook.png Graphic file (type png)
 <use notebook.png>
-Package pdftex.def Info: notebook.png  used on input line 62.
+Package pdftex.def Info: notebook.png  used on input line 63.
 (pdftex.def)             Requested size: 423.9043pt x 351.39977pt.
 
 Underfull \vbox (badness 2080) has occurred while \output is active []
 
  [5]
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <7> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 66.
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 67.
 LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
-(Font)              scaled to size 6.29996pt on input line 66.
+(Font)              scaled to size 6.29996pt on input line 67.
 )
 (./examples.tex
 File: notebook.png Graphic file (type png)
@@ -2051,7 +2051,7 @@ fonts/type1/urw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic
 /uhvb8ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on refman.pdf (114 pages, 1390209 bytes).
+Output written on refman.pdf (114 pages, 1390268 bytes).
 PDF statistics:
  3487 PDF objects out of 3580 (max. 8388607)
  3166 compressed objects within 32 object streams
