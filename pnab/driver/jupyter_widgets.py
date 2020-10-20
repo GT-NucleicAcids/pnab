@@ -465,7 +465,7 @@ def helical_parameters(param):
     display(widgets.HTML(value='<H3>Helical Parameters</H3>'))
 
     # Display an image showing the helical parameters for DNA and RNA
-    display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.png'), width=800))
+    display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.jpg'), width=800))
 
     param_dict = {}
     # Add widget to the widgets dictionary
