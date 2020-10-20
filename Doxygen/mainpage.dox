@@ -48,8 +48,10 @@ If you need a more permanent version of the program, you can install it in your 
 The pNAB program is available as a conda package. Download the light-weight [miniconda](https://docs.conda.io/en/latest/miniconda.html)
 or the more fully featured [Anaconda](https://www.anaconda.com/distribution/). Open the conda terminal and type:
 @code{.sh}
-conda install -c conda-forge -c alenaizan pnab
+conda create -n pnab -c alenaizan -c conda-forge pnab
+conda activate pnab
 @endcode
+This creates and activates a new conda environment called `pnab`.
 
 @note
 You may need to activate the NGLView library to visualize molecules:

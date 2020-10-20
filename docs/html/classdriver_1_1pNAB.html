@@ -109,9 +109,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a59f03f9a16a4fd08ea70499bfa76e628"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdriver_1_1pNAB.html#a59f03f9a16a4fd08ea70499bfa76e628">__init__</a> (self, file_path)</td></tr>
 <tr class="memdesc:a59f03f9a16a4fd08ea70499bfa76e628"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor for the <a class="el" href="classdriver_1_1pNAB.html" title="The proto-Nucleic Acid Builder main python class.">pNAB</a> run.  <a href="classdriver_1_1pNAB.html#a59f03f9a16a4fd08ea70499bfa76e628">More...</a><br /></td></tr>
 <tr class="separator:a59f03f9a16a4fd08ea70499bfa76e628"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeec15fb1ee0c33d517d16314e8487192"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdriver_1_1pNAB.html#aeec15fb1ee0c33d517d16314e8487192">run</a> (self, number_of_cpus=None, verbose=True)</td></tr>
-<tr class="memdesc:aeec15fb1ee0c33d517d16314e8487192"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepare helical configurations and run them in parallel.  <a href="classdriver_1_1pNAB.html#aeec15fb1ee0c33d517d16314e8487192">More...</a><br /></td></tr>
-<tr class="separator:aeec15fb1ee0c33d517d16314e8487192"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66c7bf25decaa32b2ad2d4c9bd25bf06"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdriver_1_1pNAB.html#a66c7bf25decaa32b2ad2d4c9bd25bf06">run</a> (self, number_of_cpus=None, verbose=True, interrupt=False)</td></tr>
+<tr class="memdesc:a66c7bf25decaa32b2ad2d4c9bd25bf06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepare helical configurations and run them in parallel.  <a href="classdriver_1_1pNAB.html#a66c7bf25decaa32b2ad2d4c9bd25bf06">More...</a><br /></td></tr>
+<tr class="separator:a66c7bf25decaa32b2ad2d4c9bd25bf06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -133,9 +133,6 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:af28c6c9a6a1a33d95fb686191cf09408"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdriver_1_1pNAB.html#af28c6c9a6a1a33d95fb686191cf09408">_run</a> (self, config)</td></tr>
 <tr class="memdesc:af28c6c9a6a1a33d95fb686191cf09408"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to run one helical configuration.  <a href="classdriver_1_1pNAB.html#af28c6c9a6a1a33d95fb686191cf09408">More...</a><br /></td></tr>
 <tr class="separator:af28c6c9a6a1a33d95fb686191cf09408"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a381c741d27e204bf621f70ae4b057658"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdriver_1_1pNAB.html#a381c741d27e204bf621f70ae4b057658">_single_result</a> (self, <a class="el" href="classdriver_1_1pNAB.html#a19cbd7ab9ec24e9e7bb5d6112c7f52f4">results</a>)</td></tr>
-<tr class="memdesc:a381c741d27e204bf621f70ae4b057658"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write results to disk for each helical configuration as it finishe.  <a href="classdriver_1_1pNAB.html#a381c741d27e204bf621f70ae4b057658">More...</a><br /></td></tr>
-<tr class="separator:a381c741d27e204bf621f70ae4b057658"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -238,71 +235,19 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Function to run one helical configuration. </p>
-<p>Setup the options to call the C++ code using the pybind11 bind class in <em><a class="el" href="binder_8cpp.html" title="A file for exporting classes and functions to python using pybind11.">binder.cpp</a></em>. After the run finishes, it returns the results for processing.</p>
+<p>Setup the options to call the C++ code using the pybind11 bind class in <em><a class="el" href="binder_8cpp.html" title="A file for exporting classes and functions to python using pybind11.">binder.cpp</a></em>. After the run finishes, it writes the results. Two files are written: "prefix.yaml" contains a dictionary of the sequence of the run and the corresponding helical configuration "results.csv" contains the information on the accepted candidates for all of configurations</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">config</td><td>(list) a list containing two entries: the list of helical parameter values for this configuration, and a string index for the sequnce of the run</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>results [prefix, header, result] A list containing the index of the run, a string describing the helical configuration, and a numpy array of the results</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classdriver_1_1pNAB.html#aeec15fb1ee0c33d517d16314e8487192" title="Prepare helical configurations and run them in parallel.">run</a> </dd>
-<dd>
-<a class="el" href="classdriver_1_1pNAB.html#a381c741d27e204bf621f70ae4b057658" title="Write results to disk for each helical configuration as it finishe.">_single_result</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classdriver_1_1pNAB.html#a66c7bf25decaa32b2ad2d4c9bd25bf06" title="Prepare helical configurations and run them in parallel.">run</a> </dd></dl>
 
 </div>
 </div>
-<a id="a381c741d27e204bf621f70ae4b057658"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a381c741d27e204bf621f70ae4b057658">&#9670;&nbsp;</a></span>_single_result()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">def driver.pNAB._single_result </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>results</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Write results to disk for each helical configuration as it finishe. </p>
-<p>Two files are written: "prefix.yaml" contains a dictionary of the sequence of the run and the corresponding helical configuration "results.csv" contains the information on the accepted candidates for all of configurations</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">results</td><td>(list) The return value of <em>pNAB.pNAB._run</em> </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>None; writing to output files</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classdriver_1_1pNAB.html#af28c6c9a6a1a33d95fb686191cf09408" title="Function to run one helical configuration.">_run</a> </dd>
-<dd>
-<a class="el" href="classdriver_1_1pNAB.html#aeec15fb1ee0c33d517d16314e8487192" title="Prepare helical configurations and run them in parallel.">run</a> </dd></dl>
-
-</div>
-</div>
-<a id="aeec15fb1ee0c33d517d16314e8487192"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeec15fb1ee0c33d517d16314e8487192">&#9670;&nbsp;</a></span>run()</h2>
+<a id="a66c7bf25decaa32b2ad2d4c9bd25bf06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66c7bf25decaa32b2ad2d4c9bd25bf06">&#9670;&nbsp;</a></span>run()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -323,7 +268,13 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>verbose</em> = <code>True</code>&#160;</td>
+          <td class="paramname"><em>verbose</em> = <code>True</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>interrupt</em> = <code>False</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -340,7 +291,8 @@ Private Attributes</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">number_of_cpus</td><td>Number of CPUs to use for parallel computations of different helical configurations, defaults to all cores </td></tr>
-    <tr><td class="paramname">verbose</td><td>Whether to print progress report to the screen, default to True</td></tr>
+    <tr><td class="paramname">verbose</td><td>Whether to print progress report to the screen, default to True </td></tr>
+    <tr><td class="paramname">interrupt</td><td>How to handle keyboard interrupt in multiprocessing</td></tr>
   </table>
   </dd>
 </dl>

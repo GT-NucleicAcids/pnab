@@ -4,8 +4,10 @@
 
 #include <iomanip>
 #include <set>
+#include <pybind11/pybind11.h>
 #include "ConformationSearch.h"
 
+namespace py = pybind11;
 using namespace PNAB;
 using namespace std;
 using namespace OpenBabel;
@@ -167,6 +169,11 @@ void ConformationSearch::GeneticAlgorithmSearch() {
     // Loop over the number of generations
     for (size_t search_index=0; search_index < search_size; search_index++) {
 
+        if (PyErr_CheckSignals() != 0) {
+            py::error_already_set();
+            return;
+        }
+
         // print progress roughly every 10%
         if (fmod(search_index, search_size/10) == 0 && verbose_) {
             printProgress(search_index, search_size);
@@ -309,6 +316,11 @@ void ConformationSearch::RandomSearch(bool weighted) {
     // Loop over the number of iterations
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
 
+        if (PyErr_CheckSignals() != 0) {
+            py::error_already_set();
+            return;
+        }
+
         // print progress roughly every 10%
         if (fmod(search_index, search_size/10) == 0 && verbose_) {
             printProgress(search_index, search_size);
@@ -398,6 +410,11 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
 
     // Loop over the number of iterations
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
+
+        if (PyErr_CheckSignals() != 0) {
+            py::error_already_set();
+            return;
+        }
 
         // print progress roughly every 10%
         if (fmod(search_index, search_size/10) == 0 && verbose_) {
@@ -596,6 +613,11 @@ void ConformationSearch::SystematicSearch() {
 
     // Loop over the number of iterations
     for (size_t search_index = 0; search_index < search_size; ++search_index) {
+
+        if (PyErr_CheckSignals() != 0) {
+            py::error_already_set();
+            return;
+        }
 
         // print progress roughly every 10%
         if (fmod(search_index, search_size/10) == 0 && verbose_) {
