@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['validate_334',['validate',['../classPNAB_1_1Backbone.html#a054c8423149e37d44c6023dd2ace3081',1,'PNAB::Backbone::validate()'],['../classPNAB_1_1Base.html#a1c0f2ff41b280f1d9aa440402004cb35',1,'PNAB::Base::validate()']]],
-  ['validate_5fall_5foptions_335',['validate_all_options',['../namespaceoptions.html#a102c859758e5252df46c1ca033137059',1,'options']]],
-  ['view_5fnglview_336',['view_nglview',['../namespacejupyter__widgets.html#ab4fb958ca5673e16c5aa062c4cc1b3ea',1,'jupyter_widgets']]]
+  ['validate_332',['validate',['../classPNAB_1_1Backbone.html#a054c8423149e37d44c6023dd2ace3081',1,'PNAB::Backbone::validate()'],['../classPNAB_1_1Base.html#a1c0f2ff41b280f1d9aa440402004cb35',1,'PNAB::Base::validate()']]],
+  ['validate_5fall_5foptions_333',['validate_all_options',['../namespaceoptions.html#a102c859758e5252df46c1ca033137059',1,'options']]],
+  ['view_5fnglview_334',['view_nglview',['../namespacejupyter__widgets.html#ab4fb958ca5673e16c5aa062c4cc1b3ea',1,'jupyter_widgets']]]
 ];

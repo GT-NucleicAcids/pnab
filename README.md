@@ -12,9 +12,10 @@ The proto-Nucleic Acid Builder is a program for modeling the 3D strucutres of DN
 ![image](Doxygen/images/output.png)
 
 ## Installing the Pre-compiled Package Using the conda package manager
-To install the conda package, first install miniconda/anaconda. Then,
+To install the conda package, first install miniconda/anaconda. Then create a new environment for pNAB,
 ```
-conda install -c alenaizan -c conda-forge pnab
+conda create -n pnab -c alenaizan -c conda-forge pnab
+conda activate pnab
 ```
 ## Compiling the Package
 The files `install.sh` and `install.bat` provide example scripts for compiling the package for the Linux and Windows platforms. 

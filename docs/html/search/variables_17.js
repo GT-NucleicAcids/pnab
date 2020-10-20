@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['z2_493',['z2',['../namespacebase__step__to__helical.html#a861c3fc85a39bb5d84c558cc9470e343',1,'base_step_to_helical']]]
+  ['y_5fdisplacement_464',['y_displacement',['../classPNAB_1_1HelicalParameters.html#ad33317484602581a94293d16b89d228a',1,'PNAB::HelicalParameters']]]
 ];

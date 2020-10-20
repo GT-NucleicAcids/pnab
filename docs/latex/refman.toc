@@ -278,55 +278,54 @@
 \contentsline {paragraph}{\numberline {6.9.2.1}\_\_init\_\_()}{87}{paragraph.6.9.2.1}%
 \contentsline {subsubsection}{\numberline {6.9.3}Member Function Documentation}{88}{subsubsection.6.9.3}%
 \contentsline {paragraph}{\numberline {6.9.3.1}\_run()}{88}{paragraph.6.9.3.1}%
-\contentsline {paragraph}{\numberline {6.9.3.2}\_single\_result()}{88}{paragraph.6.9.3.2}%
-\contentsline {paragraph}{\numberline {6.9.3.3}run()}{89}{paragraph.6.9.3.3}%
+\contentsline {paragraph}{\numberline {6.9.3.2}run()}{88}{paragraph.6.9.3.2}%
 \contentsline {subsubsection}{\numberline {6.9.4}Member Data Documentation}{89}{subsubsection.6.9.4}%
 \contentsline {paragraph}{\numberline {6.9.4.1}\_is\_helical}{89}{paragraph.6.9.4.1}%
 \contentsline {paragraph}{\numberline {6.9.4.2}\_options}{89}{paragraph.6.9.4.2}%
-\contentsline {paragraph}{\numberline {6.9.4.3}\_verbose}{90}{paragraph.6.9.4.3}%
-\contentsline {paragraph}{\numberline {6.9.4.4}header}{90}{paragraph.6.9.4.4}%
-\contentsline {paragraph}{\numberline {6.9.4.5}options}{90}{paragraph.6.9.4.5}%
+\contentsline {paragraph}{\numberline {6.9.4.3}\_verbose}{89}{paragraph.6.9.4.3}%
+\contentsline {paragraph}{\numberline {6.9.4.4}header}{89}{paragraph.6.9.4.4}%
+\contentsline {paragraph}{\numberline {6.9.4.5}options}{89}{paragraph.6.9.4.5}%
 \contentsline {paragraph}{\numberline {6.9.4.6}prefix}{90}{paragraph.6.9.4.6}%
 \contentsline {paragraph}{\numberline {6.9.4.7}results}{90}{paragraph.6.9.4.7}%
 \contentsline {subsection}{\numberline {6.10}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}AB\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::Runtime\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Parameters Class Reference}{90}{subsection.6.10}%
 \contentsline {subsubsection}{\numberline {6.10.1}Detailed Description}{91}{subsubsection.6.10.1}%
-\contentsline {subsubsection}{\numberline {6.10.2}Constructor \& Destructor Documentation}{92}{subsubsection.6.10.2}%
-\contentsline {paragraph}{\numberline {6.10.2.1}RuntimeParameters()}{92}{paragraph.6.10.2.1}%
-\contentsline {subsubsection}{\numberline {6.10.3}Member Data Documentation}{92}{subsubsection.6.10.3}%
+\contentsline {subsubsection}{\numberline {6.10.2}Constructor \& Destructor Documentation}{91}{subsubsection.6.10.2}%
+\contentsline {paragraph}{\numberline {6.10.2.1}RuntimeParameters()}{91}{paragraph.6.10.2.1}%
+\contentsline {subsubsection}{\numberline {6.10.3}Member Data Documentation}{91}{subsubsection.6.10.3}%
 \contentsline {paragraph}{\numberline {6.10.3.1}build\_strand}{92}{paragraph.6.10.3.1}%
 \contentsline {paragraph}{\numberline {6.10.3.2}crossover\_rate}{92}{paragraph.6.10.3.2}%
 \contentsline {paragraph}{\numberline {6.10.3.3}dihedral\_step}{92}{paragraph.6.10.3.3}%
-\contentsline {paragraph}{\numberline {6.10.3.4}energy\_filter}{93}{paragraph.6.10.3.4}%
+\contentsline {paragraph}{\numberline {6.10.3.4}energy\_filter}{92}{paragraph.6.10.3.4}%
 \contentsline {paragraph}{\numberline {6.10.3.5}ff\_type}{93}{paragraph.6.10.3.5}%
 \contentsline {paragraph}{\numberline {6.10.3.6}glycosidic\_bond\_distance}{93}{paragraph.6.10.3.6}%
 \contentsline {paragraph}{\numberline {6.10.3.7}is\_hexad}{93}{paragraph.6.10.3.7}%
 \contentsline {paragraph}{\numberline {6.10.3.8}max\_distance}{93}{paragraph.6.10.3.8}%
-\contentsline {paragraph}{\numberline {6.10.3.9}monte\_carlo\_temperature}{94}{paragraph.6.10.3.9}%
+\contentsline {paragraph}{\numberline {6.10.3.9}monte\_carlo\_temperature}{93}{paragraph.6.10.3.9}%
 \contentsline {paragraph}{\numberline {6.10.3.10}mutation\_rate}{94}{paragraph.6.10.3.10}%
 \contentsline {paragraph}{\numberline {6.10.3.11}num\_candidates}{94}{paragraph.6.10.3.11}%
 \contentsline {paragraph}{\numberline {6.10.3.12}num\_steps}{94}{paragraph.6.10.3.12}%
 \contentsline {paragraph}{\numberline {6.10.3.13}population\_size}{94}{paragraph.6.10.3.13}%
-\contentsline {paragraph}{\numberline {6.10.3.14}search\_algorithm}{95}{paragraph.6.10.3.14}%
+\contentsline {paragraph}{\numberline {6.10.3.14}search\_algorithm}{94}{paragraph.6.10.3.14}%
 \contentsline {paragraph}{\numberline {6.10.3.15}seed}{95}{paragraph.6.10.3.15}%
 \contentsline {paragraph}{\numberline {6.10.3.16}strand}{95}{paragraph.6.10.3.16}%
 \contentsline {paragraph}{\numberline {6.10.3.17}strand\_orientation}{95}{paragraph.6.10.3.17}%
 \contentsline {paragraph}{\numberline {6.10.3.18}weighting\_temperature}{95}{paragraph.6.10.3.18}%
-\contentsline {section}{\numberline {7}File Documentation}{96}{section.7}%
-\contentsline {subsection}{\numberline {7.1}advanced.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}dox File Reference}{96}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}binder.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp File Reference}{96}{subsection.7.2}%
+\contentsline {section}{\numberline {7}File Documentation}{95}{section.7}%
+\contentsline {subsection}{\numberline {7.1}advanced.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}dox File Reference}{95}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}binder.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp File Reference}{95}{subsection.7.2}%
 \contentsline {subsubsection}{\numberline {7.2.1}Detailed Description}{96}{subsubsection.7.2.1}%
 \contentsline {subsection}{\numberline {7.3}Chain.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp File Reference}{96}{subsection.7.3}%
-\contentsline {subsubsection}{\numberline {7.3.1}Detailed Description}{97}{subsubsection.7.3.1}%
-\contentsline {subsection}{\numberline {7.4}Chain.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{97}{subsection.7.4}%
-\contentsline {subsubsection}{\numberline {7.4.1}Detailed Description}{98}{subsubsection.7.4.1}%
+\contentsline {subsubsection}{\numberline {7.3.1}Detailed Description}{96}{subsubsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.4}Chain.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{96}{subsection.7.4}%
+\contentsline {subsubsection}{\numberline {7.4.1}Detailed Description}{97}{subsubsection.7.4.1}%
 \contentsline {subsubsection}{\numberline {7.4.2}Macro Definition Documentation}{98}{subsubsection.7.4.2}%
 \contentsline {paragraph}{\numberline {7.4.2.1}KJ\_TO\_KCAL}{98}{paragraph.7.4.2.1}%
 \contentsline {subsection}{\numberline {7.5}Conformation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Search.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp File Reference}{98}{subsection.7.5}%
 \contentsline {subsubsection}{\numberline {7.5.1}Detailed Description}{98}{subsubsection.7.5.1}%
-\contentsline {subsection}{\numberline {7.6}Conformation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Search.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{99}{subsection.7.6}%
+\contentsline {subsection}{\numberline {7.6}Conformation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Search.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{98}{subsection.7.6}%
 \contentsline {subsubsection}{\numberline {7.6.1}Detailed Description}{99}{subsubsection.7.6.1}%
-\contentsline {subsubsection}{\numberline {7.6.2}Macro Definition Documentation}{100}{subsubsection.7.6.2}%
-\contentsline {paragraph}{\numberline {7.6.2.1}BOLTZMANN}{100}{paragraph.7.6.2.1}%
+\contentsline {subsubsection}{\numberline {7.6.2}Macro Definition Documentation}{99}{subsubsection.7.6.2}%
+\contentsline {paragraph}{\numberline {7.6.2.1}BOLTZMANN}{99}{paragraph.7.6.2.1}%
 \contentsline {subsection}{\numberline {7.7}Containers.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cpp File Reference}{100}{subsection.7.7}%
 \contentsline {subsubsection}{\numberline {7.7.1}Detailed Description}{100}{subsubsection.7.7.1}%
 \contentsline {subsection}{\numberline {7.8}Containers.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{100}{subsection.7.8}%

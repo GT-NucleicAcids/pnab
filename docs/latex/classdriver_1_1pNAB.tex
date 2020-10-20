@@ -28,7 +28,7 @@ Collaboration diagram for driver.\+p\+N\+AB\+:\nopagebreak
 \item 
 def \mbox{\hyperlink{classdriver_1_1pNAB_a59f03f9a16a4fd08ea70499bfa76e628}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, file\+\_\+path)
 \begin{DoxyCompactList}\small\item\em The constructor for the \mbox{\hyperlink{classdriver_1_1pNAB}{p\+N\+AB}} run. \end{DoxyCompactList}\item 
-def \mbox{\hyperlink{classdriver_1_1pNAB_aeec15fb1ee0c33d517d16314e8487192}{run}} (self, number\+\_\+of\+\_\+cpus=None, verbose=True)
+def \mbox{\hyperlink{classdriver_1_1pNAB_a66c7bf25decaa32b2ad2d4c9bd25bf06}{run}} (self, number\+\_\+of\+\_\+cpus=None, verbose=True, interrupt=False)
 \begin{DoxyCompactList}\small\item\em Prepare helical configurations and run them in parallel. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -45,9 +45,7 @@ def \mbox{\hyperlink{classdriver_1_1pNAB_aeec15fb1ee0c33d517d16314e8487192}{run}
 \begin{DoxyCompactItemize}
 \item 
 def \mbox{\hyperlink{classdriver_1_1pNAB_af28c6c9a6a1a33d95fb686191cf09408}{\+\_\+run}} (self, config)
-\begin{DoxyCompactList}\small\item\em Function to run one helical configuration. \end{DoxyCompactList}\item 
-def \mbox{\hyperlink{classdriver_1_1pNAB_a381c741d27e204bf621f70ae4b057658}{\+\_\+single\+\_\+result}} (self, \mbox{\hyperlink{classdriver_1_1pNAB_a19cbd7ab9ec24e9e7bb5d6112c7f52f4}{results}})
-\begin{DoxyCompactList}\small\item\em Write results to disk for each helical configuration as it finishe. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Function to run one helical configuration. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -124,51 +122,21 @@ The constructor takes an input file as an argument and initialize a new instance
 
 Function to run one helical configuration. 
 
-Setup the options to call the C++ code using the pybind11 bind class in {\itshape \mbox{\hyperlink{binder_8cpp}{binder.\+cpp}}}. After the run finishes, it returns the results for processing.
+Setup the options to call the C++ code using the pybind11 bind class in {\itshape \mbox{\hyperlink{binder_8cpp}{binder.\+cpp}}}. After the run finishes, it writes the results. Two files are written\+: \char`\"{}prefix.\+yaml\char`\"{} contains a dictionary of the sequence of the run and the corresponding helical configuration \char`\"{}results.\+csv\char`\"{} contains the information on the accepted candidates for all of configurations
 
 
 \begin{DoxyParams}{Parameters}
 {\em config} & (list) a list containing two entries\+: the list of helical parameter values for this configuration, and a string index for the sequnce of the run\\
 \hline
 \end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-results \mbox{[}prefix, header, result\mbox{]} A list containing the index of the run, a string describing the helical configuration, and a numpy array of the results
-\end{DoxyReturn}
 \begin{DoxySeeAlso}{See also}
-\mbox{\hyperlink{classdriver_1_1pNAB_aeec15fb1ee0c33d517d16314e8487192}{run}} 
-
-\mbox{\hyperlink{classdriver_1_1pNAB_a381c741d27e204bf621f70ae4b057658}{\+\_\+single\+\_\+result}} 
+\mbox{\hyperlink{classdriver_1_1pNAB_a66c7bf25decaa32b2ad2d4c9bd25bf06}{run}} 
 \end{DoxySeeAlso}
-\mbox{\Hypertarget{classdriver_1_1pNAB_a381c741d27e204bf621f70ae4b057658}\label{classdriver_1_1pNAB_a381c741d27e204bf621f70ae4b057658}} 
-\index{driver.pNAB@{driver.pNAB}!\_single\_result@{\_single\_result}}
-\index{\_single\_result@{\_single\_result}!driver.pNAB@{driver.pNAB}}
-\doxyparagraph{\texorpdfstring{\_single\_result()}{\_single\_result()}}
-{\footnotesize\ttfamily def driver.\+p\+N\+A\+B.\+\_\+single\+\_\+result (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{results }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Write results to disk for each helical configuration as it finishe. 
-
-Two files are written\+: \char`\"{}prefix.\+yaml\char`\"{} contains a dictionary of the sequence of the run and the corresponding helical configuration \char`\"{}results.\+csv\char`\"{} contains the information on the accepted candidates for all of configurations
-
-
-\begin{DoxyParams}{Parameters}
-{\em results} & (list) The return value of {\itshape p\+N\+A\+B.\+p\+N\+A\+B.\+\_\+run} \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-None; writing to output files
-\end{DoxyReturn}
-\begin{DoxySeeAlso}{See also}
-\mbox{\hyperlink{classdriver_1_1pNAB_af28c6c9a6a1a33d95fb686191cf09408}{\+\_\+run}} 
-
-\mbox{\hyperlink{classdriver_1_1pNAB_aeec15fb1ee0c33d517d16314e8487192}{run}} 
-\end{DoxySeeAlso}
-\mbox{\Hypertarget{classdriver_1_1pNAB_aeec15fb1ee0c33d517d16314e8487192}\label{classdriver_1_1pNAB_aeec15fb1ee0c33d517d16314e8487192}} 
+\mbox{\Hypertarget{classdriver_1_1pNAB_a66c7bf25decaa32b2ad2d4c9bd25bf06}\label{classdriver_1_1pNAB_a66c7bf25decaa32b2ad2d4c9bd25bf06}} 
 \index{driver.pNAB@{driver.pNAB}!run@{run}}
 \index{run@{run}!driver.pNAB@{driver.pNAB}}
 \doxyparagraph{\texorpdfstring{run()}{run()}}
-{\footnotesize\ttfamily def driver.\+p\+N\+A\+B.\+run (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{number\+\_\+of\+\_\+cpus = {\ttfamily None},  }\item[{}]{verbose = {\ttfamily True} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily def driver.\+p\+N\+A\+B.\+run (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{number\+\_\+of\+\_\+cpus = {\ttfamily None},  }\item[{}]{verbose = {\ttfamily True},  }\item[{}]{interrupt = {\ttfamily False} }\end{DoxyParamCaption})}
 
 
 
@@ -184,7 +152,9 @@ This function writes three output files\+: \char`\"{}results.\+csv\char`\"{} and
 \begin{DoxyParams}{Parameters}
 {\em number\+\_\+of\+\_\+cpus} & Number of C\+P\+Us to use for parallel computations of different helical configurations, defaults to all cores \\
 \hline
-{\em verbose} & Whether to print progress report to the screen, default to True\\
+{\em verbose} & Whether to print progress report to the screen, default to True \\
+\hline
+{\em interrupt} & How to handle keyboard interrupt in multiprocessing\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

@@ -12,8 +12,6 @@
     \subitem {options}, \hyperpage{35}
   \item {\_run}
     \subitem {driver.pNAB}, \hyperpage{88}
-  \item {\_single\_result}
-    \subitem {driver.pNAB}, \hyperpage{88}
   \item {\_validate\_atom\_indices}
     \subitem {options}, \hyperpage{32}
   \item {\_validate\_bool\_list}
@@ -37,7 +35,7 @@
     \subitem {PNAB::ConformerData}, \hyperpage{76}
   \item {add\_base}
     \subitem {jupyter\_widgets}, \hyperpage{19}
-  \item {advanced.dox}, \hyperpage{96}
+  \item {advanced.dox}, \hyperpage{95}
   \item {algorithm}
     \subitem {jupyter\_widgets}, \hyperpage{20}
   \item {all\_angles\_}
@@ -83,9 +81,9 @@
     \subitem {PNAB::ConformationSearch}, \hyperpage{71}
   \item {BaseUnit}
     \subitem {PNAB::BaseUnit}, \hyperpage{50}
-  \item {binder.cpp}, \hyperpage{96}
+  \item {binder.cpp}, \hyperpage{95}
   \item {BOLTZMANN}
-    \subitem {ConformationSearch.h}, \hyperpage{100}
+    \subitem {ConformationSearch.h}, \hyperpage{99}
   \item {bondE}
     \subitem {PNAB::ConformerData}, \hyperpage{76}
   \item {bu\_a\_mol}
@@ -93,7 +91,7 @@
   \item {buckle}
     \subitem {PNAB::HelicalParameters}, \hyperpage{83}
   \item {build\_strand}
-    \subitem {PNAB::RuntimeParameters}, \hyperpage{92}
+    \subitem {PNAB::RuntimeParameters}, \hyperpage{91}
   \item {build\_strand\_}
     \subitem {PNAB::Chain}, \hyperpage{60}
   \item {builder}
@@ -108,7 +106,7 @@
   \item {Chain}
     \subitem {PNAB::Chain}, \hyperpage{55}
   \item {Chain.cpp}, \hyperpage{96}
-  \item {Chain.h}, \hyperpage{97}
+  \item {Chain.h}, \hyperpage{96}
     \subitem {KJ\_TO\_KCAL}, \hyperpage{98}
   \item {chain\_length\_}
     \subitem {PNAB::Chain}, \hyperpage{60}
@@ -121,8 +119,8 @@
   \item {ConformationSearch}
     \subitem {PNAB::ConformationSearch}, \hyperpage{66}
   \item {ConformationSearch.cpp}, \hyperpage{98}
-  \item {ConformationSearch.h}, \hyperpage{99}
-    \subitem {BOLTZMANN}, \hyperpage{100}
+  \item {ConformationSearch.h}, \hyperpage{98}
+    \subitem {BOLTZMANN}, \hyperpage{99}
   \item {constraintsAng\_}
     \subitem {PNAB::Chain}, \hyperpage{60}
   \item {constraintsBond\_}
@@ -165,13 +163,12 @@
     \subitem {\_is\_helical}, \hyperpage{89}
     \subitem {\_options}, \hyperpage{89}
     \subitem {\_run}, \hyperpage{88}
-    \subitem {\_single\_result}, \hyperpage{88}
     \subitem {\_verbose}, \hyperpage{89}
-    \subitem {header}, \hyperpage{90}
-    \subitem {options}, \hyperpage{90}
-    \subitem {prefix}, \hyperpage{90}
+    \subitem {header}, \hyperpage{89}
+    \subitem {options}, \hyperpage{89}
+    \subitem {prefix}, \hyperpage{89}
     \subitem {results}, \hyperpage{90}
-    \subitem {run}, \hyperpage{89}
+    \subitem {run}, \hyperpage{88}
   \item {driver.py}, \hyperpage{102}
 
   \indexspace
@@ -184,7 +181,7 @@
   \indexspace
 
   \item {ff\_type}
-    \subitem {PNAB::RuntimeParameters}, \hyperpage{93}
+    \subitem {PNAB::RuntimeParameters}, \hyperpage{92}
   \item {ff\_type\_}
     \subitem {PNAB::Chain}, \hyperpage{61}
   \item {file\_path}
@@ -266,7 +263,7 @@
   \item {head}
     \subitem {PNAB::ConformationSearch}, \hyperpage{72}
   \item {header}
-    \subitem {driver.pNAB}, \hyperpage{90}
+    \subitem {driver.pNAB}, \hyperpage{89}
   \item {helical\_parameters}
     \subitem {jupyter\_widgets}, \hyperpage{24}
   \item {helical\_params\_}
@@ -356,7 +353,7 @@
   \item {MonteCarloSearch}
     \subitem {PNAB::ConformationSearch}, \hyperpage{68}
   \item {mutation\_rate}
-    \subitem {PNAB::RuntimeParameters}, \hyperpage{94}
+    \subitem {PNAB::RuntimeParameters}, \hyperpage{93}
 
   \indexspace
 
@@ -388,7 +385,7 @@
     \subitem {\_validate\_helical\_parameters}, \hyperpage{33}
     \subitem {\_validate\_input\_file}, \hyperpage{33}
     \subitem {\_validate\_strand}, \hyperpage{34}
-    \subitem {driver.pNAB}, \hyperpage{90}
+    \subitem {driver.pNAB}, \hyperpage{89}
     \subitem {validate\_all\_options}, \hyperpage{34}
   \item {options.py}, \hyperpage{104}
   \item {orderResidues}
@@ -576,29 +573,29 @@
     \subitem {x\_displacement}, \hyperpage{85}
     \subitem {y\_displacement}, \hyperpage{85}
   \item {PNAB::RuntimeParameters}, \hyperpage{90}
-    \subitem {build\_strand}, \hyperpage{92}
+    \subitem {build\_strand}, \hyperpage{91}
     \subitem {crossover\_rate}, \hyperpage{92}
     \subitem {dihedral\_step}, \hyperpage{92}
     \subitem {energy\_filter}, \hyperpage{92}
-    \subitem {ff\_type}, \hyperpage{93}
+    \subitem {ff\_type}, \hyperpage{92}
     \subitem {glycosidic\_bond\_distance}, \hyperpage{93}
     \subitem {is\_hexad}, \hyperpage{93}
     \subitem {max\_distance}, \hyperpage{93}
     \subitem {monte\_carlo\_temperature}, \hyperpage{93}
-    \subitem {mutation\_rate}, \hyperpage{94}
+    \subitem {mutation\_rate}, \hyperpage{93}
     \subitem {num\_candidates}, \hyperpage{94}
     \subitem {num\_steps}, \hyperpage{94}
     \subitem {population\_size}, \hyperpage{94}
-    \subitem {RuntimeParameters}, \hyperpage{92}
+    \subitem {RuntimeParameters}, \hyperpage{91}
     \subitem {search\_algorithm}, \hyperpage{94}
-    \subitem {seed}, \hyperpage{95}
+    \subitem {seed}, \hyperpage{94}
     \subitem {strand}, \hyperpage{95}
     \subitem {strand\_orientation}, \hyperpage{95}
     \subitem {weighting\_temperature}, \hyperpage{95}
   \item {population\_size}
     \subitem {PNAB::RuntimeParameters}, \hyperpage{94}
   \item {prefix}
-    \subitem {driver.pNAB}, \hyperpage{90}
+    \subitem {driver.pNAB}, \hyperpage{89}
   \item {prefix\_}
     \subitem {PNAB::ConformationSearch}, \hyperpage{73}
   \item {printProgress}
@@ -635,7 +632,7 @@
   \item {rotor\_vector}
     \subitem {PNAB::ConformationSearch}, \hyperpage{73}
   \item {run}
-    \subitem {driver.pNAB}, \hyperpage{89}
+    \subitem {driver.pNAB}, \hyperpage{88}
     \subitem {jupyter\_widgets}, \hyperpage{24}
     \subitem {PNAB}, \hyperpage{36}
     \subitem {PNAB::ConformationSearch}, \hyperpage{70}
@@ -644,14 +641,14 @@
   \item {runtime\_params\_}
     \subitem {PNAB::ConformationSearch}, \hyperpage{73}
   \item {RuntimeParameters}
-    \subitem {PNAB::RuntimeParameters}, \hyperpage{92}
+    \subitem {PNAB::RuntimeParameters}, \hyperpage{91}
 
   \indexspace
 
   \item {search\_algorithm}
     \subitem {PNAB::RuntimeParameters}, \hyperpage{94}
   \item {seed}
-    \subitem {PNAB::RuntimeParameters}, \hyperpage{95}
+    \subitem {PNAB::RuntimeParameters}, \hyperpage{94}
   \item {setCoordsForChain}
     \subitem {PNAB::Chain}, \hyperpage{57}
   \item {setupChain}

@@ -17,6 +17,7 @@ import multiprocessing as mp
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 import datetime
+import time
 import numpy as np
 import copy
 
@@ -86,31 +87,36 @@ class pNAB(object):
         #@sa options.validate_all_options
         self.options = yaml.load(open(file_path, 'r'), yaml.FullLoader)
 
+        ##@brief A string comma-separated header for the results used in the generated CSV files
+        self.header = ('Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), ' +
+                       'Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), ' + 
+                       'Total Energy (kcal/mol/nucleotide)')
+
     def _run(self, config):
         """!@brief Function to run one helical configuration.
 
         Setup the options to call the C++ code using the pybind11 bind class in @a binder.cpp.
-        After the run finishes, it returns the results for processing.
+        After the run finishes, it writes the results.
+        Two files are written: 
+            "prefix.yaml" contains a dictionary of the sequence of the run and the corresponding helical configuration
+            "results.csv" contains the information on the accepted candidates for all of configurations
 
         @param config (list) a list containing two entries: the list of helical parameter values for this
             configuration, and a string index for the sequnce of the run
 
-        @returns results [prefix, header, result] A list containing the index of the run,
-            a string describing the helical configuration, and a numpy array of the results
-
         @sa run
-        @sa _single_result
         """
         config, prefix = config[0], config[1]
 
         # Add a header of the helical parameters
         header_dict = {'%s' %k:  '%.2f' %val for k, val in zip(self._options['HelicalParameters'], config)}
+        units = ["A", "A", "A", "deg", "deg", "deg"]
         if self._is_helical:
-            header = ''.join(['%s=%s, ' %(k, header_dict[k]) for k in ['x_displacement', 'y_displacement', 'h_rise', 'inclination', 'tip', 'h_twist']])
+            header = ''.join(['%s (%s): %s; ' %(k, units[i], header_dict[k]) for i, k in enumerate(['x_displacement', 'y_displacement', 'h_rise', 'inclination', 'tip', 'h_twist'])])
         else:
-            header = ''.join(['%s=%s, ' %(k, header_dict[k]) for k in ['shift', 'slide', 'rise', 'tilt', 'roll', 'twist']])
-        header += ''.join(['%s=%s, ' %(k, header_dict[k]) for k in ['shear', 'stretch', 'stagger', 'buckle', 'propeller', 'opening']])
-        header = header.strip(', ')
+            header = ''.join(['%s (%s): %s; ' %(k, units[i], header_dict[k]) for i, k in enumerate(['shift', 'slide', 'rise', 'tilt', 'roll', 'twist'])])
+        header += ''.join(['%s (%s): %s; ' %(k, units[i], header_dict[k]) for i, k in enumerate(['shear', 'stretch', 'stagger', 'buckle', 'propeller', 'opening'])])
+        header = header.strip('; ')
 
         # Set runtime parameters
         runtime_parameters = bind.RuntimeParameters()
@@ -133,6 +139,7 @@ class pNAB(object):
         helical_parameters.is_helical = self._is_helical
 
         # Run code
+        
         result = bind.run(runtime_parameters, backbone, bases, helical_parameters, prefix, self._verbose)
 
         # Get results from the comma-separated output string
@@ -148,24 +155,6 @@ class pNAB(object):
 
         results = [prefix, header, result]
 
-        return results
-
-
-    def _single_result(self, results):
-        """!@brief Write results to disk for each helical configuration as it finishe.
-
-        Two files are written: 
-            "prefix.yaml" contains a dictionary of the sequence of the run and the corresponding helical configuration
-            "results.csv" contains the information on the accepted candidates for all of configurations
-
-        @param results (list) The return value of @a pNAB.pNAB._run
-
-        @returns None; writing to output files
-
-        @sa _run
-        @sa run
-        """
-
         # Write prefix and helical configuration
         with open('prefix.yaml', 'ab') as f:
             f.write(str.encode(yaml.dump({results[0]:results[1]})))
@@ -177,15 +166,12 @@ class pNAB(object):
         # Update header
         header = results[1] + '\n'
 
-        ##@brief A string comma-separated header for the results used in the generated CSV files
-        self.header = ('Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), ' +
-                       'Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), ' + 
-                       'Total Energy (kcal/mol/nucleotide)')
-
-        # Add header entries for the dihedral angles
+        header2 = self.header
+        ## Add header entries for the dihedral angles
         for i in range(results[2].shape[1] - 8):
-            self.header += ", Dihedral " + str(i+1) + " (degrees)"
-        header += self.header
+            header2 += ", Dihedral " + str(i+1) + " (degrees)"
+
+        header += header2
 
         # Write results to file
         fmt = "%i,%i"
@@ -194,8 +180,7 @@ class pNAB(object):
         with open('results.csv', 'ab') as f:
             np.savetxt(f, results[2], header=header, fmt=fmt)
 
-
-    def run(self, number_of_cpus=None, verbose=True):
+    def run(self, number_of_cpus=None, verbose=True, interrupt=False):
         """!@brief Prepare helical configurations and run them in parallel.
 
         This function first copies the user-defined options to an internal options dictionary (self._options).
@@ -217,6 +202,7 @@ class pNAB(object):
 
         @param number_of_cpus Number of CPUs to use for parallel computations of different helical configurations, defaults to all cores
         @param verbose Whether to print progress report to the screen, default to True
+        @param interrupt How to handle keyboard interrupt in multiprocessing
 
         @returns None; output files are written
         """
@@ -253,9 +239,17 @@ class pNAB(object):
         num_config = np.prod([val[2] for val in hp.values()])
         prefix = (str(i) for i in range(1, num_config + 1))
 
-        # Use maxtasksperchild=1 to free memory after each run
         number_of_cpus = mp.cpu_count() if number_of_cpus is None else number_of_cpus
-        pool = mp.Pool(number_of_cpus, init_worker, maxtasksperchild=1)
+
+        # I cannot handle keyboard interrupt in jupyter notebook and still get results
+        # I need init_worker function to gracefully terminate Jupyter notebook run
+        # For command line, I can extract the results even when ctrl+c is applied,
+        # in which case interrupt variable is false
+        # Use maxtasksperchild=1 to free memory after each run
+        if interrupt:
+            pool = mp.Pool(number_of_cpus, init_worker, maxtasksperchild=1)
+        else:
+            pool = mp.Pool(number_of_cpus, maxtasksperchild=1)
 
         # Rename output files that have the same name
         for f in ['results.csv', 'prefix.yaml']:
@@ -269,17 +263,19 @@ class pNAB(object):
                     break
 
         # Write time stamps
-        time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        with open('results.csv', 'w') as f: f.write('# ' + time + '\n')
-        with open('prefix.yaml', 'w') as f: f.write('# ' + time + '\n')
+        current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        with open('results.csv', 'w') as f: f.write('# ' + current_time + '\n')
+        with open('prefix.yaml', 'w') as f: f.write('# ' + current_time + '\n')
 
         try:
             # Run the different helical configurations in parallel and process results
             for results in pool.imap_unordered(self._run, zip(config, prefix)):
-                self._single_result(results)
+                pass
+
         except KeyboardInterrupt:
             # If interuption is catched, terminate run and proceed
             print("Caught interruption; stopping ...")
+            time.sleep(1) # Sleep one second to allow all running processes to finish
             pool.terminate()
 
         except RuntimeError as e:
@@ -287,6 +283,7 @@ class pNAB(object):
             raise RuntimeError(e)
 
         pool.close()
+        pool.join()
 
         del self._is_helical
 
@@ -305,4 +302,12 @@ class pNAB(object):
         # and the helical configurations correspond to those in @a pNAB.pNAB.prefix
         self.results = np.loadtxt('results.csv', delimiter=',')
 
-        print("Run completed.")
+        if self.results.ndim == 1:
+            self.results = self.results.reshape((1, len(self.results)))
+        ## Add header entries for the dihedral angles; it does not get added in self._run
+        for i in range(self.results.shape[1] - 8):
+            self.header += ", Dihedral " + str(i+1) + " (degrees)"
+
+        n_candidates = 0 if self.results.size == 0 else len(self.results)
+
+        print("Run completed. Accepted %i candidate(s)." %n_candidates)

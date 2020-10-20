@@ -100,7 +100,7 @@ def view_nglview(molecule, label=False):
         view.add_representation('licorice')
         view.add_representation('label', labelType='serial', backgroundColor='black', showBackground=True)
         view.center()
-        display(view)
+        display(view.display(gui=True))
 
         # Return the number of atoms to be used for the backbone or base widgets
         return num_atoms
@@ -112,7 +112,7 @@ def view_nglview(molecule, label=False):
         view.camera = 'orthographic'
         view.add_representation('licorice')
         view.center()
-        display(view)
+        display(view.display(gui=True))
 
 
 def fixed_bonds(num_bonds, num_atoms, param):
@@ -465,7 +465,7 @@ def helical_parameters(param):
     display(widgets.HTML(value='<H3>Helical Parameters</H3>'))
 
     # Display an image showing the helical parameters for DNA and RNA
-    display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.png'), width=800))
+    display(Image(os.path.join(__path__[0], 'images', 'helical_parameters.jpg'), width=800))
 
     param_dict = {}
     # Add widget to the widgets dictionary
@@ -911,7 +911,7 @@ def run(button):
     out = widgets.Output()
     display(out)
     with out:
-        run.run()
+        run.run(interrupt=True)
     out.clear_output()
 
     # If no results are found, print and return
@@ -1015,7 +1015,7 @@ def single_result(result, header, results, prefix):
 
     # Print information
     print(conformer)
-    print(prefix['%i' %result[0]])
+    print("Helical Parameter Set %i: " %result[0], prefix['%i' %result[0]])
 
     for i in range(2, len(result)):
         print(header.split(', ')[i] + ': %.3f' %result[i])
@@ -1039,6 +1039,8 @@ def show_results(results, header, prefix):
     @sa single_result 
     """
 
+    # print total number of candidates
+    print("Accepted %i candidates." %len(results))
     # Set a list of conformer names and their indices in the results
     options = [(str(int(conformer[0])) + '_' + str(int(conformer[1])) + '.pdb', i) for i, conformer in enumerate(results)]
 
