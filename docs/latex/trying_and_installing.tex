@@ -6,9 +6,10 @@ This online version is useful for testing the program. The online version uses f
 If you need a more permanent version of the program, you can install it in your computer.\hypertarget{trying_and_installing_installation}{}\doxysubsection{Installation}\label{trying_and_installing_installation}
 The p\+N\+AB program is available as a conda package. Download the light-\/weight \href{https://docs.conda.io/en/latest/miniconda.html}{\texttt{ miniconda}} or the more fully featured \href{https://www.anaconda.com/distribution/}{\texttt{ Anaconda}}. Open the conda terminal and type\+: 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{conda install -\/c conda-\/forge -\/c alenaizan pnab}
+\DoxyCodeLine{conda create -\/n pnab -\/c alenaizan -\/c conda-\/forge pnab}
+\DoxyCodeLine{conda activate pnab}
 \end{DoxyCode}
-
+ This creates and activates a new conda environment called {\ttfamily pnab}.
 
 \begin{DoxyNote}{Note}
 You may need to activate the N\+G\+L\+View library to visualize molecules\+: 
