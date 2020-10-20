@@ -1,6 +1,6 @@
 # proto-Nucleic Acid Builder (pNAB)
 ## Try the Package: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/alenaizan/pnab/master?urlpath=%2Fapps%2Fbinder%2Fdriver.ipynb)
-## Read the documentation: [![docs v1.1.2](https://img.shields.io/badge/docs-v1.1.2-blue)](https://proto-nucleic-acid-builder-v1-1-2.netlify.app/html/index.html)
+## Read the documentation: [![docs v1.1.2](https://img.shields.io/badge/docs-v1.1.3-blue)](https://proto-nucleic-acid-builder-v1-1-3.netlify.app/html/index.html)
 
 [![Build Status](https://travis-ci.com/alenaizan/pnab.svg?branch=master)](https://travis-ci.com/alenaizan/pnab)
 [![Build status](https://ci.appveyor.com/api/projects/status/9uew76hr6ftlwso4/branch/master?svg=true)](https://ci.appveyor.com/project/alenaizan/pnab/branch/master)
@@ -23,4 +23,4 @@ The files `install.sh` and `install.bat` provide example scripts for compiling t
 ## Documentations:
 Development version: [![docs latest](https://img.shields.io/badge/docs-latest-blue)](https://alenaizan.github.io/pnab/html/index.html)
 
-Latest release: [![docs v1.1.2](https://img.shields.io/badge/docs-v1.1.2-blue)](https://proto-nucleic-acid-builder-v1-1-2.netlify.app/html/index.html)
+Latest release: [![docs v1.1.3](https://img.shields.io/badge/docs-v1.1.3-blue)](https://proto-nucleic-acid-builder-v1-1-3.netlify.app/html/index.html)
