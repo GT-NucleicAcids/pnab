@@ -102,7 +102,7 @@ RuntimeParameters:
   search_algorithm: monte carlo search
   num_steps: 100000000
   monte_carlo_temperature: 300
-  num_candidates: 2
+  num_candidates: 5
   seed: 0
   strand: AAAAAAAAAA
   strand_orientation:
