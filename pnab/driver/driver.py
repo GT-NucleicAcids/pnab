@@ -310,4 +310,7 @@ class pNAB(object):
 
         n_candidates = 0 if self.results.size == 0 else len(self.results)
 
-        print("Run completed. Accepted %i candidate(s)." %n_candidates)
+        print("Run is complete. %i out of %i conformers are found"
+              %(n_candidates, self._options['RuntimeParameters']['num_candidates']*len(self.prefix)))
+        if n_candidates < self._options['RuntimeParameters']['num_candidates']*len(self.prefix):
+            print("Maximum number of steps is exceeded.")
