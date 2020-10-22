@@ -285,6 +285,11 @@ class pNAB(object):
         pool.close()
         pool.join()
 
+        # Write time stamps
+        current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        with open('results.csv', 'a') as f: f.write('# ' + current_time + '\n')
+        with open('prefix.yaml', 'a') as f: f.write('# ' + current_time + '\n')
+
         del self._is_helical
 
         #Extract the results from the run
