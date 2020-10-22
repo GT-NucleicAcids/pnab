@@ -101,7 +101,7 @@ RuntimeParameters:
   pair_A_U: true
   search_algorithm: weighted random search
   num_steps: 100000000
-  num_candidates: 2
+  num_candidates: 5
   weighting_temperature: 300
   seed: 0
   strand: AAAAAAAAAA

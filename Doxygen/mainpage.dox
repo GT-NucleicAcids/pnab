@@ -181,9 +181,7 @@ The runtime parameters include the options for specifying the conformational sea
 Various conformational search algorithms are available for sapmling the dihedral angles in the backbone. Each algorithm requires specific
 parameters. For exmaple, the Weighted Random Search algorithm requires values for the number of conformation search steps and the temperature used
 in the weighting procedure. The random number seed ensures the reproducibility of the run for a given computer platform. Of the available
-algorithms, only the systematic search algorithm is deterministic and reproducible across platforms. The conformation search procedure can
-be terminated after a specified number of candidates are are accepted.
-The distance and energy thresholds can be used to refine the generated structures and exclude unreasonable conformers. The distance threshold
+algorithms, only the systematic search algorithm is deterministic and reproducible across platforms. Note that the conformation search procedure is also terminated after the number of candidates specified are accepted. This parameter is set to low values in the examples provided and is encouraged to be adjusted for the production runs. The distance and energy thresholds can be used to refine the generated structures and exclude unreasonable conformers. The distance threshold
 determines whether the conformer can adopt a periodic structure. It should be set to a small value, such as 0.8 Angstroms. The bond, angle, and
 torsional energies should also be set to small values. This can accelerate the search and eliminate structures with elongated bonds or strained angles.
 The van der Waals energy can be used to eliminate structures with significant steric clashes. However, it may vary much depending on the choice of the force

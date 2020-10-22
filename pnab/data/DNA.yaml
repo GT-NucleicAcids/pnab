@@ -90,19 +90,19 @@ RuntimeParameters:
   - false
   - false
   energy_filter:
-  - 0.5
-  - 2.5
+  - 1.0
+  - 3.0
   - 5.0
-  - 70.0
+  - 100.0
   - 1000.0
   ff_type: MMFF94
   is_hexad: false
-  max_distance: 0.8
+  max_distance: 1.0
   pair_A_U: false
   search_algorithm: monte carlo search
   num_steps: 100000000
   monte_carlo_temperature: 300
-  num_candidates: 2
+  num_candidates: 5
   seed: 0
   strand: AAAAAAAAAA
   strand_orientation:

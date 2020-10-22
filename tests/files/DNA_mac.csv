@@ -1,5 +1,8 @@
-# 2020-10-14 21:25:12
-# x_displacement=0.49, y_displacement=0.01, h_rise=3.37, inclination=2.76, tip=0.00, h_twist=36.00, shear=0.03, stretch=-0.10, stagger=0.09, buckle=-0.04, propeller=-15.13, opening=-1.87
+# 2020-10-22 12:28:09
+# x_displacement (A): 0.49; y_displacement (A): 0.01; h_rise (A): 3.37; inclination (deg): 2.76; tip (deg): 0.00; h_twist (deg): 36.00; shear (A): 0.03; stretch (A): -0.10; stagger (A): 0.09; buckle (deg): -0.04; propeller (deg): -15.13; opening (deg): -1.87
 # Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), Total Energy (kcal/mol/nucleotide), Dihedral 1 (degrees), Dihedral 2 (degrees), Dihedral 3 (degrees), Dihedral 4 (degrees)
 1,229186,0.764305,0.003157,2.050220,4.320450,29.490000,68.560600,-128.795000,-140.202000,-132.875000,72.565300
+1,67791,0.841284,0.383018,2.016260,4.567940,55.123100,102.853000,-85.050400,6.936730,119.497000,54.955100
+1,131840,0.917624,0.006078,2.834960,4.963700,64.867100,110.155000,-94.075800,23.308000,148.417000,12.676200
 1,56187,0.672669,0.379788,1.753660,4.459710,66.268400,114.738000,-86.465500,11.158800,116.950000,50.452000
+1,237558,0.923333,0.202346,1.785000,3.772440,87.232100,188.710000,-97.215200,-164.574000,-160.281000,25.130200

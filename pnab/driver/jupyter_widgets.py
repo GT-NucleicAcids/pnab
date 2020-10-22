@@ -909,19 +909,11 @@ def run(button):
     # Run the code
     run = pNAB('options.yaml')
     out = widgets.Output()
-    display(out)
-    with out:
-        run.run(interrupt=True)
-    out.clear_output()
+    run.run(interrupt=True)
 
-    # If no results are found, print and return
+    # If no results are found, return
     if run.results.size == 0:
-        print("No candidate found")
         return
-
-    elif run.results.ndim == 1:
-        # Only one candidate found. Reshape results.
-        run.results = run.results.reshape(1, len(run.results))
 
     # Get output files
     files = [str(int(conformer[0])) + '_' + str(int(conformer[1])) + '.pdb' for conformer in run.results]
@@ -991,7 +983,6 @@ def extract_options():
     return user_options
 
 
-
 def single_result(result, header, results, prefix):
     """!@brief Interactive function to display a single result
 
@@ -1039,8 +1030,6 @@ def show_results(results, header, prefix):
     @sa single_result 
     """
 
-    # print total number of candidates
-    print("Accepted %i candidates." %len(results))
     # Set a list of conformer names and their indices in the results
     options = [(str(int(conformer[0])) + '_' + str(int(conformer[1])) + '.pdb', i) for i, conformer in enumerate(results)]
 
