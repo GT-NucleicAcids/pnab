@@ -16,8 +16,8 @@ hexameric nucleic acid analogs. The following image shows a few example of nucle
 acid analogs that can be constructed by the program.
 
 @htmlonly <style>div.image img[src="structures.png"]{width:800px;}</style> @endhtmlonly
-@image html images/structures.png "Chemical structures of alternative nucleic acids. Panel (a) shows examples of alternative nucleic acid backbones. Panel (b) shows the canonical nucleobases and two examples of alternative nucleobases that can be incorporated into a nucleic acid duplex. Panel (c) shows the interaction between three adenine oligomers and an alternative nucleobase. Panel (d) shows the interaction between oligomers of two alternative nucleobases and the formation of a hexmeric structure. (LNA: locked nucleic acid; CeNA: cyclohexene nucleic acid; GNA: glycol nucleic acid; PNA: peptide nucleic acid; P: 6-amino-5-nitro-2(1H)-pyridone; Z: 2-amino-imidazo[1,2-a]-1,3,5-triazin-4(8H)-one; N: cyanuric acid; M: aminopyrimidine)"
-@image latex images/structures.png "Chemical structures of alternative nucleic acids. Panel (a) shows examples of alternative nucleic acid backbones. Panel (b) shows the canonical nucleobases and two examples of alternative nucleobases that can be incorporated into a nucleic acid duplex. Panel (c) shows the interaction between three adenine oligomers and an alternative nucleobase. Panel (d) shows the interaction between oligomers of two alternative nucleobases and the formation of a hexmeric structure. (LNA: locked nucleic acid; CeNA: cyclohexene nucleic acid; GNA: glycol nucleic acid; PNA: peptide nucleic acid; P: 6-amino-5-nitro-2(1H)-pyridone; Z: 2-amino-imidazo[1,2-a]-1,3,5-triazin-4(8H)-one; N: cyanuric acid; M: aminopyrimidine)"
+@image html images/structures.png "Chemical structures of alternative nucleic acids. Panel (a) shows examples of alternative nucleic acid backbones. Panel (b) shows the canonical nucleobases and two examples of alternative nucleobases that can be incorporated into a nucleic acid duplex. Panel (c) shows the interaction between three adenine oligomers and an alternative nucleobase. Panel (d) shows the interaction between oligomers of two alternative nucleobases and the formation of a hexmeric structure. (LNA: locked nucleic acid; CeNA: cyclohexene nucleic acid; GNA: glycol nucleic acid; PNA: peptide nucleic acid; P: 6-amino-5-nitro-2(1H)-pyridone; Z: 2-amino-imidazo[1,2-a]-1,3,5-triazin-4(8H)-one; I: cyanuric acid; E: aminopyrimidine)"
+@image latex images/structures.png "Chemical structures of alternative nucleic acids. Panel (a) shows examples of alternative nucleic acid backbones. Panel (b) shows the canonical nucleobases and two examples of alternative nucleobases that can be incorporated into a nucleic acid duplex. Panel (c) shows the interaction between three adenine oligomers and an alternative nucleobase. Panel (d) shows the interaction between oligomers of two alternative nucleobases and the formation of a hexmeric structure. (LNA: locked nucleic acid; CeNA: cyclohexene nucleic acid; GNA: glycol nucleic acid; PNA: peptide nucleic acid; P: 6-amino-5-nitro-2(1H)-pyridone; Z: 2-amino-imidazo[1,2-a]-1,3,5-triazin-4(8H)-one; I: cyanuric acid; E: aminopyrimidine)"
 
 @section algorithm Algorithm
 The program builds nucleic acid according to the following algorithm:
@@ -144,8 +144,8 @@ specific dihedral angles.
 
 
 Uploading the geometries for the nucleobases may not be necessary. The program contains a library of the canonical nucelobases: adenine (A), guaninie (G), cytosine (C),
-uracil (U), and thymine (T). It also contains two alternative nucleobases that can adopt the hexad geometry, namely, aminopyrimidine (M) and
-cyanuric acid (N). If the user wants to construct a nucleic acid analog with alternative nucleobases, then the additional nucleobases must be defined as shown in the figure.
+uracil (U), and thymine (T). It also contains two alternative nucleobases that can adopt the hexad geometry, namely, aminopyrimidine (E) and
+cyanuric acid (I). If the user wants to construct a nucleic acid analog with alternative nucleobases, then the additional nucleobases must be defined as shown in the figure.
 The ZP.yaml example file shows how to define new nucleobases. The Z nucleobase is defined below.
 
 @htmlonly <style>div.image img[src="nucleobases.png"]{width:1000px;}</style> @endhtmlonly 
@@ -419,7 +419,7 @@ Base modified_adenine:
 
 These lines will add the nucleobase @a modified_adenine to the library of available nucleobases. For the name of the base, you
 must not use any of the names already used in the library. Otherwise, your new base might be overwritten. The reserved names are the following:
-@a A, @a G, @a C, @a T, @a U, @a N, and @a M. These names are case-insensitive.
+@a A, @a G, @a C, @a T, @a U, @a I, and @a E. These names are case-insensitive.
 
 Now that you defined a new nucleobase, you can use its name when you specify the strand:
 @verbatim

@@ -1,11 +1,11 @@
-Base I:
-  code: I
+Base 1:
+  code: O
   file_path: triaminopyrimidine.pdb
   linker:
   - 2
   - 1
-  name: I
-  pair_name: N
+  name: O
+  pair_name: I
 Backbone:
   file_path: threoninol_backbone.pdb
   interconnects:
@@ -118,5 +118,5 @@ RuntimeParameters:
   max_distance: 0.2
   num_steps: 10000000
   num_candidates: 1
-  strand: IIIIIIIIII
+  strand: OOOOOOOOOO
   ff_type: MMFF94
