@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.8)  22 OCT 2020 10:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.10.8)  23 OCT 2020 22:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -862,13 +862,13 @@ LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 10.79993pt on input line 10.
  [1] <./structures.png>
-<structures.png, id=587, 4416.5pt x 3024.29875pt>
+<structures.png, id=587, 3308.61093pt x 2265.21281pt>
 File: structures.png Graphic file (type png)
 <use structures.png>
 Package pdftex.def Info: structures.png  used on input line 15.
-(pdftex.def)             Requested size: 455.22133pt x 311.72314pt.
+(pdftex.def)             Requested size: 455.22571pt x 311.66647pt.
  <./algorithm.png>
-<algorithm.png, id=588, 469.755pt x 1626.075pt>
+<algorithm.png, id=589, 469.755pt x 1626.075pt>
 File: algorithm.png Graphic file (type png)
 <use algorithm.png>
 Package pdftex.def Info: algorithm.png  used on input line 23.
@@ -896,29 +896,29 @@ LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10> not available
 LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
 (Font)              scaled to size 8.99994pt on input line 35.
  <./navigator.png>
-<navigator.png, id=613, 1265.72874pt x 761.84625pt>
+<navigator.png, id=614, 1265.72874pt x 761.84625pt>
 File: navigator.png Graphic file (type png)
 <use navigator.png>
 Package pdftex.def Info: navigator.png  used on input line 37.
 (pdftex.def)             Requested size: 455.2371pt x 274.0087pt.
  <./navigator2.png>
-<navigator2.png, id=615, 677.53125pt x 404.51125pt>
+<navigator2.png, id=616, 677.53125pt x 404.51125pt>
 File: navigator2.png Graphic file (type png)
 <use navigator2.png>
 Package pdftex.def Info: navigator2.png  used on input line 42.
 (pdftex.def)             Requested size: 455.25653pt x 271.80501pt.
  [4] <./jupyter.png>
-<jupyter.png, id=629, 1831.84375pt x 445.665pt>
+<jupyter.png, id=630, 1831.84375pt x 445.665pt>
 File: jupyter.png Graphic file (type png)
 <use jupyter.png>
 Package pdftex.def Info: jupyter.png  used on input line 49.
 (pdftex.def)             Requested size: 455.2485pt x 110.75635pt.
  <./notebook.png>
-<notebook.png, id=631, 774.64406pt x 642.14906pt>
+<notebook.png, id=632, 1028.84375pt x 823.075pt>
 File: notebook.png Graphic file (type png)
 <use notebook.png>
 Package pdftex.def Info: notebook.png  used on input line 63.
-(pdftex.def)             Requested size: 423.9043pt x 351.39977pt.
+(pdftex.def)             Requested size: 439.23872pt x 351.39096pt.
 
 Underfull \vbox (badness 2080) has occurred while \output is active []
 
@@ -932,15 +932,15 @@ LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
 File: notebook.png Graphic file (type png)
 <use notebook.png>
 Package pdftex.def Info: notebook.png  used on input line 4.
-(pdftex.def)             Requested size: 423.9043pt x 351.39977pt.
+(pdftex.def)             Requested size: 439.23872pt x 351.39096pt.
  [6] <./nucleobases.png>
-<nucleobases.png, id=653, 626.34pt x 535.2497pt>
+<nucleobases.png, id=654, 468.24937pt x 390.45876pt>
 File: nucleobases.png Graphic file (type png)
 <use nucleobases.png>
 Package pdftex.def Info: nucleobases.png  used on input line 25.
-(pdftex.def)             Requested size: 411.20663pt x 351.40375pt.
+(pdftex.def)             Requested size: 421.42053pt x 351.40962pt.
  [7] <./helical_parameters.png>
-<helical_parameters.png, id=661, 1192.455pt x 760.8425pt>
+<helical_parameters.png, id=662, 1192.455pt x 760.8425pt>
 File: helical_parameters.png Graphic file (type png)
 <use helical_parameters.png>
 Package pdftex.def Info: helical_parameters.png  used on input line 34.
@@ -949,29 +949,29 @@ Package pdftex.def Info: helical_parameters.png  used on input line 34.
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [8] <./runtime_parameters1.png>
-<runtime_parameters1.png, id=669, 722.7pt x 641.39626pt>
+<runtime_parameters1.png, id=670, 378.41376pt x 363.85938pt>
 File: runtime_parameters1.png Graphic file (type png)
 <use runtime_parameters1.png>
 Package pdftex.def Info: runtime_parameters1.png  used on input line 45.
-(pdftex.def)             Requested size: 395.94237pt x 351.39886pt.
+(pdftex.def)             Requested size: 365.46147pt x 351.40524pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [9] <./runtime_parameters2.png>
-<runtime_parameters2.png, id=677, 715.17188pt x 287.57437pt>
+<runtime_parameters2.png, id=678, 536.50438pt x 228.35312pt>
 File: runtime_parameters2.png Graphic file (type png)
 <use runtime_parameters2.png>
 Package pdftex.def Info: runtime_parameters2.png  used on input line 54.
-(pdftex.def)             Requested size: 455.24217pt x 183.05527pt.
+(pdftex.def)             Requested size: 455.24498pt x 193.76656pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [10] <./output.png>
-<output.png, id=686, 898.85812pt x 589.4522pt>
+<output.png, id=687, 1255.69125pt x 805.0075pt>
 File: output.png Graphic file (type png)
 <use output.png>
 Package pdftex.def Info: output.png  used on input line 65.
-(pdftex.def)             Requested size: 455.2433pt x 298.53896pt.
+(pdftex.def)             Requested size: 455.22911pt x 291.84152pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1630,7 +1630,7 @@ __coll__graph.pdf
 pdfTeX warning: pdflatex (file ./classPNAB_1_1ConformationSearch__coll__graph.p
 df): PDF inclusion: multiple pdfs with page group included in a single page
 >
-<classPNAB_1_1ConformationSearch__coll__graph.pdf, id=1758, 501.875pt x 252.945
+<classPNAB_1_1ConformationSearch__coll__graph.pdf, id=1759, 501.875pt x 252.945
 pt>
 File: classPNAB_1_1ConformationSearch__coll__graph.pdf Graphic file (type pdf)
 <use classPNAB_1_1ConformationSearch__coll__graph.pdf>
@@ -1815,7 +1815,7 @@ f
 pdfTeX warning: pdflatex (file ./classdriver_1_1pNAB__inherit__graph.pdf): PDF 
 inclusion: multiple pdfs with page group included in a single page
 >
-<classdriver_1_1pNAB__inherit__graph.pdf, id=2245, 154.5775pt x 156.585pt>
+<classdriver_1_1pNAB__inherit__graph.pdf, id=2246, 154.5775pt x 156.585pt>
 File: classdriver_1_1pNAB__inherit__graph.pdf Graphic file (type pdf)
 <use classdriver_1_1pNAB__inherit__graph.pdf>
 Package pdftex.def Info: classdriver_1_1pNAB__inherit__graph.pdf  used on input
@@ -1826,7 +1826,7 @@ Package pdftex.def Info: classdriver_1_1pNAB__inherit__graph.pdf  used on input
 pdfTeX warning: pdflatex (file ./classdriver_1_1pNAB__coll__graph.pdf): PDF inc
 lusion: multiple pdfs with page group included in a single page
 >
-<classdriver_1_1pNAB__coll__graph.pdf, id=2253, 154.5775pt x 156.585pt>
+<classdriver_1_1pNAB__coll__graph.pdf, id=2254, 154.5775pt x 156.585pt>
 File: classdriver_1_1pNAB__coll__graph.pdf Graphic file (type pdf)
 <use classdriver_1_1pNAB__coll__graph.pdf>
 Package pdftex.def Info: classdriver_1_1pNAB__coll__graph.pdf  used on input li
@@ -1922,13 +1922,13 @@ Underfull \hbox (badness 10000) detected at line 322
 pdfTeX warning: pdflatex (file ./binder_8cpp__incl.pdf): PDF inclusion: multipl
 e pdfs with page group included in a single page
 >
-<binder_8cpp__incl.pdf, id=2423, 1535.7375pt x 325.215pt>
+<binder_8cpp__incl.pdf, id=2424, 1535.7375pt x 325.215pt>
 File: binder_8cpp__incl.pdf Graphic file (type pdf)
 <use binder_8cpp__incl.pdf>
 Package pdftex.def Info: binder_8cpp__incl.pdf  used on input line 17.
 (pdftex.def)             Requested size: 350.0pt x 74.11803pt.
  [95]) (./Chain_8cpp.tex <./Chain_8cpp__incl.pdf>
-<Chain_8cpp__incl.pdf, id=2457, 1304.875pt x 269.005pt>
+<Chain_8cpp__incl.pdf, id=2458, 1304.875pt x 269.005pt>
 File: Chain_8cpp__incl.pdf Graphic file (type pdf)
 <use Chain_8cpp__incl.pdf>
 Package pdftex.def Info: Chain_8cpp__incl.pdf  used on input line 13.
@@ -1938,7 +1938,7 @@ Package pdftex.def Info: Chain_8cpp__incl.pdf  used on input line 13.
 pdfTeX warning: pdflatex (file ./Chain_8h__incl.pdf): PDF inclusion: multiple p
 dfs with page group included in a single page
 >
-<Chain_8h__incl.pdf, id=2472, 1304.875pt x 212.795pt>
+<Chain_8h__incl.pdf, id=2473, 1304.875pt x 212.795pt>
 File: Chain_8h__incl.pdf Graphic file (type pdf)
 <use Chain_8h__incl.pdf>
 Package pdftex.def Info: Chain_8h__incl.pdf  used on input line 18.
@@ -1948,14 +1948,14 @@ Package pdftex.def Info: Chain_8h__incl.pdf  used on input line 18.
 pdfTeX warning: pdflatex (file ./Chain_8h__dep__incl.pdf): PDF inclusion: multi
 ple pdfs with page group included in a single page
 >
-<Chain_8h__dep__incl.pdf, id=2487, 320.19624pt x 212.795pt>
+<Chain_8h__dep__incl.pdf, id=2488, 320.19624pt x 212.795pt>
 File: Chain_8h__dep__incl.pdf Graphic file (type pdf)
 <use Chain_8h__dep__incl.pdf>
 Package pdftex.def Info: Chain_8h__dep__incl.pdf  used on input line 25.
 (pdftex.def)             Requested size: 319.0pt x 212.0022pt.
  [96]) (./ConformationSearch_8cpp.tex [97] <./ConformationSearch_8cpp__incl.pdf
 >
-<ConformationSearch_8cpp__incl.pdf, id=2519, 1304.875pt x 325.215pt>
+<ConformationSearch_8cpp__incl.pdf, id=2520, 1304.875pt x 325.215pt>
 File: ConformationSearch_8cpp__incl.pdf Graphic file (type pdf)
 <use ConformationSearch_8cpp__incl.pdf>
 Package pdftex.def Info: ConformationSearch_8cpp__incl.pdf  used on input line 
@@ -1966,7 +1966,7 @@ Package pdftex.def Info: ConformationSearch_8cpp__incl.pdf  used on input line
 pdfTeX warning: pdflatex (file ./ConformationSearch_8h__incl.pdf): PDF inclusio
 n: multiple pdfs with page group included in a single page
 >
-<ConformationSearch_8h__incl.pdf, id=2534, 1304.875pt x 269.005pt>
+<ConformationSearch_8h__incl.pdf, id=2535, 1304.875pt x 269.005pt>
 File: ConformationSearch_8h__incl.pdf Graphic file (type pdf)
 <use ConformationSearch_8h__incl.pdf>
 Package pdftex.def Info: ConformationSearch_8h__incl.pdf  used on input line 13
@@ -1977,21 +1977,21 @@ Package pdftex.def Info: ConformationSearch_8h__incl.pdf  used on input line 13
 pdfTeX warning: pdflatex (file ./ConformationSearch_8h__dep__incl.pdf): PDF inc
 lusion: multiple pdfs with page group included in a single page
 >
-<ConformationSearch_8h__dep__incl.pdf, id=2549, 303.1325pt x 156.585pt>
+<ConformationSearch_8h__dep__incl.pdf, id=2550, 303.1325pt x 156.585pt>
 File: ConformationSearch_8h__dep__incl.pdf Graphic file (type pdf)
 <use ConformationSearch_8h__dep__incl.pdf>
 Package pdftex.def Info: ConformationSearch_8h__dep__incl.pdf  used on input li
 ne 20.
 (pdftex.def)             Requested size: 302.0pt x 156.00162pt.
  [98]) (./Containers_8cpp.tex <./Containers_8cpp__incl.pdf>
-<Containers_8cpp__incl.pdf, id=2569, 961.5925pt x 212.795pt>
+<Containers_8cpp__incl.pdf, id=2570, 961.5925pt x 212.795pt>
 File: Containers_8cpp__incl.pdf Graphic file (type pdf)
 <use Containers_8cpp__incl.pdf>
 Package pdftex.def Info: Containers_8cpp__incl.pdf  used on input line 14.
 (pdftex.def)             Requested size: 350.0pt x 77.4536pt.
  [99])
 (./Containers_8h.tex <./Containers_8h__incl.pdf>
-<Containers_8h__incl.pdf, id=2588, 961.5925pt x 156.585pt>
+<Containers_8h__incl.pdf, id=2589, 961.5925pt x 156.585pt>
 File: Containers_8h__incl.pdf Graphic file (type pdf)
 <use Containers_8h__incl.pdf>
 Package pdftex.def Info: Containers_8h__incl.pdf  used on input line 20.
@@ -2001,7 +2001,7 @@ Package pdftex.def Info: Containers_8h__incl.pdf  used on input line 20.
 pdfTeX warning: pdflatex (file ./Containers_8h__dep__incl.pdf): PDF inclusion: 
 multiple pdfs with page group included in a single page
 >
-<Containers_8h__dep__incl.pdf, id=2596, 364.36125pt x 269.005pt>
+<Containers_8h__dep__incl.pdf, id=2597, 364.36125pt x 269.005pt>
 File: Containers_8h__dep__incl.pdf Graphic file (type pdf)
 <use Containers_8h__dep__incl.pdf>
 Package pdftex.def Info: Containers_8h__dep__incl.pdf  used on input line 27.
@@ -2051,9 +2051,9 @@ fonts/type1/urw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic
 /uhvb8ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on refman.pdf (114 pages, 1390364 bytes).
+Output written on refman.pdf (114 pages, 2262356 bytes).
 PDF statistics:
- 3487 PDF objects out of 3580 (max. 8388607)
+ 3488 PDF objects out of 3580 (max. 8388607)
  3166 compressed objects within 32 object streams
  896 named destinations out of 1000 (max. 500000)
  1009 words of extra memory for PDF output out of 10000 (max. 10000000)

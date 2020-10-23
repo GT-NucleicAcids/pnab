@@ -80,14 +80,14 @@ Alternatively, open @a Anaconda @a Navigator ([details](https://docs.anaconda.co
 In the Jupyter Notebook tab, click on @a Launch.
 If a browser does not open automatically, you may need to open it this way:
 @htmlonly <style>div.image img[src="navigator2.png"]{width:600px;}</style> @endhtmlonly
-@image html navigator2.png "Launching Jupyter Notebook"
-@image latex navigator2.png "Launching Jupyter Notebook"
+@image html navigator2.png "Launching Jupyter notebook"
+@image latex navigator2.png "Launching Jupyter notebook"
 
 When a browser opens with the Jupyter page, it displays the folders in your computer. navigate to an appropriate folder
 or create a new folder if needed, then click on @a New > @a python @a 3
 @htmlonly <style>div.image img[src="jupyter.png"]{width:1000px;}</style> @endhtmlonly
-@image html jupyter.png "Creating a New Jupyter Notebook"
-@image latex jupyter.png "Creating a New Jupyter Notebook"
+@image html jupyter.png "Creating a new Jupyter notebook"
+@image latex jupyter.png "Creating a new Jupyter notebook"
 
 This opens an empty notebook. Type the the following two lines in the first cell and run it. This should show
 the graphical user interface of the program.
@@ -97,8 +97,8 @@ pnab.builder()
 @endcode
 
 @htmlonly <style>div.image img[src="notebook.png"]{width:1000px;}</style> @endhtmlonly
-@image html notebook.png "Running the Graphical User Interface"
-@image latex notebook.png "Running the Graphical User Interface"
+@image html notebook.png "Running the graphical user interface"
+@image latex notebook.png "Running the graphical user interface"
 
 @subsection script Using a Python Script
 The following python script would run the program to generate an RNA structure.
@@ -206,8 +206,8 @@ The program will use the specified options for running. The time required to com
 After it finishes, the program will display all the accepted candidates (if their are any) and their properties.
 
 @htmlonly <style>div.image img[src="output.png"]{width:1000px;}</style> @endhtmlonly
-@image html output.png "Example Results"
-@image latex output.png "Example Results"
+@image html output.png "Example results"
+@image latex output.png "Example results"
 
 The results are automatically downloaded as a zip file. Additionally, the output can be downloaded manually by clicking on
 @a Download @a Output. Note that downloading the output is only useful when the program is run in the cloud. When it is run locally
