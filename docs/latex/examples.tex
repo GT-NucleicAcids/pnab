@@ -18,7 +18,7 @@ The options are divided into four sections\+:
 
 As shown in the above figure, specifying the backbone requires three parameters\+: A path to a file containing the three-\/dimesional structure of the backbone, two indices specifying the connection to the nucleobase, and two indices specifying the connections to the adjacent backbones. The structure of the backbone can be uploaded, and many formats (e.\+g. P\+DB) are accepted. Optional parameters include the indices of fixed rotatable bonds. This is useful when the number of rotatable bonds in the backbone are large and the search space need to be limited to specific dihedral angles.
 
-Uploading the geometries for the nucleobases may not be necessary. The program contains a library of the canonical nucelobases\+: adenine (A), guaninie (G), cytosine (C), uracil (U), and thymine (T). It also contains two alternative nucleobases that can adopt the hexad geometry, namely, aminopyrimidine (M) and cyanuric acid (N). If the user wants to construct a nucleic acid analog with alternative nucleobases, then the additional nucleobases must be defined as shown in the figure. The Z\+P.\+yaml example file shows how to define new nucleobases. The Z nucleobase is defined below.
+Uploading the geometries for the nucleobases may not be necessary. The program contains a library of the canonical nucelobases\+: adenine (A), guaninie (G), cytosine (C), uracil (U), and thymine (T). It also contains two alternative nucleobases that can adopt the hexad geometry, namely, aminopyrimidine (E) and cyanuric acid (I). If the user wants to construct a nucleic acid analog with alternative nucleobases, then the additional nucleobases must be defined as shown in the figure. The Z\+P.\+yaml example file shows how to define new nucleobases. The Z nucleobase is defined below.
 
   
 \begin{DoxyImage}
@@ -63,7 +63,7 @@ The program will use the specified options for running. The time required to com
   
 \begin{DoxyImage}
 \includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{output.png}
-\doxyfigcaption{Example Results}
+\doxyfigcaption{Example results}
 \end{DoxyImage}
 
 
@@ -229,7 +229,7 @@ The program has a library of predefined nueleobases. They include adenine, guani
 \end{DoxyVerb}
 
 
-These lines will add the nucleobase {\itshape modified\+\_\+adenine} to the library of available nucleobases. For the name of the base, you must not use any of the names already used in the library. Otherwise, your new base might be overwritten. The reserved names are the following\+: {\itshape A}, {\itshape G}, {\itshape C}, {\itshape T}, {\itshape U}, {\itshape N}, and {\itshape M}. These names are case-\/insensitive.
+These lines will add the nucleobase {\itshape modified\+\_\+adenine} to the library of available nucleobases. For the name of the base, you must not use any of the names already used in the library. Otherwise, your new base might be overwritten. The reserved names are the following\+: {\itshape A}, {\itshape G}, {\itshape C}, {\itshape T}, {\itshape U}, {\itshape I}, and {\itshape E}. These names are case-\/insensitive.
 
 Now that you defined a new nucleobase, you can use its name when you specify the strand\+: \begin{DoxyVerb}  strand: CGCQUQTGQG
 \end{DoxyVerb}

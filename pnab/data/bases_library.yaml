@@ -38,19 +38,19 @@ Base T:
   - 1
   name: T
   pair_name: A
-Base N:
-  code: N
+Base I:
+  code: I
   file_path: cyanuric_acid.pdb
   linker:
   - 2
   - 1
-  name: N
-  pair_name: M
-Base M:
-  code: M
+  name: I
+  pair_name: E
+Base E:
+  code: E
   file_path: aminopyrimidine.pdb
   linker:
   - 2
   - 1
-  name: M
-  pair_name: N
+  name: E
+  pair_name: I

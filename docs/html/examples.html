@@ -90,7 +90,7 @@ The graphical user interface.</div></div>
 <li>Runtime Parameters</li>
 </ul>
 <p>As shown in the above figure, specifying the backbone requires three parameters: A path to a file containing the three-dimesional structure of the backbone, two indices specifying the connection to the nucleobase, and two indices specifying the connections to the adjacent backbones. The structure of the backbone can be uploaded, and many formats (e.g. PDB) are accepted. Optional parameters include the indices of fixed rotatable bonds. This is useful when the number of rotatable bonds in the backbone are large and the search space need to be limited to specific dihedral angles.</p>
-<p>Uploading the geometries for the nucleobases may not be necessary. The program contains a library of the canonical nucelobases: adenine (A), guaninie (G), cytosine (C), uracil (U), and thymine (T). It also contains two alternative nucleobases that can adopt the hexad geometry, namely, aminopyrimidine (M) and cyanuric acid (N). If the user wants to construct a nucleic acid analog with alternative nucleobases, then the additional nucleobases must be defined as shown in the figure. The ZP.yaml example file shows how to define new nucleobases. The Z nucleobase is defined below.</p>
+<p>Uploading the geometries for the nucleobases may not be necessary. The program contains a library of the canonical nucelobases: adenine (A), guaninie (G), cytosine (C), uracil (U), and thymine (T). It also contains two alternative nucleobases that can adopt the hexad geometry, namely, aminopyrimidine (E) and cyanuric acid (I). If the user wants to construct a nucleic acid analog with alternative nucleobases, then the additional nucleobases must be defined as shown in the figure. The ZP.yaml example file shows how to define new nucleobases. The Z nucleobase is defined below.</p>
 <p> <style>div.image img[src="nucleobases.png"]{width:1000px;}</style>  </p><div class="image">
 <img src="nucleobases.png" alt=""/>
 <div class="caption">
@@ -116,7 +116,7 @@ Specifying the structural parameters.</div></div>
 <p> <style>div.image img[src="output.png"]{width:1000px;}</style>  </p><div class="image">
 <img src="output.png" alt=""/>
 <div class="caption">
-Example Results</div></div>
+Example results</div></div>
  <p>The results are automatically downloaded as a zip file. Additionally, the output can be downloaded manually by clicking on <em>Download</em> <em>Output</em>. Note that downloading the output is only useful when the program is run in the cloud. When it is run locally the output files are written in the folder where the Jupyter notebook was started.</p>
 <p>The dropdown list contains all the accepted candidates ordered by the the total energy. The output data are the distance between between one terminal atom of the backbone and the periodic image of the other terminal atom in the adjacent backbone, the energy of the new bond and the new angles formed between two nucleotides, the energy of all rotatable bonds in the backbone, the van der Waals energy, and the total energy. These six terms correspond to distance and energy thresholds defined in the input options. Additionally, the output data include the values of the dihedral angles for the rotatable bonds determined during the conformation search procedure.</p>
 <h1><a class="anchor" id="more"></a>
@@ -248,7 +248,7 @@ Adding Bases Not Defined in The Library</h2>
   - 11
   name: Q # One-letter name of the base
   pair_name: T # One-letter name of the pairing base
-</pre><p>These lines will add the nucleobase <em>modified_adenine</em> to the library of available nucleobases. For the name of the base, you must not use any of the names already used in the library. Otherwise, your new base might be overwritten. The reserved names are the following: <em>A</em>, <em>G</em>, <em>C</em>, <em>T</em>, <em>U</em>, <em>N</em>, and <em>M</em>. These names are case-insensitive.</p>
+</pre><p>These lines will add the nucleobase <em>modified_adenine</em> to the library of available nucleobases. For the name of the base, you must not use any of the names already used in the library. Otherwise, your new base might be overwritten. The reserved names are the following: <em>A</em>, <em>G</em>, <em>C</em>, <em>T</em>, <em>U</em>, <em>I</em>, and <em>E</em>. These names are case-insensitive.</p>
 <p>Now that you defined a new nucleobase, you can use its name when you specify the strand: </p><pre class="fragment">  strand: CGCQUQTGQG
 </pre><p>You can define additional nucleobases in the same way.</p>
 <h2><a class="anchor" id="lib"></a>
