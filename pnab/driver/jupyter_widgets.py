@@ -908,7 +908,6 @@ def run(button):
 
     # Run the code
     run = pNAB('options.yaml')
-    out = widgets.Output()
     run.run(interrupt=True)
 
     # If no results are found, return
