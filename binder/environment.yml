@@ -1,7 +1,6 @@
 name: pnab
 channels:
     - conda-forge
-    - alenaizan
 dependencies: 
     - appmode
-    - pnab=1.1.4
+    - pnab=1.1.5
