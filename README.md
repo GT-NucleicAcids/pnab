@@ -24,3 +24,6 @@ The files `install.sh` and `install.bat` provide example scripts for compiling t
 Development version: [![docs latest](https://img.shields.io/badge/docs-latest-blue)](https://gt-nucleicacids.github.io/pnab/html/index.html)
 
 Latest release: [![docs v1.1.5](https://img.shields.io/badge/docs-v1.1.5-blue)](https://proto-nucleic-acid-builder-v1-1-5.netlify.app/html/index.html)
+
+## Citation:
+Alenaizan, A.; Barnett, J. L.; Hud, N. V.; Sherrill, C. D.; Petrov, A. S. The Proto-Nucleic Acid Builder: A Software Tool for Constructing Nucleic Acid Analogs. *Nucleic Acids Res*. **2021**, *49* (1), 79–89.
