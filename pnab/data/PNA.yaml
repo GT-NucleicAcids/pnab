@@ -92,9 +92,9 @@ RuntimeParameters:
   - false
   - false
   energy_filter:
-  - 0.5
-  - 2.5
-  - 7.5
+  - 4.0
+  - 3.0
+  - 7.0
   - 10.0
   - 100000.0
   ff_type: GAFF
