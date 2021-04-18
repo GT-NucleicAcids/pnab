@@ -2,13 +2,13 @@ Backbone:
   file_path: PNA_backbone.pdb
   fixed_bonds:
   - - 2
-    - 7
+    - 4
   interconnects:
-  - 12
-  - 10
+  - 8
+  - 15
   linker:
   - 1
-  - 11
+  - 23
 HelicalParameters:
   is_helical: true
   x_displacement:
@@ -92,14 +92,14 @@ RuntimeParameters:
   - false
   - false
   energy_filter:
-  - 0.5
-  - 2.5
-  - 6.0
-  - 50.0
+  - 4.0
+  - 3.0
+  - 7.0
+  - 10.0
   - 100000.0
   ff_type: GAFF
   is_hexad: false
-  max_distance: 0.8
+  max_distance: 0.2
   pair_A_U: false
   search_algorithm: weighted monte carlo search
   monte_carlo_temperature: 300

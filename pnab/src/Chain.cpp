@@ -382,9 +382,11 @@ void Chain::setupChain(std::vector<PNAB::Base> &strand, OpenBabel::OBMol &chain,
 
         // Delete hydrogen atoms from the head until you have the correct number of bonds - 1
         // One more bond will be added to the next nucleotide
+        int degree = head->GetTotalDegree();
         for (auto i: hydrogens[1]) {
-            if (head->GetExplicitDegree() == head->GetTotalDegree() - 1)
+            if (head->GetExplicitDegree() == degree - 1)
                 break;
+
             deleted_atoms_ids.push_back(i);
             chain.DeleteAtom(chain.GetAtomById(i));
         }
