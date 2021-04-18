@@ -2,7 +2,6 @@
 ## Try the Package: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GT-NucleicAcids/pnab/master?urlpath=%2Fapps%2Fbinder%2Fdriver.ipynb)
 ## Read the documentation: [![docs v1.1.5](https://img.shields.io/badge/docs-v1.1.5-blue)](https://proto-nucleic-acid-builder-v1-1-5.netlify.app/html/index.html)
 
-[![Build Status](https://travis-ci.com/GT-NucleicAcids/pnab.svg?branch=master)](https://travis-ci.com/GT-NucleicAcids/pnab)
 [![Build status](https://ci.appveyor.com/api/projects/status/2p4va7lxm8q8q1ro/branch/master?svg=true)](https://ci.appveyor.com/project/alenaizan/pnab-8kj78/branch/master)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/GT-NucleicAcids/pnab.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/GT-NucleicAcids/pnab/context:cpp)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/GT-NucleicAcids/pnab.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/GT-NucleicAcids/pnab/context:python)
