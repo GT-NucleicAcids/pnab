@@ -1,0 +1,43 @@
+name: CMake
+
+on: [pull_request]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally
+    # well on Windows or Mac.  You can convert this to a matrix build if you need
+    # cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        python-version: 3.9
+        activate-environment: pnab
+
+    - name: Build and test in Linux and MacOS
+      working-directory: ${{github.workspace}}
+      shell: bash
+      # Note the current convention is to use the -S and -B options here to specify source 
+      # and build directories, but this is only available with CMake 3.13 and higher.  
+      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+      run: |
+        conda install -n pnab -c conda-forge python numpy openbabel eigen pybind11 pyyaml pytest
+        cmake -E make_directory ${{github.workspace}}/build
+        cd build
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH="${CONDA}/envs/pnab" -DPYTHON_EXECUTABLE="${CONDA}/envs/pnab/bin/python" -DOPENBABEL_DIR="${CONDA}/envs/pnab" -DEIGEN3_INCLUDE_DIR="${CONDA}/envs/pnab/include/eigen3" -Dpybind11_DIR="${CONDA}/envs/pnab/share/cmake/pybind11"
+        cmake --build . --config $BUILD_TYPE   
+        cp -R bind* ../pnab
+        cd ..
+        cp -R tests pnab
+        ${CONDA}/envs/pnab/bin/python -c "import pnab; pnab.test()"
