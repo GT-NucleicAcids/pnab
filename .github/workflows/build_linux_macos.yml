@@ -39,5 +39,5 @@ jobs:
         cmake --build . --config $BUILD_TYPE   
         cp -R bind* ../pnab
         cd ..
-        cp -R tests pnab
-        ${CONDA}/envs/pnab/bin/python -c "import pnab; pnab.test()"
+        cp -R pnab ${CONDA}/envs/pnab/lib/python3.9/site-packages
+        ${CONDA}/envs/pnab/bin/pytest -s -x
