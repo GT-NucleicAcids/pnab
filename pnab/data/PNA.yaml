@@ -99,7 +99,7 @@ RuntimeParameters:
   - 100000.0
   ff_type: GAFF
   is_hexad: false
-  max_distance: 0.8
+  max_distance: 0.2
   pair_A_U: false
   search_algorithm: weighted monte carlo search
   monte_carlo_temperature: 300
