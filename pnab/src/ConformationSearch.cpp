@@ -76,8 +76,15 @@ ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbo
                 save = false;
             }
         }
+
+        // Also fix the dihedral if it is in the base
+        if ((a1 < base_indices[1] && a2 < base_indices[1])) {
+            save = false;
+        }
+
         if (save)
             rotor_vector.push_back(r);
+
         r = rl.NextRotor(ri);
     }
 
