@@ -33,7 +33,7 @@ def test_examples():
     import pnab
 
     examples = ['RNA.yaml', 'DNA.yaml', 'FRNA.yaml', 'LNA.yaml', 'CeNA.yaml', 'PNA.yaml', '5methylcytosine.yaml',
-                'ZP.yaml', 'Hexad.yaml', 'Hexad_Antiparallel.yaml', 'adenine_cyanuric_acid.yaml']
+                'ZP.yaml', 'Hexad.yaml', 'Hexad_Antiparallel.yaml', 'adenine_cyanuric_acid.yaml', 'adenine_cyanuric_acid_flipped.yaml']
 
     if platform.system() != 'Linux': # test times in other platforms exceed allowed limit for travis CI and appveyor
         examples = examples[:7]

@@ -860,7 +860,7 @@ def user_input_file(param):
 
     # Provide input files as examples
     examples = ['RNA.yaml', 'DNA.yaml', 'FRNA.yaml', 'LNA.yaml', 'CeNA.yaml', 'PNA.yaml', '5methylcytosine.yaml',
-                'ZP.yaml', 'Hexad.yaml', 'adenine_cyanuric_acid.yaml', 'Upload file']
+                'ZP.yaml', 'Hexad.yaml', 'adenine_cyanuric_acid.yaml', 'adenine_cyanuric_acid_flipped.yaml', 'Upload file']
     w = widgets.interactive(display_options_widgets, param=widgets.fixed(param), uploaded=widgets.fixed(False),
             input_file=widgets.Dropdown(options=examples,
                                         style={'description_width': 'initial'}, description='Input File'))

@@ -9,7 +9,7 @@ Backbone:
   - 13
 Base 1:
   code: A
-  file_path: adenine_cyanuric_acid.pdb
+  file_path: adenine_cyanuric_acid_flipped.pdb
   linker:
   - 2
   - 1
@@ -98,11 +98,11 @@ RuntimeParameters:
   - true
   - false
   energy_filter:
-  - 1.0
-  - 2.0
-  - 3.5
-  - 10.0
-  - 1000.0
+  - 10
+  - 10
+  - 15
+  - 10000.0
+  - 10000.0
   ff_type: GAFF
   is_hexad: true
   max_distance: 0.8
