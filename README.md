@@ -1,5 +1,5 @@
 # proto-Nucleic Acid Builder (pNAB)
-## Try the Package: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GT-NucleicAcids/pnab/master?urlpath=%2Fapps%2Fbinder%2Fdriver.ipynb)
+## Try the Package: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GT-NucleicAcids/pnab/HEAD?labpath=binder%2Fdriver.ipynb)
 ## Read the documentation: [![docs v1.1.5](https://img.shields.io/badge/docs-v1.1.5-blue)](https://proto-nucleic-acid-builder-v1-1-5.netlify.app/html/index.html)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/2p4va7lxm8q8q1ro/branch/master?svg=true)](https://ci.appveyor.com/project/alenaizan/pnab-8kj78/branch/master)
