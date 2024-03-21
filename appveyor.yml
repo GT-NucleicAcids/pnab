@@ -13,12 +13,12 @@ install:
   - conda config --set always_yes yes
   - conda create --channel conda-forge
                  --name %CONDA_ENV%
-                 python=3.8
+                 "python=3.10"
                  numpy
                  cmake
                  openbabel
                  eigen
-                 pybind11
+                 "pybind11<2.10"
                  pyyaml
                  pytest
   - conda clean --all

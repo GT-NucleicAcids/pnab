@@ -50,6 +50,8 @@ from pnab import __path__
 
 input_options = {}
 
+output_widget = widgets.Output()
+
 def view_nglview(molecule, label=False):
     """!@brief Display molecules using the NGLView viewer.
 
@@ -803,6 +805,7 @@ def display_options_widgets(param, input_file, uploaded=False):
     @sa options._options_dict
     """
 
+    output_widget.clear_output()
     if input_file == "Upload file":
         # Display a widget for uploading input file
         w = widgets.interactive(upload_input, param=widgets.fixed(param), f=widgets.FileUpload(accept='', multiple=False, description="Input File"))
@@ -842,6 +845,7 @@ def display_options_widgets(param, input_file, uploaded=False):
     button = widgets.Button(description='Run', tooltip='Click here to run the program with the provided options. Once the program finishes, the results will be displayed below.')
     button.on_click(run)
     display(button)
+    display(output_widget)
 
 
 def user_input_file(param):
@@ -871,6 +875,7 @@ def user_input_file(param):
     display(widgets.HBox([help_box, w]))
 
 
+@output_widget.capture()
 def run(button):
     """!@brief Function to run the code when the user finishes specifying all options
 
@@ -924,8 +929,27 @@ def run(button):
         for f in files:
             z.write(f)
 
-    display(widgets.HTML("""<a href="output""" + time + """.zip" target="_blank">Download Output</a>"""))
-    display(Javascript("""var url="output%s.zip"\nwindow.open(url, 'download')""" %time))
+
+    # File Download: https://stackoverflow.com/questions/61708701/how-to-download-a-file-using-ipywidget-button
+    import base64
+    res = 'computed results'
+    filename = 'output%s.zip' %time
+    b64 = base64.b64encode(res.encode())
+    payload = b64.decode()
+    html_buttons = f'''<html>
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+    <a download="{filename}" href="data:text/csv;base64,{payload}" download>
+    <button class="p-Widget jupyter-widgets jupyter-button widget-button mod-warning">Download Output</button>
+    </a>
+    </body>
+    </html>
+    '''
+
+    html_button = html_buttons.format(payload=payload,filename=filename)
+    display(widgets.HTML(html_button))
 
     # display conformers and their properties
     # Sort by total energy
@@ -1050,13 +1074,5 @@ def builder():
 
     @returns None
     """
-
-    # Prevents auto-scrolling of the notebook
-    disable_js = """
-IPython.OutputArea.prototype._should_scroll = function(lines) {
-    return false;
-}
-"""
-    display(Javascript(disable_js))
 
     user_input_file(_options_dict)
