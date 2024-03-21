@@ -23,7 +23,7 @@ requirements:
     - python {{ python }}
     - numpy
     - openbabel >=3
-    - ipywidgets >=7.5
+    - ipywidgets >=7.5, <8
     - nglview >=2.7
     - pyyaml
 
