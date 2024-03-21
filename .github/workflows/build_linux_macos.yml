@@ -22,7 +22,6 @@ jobs:
     
     - uses: conda-incubator/setup-miniconda@v2
       with:
-        python-version: 3.10
         activate-environment: pnab
 
     - name: Build and test in Linux and MacOS
