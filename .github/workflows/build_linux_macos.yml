@@ -31,7 +31,7 @@ jobs:
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: |
-        conda install -n pnab -c conda-forge python=3.10 numpy openbabel eigen pybind11 pyyaml pytest
+        conda install -n pnab -c conda-forge python=3.10 numpy openbabel=3.1.1 eigen pybind11 pyyaml pytest "ipywidgets >=7.5, <8" "nglview >=2.7, <3" jupyterlab=3
         cmake -E make_directory ${{github.workspace}}/build
         cd build
         cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_PREFIX_PATH="${CONDA}/envs/pnab" -DPYTHON_EXECUTABLE="${CONDA}/envs/pnab/bin/python" -DOPENBABEL_DIR="${CONDA}/envs/pnab" -DEIGEN3_INCLUDE_DIR="${CONDA}/envs/pnab/include/eigen3" -Dpybind11_DIR="${CONDA}/envs/pnab/share/cmake/pybind11"
