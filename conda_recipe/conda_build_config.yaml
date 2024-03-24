@@ -8,11 +8,11 @@ cxx_compiler:
     - gxx                              # [linux]
     - clangxx                          # [osx]
 python:
-    - 3.8
-    - 3.7
+    - 3.11
+    - 3.10
 PY_ABBR:
-    - python3.8m
-    - python3.7m
+    - python3.11m
+    - python3.10m
 
 zip_keys:
     - python
