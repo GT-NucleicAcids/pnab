@@ -2,5 +2,5 @@ name: pnab
 channels:
     - conda-forge
 dependencies: 
-    - appmode
-    - pnab=1.1.5
+    - pnab=1.1.6
+    
