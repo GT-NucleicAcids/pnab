@@ -44,7 +44,7 @@ namespace PNAB {
                               num_steps(0), seed(0), weighting_temperature(298.0), monte_carlo_temperature(298.0),
                               mutation_rate(0.75), crossover_rate(0.75), population_size(1000), strand{}, is_hexad(false),
                               build_strand(std::vector<bool> {true, false, false, false, false, false}), num_candidates(10),
-                              strand_orientation(std::vector<bool> {true, true, true, true, true, true}){};
+                              strand_orientation(std::vector<bool> {true, true, true, true, true, true}), max_linkage_deviation(8.0){};
 
         // Thresholds
         std::vector<double> energy_filter;      /*!< @brief [max bond E, max angle E, max torsion E, max VDW E, max total E]
@@ -153,6 +153,17 @@ namespace PNAB {
         // Glycosidic bond
         double glycosidic_bond_distance;        //!< @brief Set a user-defined glycosidic bond distance (in Angstroms). If zero (default), sets the distance based on van der Waals radii
         unsigned int num_candidates;            //!< @brief Quit after finding the specified number of accepted candidates
+        double max_linkage_deviation;           /*!< @brief Maximum accepted deviation from planarity (in degrees) for the inter-residue linkage dihedrals
+                                                *
+                                                * Some bonds joining adjacent nucleotides (e.g. a peptide/amide bond) are planar by nature but
+                                                * are not sampled by the conformation search, so the periodic build can leave them strained.
+                                                * The program auto-detects such planar (sp2-sp2) linkage bonds and measures the dihedral about each.
+                                                * A conformer is rejected if any of these dihedrals deviates from planarity (0 or 180 degrees) by more
+                                                * than this value. The default (8.0 degrees) enforces near-planarity; set it to 90.0 to accept
+                                                * everything and disable the filter.
+                                                *
+                                                * @sa Chain::fillConformerEnergyData
+                                                */
     };
 
     /**
@@ -735,6 +746,11 @@ namespace PNAB {
         std::size_t index;                          //!< @brief The index of the conformer
         bool accepted;                              //!< @brief Is the energy of the conformer less than the thresholds
         std::vector<double> dihedral_angles;        //!< @brief The values of the rotatable dihedral angles in the conformer in degrees
+        std::vector<double> linkage_dihedral_values;/*!< @brief The values (in degrees) of the auto-detected planar inter-residue linkage dihedrals
+                                                     * (e.g. a peptide/amide omega). Reported for each accepted conformer.
+                                                     *
+                                                     * @sa RuntimeParameters::max_linkage_deviation
+                                                     */
 
         /**
          * @brief Used for simple sorting based on total energy of the conformer

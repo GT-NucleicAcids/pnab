@@ -96,7 +96,16 @@ ConformationSearch::ConformationSearch(RuntimeParameters &runtime_params, Backbo
         header += ", Dihedral " + to_string(i+1) + " (degrees)";
     }
 
-    output_string += header + "\n";
+    // Store the header up to the rotatable dihedral columns. The planar linkage dihedral columns are
+    // appended later (in writeOutputHeader), once the chain has been built and they have been detected.
+    header_prefix_ = header;
+}
+
+void ConformationSearch::writeOutputHeader(std::size_t num_linkage_dihedrals) {
+    std::string header = header_prefix_;
+    for (std::size_t i = 0; i < num_linkage_dihedrals; i++)
+        header += ", Linkage Dihedral " + to_string(i + 1) + " (degrees)";
+    output_string = header + "\n";
 }
 
 std::string ConformationSearch::run() {
@@ -139,6 +148,9 @@ void ConformationSearch::GeneticAlgorithmSearch() {
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
                 runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation,
                 runtime_params_.glycosidic_bond_distance);
+
+    // Finalize the output header now that the planar linkage dihedrals have been detected
+    writeOutputHeader(chain.getLinkageDihedrals().size());
 
     // Set the search size; the number of generations in the genetic algorithm search
     size_t search_size = runtime_params_.num_steps;
@@ -267,7 +279,7 @@ void ConformationSearch::GeneticAlgorithmSearch() {
                     save_cur_dist.push_back(int(cur_dist*1e6));
 
                     // Generate chain and compute energies; check whether energies are less than thresholds
-                    auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
+                    auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter, runtime_params_.max_linkage_deviation);
 
                     if (data.accepted) {
                         // Save the candidate
@@ -300,6 +312,9 @@ void ConformationSearch::RandomSearch(bool weighted) {
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
                 runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation,
                 runtime_params_.glycosidic_bond_distance);
+
+    // Finalize the output header now that the planar linkage dihedrals have been detected
+    writeOutputHeader(chain.getLinkageDihedrals().size());
 
     // Set the search size;
     size_t search_size = runtime_params_.num_steps;
@@ -356,7 +371,7 @@ void ConformationSearch::RandomSearch(bool weighted) {
         if (cur_dist < runtime_params_.max_distance) {
 
             // Generate chain and compute energies; check whether energies are less than thresholds
-            auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
+            auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter, runtime_params_.max_linkage_deviation);
 
             if (data.accepted) {
                 // Save the candidate
@@ -382,6 +397,9 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
     Chain chain(bases_, backbone_, runtime_params_.strand, runtime_params_.ff_type, backbone_range_,
                 runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation,
                 runtime_params_.glycosidic_bond_distance);
+
+    // Finalize the output header now that the planar linkage dihedrals have been detected
+    writeOutputHeader(chain.getLinkageDihedrals().size());
 
     // Set the search size;
     size_t search_size = runtime_params_.num_steps;
@@ -493,7 +511,7 @@ void ConformationSearch::MonteCarloSearch(bool weighted) {
         if (cur_dist < runtime_params_.max_distance) {
 
             // Generate chain and compute energies; check whether energies are less than thresholds
-            auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
+            auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter, runtime_params_.max_linkage_deviation);
 
             if (data.accepted) {
                 // Save the candidate
@@ -608,6 +626,9 @@ void ConformationSearch::SystematicSearch() {
                 runtime_params_.is_hexad, runtime_params_.build_strand, runtime_params_.strand_orientation,
                 runtime_params_.glycosidic_bond_distance);
 
+    // Finalize the output header now that the planar linkage dihedrals have been detected
+    writeOutputHeader(chain.getLinkageDihedrals().size());
+
     // Determine the step size and the number of steps
     // The number of steps is (360/dihedral_step)^(number of rotors)
     double dihedral_step = runtime_params_.dihedral_step*M_PI/180.0;
@@ -658,7 +679,7 @@ void ConformationSearch::SystematicSearch() {
         // if accept, add to vector of coord_vec_
         if (cur_dist < runtime_params_.max_distance) {
             // Generate chain and compute energies; check whether energies are less than thresholds
-            auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter);
+            auto data = chain.generateConformerData(coords, helical_params_, runtime_params_.energy_filter, runtime_params_.max_linkage_deviation);
 
             if (data.accepted) {
                 // Save the candidate
@@ -754,7 +775,7 @@ void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
                 helical_params_.twist, helical_params_.roll, helical_params_.tilt};
     }
 
-    vector<string> labels2 = {"Shear (Angstroms)", "Stretch (Angstroms)", "Stagger (Angstroms)", 
+    vector<string> labels2 = {"Shear (Angstroms)", "Stretch (Angstroms)", "Stagger (Angstroms)",
                               "Buckle (degrees)", "Propeller (degrees)", "Opening (degrees)",
                               "Distance (Angstroms)", "Bond Energy (kcal/mol)", "Angle Energy (kcal/mol)", "Torsion Energy (kcal/mol/nucleotide)",
                               "Van der Waals Energy (kcal/mol/nucleotide)", "Total Energy (kcal/mol/nucleotide)"};
@@ -772,7 +793,13 @@ void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
         data.push_back(angle);
     }
 
-    for (int i=0; i < 18 + rotor_vector.size(); i++) {
+    // Append the auto-detected planar inter-residue linkage dihedral values (e.g. a peptide/amide omega)
+    for (int i=0; i < conf_data.linkage_dihedral_values.size(); i++) {
+        labels.push_back("Linkage Dihedral " + to_string(i+1) + " (degrees)");
+        data.push_back(conf_data.linkage_dihedral_values[i]);
+    }
+
+    for (int i=0; i < 18 + rotor_vector.size() + conf_data.linkage_dihedral_values.size(); i++) {
         OBPairData *pairdata = new OBPairData;
         pairdata->SetAttribute("TITLE");
         pairdata->SetValue("    " + labels[i] + ": " + to_string(data[i]));
@@ -789,6 +816,8 @@ void ConformationSearch::reportData(PNAB::ConformerData &conf_data) {
     output_stringstream << prefix_ << ", " << v.index  << ", " << v.distance << ", " << v.bondE << ", " << v.angleE << ", "
         << v.torsionE << ", " << v.VDWE << ", " << v.total_energy;
     for (auto angle: v.dihedral_angles)
+        output_stringstream << ", " << angle;
+    for (auto angle: v.linkage_dihedral_values)
         output_stringstream << ", " << angle;
     output_stringstream << endl;
 

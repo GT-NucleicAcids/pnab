@@ -54,3 +54,31 @@ def test_examples():
             ref_output = np.genfromtxt(os.path.join('files', f.split('.')[0] + '_mac.csv'), delimiter=',')
             
         assert np.allclose(run.results, ref_output, atol=1e-4)
+
+
+def test_linkage_planarity_filter():
+    """
+    test the max_linkage_deviation filter for non-planar inter-residue linkages
+
+    The peptide linkage in the PNA example sits ~43 degrees from planar. Because the
+    linkage dihedral is set by the periodic build and is not sampled by the search, a
+    strict max_linkage_deviation rejects every candidate, while a permissive value keeps
+    the candidate and reports it in a "Linkage Dihedral" column.
+    """
+    import pnab
+
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+    # Strict threshold: the non-planar linkage is filtered out, so nothing is accepted
+    run = pnab.pNAB('PNA.yaml')
+    run.options['RuntimeParameters']['max_linkage_deviation'] = 8.0
+    run.options['RuntimeParameters']['num_steps'] = 100000
+    run.run()
+    assert run.results.size == 0
+
+    # Permissive threshold: the candidate is accepted and its linkage dihedral reported
+    run = pnab.pNAB('PNA.yaml')
+    run.options['RuntimeParameters']['max_linkage_deviation'] = 90.0
+    run.run()
+    assert run.results.size != 0
+    assert 'Linkage Dihedral 1 (degrees)' in run.header

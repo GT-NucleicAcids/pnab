@@ -73,6 +73,7 @@ namespace PNAB {
             .def_readwrite("is_hexad", &PNAB::RuntimeParameters::is_hexad)
             .def_readwrite("glycosidic_bond_distance", &PNAB::RuntimeParameters::glycosidic_bond_distance)
             .def_readwrite("num_candidates", &PNAB::RuntimeParameters::num_candidates)
+            .def_readwrite("max_linkage_deviation", &PNAB::RuntimeParameters::max_linkage_deviation)
             ;
 
         py::class_<PNAB::HelicalParameters>(m, "HelicalParameters")

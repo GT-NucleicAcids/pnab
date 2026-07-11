@@ -706,8 +706,8 @@ _options_dict['RuntimeParameters']['energy_filter'] = {
                                                                    'Maximum total energy (kcal/mol/nucleotide)\n'),
                                                       'long_glossory': ('This is the bond stretching energy for the newly formed bond between the first two adjacent backbone molecules.\n' +
                                                                         'This is the angle bending energy for the newly formed angles between the first two adjacent backbone molecules.\n' +
-                                                                        'This is the torsional energy for all the rotatable backbone bonds.\n' + 
-                                                                        'This is the total van der Waals energy of the system.\n' + 
+                                                                        'This is the torsional energy for all the rotatable backbone bonds.\n' +
+                                                                        'This is the total van der Waals energy of the system.\n' +
                                                                         'This is the total energy of the system.\n'),
                                                       'default': (1, 3, 6, 80, 10000000000),
                                                       'validation': lambda x: _validate_energy_filter(x), 
@@ -761,10 +761,21 @@ _options_dict['RuntimeParameters']['glycosidic_bond_distance'] = {
                                                                  }
 _options_dict['RuntimeParameters']['num_candidates'] = {
                                                        'glossory': 'Quit after finding the specified number of accepted candidates',
-                                                       'long_glossory': ('Quit after finding the specified number of accepted candidates for a given helical configuration.' + 
+                                                       'long_glossory': ('Quit after finding the specified number of accepted candidates for a given helical configuration.' +
                                                                          ' Can be used to save time if only a few backbone conformations are needed.' +
-                                                                         ' If the specified number of candidates is not satisfied, the search will continue' + 
+                                                                         ' If the specified number of candidates is not satisfied, the search will continue' +
                                                                          ' until the requested number of steps is completed.'),
                                                        'default': 1,
                                                        'validation': lambda x: int(x),
                                                        }
+_options_dict['RuntimeParameters']['max_linkage_deviation'] = {
+                                                              'glossory': 'Maximum deviation from planarity (degrees) for the inter-residue linkage',
+                                                              'long_glossory': ('Some bonds that join adjacent nucleotides are planar by nature (e.g. a peptide/amide bond)' +
+                                                                                ' but are not sampled by the conformation search, so the periodic build can leave them strained.' +
+                                                                                ' The program auto-detects such planar (sp2-sp2) linkage bonds and measures the dihedral about each.' +
+                                                                                ' A conformer is rejected if any of these dihedrals deviates from planarity (0 or 180 degrees) by more' +
+                                                                                ' than this value. The reported values appear as "Linkage Dihedral" columns. The default (8) enforces' +
+                                                                                ' near-planarity; set it to 90 to accept everything and disable the filter.'),
+                                                              'default': 8.0,
+                                                              'validation': lambda x: float(x),
+                                                              }

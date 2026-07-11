@@ -112,7 +112,8 @@ namespace PNAB {
         unsigned head, //!< @brief The first terminal atom in the backbone
                  tail; //!< @brief The second terminal atom in the backbone
         std::string output_string; //!< @brief A string in CSV format containing the properties of the accepted candidates
-        double* coords; //!< @brief The coordinates of the first nucleotide 
+        std::string header_prefix_; //!< @brief The output header up to and including the rotatable dihedral columns; the linkage dihedral columns are appended once the chain is built
+        double* coords; //!< @brief The coordinates of the first nucleotide
         OpenBabel::OBRotorList rl; //!< @brief The list of the all rotatable dihedral angles in the backbone
         std::vector<OpenBabel::OBRotor*> rotor_vector; //!< @brief A vector of dihedral angles to be rotated in the search. Excludes fixed angles
 
@@ -282,6 +283,16 @@ namespace PNAB {
         * @param conf_data The properties of the accepted candiate
         */ 
         void reportData(PNAB::ConformerData &conf_data);
+
+        /**
+        * @brief Finalizes the CSV output header once the chain (and thus the number of planar linkage
+        * dihedrals) is known, and writes it as the first line of ConformationSearch::output_string.
+        *
+        * @param num_linkage_dihedrals The number of auto-detected planar inter-residue linkage dihedrals
+        *
+        * @sa Chain::getLinkageDihedrals
+        */
+        void writeOutputHeader(std::size_t num_linkage_dihedrals);
 
         /**
         * @brief Prints the percentage of search completed and the best accepted candidate

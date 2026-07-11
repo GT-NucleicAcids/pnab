@@ -89,7 +89,7 @@ class pNAB(object):
 
         ##@brief A string comma-separated header for the results used in the generated CSV files
         self.header = ('Prefix, Conformer Index, Distance (Angstroms), Bond Energy (kcal/mol), Angle Energy (kcal/mol), ' +
-                       'Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), ' + 
+                       'Torsion Energy (kcal/mol/nucleotide), Van der Waals Energy (kcal/mol/nucleotide), ' +
                        'Total Energy (kcal/mol/nucleotide)')
 
     def _run(self, config):
@@ -139,8 +139,13 @@ class pNAB(object):
         helical_parameters.is_helical = self._is_helical
 
         # Run code
-        
+
         result = bind.run(runtime_parameters, backbone, bases, helical_parameters, prefix, self._verbose)
+
+        # Capture the authoritative column header emitted by the C++ code (first, commented line).
+        # It lists every output column, including the variable number of rotatable-dihedral and
+        # planar linkage-dihedral columns, so we do not have to reconstruct it here.
+        cpp_header = result.split('\n', 1)[0].lstrip('# ').strip()
 
         # Get results from the comma-separated output string
         result = np.genfromtxt(StringIO(result), delimiter=',')
@@ -163,15 +168,8 @@ class pNAB(object):
         if results[2] is None:
             return
 
-        # Update header
-        header = results[1] + '\n'
-
-        header2 = self.header
-        ## Add header entries for the dihedral angles
-        for i in range(results[2].shape[1] - 8):
-            header2 += ", Dihedral " + str(i+1) + " (degrees)"
-
-        header += header2
+        # Update header: the helical configuration line followed by the authoritative column header
+        header = results[1] + '\n' + cpp_header
 
         # Write results to file
         fmt = "%i,%i"
@@ -309,9 +307,15 @@ class pNAB(object):
 
         if self.results.ndim == 1:
             self.results = self.results.reshape((1, len(self.results)))
-        ## Add header entries for the dihedral angles; it does not get added in self._run
-        for i in range(self.results.shape[1] - 8):
-            self.header += ", Dihedral " + str(i+1) + " (degrees)"
+        ## Read the authoritative column header (written by the C++ code) from the results file,
+        # so that pNAB.pNAB.header matches the columns of pNAB.pNAB.results, including the variable
+        # number of rotatable-dihedral and planar linkage-dihedral columns.
+        with open('results.csv') as f:
+            for line in f:
+                stripped = line.lstrip('# ').strip()
+                if stripped.startswith('Prefix'):
+                    self.header = stripped
+                    break
 
         n_candidates = 0 if self.results.size == 0 else len(self.results)
 

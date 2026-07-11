@@ -665,6 +665,15 @@ def runtime_parameters(param):
     display(widgets.HBox([help_box, num_candidates]))
     input_options['RuntimeParameters']['num_candidates'] = num_candidates
 
+    # Maximum deviation from planarity for the inter-residue linkage
+    max_linkage_deviation = widgets.BoundedFloatText(value=param['max_linkage_deviation']['default'], min=0.0, max=90.0,
+                                          description=param['max_linkage_deviation']['glossory'],
+                                          style={'description_width': 'initial'},
+                                          layout={'width': '75%'})
+    help_box = widgets.Button(description='?', tooltip=param['max_linkage_deviation']['long_glossory'], layout=widgets.Layout(width='3%'))
+    display(widgets.HBox([help_box, max_linkage_deviation]))
+    input_options['RuntimeParameters']['max_linkage_deviation'] = max_linkage_deviation
+
     display(widgets.HTML(value='<H4>Distance and Energy Thresholds</H4>'))
 
     # Distance and energy thresholds

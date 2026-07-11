@@ -62,7 +62,7 @@ Chain::Chain(Bases bases, const Backbone &backbone, std::vector<std::string> str
 }
 
 
-ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, vector<double> energy_filter) {
+ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, vector<double> energy_filter, double max_linkage_deviation) {
 
     // Set the correct number of coordinates
     unsigned num_cooords = 0;
@@ -81,7 +81,7 @@ ConformerData Chain::generateConformerData(double *conf, HelicalParameters &hp, 
 
     // Fill in the energy data
     ConformerData data;
-    fillConformerEnergyData(xyz, data, energy_filter);
+    fillConformerEnergyData(xyz, data, energy_filter, max_linkage_deviation);
 
     if (data.accepted) {
         data.molecule = combined_chain_;
@@ -127,12 +127,42 @@ void Chain::orderResidues(OBMol* molecule) {
     molecule->RenumberAtoms(order);
 }
 
-void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data, vector<double> energy_filter) {
+namespace {
+    // Compute the dihedral angle (in degrees, in [-180, 180]) defined by four atoms, given a flat
+    // coordinate array and 1-based atom indices (as stored in the OBMol).
+    double dihedralFromCoords(double *xyz, unsigned i1, unsigned i2, unsigned i3, unsigned i4) {
+        OpenBabel::vector3 a, b, c, d;
+        a.Set(xyz + 3*(i1-1)); b.Set(xyz + 3*(i2-1)); c.Set(xyz + 3*(i3-1)); d.Set(xyz + 3*(i4-1));
+        return OpenBabel::CalcTorsionAngle(a, b, c, d);
+    }
+
+    // Deviation (in degrees) of a dihedral from planarity: distance to the nearer of 0 or 180 degrees.
+    double planarityDeviation(double angle) {
+        double a = fabs(angle);          // fold to [0, 180]
+        return std::min(a, 180.0 - a);   // distance to 0 or to 180
+    }
+}
+
+void Chain::fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data, vector<double> energy_filter, double max_linkage_deviation) {
 
     // Set the molecule
     OBMol *current_mol;
     current_mol = &combined_chain_;
     current_mol->SetCoordinates(xyz);
+
+    // Geometric planarity check for the auto-detected planar inter-residue linkage dihedrals
+    // (e.g. a peptide/amide omega). These dihedrals are not sampled by the search, so the periodic
+    // build can leave them non-planar. Reject the conformer if any deviates from planarity (0/180
+    // degrees) by more than max_linkage_deviation. The values are also recorded for reporting.
+    conf_data.linkage_dihedral_values.clear();
+    for (auto &q : linkage_dihedrals_) {
+        double angle = dihedralFromCoords(xyz, q[0], q[1], q[2], q[3]);
+        conf_data.linkage_dihedral_values.push_back(angle);
+        if (planarityDeviation(angle) > max_linkage_deviation) {
+            conf_data.accepted = false;
+            return;
+        }
+    }
 
     // Determine the number of nucleotides in the system
     unsigned n = 0;
@@ -502,6 +532,59 @@ void Chain::setupFFConstraints(OpenBabel::OBMol &chain, std::vector<unsigned> &n
         }
 
         r = rl.NextRotor(ri);
+    }
+
+    // Auto-detect the inter-residue dihedrals that should remain planar. Some bonds at the junction
+    // (e.g. a peptide/amide bond) are planar by nature but are not sampled by the search, so the
+    // periodic build can leave them non-planar. For the first junction of the first strand, we examine
+    // the newly formed bond and the bonds one step inside on each side; whenever both atoms of such a
+    // bond are sp2 (hybridization 2), the dihedral about it that crosses into the adjacent nucleotide
+    // should stay planar. We store one representative dihedral per such bond (all junctions are
+    // geometrically identical in the periodic build, so the first one is representative).
+    if (offset == 0 && new_bond_ids.size() >= 2) {
+        OBAtom* B0 = chain.GetAtomById(new_bond_ids[0]);
+        OBAtom* C0 = chain.GetAtomById(new_bond_ids[1]);
+        unsigned b0 = B0->GetIdx(), c0 = C0->GetIdx();
+
+        // Pick a deterministic heavy neighbor of `center` other than `exclude`:
+        // prefer the lowest atomic number (backbone C over O/N), tie-break by lowest index.
+        auto pick_heavy = [&chain](unsigned center, unsigned exclude) -> int {
+            int best = -1; unsigned bestZ = 1000, bestIdx = 0;
+            FOR_NBORS_OF_ATOM(nb, chain.GetAtom(center)) {
+                if (nb->GetIdx() == exclude || nb->GetAtomicNum() == 1) continue;
+                if (nb->GetAtomicNum() < bestZ || (nb->GetAtomicNum() == bestZ && nb->GetIdx() < bestIdx)) {
+                    bestZ = nb->GetAtomicNum(); bestIdx = nb->GetIdx(); best = (int) nb->GetIdx();
+                }
+            }
+            return best;
+        };
+
+        // Record the planar dihedral far_p - p - q - far_q about the sp2-sp2 bond p-q. A negative far
+        // end means "pick a deterministic heavy neighbor"; a fixed end lets the dihedral deliberately
+        // cross the junction into the adjacent nucleotide.
+        auto add_planar_dihedral = [&](unsigned p, unsigned q, int far_p, int far_q) {
+            if (far_p < 0) far_p = pick_heavy(p, q);
+            if (far_q < 0) far_q = pick_heavy(q, p);
+            if (far_p > 0 && far_q > 0)
+                linkage_dihedrals_.push_back({(unsigned) far_p, p, q, (unsigned) far_q});
+        };
+
+        // (a) the newly formed bond itself, if it joins two sp2 atoms (e.g. a conjugated linkage).
+        if (B0->GetHyb() == 2 && C0->GetHyb() == 2)
+            add_planar_dihedral(b0, c0, -1, -1);
+
+        // (b)/(c) the planar sp2-sp2 bonds one step inside the junction, on each side. Each dihedral is
+        // anchored at the junction atom (c0 on the head side, b0 on the tail side) so it crosses into the
+        // adjacent nucleotide, and the quartet always runs head-to-tail. This catches the amide when the
+        // peptide bond sits inside the head (or tail) rather than being the junction bond itself.
+        if (B0->GetHyb() == 2)
+            FOR_NBORS_OF_ATOM(nbr, B0)          // bonds inside the head
+                if (nbr->GetIdx() != c0 && nbr->GetHyb() == 2)
+                    add_planar_dihedral(nbr->GetIdx(), b0, -1, (int) c0);
+        if (C0->GetHyb() == 2)
+            FOR_NBORS_OF_ATOM(nbr, C0)          // bonds inside the tail
+                if (nbr->GetIdx() != b0 && nbr->GetHyb() == 2)
+                    add_planar_dihedral(c0, nbr->GetIdx(), (int) b0, -1);
     }
 }
 

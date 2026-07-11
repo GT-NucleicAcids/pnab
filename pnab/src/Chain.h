@@ -97,7 +97,21 @@ namespace PNAB {
         * @sa ConformationSearch::SystematicSearch
         * @sa ConformationSearch::GeneticAlgorithmSearch
         */
-        PNAB::ConformerData generateConformerData(double *xyz, PNAB::HelicalParameters &hp, std::vector<double> energy_filter);
+        PNAB::ConformerData generateConformerData(double *xyz, PNAB::HelicalParameters &hp, std::vector<double> energy_filter,
+                                                  double max_linkage_deviation = 8.0);
+
+        /**
+        * @brief Returns the auto-detected planar inter-residue linkage dihedrals (atom index quartets)
+        *
+        * These are used to build the output header (one "Linkage Dihedral" column per entry).
+        *
+        * @return The vector of atom-index quartets defining the planar linkage dihedrals
+        *
+        * @sa setupFFConstraints
+        */
+        std::vector<std::vector<unsigned int>> getLinkageDihedrals() {
+            return linkage_dihedrals_;
+        }
 
     private:
         std::vector<OpenBabel::OBMol> v_chain_ = std::vector<OpenBabel::OBMol>(6); //!< @brief A vector of OpenBabel::OBMol containing the molecules for each strand in the system
@@ -130,7 +144,13 @@ namespace PNAB {
                                                                                                        */
         std::string ff_type_; //!< @brief The force field type (e.g. "GAFF"), RuntimeParameters::ff_type
         std::vector<std::vector<unsigned int>> all_angles_, //!< @brief A vector of the vector of atom indices forming all the angles for which we need to compute the energy
-                                               all_torsions_; //!< @brief A vector of the vector of atom indices forming all the torsions for which we need to compute the energy
+                                               all_torsions_, //!< @brief A vector of the vector of atom indices forming all the torsions for which we need to compute the energy
+                                               linkage_dihedrals_;    /*!< @brief A vector of the atom-index quartets defining the auto-detected planar inter-residue
+                                                                       *    linkage dihedrals (sp2-sp2 junction bonds such as a peptide/amide bond). Their values are
+                                                                       *    measured geometrically and used to reject conformers whose linkage is non-planar.
+                                                                       *
+                                                                       *    @sa RuntimeParameters::max_linkage_deviation
+                                                                       */
         std::vector<bool> is_fixed_bond; //!< @brief A vector containing whether the torsional energy term is for a fixed rotatable bond or not
         std::vector<bool> build_strand_; //!< @brief A vector containing whether a given strand should be built
 
@@ -154,7 +174,8 @@ namespace PNAB {
         *
         * @sa generateConformerData
         */
-        void fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data, std::vector<double> energy_filter);
+        void fillConformerEnergyData(double *xyz, PNAB::ConformerData &conf_data, std::vector<double> energy_filter,
+                                     double max_linkage_deviation = 8.0);
 
         /**
         * @brief Creates the molecule for each strand in the system

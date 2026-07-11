@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 project(pnab)
 
-set(CMAKE_CXX_STANDARD 11)
+# Eigen (>= 3.5 / 5.x) requires at least C++14. C++17 cannot be used because the
+# bundled OpenBabel 3 headers still rely on std::binary_function, which was removed in C++17.
+set(CMAKE_CXX_STANDARD 14)
 add_definitions(-DUSING_DYNAMIC_LIBS) # Necessary for openbabel in Windows
 
 # set the module path
